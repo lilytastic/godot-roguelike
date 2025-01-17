@@ -1,0 +1,13 @@
+{
+	"data": {
+		"rules": {
+			"useFocus": true,
+			"useStamina": false,
+			"indoorLightRadius": 6,
+			"outdoorLightRadius": 3,
+			"staminaRegenRate": 5,
+			"healthRegenRate": 0,
+			"focusRegenRate": 1
+		}
+	}
+}

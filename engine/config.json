@@ -1,0 +1,133 @@
+{
+  "data": {
+	"input": [
+	  {
+		"name": "move_left",
+		"bindings": ["KeyA", "Numpad4", "ArrowLeft"]
+	  },
+	  {
+		"name": "move_right",
+		"bindings": ["KeyD", "Numpad6", "ArrowRight"]
+	  },
+	  {
+		"name": "move_up",
+		"bindings": ["KeyW", "Numpad8", "ArrowUp"]
+	  },
+	  {
+		"name": "move_down",
+		"bindings": ["KeyS", "Numpad2", "ArrowDown"]
+	  },
+	  {
+		"name": "move_down-left",
+		"bindings": ["move_down+move_left", "Numpad1"]
+	  },
+	  {
+		"name": "move_down-right",
+		"bindings": ["move_down+move_right", "Numpad3"]
+	  },
+	  {
+		"name": "move_up-left",
+		"bindings": ["move_up+move_left", "Numpad7"]
+	  },
+	  {
+		"name": "move_up-right",
+		"bindings": ["move_up+move_right", "Numpad9"]
+	  },
+	  {
+		"name": "wait",
+		"bindings": ["KeyQ", "Numpad5"]
+	  },
+	  {
+		"name": "interact",
+		"bindings": ["KeyE"]
+	  },
+	  {
+		"name": "debug",
+		"bindings": ["Backquote"]
+	  },
+	  {
+		"name": "cursor_select",
+		"bindings": ["Mouse0", "Enter"]
+	  },
+	  {
+		"name": "pick_up",
+		"bindings": ["KeyG"]
+	  },
+	  {
+		"name": "close_ui",
+		"bindings": ["Escape"]
+	  },
+	  {
+		"name": "inventory",
+		"bindings": ["KeyI"]
+	  },
+	  {
+		"name": "1",
+		"bindings": ["Digit1"]
+	  },
+	  {
+		"name": "2",
+		"bindings": ["Digit2"]
+	  },
+	  {
+		"name": "3",
+		"bindings": ["Digit3"]
+	  },
+	  {
+		"name": "4",
+		"bindings": ["Digit4"]
+	  }
+	],
+	"startingScene": "map",
+	"graphics": {
+	  "useModernUI": true,
+	  "tileSize": [16, 16],
+	  "tileSetSize": [1568, 704],
+	  "font": "monochrome_packed.png"
+	},
+	"tileCatalog": [
+	  {
+		"ch": "G_BLANK",
+		"fg": [255,255,255],
+		"bg": [32,32,32],
+		"canLightPass": true,
+		"canEntitiesPass": false
+	  },
+	  {
+		"ch": "G_FLOOR",
+		"fg": [64,64,64],
+		"bg": [32,32,32],
+		"canLightPass": true,
+		"canEntitiesPass": true
+	  },
+	  {
+		"ch": "G_WALL",
+		"fg": [55,55,55],
+		"bg": [96,96,96],
+		"canLightPass": false,
+		"canEntitiesPass": false
+	  },
+	  {
+		"ch": "G_BLANK",
+		"fg": [40,150,0],
+		"bg": [5,50,0],
+		"canLightPass": true,
+		"canEntitiesPass": true
+	  },
+	  {
+		"ch": "G_GRASS",
+		"fg": [20,70,0],
+		"bg": [5,50,0],
+		"canLightPass": true,
+		"canEntitiesPass": true
+	  },
+	  {
+		"ch": "G_WATER",
+		"fg": [0,80,150],
+		"bg": [0,50,120],
+		"canLightPass": false,
+		"canEntitiesPass": false
+	  }
+	]
+  }
+}

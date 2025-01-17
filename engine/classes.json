@@ -1,0 +1,96 @@
+{
+    "data": {
+        "classes": [
+            {
+                "id": "soldier",
+                "text": "Soldier",
+                "description": "<p>Foreign lords dream of taming the grazelands. It's an impossible task, yet their soldiers rise to the challenge.</p>",
+                "items": [ "sword", "spear", "longbow" ],
+                "abilities": [ ],
+                "traits": [ "prof_sword", "prof_dagger", "prof_mace", "prof_spear", "prof_longbow", "prof_crossbow", "prof_greatsword" ],
+                "weaponskills": {
+                    "sword": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "dagger": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "mace": [ "strike" ],
+                    "spear": [ "thrust" ],
+                    "longbow": [ "shoot" ],
+                    "crossbow": [ "shoot" ],
+                    "greatsword": [ [ "slash", "slash_double", "slash_final" ], "cleave" ]
+                }
+            },
+            {
+                "id": "marauder",
+                "text": "Marauder",
+                "description": "<p>Tribes send their best to wage war, always seeking better grazelands and trade routes to ransom.</p>",
+                "items": [ "axe", "spear", "longbow" ],
+                "abilities": [ ],
+                "traits": [ "prof_sword", "prof_dagger", "prof_mace", "prof_spear", "prof_axe", "prof_longbow", "prof_greataxe" ],
+                "weaponskills": {
+                    "sword": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "dagger": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "mace": [ "strike" ],
+                    "spear": [ "thrust" ],
+                    "axe": [ [ "slash", "slash_double", "slash_final" ], "cleave" ],
+                    "longbow": [ "shoot" ],
+                    "greataxe": [ [ "slash", "slash_double", "slash_final" ],  "cleave" ]
+                }
+            },
+            {
+                "id": "thief",
+                "text": "Bandit",
+                "description": "<p>All luxury goods pass through the crossroads. You just need to grab a handful once in a while.</p>",
+                "items": [ "dagger", "dagger", "crossbow" ],
+                "abilities": [ ],
+                "traits": [ "prof_sword", "prof_dagger", "prof_crossbow", "prof_longbow", "prof_axe", "prof_spear" ],
+                "weaponskills": {
+                    "sword": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "dagger": [ [ "slash", "slash_double", "slash_final" ],  "crosscut" ],
+                    "spear": [ "thrust" ],
+                    "axe": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "longbow": [ "shoot" ],
+                    "crossbow": [ "shoot" ]
+                }
+            },
+            {
+                "id": "zealot",
+                "text": "Zealot",
+                "description": "<p>Most who accept a daemon's patronage merely seek salvation. But that is not all daemons offer.</p>",
+                "items": [ "scepter", "dagger" ],
+                "abilities": [ "spore_explosion" ],
+                "traits": [ "prof_dagger", "prof_staff", "prof_mace" ],
+                "weaponskills": {
+                    "dagger": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "staff": [ "strike" ],
+                    "mace": [ "strike" ]
+                }
+            },
+            {
+                "id": "mystic",
+                "text": "Mystic",
+                "description": "<p>The most devoted servants of Ragni, the mystics live in his embrace and gain his power.</p>",
+                "items": [ "sword", "sword", "dagger" ],
+                "abilities": [ "heal", "spore_explosion" ],
+                "traits": [ "prof_sword", "prof_dagger", "prof_staff" ],
+                "weaponskills": {
+                    "sword": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "dagger": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "staff": [ "strike" ]
+                }
+            },
+            {
+                "id": "scholar",
+                "text": "Scholar",
+                "description": "<p>The daemons claim their power is out of reach for mortalkind. You know this to be false.</p>",
+                "items": [ "scepter", "crossbow" ],
+                "abilities": [ "heal", "spore_explosion" ],
+                "traits": [ "prof_sword", "prof_dagger", "prof_staff", "prof_crossbow" ],
+                "weaponskills": {
+                    "sword": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "dagger": [ [ "slash", "slash_double", "slash_final" ] ],
+                    "staff": [ "strike" ],
+                    "crossbow": [ "shoot" ]
+                }
+            }
+        ]
+    }
+}

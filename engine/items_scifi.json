@@ -1,0 +1,161 @@
+{
+  "data": {
+    "blueprints": [
+      {
+        "id": "server_rack",
+        "name": "server rack",
+        "description": "A column of wire, silicon, and blinking lights.",
+        "glyph": {
+          "ch": "≣",
+          "fg": [
+            192,
+            192,
+            192
+          ]
+        }
+      },
+      {
+        "id": "mass",
+        "name": "mass",
+        "wears": [],
+        "ranged": {
+          "type": "acid",
+          "damage": "1d6",
+          "name": "enzymes"
+        }
+      },
+      {
+        "id": "gun",
+        "name": "gun",
+        "parent": "weapon",
+        "ranged": {
+          "type": "pierce",
+          "ranged": true,
+          "damage": "3d6",
+          "range": 8
+        },
+        "storage": {
+          "weight": 3
+        },
+        "glyph": {
+          "ch": "r",
+          "fg": [
+            180,
+            180,
+            180
+          ]
+        }
+      },
+      {
+        "id": "pistol",
+        "name": "pistol",
+        "parent": "gun",
+        "ranged": {
+          "type": "pierce",
+          "ranged": true,
+          "damage": "3d6",
+          "range": 8
+        },
+        "storage": {
+          "weight": 3
+        },
+        "glyph": {
+          "ch": "r",
+          "fg": [
+            180,
+            180,
+            180
+          ]
+        }
+      },
+      {
+        "id": "rifle",
+        "name": "rifle",
+        "parent": "gun",
+        "ranged": {
+          "type": "pierce",
+          "ranged": true,
+          "damage": "4d6",
+          "range": 20
+        },
+        "storage": {
+          "weight": 10
+        },
+        "glyph": {
+          "ch": "\\",
+          "fg": [
+            180,
+            180,
+            180
+          ]
+        }
+      },
+      {
+        "id": "heavy_pistol",
+        "name": "heavy pistol",
+        "parent": "gun",
+        "ranged": {
+          "type": "pierce",
+          "ranged": true,
+          "damage": "4d6",
+          "range": 8
+        },
+        "storage": {
+          "weight": 3
+        }
+      },
+      {
+        "id": "basic_pistol",
+        "name": "Blue Carbon",
+        "parent": "pistol",
+        "description": "A sleek carbon pistol known for its reliability."
+      },
+      {
+        "id": "basic_rifle",
+        "name": "Deadshot Railgun",
+        "parent": "rifle",
+        "description": "A bulky black rifle, with two vents at the end of the muzzle."
+      },
+      {
+        "id": "health_potion",
+        "name": "Medstik",
+        "description": "An inhaler loaded with adrenaline and painkillers.",
+        "parent": "consumable",
+        "effects": [
+          {
+            "type": "heal",
+            "amount": 30
+          }
+        ],
+        "glyph": {
+          "ch": "!",
+          "fg": [
+            180,
+            50,
+            50
+          ]
+        }
+      },
+      {
+        "id": "health_potion_plus",
+        "name": "Medstik Plus",
+        "description": "An inhaler loaded with adrenaline and painkillers.",
+        "parent": "consumable",
+        "effects": [
+          {
+            "type": "heal",
+            "amount": 80
+          }
+        ],
+        "glyph": {
+          "ch": "!",
+          "fg": [
+            230,
+            70,
+            70
+          ]
+        }
+      }
+    ]
+  }
+}

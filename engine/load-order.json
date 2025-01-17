@@ -1,0 +1,16 @@
+{
+  "data": {
+    "enabledFiles": [
+      "abilities.json",
+      "classes.json",
+      "config.json",
+      "creatures.json",
+      "factions.json",
+      "game_rules.json",
+      "items.json",
+      "weapondefs.json",
+      "weapons.json",
+      "maps.json"
+    ]
+  }
+}

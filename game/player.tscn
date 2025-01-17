@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dabn80pt603jc"]
+
+[ext_resource type="Texture2D" uid="uid://cqumfgdqea7q5" path="res://monochrome-transparent_packed.png" id="1_ld0pn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4awr"]
+atlas = ExtResource("1_ld0pn")
+region = Rect2(432, 0, 16, 16)
+
+[node name="Player" type="Sprite2D"]
+texture = SubResource("AtlasTexture_l4awr")
+centered = false

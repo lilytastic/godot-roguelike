@@ -1,0 +1,151 @@
+{
+    "data": {
+        "factions": [
+            {
+                "id": "people",
+                "name": "People of Domino",
+                "influence": 100,
+                "ranks": [],
+                "factions": [
+                    {
+                        "id": "local_princes",
+                        "name": "Anghari Princes",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": []
+                    },
+                    {
+                        "id": "natives",
+                        "name": "Settled Anghari",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": [
+                            {
+                                "id": "merchants_native",
+                                "name": "Merchants",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            },
+                            {
+                                "id": "labourers",
+                                "name": "Labourers",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            },
+                            {
+                                "id": "artisans",
+                                "name": "Artisans",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            },
+                            {
+                                "id": "poor_urban",
+                                "name": "Urban Poor",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            },
+                            {
+                                "id": "criminals",
+                                "name": "Criminals",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            },
+                            {
+                                "id": "slaves",
+                                "name": "Slaves",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "karkazi",
+                        "name": "Karkazi",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": [
+                            {
+                                "id": "settlers",
+                                "name": "Karkazi Settlers",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            },
+                            {
+                                "id": "sumbra_army",
+                                "name": "Empire of the Sumbra",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            },
+                            {
+                                "id": "rogue_legion",
+                                "name": "13th Legion",
+                                "influence": 30,
+                                "ranks": [],
+                                "factions": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "nomads",
+                        "name": "Nomads of the Steppe",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": []
+                    },
+                    {
+                        "id": "cultists",
+                        "name": "Local Cults",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": []
+                    }
+                    
+                ]
+            },
+            {
+                "id": "daemons",
+                "name": "Daemons",
+                "influence": 100,
+                "ranks": [],
+                "factions": [
+                    {
+                        "id": "ath_ragni",
+                        "name": "Ath Ragni",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": []
+                    },
+                    {
+                        "id": "losfertu",
+                        "name": "Losfertu",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": []
+                    },
+                    {
+                        "id": "rohm",
+                        "name": "Rohm",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": []
+                    },
+                    {
+                        "id": "grey_face",
+                        "name": "Grey Face",
+                        "influence": 30,
+                        "ranks": [],
+                        "factions": []
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "data": {
+    "weaponskills": {
+      "sword": {
+        "default": {
+          "1": ["slash", "slash_double", "slash_final"]
+        },
+        "soldier": {
+          "1": ["slash", "slash_double", "slash_final"]
+        }
+      }
+    }
+  }
+}
