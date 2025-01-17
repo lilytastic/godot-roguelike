@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cqfyqanbgls4b"]
+
+[ext_resource type="FontFile" uid="uid://hjawhkfkoakm" path="res://assets/fonts/IbarraRealNova-Regular.ttf" id="1_10wdb"]
+[ext_resource type="FontFile" uid="uid://b6hmuord2jpl0" path="res://assets/fonts/IbarraRealNova-Bold.ttf" id="1_m7d7s"]
+[ext_resource type="FontFile" uid="uid://nhso3cwdhman" path="res://assets/fonts/IbarraRealNova-BoldItalic.ttf" id="2_5kftx"]
+[ext_resource type="FontFile" uid="uid://blw6y75lw57yl" path="res://assets/fonts/IbarraRealNova-MediumItalic.ttf" id="3_vpaed"]
+
+[resource]
+RichTextLabel/fonts/bold_font = ExtResource("1_m7d7s")
+RichTextLabel/fonts/bold_italics_font = ExtResource("2_5kftx")
+RichTextLabel/fonts/italics_font = ExtResource("3_vpaed")
+RichTextLabel/fonts/normal_font = ExtResource("1_10wdb")

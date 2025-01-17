@@ -1,6 +1,13 @@
-[gd_scene format=3 uid="uid://bnyqe0l05hxxr"]
+[gd_scene load_steps=4 format=3 uid="uid://bnyqe0l05hxxr"]
+
+[ext_resource type="Script" path="res://title.gd" id="1_23huy"]
+[ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://display.tres" id="1_psldp"]
+
+[sub_resource type="Theme" id="Theme_drivx"]
+VBoxContainer/constants/separation = 0
 
 [node name="Title" type="Node2D"]
+script = ExtResource("1_23huy")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -13,15 +20,25 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = SubResource("Theme_drivx")
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="Title" type="RichTextLabel" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_psldp")
+theme_override_font_sizes/normal_font_size = 90
+theme_override_font_sizes/bold_font_size = 90
 bbcode_enabled = true
-text = "[center]CROSSROADS[/center]"
+text = "[center][b]CROSSROADS[/b][/center]"
+fit_content = true
+
+[node name="Instructions" type="RichTextLabel" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_psldp")
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+text = "[center][b]Press any key[/b][/center]"
 fit_content = true
