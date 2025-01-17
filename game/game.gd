@@ -15,6 +15,14 @@ const PALETTE: Dictionary = {
 	&"DEBUG": "#FE4A49",
 }
 
+const PC_TAG = 'PC'
+const MOVE_INPUTS: Dictionary = {
+	&"move_left": 'move_left',
+	&"move_right": 'move_right',
+	&"move_up": 'move_up',
+	&"move_down": 'move_down'
+}
+
 const START_X: int = 0
 const START_Y: int = 0
 
@@ -40,15 +48,34 @@ func _create_pc() -> void:
 	# var pc: Sprite2D = preload("res://game/game.tscn").instantiate()
 	var pc: PackedScene = preload("res://game/player.tscn")
 	var new_pc: Node2D
-	var x: int = 0
-	var new_position: Vector2i = Vector2i(0, 1)
+	var new_position: Vector2i = Vector2i(0, 0)
 	
-	for i: StringName in PALETTE.keys():
-		new_pc = pc.instantiate()
-		new_pc.position = _get_position_from_coord(new_position)
-		new_pc.modulate = PALETTE[i]
-		add_child(new_pc)
-		new_position.x += 1
+	new_pc = pc.instantiate()
+	new_pc.position = _get_position_from_coord(new_position)
+	new_pc.add_to_group(PC_TAG)
+	new_pc.modulate = PALETTE["GREEN"]
+	add_child(new_pc)
+	
+func _move_pc(direction: StringName) -> void:
+	var pc: Node2D = get_tree().get_first_node_in_group(PC_TAG)
+	var coord: Vector2i = _get_coord_from_sprite(pc)
+	
+	match direction:
+		MOVE_INPUTS.move_left:
+			coord += Vector2i.LEFT
+		MOVE_INPUTS.move_right:
+			coord += Vector2i.RIGHT
+		MOVE_INPUTS.move_up:
+			coord += Vector2i.UP
+		MOVE_INPUTS.move_down:
+			coord += Vector2i.DOWN
+
+	pc.position = _get_position_from_coord(coord)
+
+func _unhandled_input(event: InputEvent) -> void:
+	for i: StringName in MOVE_INPUTS:
+		if event.is_action_pressed(i):
+			_move_pc(i)
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(PALETTE.BACKGROUND)
