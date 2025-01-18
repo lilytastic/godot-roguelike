@@ -5,7 +5,7 @@ const PC_TAG = 'PC'
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
-	var new_id = ECS.add(Entity.new())
+	var new_id = ECS.add(Entity.new('hero'))
 	print(new_id, ECS.entity(new_id))
 	_create_pc()
 	
