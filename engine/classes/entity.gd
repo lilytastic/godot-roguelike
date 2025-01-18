@@ -1,7 +1,13 @@
 class_name Entity
 
 var uuid: int = ResourceUID.create_id()
+var _blueprint: String
 
-func _init(blueprint: String):
-	print(blueprint)
+var blueprint: Blueprint:
+	get:
+		return null
+
+func _init(opts: EntityCreationOptions):
+	print(opts.blueprint)
+	_blueprint = opts.blueprint
 	return

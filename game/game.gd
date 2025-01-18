@@ -5,8 +5,17 @@ const PC_TAG = 'PC'
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
-	var new_id = ECS.add(Entity.new('hero'))
+	var options = EntityCreationOptions.new()
+	options.blueprint = 'hero'
+	var new_id = ECS.add(Entity.new(options))
 	print(new_id, ECS.entity(new_id))
+	var resource = preload("res://data/creatures.json").data
+	var blueprints = resource.data.blueprints
+	var dict: Dictionary
+	for blueprint in blueprints:
+		dict[blueprint.get("id")] = Blueprint.new(blueprint)
+	print(dict.values().size(), " records loaded")
+	print(dict['hero'].glyph.ch)
 	_create_pc()
 	
 

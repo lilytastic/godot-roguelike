@@ -1,318 +1,318 @@
 {
   "data": {
-    "blueprints": [
-      {
-        "id": "creature",
-        "level": 1,
-        "experienceAwarded": 50,
-        "baseHP": "5*($body + $willpower)/2",
-        "speed": 100,
-        "hostile": true,
-        "attributes": {
-          "body": 3,
-          "dexterity": 3,
-          "reflexes": 3,
-          "intelligence": 3,
-          "willpower": 3,
-          "personality": 3
-        },
-        "defaultWeapon": "fist",
-        "slots": [
-          {
-            "id": "main hand"
-          },
-          {
-            "id": "off-hand"
-          },
-          {
-            "id": "head"
-          },
-          {
-            "id": "torso"
-          },
-          {
-            "id": "hands"
-          },
-          {
-            "id": "legs"
-          },
-          {
-            "id": "feet"
-          }
-        ],
-        "glyph": {
-          "ch": "G_UNKNOWN",
-          "fg": [
-            255,
-            0,
-            255
-          ]
-        }
-      },
-      {
-        "id": "humanoid",
-        "name": "humanoid",
-        "parent": "creature",
-        "baseHP": "5*($body + $willpower)/2",
-        "speed": 100,
-        "attributes": {
-          "body": 3,
-          "dexterity": 3,
-          "reflexes": 3,
-          "intelligence": 3,
-          "willpower": 3,
-          "personality": 3
-        },
-        "slots": [
-          {
-            "id": "main hand"
-          },
-          {
-            "id": "off-hand"
-          },
-          {
-            "id": "head"
-          },
-          {
-            "id": "torso"
-          },
-          {
-            "id": "hands"
-          },
-          {
-            "id": "legs"
-          },
-          {
-            "id": "feet"
-          }
-        ],
-        "level": 1,
-        "experienceAwarded": 50,
-        "glyph": {
-          "ch": "G_HUMAN",
-          "fg": [
-            128,
-            128,
-            128
-          ]
-        }
-      },
-      {
-        "id": "construct",
-        "name": "construct",
-        "description": "A being made of light, with the telltale flickering of a psychic projection.",
-        "baseHP": "1",
-        "experienceAwarded": 1000,
-        "level": 1
-      },
-      {
-        "id": "djinn",
-        "name": "djinn",
-        "parent": "construct",
-        "description": "A shimmering outline belonging to a denizen of the psychic plane. They often cross into the physical world to cause trouble.",
-        "experienceAwarded": 1000,
-        "level": 10
-      },
-      {
-        "id": "ooze",
-        "name": "ooze",
-        "parent": "creature",
-        "description": "A writhing mass. Its stench brings tears to your eyes.",
-        "experienceAwarded": 1000,
-        "level": 10,
-        "body": [
-          {
-            "id": "mass"
-          }
-        ]
-      },
-      {
-        "id": "human",
-        "name": "human",
-        "parent": "humanoid",
-        "experienceAwarded": 100,
-        "glyph": {
-          "ch": "G_HUMAN",
-          "fg": [
-            210,
-            210,
-            210
-          ]
-        }
-      },
-      {
-        "id": "hero",
-        "name": "hero",
-        "parent": "human",
-        "description": "Looking good, nerd.",
-        "baseHP": "10+5*($body + $willpower)/2",
-        "glyph": {
-          "ch": "G_HERO",
-          "fg": [
-            64,
-            240,
-            240
-          ]
-        }
-      },
-      {
-        "id": "noble",
-        "hostile": false,
-        "name": "noble",
-        "parent": "human",
-        "description": "Some asshole.",
-        "baseHP": "10+5*($body + $willpower)/2",
-        "glyph": {
-          "ch": "G_NOBLE",
-          "fg": [
-            190,
-            100,
-            255
-          ]
-        }
-      },
-      {
-        "id": "jackal",
-        "name": "jackal",
-        "description": "Kinda cute. Still deadly.",
-        "experienceAwarded": 40,
-        "level": 1,
-        "glyph": {
-          "ch": "G_GOBLIN",
-          "fg": [
-            120,
-            120,
-            64
-          ]
-        }
-      },
-      {
-        "id": "ghoul",
-        "name": "ghoul",
-        "parent": "humanoid",
-        "description": "A very rude little man.",
-        "experienceAwarded": 50,
-        "level": 1,
-        "baseHP": "15 + ($level * 2)",
-        "speed": 100,
-        "glyph": {
-          "ch": "G_GOBLIN",
-          "fg": [
-            48,
-            210,
-            96
-          ]
-        }
-      },
-      {
-        "id": "minor_ghoul",
-        "name": "Minor Ghoul",
-        "parent": "ghoul",
-        "experienceAwarded": 50,
-        "level": 1,
-        "maxLevel": 3,
-        "baseHP": "10 + ($level * 2)",
-        "speed": 100,
-        "glyph": {
-          "ch": "G_GOBLIN",
-          "fg": [
-            97,
-            255,
-            165
-          ]
-        }
-      },
-      {
-        "id": "blood_ghoul",
-        "name": "Blood Ghoul",
-        "parent": "ghoul",
-        "description": "Ravenous",
-        "experienceAwarded": 50,
-        "level": 2,
-        "maxLevel": 5,
-        "baseHP": "15 + ($level * 2)",
-        "speed": 100,
-        "glyph": {
-          "ch": "G_GOBLIN",
-          "fg": [
-            224,
-            7,
-            18
-          ]
-        }
-      },
-      {
-        "id": "quadropus",
-        "name": "quadropus",
-        "parent": "creature",
-        "description": "Where's the other half?",
-        "experienceAwarded": 50,
-        "level": 1,
-        "baseHP": 10,
-        "speed": 25,
-        "glyph": {
-          "ch": "G_QUADROPUS",
-          "fg": [
-            52,
-            146,
-            235
-          ]
-        }
-      },
-      {
-        "id": "spider",
-        "name": "spider",
-        "parent": "creature",
-        "description": "Misunderstood, angry.",
-        "experienceAwarded": 50,
-        "level": 1,
-        "baseHP": 10,
-        "speed": 30,
-        "glyph": {
-          "ch": "G_SPIDER",
-          "fg": [
-            107,
-            76,
-            46
-          ]
-        }
-      },
-      {
-        "id": "manola_fly",
-        "name": "manola",
-        "parent": "creature",
-        "description": "Gross.",
-        "experienceAwarded": 40,
-        "level": 1
-      },
-      {
-        "id": "clawed_squirrel",
-        "name": "clawed squirrel",
-        "parent": "creature",
-        "description": "Vicious.",
-        "experienceAwarded": 40,
-        "level": 1
-      },
-      {
-        "id": "jerboa",
-        "name": "jerboa",
-        "parent": "creature",
-        "description": "Vicious.",
-        "experienceAwarded": 40,
-        "level": 1
-      },
-      {
-        "id": "null",
-        "name": "null",
-        "parent": "creature",
-        "description": "A blob of soulstuff that's forgotten how to be. It uses its ever-shifting form to move and attack.",
-        "experienceAwarded": 40,
-        "level": 1
-      },
-      {
-        "id": "avatar",
-        "name": "avatar"
-      }
-    ]
+	"blueprints": [
+	  {
+		"id": "creature",
+		"level": 1,
+		"experienceAwarded": 50,
+		"baseHP": "5*($body + $willpower)/2",
+		"speed": 100,
+		"hostile": true,
+		"attributes": {
+		  "body": 3,
+		  "dexterity": 3,
+		  "reflexes": 3,
+		  "intelligence": 3,
+		  "willpower": 3,
+		  "personality": 3
+		},
+		"defaultWeapon": "fist",
+		"slots": [
+		  {
+			"id": "main hand"
+		  },
+		  {
+			"id": "off-hand"
+		  },
+		  {
+			"id": "head"
+		  },
+		  {
+			"id": "torso"
+		  },
+		  {
+			"id": "hands"
+		  },
+		  {
+			"id": "legs"
+		  },
+		  {
+			"id": "feet"
+		  }
+		],
+		"glyph": {
+		  "ch": "G_UNKNOWN",
+		  "fg": [
+			255,
+			0,
+			255
+		  ]
+		}
+	  },
+	  {
+		"id": "humanoid",
+		"name": "humanoid",
+		"parent": "creature",
+		"baseHP": "5*($body + $willpower)/2",
+		"speed": 100,
+		"attributes": {
+		  "body": 3,
+		  "dexterity": 3,
+		  "reflexes": 3,
+		  "intelligence": 3,
+		  "willpower": 3,
+		  "personality": 3
+		},
+		"slots": [
+		  {
+			"id": "main hand"
+		  },
+		  {
+			"id": "off-hand"
+		  },
+		  {
+			"id": "head"
+		  },
+		  {
+			"id": "torso"
+		  },
+		  {
+			"id": "hands"
+		  },
+		  {
+			"id": "legs"
+		  },
+		  {
+			"id": "feet"
+		  }
+		],
+		"level": 1,
+		"experienceAwarded": 50,
+		"glyph": {
+		  "ch": "G_HUMAN",
+		  "fg": [
+			128,
+			128,
+			128
+		  ]
+		}
+	  },
+	  {
+		"id": "construct",
+		"name": "construct",
+		"description": "A being made of light, with the telltale flickering of a psychic projection.",
+		"baseHP": "1",
+		"experienceAwarded": 1000,
+		"level": 1
+	  },
+	  {
+		"id": "djinn",
+		"name": "djinn",
+		"parent": "construct",
+		"description": "A shimmering outline belonging to a denizen of the psychic plane. They often cross into the physical world to cause trouble.",
+		"experienceAwarded": 1000,
+		"level": 10
+	  },
+	  {
+		"id": "ooze",
+		"name": "ooze",
+		"parent": "creature",
+		"description": "A writhing mass. Its stench brings tears to your eyes.",
+		"experienceAwarded": 1000,
+		"level": 10,
+		"body": [
+		  {
+			"id": "mass"
+		  }
+		]
+	  },
+	  {
+		"id": "human",
+		"name": "human",
+		"parent": "humanoid",
+		"experienceAwarded": 100,
+		"glyph": {
+		  "ch": "G_HUMAN",
+		  "fg": [
+			210,
+			210,
+			210
+		  ]
+		}
+	  },
+	  {
+		"id": "hero",
+		"name": "hero",
+		"parent": "human",
+		"description": "Looking good, nerd.",
+		"baseHP": "10+5*($body + $willpower)/2",
+		"glyph": {
+		  "ch": "G_HERO",
+		  "fg": [
+			64,
+			240,
+			240
+		  ]
+		}
+	  },
+	  {
+		"id": "noble",
+		"hostile": false,
+		"name": "noble",
+		"parent": "human",
+		"description": "Some asshole.",
+		"baseHP": "10+5*($body + $willpower)/2",
+		"glyph": {
+		  "ch": "G_NOBLE",
+		  "fg": [
+			190,
+			100,
+			255
+		  ]
+		}
+	  },
+	  {
+		"id": "jackal",
+		"name": "jackal",
+		"description": "Kinda cute. Still deadly.",
+		"experienceAwarded": 40,
+		"level": 1,
+		"glyph": {
+		  "ch": "G_GOBLIN",
+		  "fg": [
+			120,
+			120,
+			64
+		  ]
+		}
+	  },
+	  {
+		"id": "ghoul",
+		"name": "ghoul",
+		"parent": "humanoid",
+		"description": "A very rude little man.",
+		"experienceAwarded": 50,
+		"level": 1,
+		"baseHP": "15 + ($level * 2)",
+		"speed": 100,
+		"glyph": {
+		  "ch": "G_GOBLIN",
+		  "fg": [
+			48,
+			210,
+			96
+		  ]
+		}
+	  },
+	  {
+		"id": "minor_ghoul",
+		"name": "Minor Ghoul",
+		"parent": "ghoul",
+		"experienceAwarded": 50,
+		"level": 1,
+		"maxLevel": 3,
+		"baseHP": "10 + ($level * 2)",
+		"speed": 100,
+		"glyph": {
+		  "ch": "G_GOBLIN",
+		  "fg": [
+			97,
+			255,
+			165
+		  ]
+		}
+	  },
+	  {
+		"id": "blood_ghoul",
+		"name": "Blood Ghoul",
+		"parent": "ghoul",
+		"description": "Ravenous",
+		"experienceAwarded": 50,
+		"level": 2,
+		"maxLevel": 5,
+		"baseHP": "15 + ($level * 2)",
+		"speed": 100,
+		"glyph": {
+		  "ch": "G_GOBLIN",
+		  "fg": [
+			224,
+			7,
+			18
+		  ]
+		}
+	  },
+	  {
+		"id": "quadropus",
+		"name": "quadropus",
+		"parent": "creature",
+		"description": "Where's the other half?",
+		"experienceAwarded": 50,
+		"level": 1,
+		"baseHP": 10,
+		"speed": 25,
+		"glyph": {
+		  "ch": "G_QUADROPUS",
+		  "fg": [
+			52,
+			146,
+			235
+		  ]
+		}
+	  },
+	  {
+		"id": "spider",
+		"name": "spider",
+		"parent": "creature",
+		"description": "Misunderstood, angry.",
+		"experienceAwarded": 50,
+		"level": 1,
+		"baseHP": 10,
+		"speed": 30,
+		"glyph": {
+		  "ch": "G_SPIDER",
+		  "fg": [
+			107,
+			76,
+			46
+		  ]
+		}
+	  },
+	  {
+		"id": "manola_fly",
+		"name": "manola",
+		"parent": "creature",
+		"description": "Gross.",
+		"experienceAwarded": 40,
+		"level": 1
+	  },
+	  {
+		"id": "clawed_squirrel",
+		"name": "clawed squirrel",
+		"parent": "creature",
+		"description": "Vicious.",
+		"experienceAwarded": 40,
+		"level": 1
+	  },
+	  {
+		"id": "jerboa",
+		"name": "jerboa",
+		"parent": "creature",
+		"description": "Vicious.",
+		"experienceAwarded": 40,
+		"level": 1
+	  },
+	  {
+		"id": "null",
+		"name": "null",
+		"parent": "creature",
+		"description": "A blob of soulstuff that's forgotten how to be. It uses its ever-shifting form to move and attack.",
+		"experienceAwarded": 40,
+		"level": 1
+	  },
+	  {
+		"id": "avatar",
+		"name": "avatar"
+	  }
+	]
   }
 }

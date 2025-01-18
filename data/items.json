@@ -1,270 +1,270 @@
 {
   "data": {
-    "blueprints": [
-      {
-        "id": "door",
-        "name": "door",
-        "baseHP": "10",
-        "categories": [ "misc", "structural" ],
-        "openable": true,
-        "glyph": {
-          "ch": "G_DOOR",
-          "fg": [
-            164,
-            96,
-            0
-          ]
-        },
-        "collision": {
-          "blocksLight": true,
-          "blocksEntities": true
-        }
-      },
-      {
-        "id": "item",
-        "name": "item",
-        "glyph": {
-          "ch": "G_UNKNOWN"
-        },
-        "storage": {
-          "weight": 1
-        }
-      },
-      {
-        "id": "hand",
-        "name": "hand",
-        "categories": [ "misc", "body parts" ],
-        "canWear": [
-          "weapon"
-        ],
-        "actions": {
-          "melee": {
-            "type": "bludgeon",
-            "damage": "1d6",
-            "cost": { "stamina": 10 },
-            "name": "fist"
-          },
-          "meleeStrong": {
-            "type": "bludgeon",
-            "damage": "2d6",
-            "cost": { "stamina": 15 },
-            "name": "fist"
-          }
-        }
-      },
-      {
-        "id": "right hand",
-        "name": "right hand",
-        "parent": "hand"
-      },
-      {
-        "id": "left hand",
-        "name": "left hand",
-        "parent": "hand"
-      },
-      {
-        "id": "main hand",
-        "name": "main hand",
-        "parent": "hand"
-      },
-      {
-        "id": "off-hand",
-        "name": "off-hand",
-        "parent": "hand"
-      },
-      {
-        "id": "mass",
-        "name": "mass",
-        "wears": [],
-        "ranged": {
-          "type": "acid",
-          "damage": "1d6",
-          "name": "enzymes"
-        }
-      },
-      {
-        "id": "rest_spot",
-        "name": "campfire",
-        "description": "Rest here to refill everything, including your maximum health.",
-        "use": {
-          "type": "rest",
-          "cost": { "supplies": 10 }
-        },
-        "collision": {
-          "blocksLight": false,
-          "blocksEntities": true
-        },
-        "glyph": {
-          "ch": "G_CAMPFIRE",
-          "fg": [
-            200,
-            170,
-            100
-          ]
-        }
-      },
-      {
-        "id": "consumable",
-        "name": "consumable",
-        "categories": [ "consumables" ],
-        "parent": "item",
-        "use": {
-          "type": "consume"
-        },
-        "glyph": {
-          "ch": "G_POTION",
-          "fg": [
-            200,
-            200,
-            200
-          ]
-        },
-        "storage": {
-          "weight": 1
-        }
-      },
-      {
-        "id": "staircase",
-        "name": "staircase",
-        "use": {
-          "type": "teleport"
-        },
-        "glyph": {
-          "ch": "G_STAIRS_UP",
-          "fg": [
-            200,
-            200,
-            200
-          ]
-        }
-      },
-      {
-        "id": "town",
-        "name": "town",
-        "parent": "staircase",
-        "glyph": {
-          "ch": "G_TOWN",
-          "fg": [
-            230,
-            230,
-            230
-          ]
-        }
-      },
-      {
-        "id": "rock",
-        "name": "rock",
-        "parent": "material",
-        "terrain": {
-          "deep": {
-            "ch": [35],
-            "fg": [
-              60,
-              68,
-              64
-            ],
-            "bg": [
-              104,
-              110,
-              106
-            ]
-          },
-          "surface": {
-            "ch": [186, 2],
-            "fg": [
-              63,
-              66,
-              64
-            ],
-            "bg": [
-              30,
-              33,
-              32
-            ]
-          }
-        }
-      },
-      {
-        "id": "material",
-        "parent": "item",
-        "name": "material",
-        "categories": [ "misc", "materials" ]
-      },
-      {
-        "id": "soil_grassy",
-        "name": "grassy soil",
-        "parent": "material",
-        "terrain": {
-          "deep": {
-            "ch": [35],
-            "fg": [
-              68,
-              40,
-              32
-            ],
-            "bg": [
-              110,
-              75,
-              32
-            ]
-          },
-          "surface": {
-            "ch": [39, 34],
-            "fg": [
-              16,
-              70,
-              32
-            ],
-            "bg": [
-              33,
-              20,
-              16
-            ]
-          }
-        }
-      },
-      {
-        "id": "health_potion",
-        "name": "potion",
-        "description": "A blood-red liquid sloshes inside.",
-        "parent": "consumable",
-        "categories": [ "consumables", "aid" ],
-        "effects": [
-          {
-            "type": "heal",
-            "potency": 35
-          }
-        ],
-        "glyph": {
-          "ch": "G_POTION",
-          "fg": [
-            180,
-            50,
-            50
-          ]
-        }
-      },
-      {
-        "id": "health_potion_plus",
-        "name": "Mega Potion",
-        "description": "Molten silver framed in a crystal bottle.",
-        "parent": "consumable",
-        "categories": [ "consumables", "aid" ],
-        "effects": [
-          {
-            "type": "heal",
-            "potency": 80
-          }
-        ],
-        "glyph": {
-          "ch": "G_POTION",
-          "fg": [
-            230,
-            70,
-            70
-          ]
-        }
-      }
-    ]
+	"blueprints": [
+	  {
+		"id": "door",
+		"name": "door",
+		"baseHP": "10",
+		"categories": [ "misc", "structural" ],
+		"openable": true,
+		"glyph": {
+		  "ch": "G_DOOR",
+		  "fg": [
+			164,
+			96,
+			0
+		  ]
+		},
+		"collision": {
+		  "blocksLight": true,
+		  "blocksEntities": true
+		}
+	  },
+	  {
+		"id": "item",
+		"name": "item",
+		"glyph": {
+		  "ch": "G_UNKNOWN"
+		},
+		"storage": {
+		  "weight": 1
+		}
+	  },
+	  {
+		"id": "hand",
+		"name": "hand",
+		"categories": [ "misc", "body parts" ],
+		"canWear": [
+		  "weapon"
+		],
+		"actions": {
+		  "melee": {
+			"type": "bludgeon",
+			"damage": "1d6",
+			"cost": { "stamina": 10 },
+			"name": "fist"
+		  },
+		  "meleeStrong": {
+			"type": "bludgeon",
+			"damage": "2d6",
+			"cost": { "stamina": 15 },
+			"name": "fist"
+		  }
+		}
+	  },
+	  {
+		"id": "right hand",
+		"name": "right hand",
+		"parent": "hand"
+	  },
+	  {
+		"id": "left hand",
+		"name": "left hand",
+		"parent": "hand"
+	  },
+	  {
+		"id": "main hand",
+		"name": "main hand",
+		"parent": "hand"
+	  },
+	  {
+		"id": "off-hand",
+		"name": "off-hand",
+		"parent": "hand"
+	  },
+	  {
+		"id": "mass",
+		"name": "mass",
+		"wears": [],
+		"ranged": {
+		  "type": "acid",
+		  "damage": "1d6",
+		  "name": "enzymes"
+		}
+	  },
+	  {
+		"id": "rest_spot",
+		"name": "campfire",
+		"description": "Rest here to refill everything, including your maximum health.",
+		"use": {
+		  "type": "rest",
+		  "cost": { "supplies": 10 }
+		},
+		"collision": {
+		  "blocksLight": false,
+		  "blocksEntities": true
+		},
+		"glyph": {
+		  "ch": "G_CAMPFIRE",
+		  "fg": [
+			200,
+			170,
+			100
+		  ]
+		}
+	  },
+	  {
+		"id": "consumable",
+		"name": "consumable",
+		"categories": [ "consumables" ],
+		"parent": "item",
+		"use": {
+		  "type": "consume"
+		},
+		"glyph": {
+		  "ch": "G_POTION",
+		  "fg": [
+			200,
+			200,
+			200
+		  ]
+		},
+		"storage": {
+		  "weight": 1
+		}
+	  },
+	  {
+		"id": "staircase",
+		"name": "staircase",
+		"use": {
+		  "type": "teleport"
+		},
+		"glyph": {
+		  "ch": "G_STAIRS_UP",
+		  "fg": [
+			200,
+			200,
+			200
+		  ]
+		}
+	  },
+	  {
+		"id": "town",
+		"name": "town",
+		"parent": "staircase",
+		"glyph": {
+		  "ch": "G_TOWN",
+		  "fg": [
+			230,
+			230,
+			230
+		  ]
+		}
+	  },
+	  {
+		"id": "rock",
+		"name": "rock",
+		"parent": "material",
+		"terrain": {
+		  "deep": {
+			"ch": [35],
+			"fg": [
+			  60,
+			  68,
+			  64
+			],
+			"bg": [
+			  104,
+			  110,
+			  106
+			]
+		  },
+		  "surface": {
+			"ch": [186, 2],
+			"fg": [
+			  63,
+			  66,
+			  64
+			],
+			"bg": [
+			  30,
+			  33,
+			  32
+			]
+		  }
+		}
+	  },
+	  {
+		"id": "material",
+		"parent": "item",
+		"name": "material",
+		"categories": [ "misc", "materials" ]
+	  },
+	  {
+		"id": "soil_grassy",
+		"name": "grassy soil",
+		"parent": "material",
+		"terrain": {
+		  "deep": {
+			"ch": [35],
+			"fg": [
+			  68,
+			  40,
+			  32
+			],
+			"bg": [
+			  110,
+			  75,
+			  32
+			]
+		  },
+		  "surface": {
+			"ch": [39, 34],
+			"fg": [
+			  16,
+			  70,
+			  32
+			],
+			"bg": [
+			  33,
+			  20,
+			  16
+			]
+		  }
+		}
+	  },
+	  {
+		"id": "health_potion",
+		"name": "potion",
+		"description": "A blood-red liquid sloshes inside.",
+		"parent": "consumable",
+		"categories": [ "consumables", "aid" ],
+		"effects": [
+		  {
+			"type": "heal",
+			"potency": 35
+		  }
+		],
+		"glyph": {
+		  "ch": "G_POTION",
+		  "fg": [
+			180,
+			50,
+			50
+		  ]
+		}
+	  },
+	  {
+		"id": "health_potion_plus",
+		"name": "Mega Potion",
+		"description": "Molten silver framed in a crystal bottle.",
+		"parent": "consumable",
+		"categories": [ "consumables", "aid" ],
+		"effects": [
+		  {
+			"type": "heal",
+			"potency": 80
+		  }
+		],
+		"glyph": {
+		  "ch": "G_POTION",
+		  "fg": [
+			230,
+			70,
+			70
+		  ]
+		}
+	  }
+	]
   }
 }
