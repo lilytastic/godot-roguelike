@@ -19,7 +19,7 @@ static func save(data: Dictionary) -> void:
 	return
 
 
-static func load() -> void:
+static func load() -> Dictionary:
 	var path = "user://savegame.save"
 	
 	var save_file = FileAccess.open(path, FileAccess.READ)
@@ -32,6 +32,7 @@ static func load() -> void:
 	print(result)
 	print('loaded: ', json.data)
 	save_file.close()
+	return json.data
 
 
 ## returns list of files at given path recursively

@@ -3,7 +3,7 @@ class_name Entity
 var uuid: int = ResourceUID.create_id()
 var _blueprint: String
 var position: Vector2i
-
+# var inventory: { uuid: int, stack: int }[]
 
 var blueprint: Blueprint:
 	get: return ECS.blueprints.get(_blueprint, null)
@@ -14,6 +14,7 @@ func _init(opts: EntityCreationOptions):
 	print('Initializing entity with template: ', opts.blueprint)
 	_blueprint = opts.blueprint
 	return
+
 
 func save() -> Dictionary:
 	var dict := {}

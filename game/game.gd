@@ -55,4 +55,3 @@ func _move_pc(direction: StringName) -> void:
 			coord += Vector2i.DOWN
 
 	player.entity.position = coord
-	print(coord)
