@@ -8,6 +8,17 @@ static func get_dictionary(path: String) -> Dictionary:
 	return file.data if file.has('data') else {}
 
 
+static func save(data: Dictionary) -> void:
+	var path = "user://savegame.save"
+	var save_file = FileAccess.open(path, FileAccess.WRITE)
+	save_file.store_line(JSON.stringify(data))
+	
+	save_file = FileAccess.open(path, FileAccess.READ)
+	print('saved', save_file.get_as_text())
+	return
+
+
+
 ## returns list of files at given path recursively
 ## [br]taken from - https://gist.github.com/hiulit/772b8784436898fd7f942750ad99e33e
 static func get_all_files(path: String, file_ext := "", files : Array[String] = []) -> Array[String]:

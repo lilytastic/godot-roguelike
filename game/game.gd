@@ -11,9 +11,11 @@ func _ready() -> void:
 
 	_new_game()
 
+
 func _process(delta: float) -> void:
 	$Camera2D.position = lerp($Camera2D.position, player.position, delta * cameraSpeed)
 	$Camera2D.offset = Vector2i(8, 8)
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	for i: StringName in InputTag.MOVE_ACTIONS:
@@ -25,10 +27,18 @@ func _new_game() -> void:
 	var options = EntityCreationOptions.new()
 	options.blueprint = 'hero'
 	player = ECS.create(options)
-	var new_position: Vector2i = Vector2i(0, 0)
-	player.position = Coords.get_position(new_position)
-	player.add_to_group(PC_TAG)
+	player.position = Coords.get_position(Vector2i(0, 0))
 	add_child(player)
+	save()
+	
+
+func save() -> void:
+	var data = {}
+	data.entities = ECS.entities.values().map(
+		func(entity): return entity.save()
+	)
+	data.player = player._entityId
+	Files.save(data)
 
 
 func _move_pc(direction: StringName) -> void:
@@ -45,3 +55,4 @@ func _move_pc(direction: StringName) -> void:
 			coord += Vector2i.DOWN
 
 	player.entity.position = coord
+	print(coord)

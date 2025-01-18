@@ -19,7 +19,7 @@ func _init(props: Dictionary) -> void:
 			props.bg[2] / 255
 		)
 
-static func to_atlas_texture() -> AtlasTexture:
+func to_atlas_texture() -> AtlasTexture:
 	var atlas = AtlasTexture.new()
 	atlas.set_atlas(preload('res://monochrome-transparent_packed.png'))
 	atlas.region = Rect2(432, 0, 16, 16)

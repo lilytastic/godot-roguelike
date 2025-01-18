@@ -18,5 +18,6 @@ func load(id: int):
 		modulate = glyph.fg
 
 func _process(delta: float) -> void:
-	position = lerp(position, Coords.get_position(entity.position), delta * 30)
+	if entity and entity.position:
+		position = lerp(position, Coords.get_position(entity.position), delta * 30)
 	
