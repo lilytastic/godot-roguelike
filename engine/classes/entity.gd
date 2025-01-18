@@ -5,7 +5,9 @@ var _blueprint: String
 
 var blueprint: Blueprint:
 	get:
-		return null
+		return ECS.blueprints.get(_blueprint, null)
+	set(value):
+		_blueprint = value.id
 
 func _init(opts: EntityCreationOptions):
 	print(opts.blueprint)

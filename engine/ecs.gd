@@ -1,6 +1,7 @@
 class_name ECS
 
 static var entities: Dictionary = {}
+static var blueprints: Dictionary = {}
 
 static func entity(id: int) -> Entity:
 	if (entities.has(id)):

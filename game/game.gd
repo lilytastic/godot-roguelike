@@ -1,16 +1,11 @@
 extends Node
 
 const PC_TAG = 'PC'
-var blueprints := {}
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
-	var options = EntityCreationOptions.new()
-	options.blueprint = 'hero'
-	var new_id = ECS.add(Entity.new(options))
-	print(new_id, ECS.entity(new_id))
 	_load_resources()
-	print(blueprints.values().size(), " records loaded")
+	print(ECS.blueprints.values().size(), " records loaded")
 
 	_create_pc()
 
@@ -22,14 +17,19 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _create_pc() -> void:
-	var pc: PackedScene = preload("res://game/player.tscn")
+	var actor: PackedScene = preload("res://game/actor.tscn")
 	var new_pc: Node2D
 	var new_position: Vector2i = Vector2i(0, 0)
-	
-	new_pc = pc.instantiate()
+
+
+	var options = EntityCreationOptions.new()
+	options.blueprint = 'hero'
+	var new_id = ECS.add(Entity.new(options))
+	print(new_id, ECS.entity(new_id))	
+	new_pc = actor.instantiate()
+	new_pc.load(new_id)
 	new_pc.position = Coords.get_position(new_position)
 	new_pc.add_to_group(PC_TAG)
-	new_pc.modulate = Palette.PALETTE["GREEN"]
 	add_child(new_pc)
 
 
@@ -74,7 +74,7 @@ func _load_resources() -> void:
 			curr = preprocess[curr.parent]
 			current.concat(curr)
 		
-	blueprints = preprocess
+	ECS.blueprints = preprocess
 	
 
 ## returns list of files at given path recursively
