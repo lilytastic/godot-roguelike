@@ -10,7 +10,7 @@ func _ready() -> void:
 	var new_id = ECS.add(Entity.new(options))
 	print(new_id, ECS.entity(new_id))
 	var resources = get_all_files('res://data')
-	var dict: Dictionary
+	var preprocess: Dictionary
 	for resource in resources:
 		print(resource)
 		var file_access = FileAccess.open(resource, FileAccess.READ)
@@ -20,8 +20,19 @@ func _ready() -> void:
 		if data.has('blueprints'):
 			var blueprints = data.blueprints
 			for blueprint in blueprints:
-				dict[blueprint.get("id")] = Blueprint.new(blueprint)
-	print(dict.values().size(), " records loaded")
+				preprocess[blueprint.get("id")] = Blueprint.new(blueprint)
+
+	for blueprint in preprocess:
+		var current = preprocess[blueprint]
+		var curr = preprocess[blueprint]
+		while curr.parent:
+			if !preprocess.has(curr.parent):
+				break
+			curr = preprocess[curr.parent]
+			current.concat(curr)
+		
+	print(preprocess.values().size(), " records loaded")
+
 	_create_pc()
 	
 
