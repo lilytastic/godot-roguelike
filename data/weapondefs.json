@@ -1,305 +1,305 @@
 {
   "data": {
-    "blueprints": [
-      {
-        "id": "weapon",
-        "name": "weapon",
-        "parent": "item",
-        "type": "weapon",
-        "abilities": [ "strike" ],
-        "categories": [ "weapons", "melee weapons" ],
-        "use": {
-          "type": "equip"
-        },
-        "weapon": {
-          "type": "slash",
-          "damage": [3, 5],
-          "range": 1,
-          "speed": 1
-        },
-        "glyph": {
-          "ch": "G_SWORD",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        },
-        "storage": {
-          "weight": 10
-        },
-        "wearable": {
-          "slot": "weapon",
-          "slots": [ ["main hand"], ["off-hand"] ]
-        }
-      },
-      {
-        "id": "fist",
-        "name": "fists",
-        "parent": "weapon",
-        "type": "fist",
-        "abilities": [ "punch" ],
-        "categories": [ "weapons", "melee weapons" ],
-        "description": "Sting like a bee.",
-        "weapon": {
-          "type": "bludgeon",
-          "damage": [2, 7],
-          "range": 1,
-          "speed": 1
-        },
-        "glyph": {
-          "ch": "G_FISTS",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "dagger",
-        "name": "dagger",
-        "parent": "weapon",
-        "type": "dagger",
-        "abilities": [ "slash" ],
-        "categories": [ "weapons", "melee weapons" ],
-        "description": "Doubles as a toothpick.",
-        "weapon": {
-          "type": "slash",
-          "damage": [3, 8],
-          "range": 1,
-          "speed": 1.3
-        },
-        "glyph": {
-          "ch": "G_DAGGER",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "sword",
-        "name": "sword",
-        "parent": "weapon",
-        "type": "sword",
-        "abilities": [ "slash" ],
-        "description": "Goes 'whoosh' when you swing it.",
-        "weapon": {
-          "type": "slash",
-          "damage": [5, 8],
-          "range": 1,
-          "speed": 1
-        },
-        "glyph": {
-          "ch": "G_SWORD",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "greatsword",
-        "name": "greatsword",
-        "parent": "weapon",
-        "type": "greatsword",
-        "abilities": [ "slash" ],
-        "description": "Goes 'whoosh' when you swing it.",
-        "weapon": {
-          "type": "slash",
-          "damage": [8, 10],
-          "range": 2,
-          "speed": 0.8
-        },
-        "wearable": {
-          "slot": "weapon",
-          "slots": [ ["main hand", "off-hand"] ]
-        },
-        "glyph": {
-          "ch": "G_GREATSWORD",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "spear",
-        "name": "spear",
-        "parent": "weapon",
-        "type": "spear",
-        "abilities": [ "thrust" ],
-        "description": "Slang for genitalia.",
-        "weapon": {
-          "type": "pierce",
-          "damage": [7, 8],
-          "range": 2,
-          "speed": 1
-        },
-        "wearable": {
-          "slot": "weapon",
-          "slots": [ ["main hand", "off-hand"] ]
-        },
-        "glyph": {
-          "ch": "G_SPEAR",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "axe",
-        "name": "axe",
-        "parent": "weapon",
-        "type": "axe",
-        "abilities": [ "slash" ],
-        "categories": [ "weapons", "melee weapons" ],
-        "description": "The trees will fear you.",
-        "weapon": {
-          "type": "slash",
-          "damage": [5, 6],
-          "range": 1,
-          "speed": 1
-        },
-        "glyph": {
-          "ch": "G_AXE",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "mace",
-        "name": "mace",
-        "parent": "weapon",
-        "type": "mace",
-        "abilities": [ "strike" ],
-        "categories": [ "weapons", "melee weapons" ],
-        "description": "Good for cracking bones.",
-        "weapon": {
-          "type": "bludgeon",
-          "damage": [6, 7],
-          "range": 1,
-          "speed": 1
-        },
-        "glyph": {
-          "ch": "G_MACE",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "warhammer",
-        "name": "warhammer",
-        "parent": "weapon",
-        "type": "warhammer",
-        "abilities": [ "strike" ],
-        "categories": [ "weapons", "melee weapons" ],
-        "description": "Good for cracking bones.",
-        "weapon": {
-          "type": "bludgeon",
-          "damage": [4, 10],
-          "range": 1,
-          "speed": 0.7
-        },
-        "wearable": {
-          "slot": "weapon",
-          "slots": [ ["main hand", "off-hand"] ]
-        },
-        "glyph": {
-          "ch": "G_HAMMER",
-          "fg": [
-            180,
-            180,
-            180
-          ]
-        }
-      },
-      {
-        "id": "scepter",
-        "name": "scepter",
-        "parent": "weapon",
-        "type": "staff",
-        "abilities": [ "strike" ],
-        "description": "Bonk.",
-        "weapon": {
-          "type": "bludgeon",
-          "damage": [3, 4],
-          "range": 1,
-          "speed": 1
-        },
-        "glyph": {
-          "ch": "G_STAFF",
-          "fg": [
-            180,
-            180,
-            120
-          ]
-        }
-      },
-      {
-        "id": "crossbow",
-        "name": "crossbow",
-        "parent": "weapon",
-        "type": "crossbow",
-        "description": "Pew.",
-        "abilities": [ "shoot" ],
-        "weapon": {
-          "type": "pierce",
-          "damage": [4, 6],
-          "range": 8,
-          "speed": 1.3
-        },
-        "wearable": {
-          "slot": "weapon",
-          "slots": [ ["main hand", "off-hand"] ]
-        },
-        "glyph": {
-          "ch": "G_CROSSBOW",
-          "fg": [
-            180,
-            180,
-            120
-          ]
-        }
-      },
-      {
-        "id": "longbow",
-        "name": "longbow",
-        "parent": "weapon",
-        "type": "longbow",
-        "description": "Pew.",
-        "abilities": [ "shoot" ],
-        "weapon": {
-          "type": "pierce",
-          "damage": [3, 11],
-          "range": 12,
-          "speed": 0.8
-        },
-        "wearable": {
-          "slot": "weapon",
-          "slots": [ ["main hand", "off-hand"] ]
-        },
-        "glyph": {
-          "ch": "G_BOW",
-          "fg": [
-            180,
-            180,
-            120
-          ]
-        }
-      }
-    ]
+	"blueprints": [
+	  {
+		"id": "weapon",
+		"name": "weapon",
+		"parent": "item",
+		"type": "weapon",
+		"abilities": [ "strike" ],
+		"categories": [ "weapons", "melee weapons" ],
+		"use": {
+		  "type": "equip"
+		},
+		"weapon": {
+		  "type": "slash",
+		  "damage": [3, 5],
+		  "range": 1,
+		  "speed": 1
+		},
+		"glyph": {
+		  "ch": "G_SWORD",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		},
+		"storage": {
+		  "weight": 10
+		},
+		"wearable": {
+		  "slot": "weapon",
+		  "slots": [ ["main hand"], ["off-hand"] ]
+		}
+	  },
+	  {
+		"id": "fist",
+		"name": "fists",
+		"parent": "weapon",
+		"type": "fist",
+		"abilities": [ "punch" ],
+		"categories": [ "weapons", "melee weapons" ],
+		"description": "Sting like a bee.",
+		"weapon": {
+		  "type": "bludgeon",
+		  "damage": [2, 7],
+		  "range": 1,
+		  "speed": 1
+		},
+		"glyph": {
+		  "ch": "G_FISTS",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "dagger",
+		"name": "dagger",
+		"parent": "weapon",
+		"type": "dagger",
+		"abilities": [ "slash" ],
+		"categories": [ "weapons", "melee weapons" ],
+		"description": "Doubles as a toothpick.",
+		"weapon": {
+		  "type": "slash",
+		  "damage": [3, 8],
+		  "range": 1,
+		  "speed": 1.3
+		},
+		"glyph": {
+		  "ch": "G_DAGGER",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "sword",
+		"name": "sword",
+		"parent": "weapon",
+		"type": "sword",
+		"abilities": [ "slash" ],
+		"description": "Goes 'whoosh' when you swing it.",
+		"weapon": {
+		  "type": "slash",
+		  "damage": [5, 8],
+		  "range": 1,
+		  "speed": 1
+		},
+		"glyph": {
+		  "ch": "G_SWORD",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "greatsword",
+		"name": "greatsword",
+		"parent": "weapon",
+		"type": "greatsword",
+		"abilities": [ "slash" ],
+		"description": "Goes 'whoosh' when you swing it.",
+		"weapon": {
+		  "type": "slash",
+		  "damage": [8, 10],
+		  "range": 2,
+		  "speed": 0.8
+		},
+		"wearable": {
+		  "slot": "weapon",
+		  "slots": [ ["main hand", "off-hand"] ]
+		},
+		"glyph": {
+		  "ch": "G_GREATSWORD",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "spear",
+		"name": "spear",
+		"parent": "weapon",
+		"type": "spear",
+		"abilities": [ "thrust" ],
+		"description": "Slang for genitalia.",
+		"weapon": {
+		  "type": "pierce",
+		  "damage": [7, 8],
+		  "range": 2,
+		  "speed": 1
+		},
+		"wearable": {
+		  "slot": "weapon",
+		  "slots": [ ["main hand", "off-hand"] ]
+		},
+		"glyph": {
+		  "ch": "G_SPEAR",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "axe",
+		"name": "axe",
+		"parent": "weapon",
+		"type": "axe",
+		"abilities": [ "slash" ],
+		"categories": [ "weapons", "melee weapons" ],
+		"description": "The trees will fear you.",
+		"weapon": {
+		  "type": "slash",
+		  "damage": [5, 6],
+		  "range": 1,
+		  "speed": 1
+		},
+		"glyph": {
+		  "ch": "G_AXE",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "mace",
+		"name": "mace",
+		"parent": "weapon",
+		"type": "mace",
+		"abilities": [ "strike" ],
+		"categories": [ "weapons", "melee weapons" ],
+		"description": "Good for cracking bones.",
+		"weapon": {
+		  "type": "bludgeon",
+		  "damage": [6, 7],
+		  "range": 1,
+		  "speed": 1
+		},
+		"glyph": {
+		  "ch": "G_MACE",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "warhammer",
+		"name": "warhammer",
+		"parent": "weapon",
+		"type": "warhammer",
+		"abilities": [ "strike" ],
+		"categories": [ "weapons", "melee weapons" ],
+		"description": "Good for cracking bones.",
+		"weapon": {
+		  "type": "bludgeon",
+		  "damage": [4, 10],
+		  "range": 1,
+		  "speed": 0.7
+		},
+		"wearable": {
+		  "slot": "weapon",
+		  "slots": [ ["main hand", "off-hand"] ]
+		},
+		"glyph": {
+		  "ch": "G_HAMMER",
+		  "fg": [
+			180,
+			180,
+			180
+		  ]
+		}
+	  },
+	  {
+		"id": "scepter",
+		"name": "scepter",
+		"parent": "weapon",
+		"type": "staff",
+		"abilities": [ "strike" ],
+		"description": "Bonk.",
+		"weapon": {
+		  "type": "bludgeon",
+		  "damage": [3, 4],
+		  "range": 1,
+		  "speed": 1
+		},
+		"glyph": {
+		  "ch": "G_STAFF",
+		  "fg": [
+			180,
+			180,
+			120
+		  ]
+		}
+	  },
+	  {
+		"id": "crossbow",
+		"name": "crossbow",
+		"parent": "weapon",
+		"type": "crossbow",
+		"description": "Pew.",
+		"abilities": [ "shoot" ],
+		"weapon": {
+		  "type": "pierce",
+		  "damage": [4, 6],
+		  "range": 8,
+		  "speed": 1.3
+		},
+		"wearable": {
+		  "slot": "weapon",
+		  "slots": [ ["main hand", "off-hand"] ]
+		},
+		"glyph": {
+		  "ch": "G_CROSSBOW",
+		  "fg": [
+			180,
+			180,
+			120
+		  ]
+		}
+	  },
+	  {
+		"id": "longbow",
+		"name": "longbow",
+		"parent": "weapon",
+		"type": "longbow",
+		"description": "Pew.",
+		"abilities": [ "shoot" ],
+		"weapon": {
+		  "type": "pierce",
+		  "damage": [3, 11],
+		  "range": 12,
+		  "speed": 0.8
+		},
+		"wearable": {
+		  "slot": "weapon",
+		  "slots": [ ["main hand", "off-hand"] ]
+		},
+		"glyph": {
+		  "ch": "G_BOW",
+		  "fg": [
+			180,
+			180,
+			120
+		  ]
+		}
+	  }
+	]
   }
 }
