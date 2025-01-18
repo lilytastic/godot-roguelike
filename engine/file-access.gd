@@ -10,13 +10,28 @@ static func get_dictionary(path: String) -> Dictionary:
 
 static func save(data: Dictionary) -> void:
 	var path = "user://savegame.save"
+	
 	var save_file = FileAccess.open(path, FileAccess.WRITE)
 	save_file.store_line(JSON.stringify(data))
+	save_file.close()
 	
-	save_file = FileAccess.open(path, FileAccess.READ)
-	print('saved', save_file.get_as_text())
+	Files.load()
 	return
 
+
+static func load() -> void:
+	var path = "user://savegame.save"
+	
+	var save_file = FileAccess.open(path, FileAccess.READ)
+	var json = JSON.new()
+	var text = save_file.get_line()
+	var result = json.parse(text)
+	print('loading ', text)
+	if not result == OK:
+		print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line())
+	print(result)
+	print('loaded: ', json.data)
+	save_file.close()
 
 
 ## returns list of files at given path recursively
