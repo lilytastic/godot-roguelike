@@ -16,3 +16,7 @@ func load(id: int):
 	if glyph:
 		set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
+
+func _process(delta: float) -> void:
+	position = lerp(position, Coords.get_position(entity.position), delta * 30)
+	

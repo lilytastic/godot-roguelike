@@ -2,6 +2,7 @@ class_name Entity
 
 var uuid: int = ResourceUID.create_id()
 var _blueprint: String
+var position: Vector2i
 
 var blueprint: Blueprint:
 	get: return ECS.blueprints.get(_blueprint, null)

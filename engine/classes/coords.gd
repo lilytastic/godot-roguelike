@@ -6,7 +6,7 @@ const START_Y: int = 0
 const STEP_X: int = 16
 const STEP_Y: int = 16
 
-static func get_position(coord: Vector2i, offset: Vector2i = Vector2i(0, 0)) -> Vector2i:
+static func get_position(coord: Vector2, offset: Vector2 = Vector2i(0, 0)) -> Vector2:
 	var new_x: int = START_X + STEP_X * coord.x + offset.x
 	var new_y: int = START_Y + STEP_Y * coord.y + offset.y
 	

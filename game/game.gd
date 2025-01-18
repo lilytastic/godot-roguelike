@@ -32,7 +32,7 @@ func _new_game() -> void:
 
 
 func _move_pc(direction: StringName) -> void:
-	var coord: Vector2i = Coords.get_coord(player)
+	var coord: Vector2i = player.entity.position
 	
 	match direction:
 		InputTag.MOVE_LEFT:
@@ -44,4 +44,4 @@ func _move_pc(direction: StringName) -> void:
 		InputTag.MOVE_DOWN:
 			coord += Vector2i.DOWN
 
-	player.position = Coords.get_position(coord)
+	player.entity.position = coord
