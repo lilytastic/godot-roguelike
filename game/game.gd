@@ -1,7 +1,7 @@
 extends Node
 
 const PC_TAG = 'PC'
-
+var blueprints := {}
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
@@ -9,32 +9,11 @@ func _ready() -> void:
 	options.blueprint = 'hero'
 	var new_id = ECS.add(Entity.new(options))
 	print(new_id, ECS.entity(new_id))
-	var resources = get_all_files('res://data')
-	var preprocess: Dictionary
-	for resource in resources:
-		print(resource)
-		var file_access = FileAccess.open(resource, FileAccess.READ)
-		var file = JSON.parse_string(file_access.get_as_text())
-		file_access.close()
-		var data = file.data if file.has('data') else {}
-		if data.has('blueprints'):
-			var blueprints = data.blueprints
-			for blueprint in blueprints:
-				preprocess[blueprint.get("id")] = Blueprint.new(blueprint)
-
-	for blueprint in preprocess:
-		var current = preprocess[blueprint]
-		var curr = preprocess[blueprint]
-		while curr.parent:
-			if !preprocess.has(curr.parent):
-				break
-			curr = preprocess[curr.parent]
-			current.concat(curr)
-		
-	print(preprocess.values().size(), " records loaded")
+	_load_resources()
+	print(blueprints.values().size(), " records loaded")
 
 	_create_pc()
-	
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	for i: StringName in InputTag.MOVE_ACTIONS:
@@ -70,6 +49,33 @@ func _move_pc(direction: StringName) -> void:
 
 	pc.position = Coords.get_position(coord)
 
+
+func _load_resources() -> void:
+	var resources = get_all_files('res://data')
+	var preprocess: Dictionary
+	for resource in resources:
+		print(resource)
+		var file_access = FileAccess.open(resource, FileAccess.READ)
+		var file = JSON.parse_string(file_access.get_as_text())
+		file_access.close()
+		var data = file.data if file.has('data') else {}
+		if data.has('blueprints'):
+			var _blueprints = data.blueprints
+			for blueprint in _blueprints:
+				if blueprint.has('id'):
+					preprocess[blueprint.id] = Blueprint.new(blueprint)
+
+	for blueprint in preprocess:
+		var current = preprocess[blueprint]
+		var curr = preprocess[blueprint]
+		while curr.parent:
+			if !preprocess.has(curr.parent):
+				break
+			curr = preprocess[curr.parent]
+			current.concat(curr)
+		
+	blueprints = preprocess
+	
 
 ## returns list of files at given path recursively
 ## [br]taken from - https://gist.github.com/hiulit/772b8784436898fd7f942750ad99e33e

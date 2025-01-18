@@ -17,7 +17,7 @@ func _init(props: Dictionary):
 	description = props.get('description', '')
 	type = props.get('type', 'unknown')
 	if props.has('glyph'):
-		glyph = Glyph.new(props.get('glyph'))
+		glyph = Glyph.new(props.glyph)
 	if props.has('wearable') or props.has('storage'):
 		item = ItemProps.new(props)
 	if props.has('slots'):
