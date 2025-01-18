@@ -1,15 +1,18 @@
 extends Sprite2D
 
 var entity: Entity:
-	get:
-		return ECS.entity(_entity)
+	get: return ECS.entity(_entityId)
 
-var _entity: int
+var _entityId: int
 
-func load(__entity: int):
-	_entity = __entity
-	var atlas = AtlasTexture.new()
-	atlas.set_atlas(preload('res://monochrome-transparent_packed.png'))
-	atlas.region = Rect2(432, 0, 16, 16)
-	set_texture(atlas)
-	modulate = entity.blueprint.glyph.fg
+var blueprint: Blueprint:
+	get: return entity.blueprint
+
+var glyph: Glyph:
+	get: return blueprint.glyph
+
+func load(id: int):
+	_entityId = id
+	if glyph:
+		set_texture(glyph.to_atlas_texture())
+		modulate = glyph.fg
