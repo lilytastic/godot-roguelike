@@ -2,7 +2,16 @@ class_name Entity
 
 var uuid: int = ResourceUID.create_id()
 var _blueprint: String
-var position: Vector2i
+var location := Location.new()
+
+var map: String:
+		get: return location.map
+		set(value): location.map = value
+
+var position: Vector2i:
+		get: return location.position
+		set(value): location.position = value
+
 # var inventory: { uuid: int, stack: int }[]
 
 var blueprint: Blueprint:
@@ -19,6 +28,7 @@ func _init(opts: EntityCreationOptions):
 func save() -> Dictionary:
 	var dict := {}
 	dict.blueprint = _blueprint
+	dict.map = location.map
 	dict.position = position
 	dict.uuid = uuid
 	return dict

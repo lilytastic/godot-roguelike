@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	$Camera2D.position = lerp($Camera2D.position, player.position, delta * cameraSpeed)
-	$Camera2D.offset = Vector2i(8 + 16 * 3, 8)
+	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 	
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -28,7 +28,7 @@ func _new_game() -> void:
 	options.blueprint = 'hero'
 	player = ECS.create(options)
 	player.position = Coords.get_position(Vector2i(0, 0))
-	add_child(player)
+	$TileMapLayer.add_child(player)
 	save()
 	
 
