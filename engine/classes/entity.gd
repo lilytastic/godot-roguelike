@@ -8,14 +8,14 @@ var map: String:
 		get: return location.map
 		set(value): location.map = value
 
-var position: Vector2i:
-		get: return location.position
+var position: Vector2:
+		get: return location.position if location.position else Vector2(0,0)
 		set(value): location.position = value
 
 # var inventory: { uuid: int, stack: int }[]
 
 var blueprint: Blueprint:
-	get: return ECS.blueprints.get(_blueprint, null)
+	get: return Global.ecs.blueprints.get(_blueprint, null)
 	set(value): _blueprint = value.id
 
 

@@ -1,28 +1,27 @@
 class_name ECS
 
-static var entities: Dictionary = {}
-static var blueprints: Dictionary = {}
+var entities: Dictionary = {}
+var blueprints: Dictionary = {}
 
-static func entity(id: int) -> Entity:
+signal entity_added
+
+func entity(id: int) -> Entity:
 	if (entities.has(id)):
 		return entities[id]
 	return null
 
-static func add(_entity: Entity) -> int:
+func add(_entity: Entity) -> int:
 	entities[_entity.uuid] = _entity
+	entity_added.emit(_entity)
 	return _entity.uuid
 
-static func create(opts: EntityCreationOptions):
-	var actor: PackedScene = preload("res://game/actor.tscn")
-	var new_actor = actor.instantiate()
-
+func create(opts: EntityCreationOptions) -> Entity:
 	var new_entity = Entity.new(opts)
-	var new_id = ECS.add(new_entity)
-	print(new_id, ECS.entity(new_id))
-	new_actor.load(new_id)
-	return new_actor
+	var new_id = add(new_entity)
+	# print(new_id, entity(new_id))
+	return entity(new_id)
 
-static func load_data() -> void:
+func load_data() -> void:
 	var resources = Files.get_all_files('res://data')
 	var preprocess: Dictionary
 	

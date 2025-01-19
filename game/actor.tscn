@@ -7,7 +7,7 @@
 atlas = ExtResource("1_nu0dg")
 region = Rect2(432, 0, 16, 16)
 
-[node name="Player" type="Sprite2D"]
+[node name="Actor" type="Sprite2D"]
 texture = SubResource("AtlasTexture_l4awr")
 centered = false
 script = ExtResource("2_im4yg")
