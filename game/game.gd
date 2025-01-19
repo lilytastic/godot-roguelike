@@ -7,10 +7,9 @@ var cameraSpeed := 6
 
 
 func _ready() -> void:
-	$TileMapLayer.map = 'Test'
-
 	Global._new_game()
-
+	$TileMapLayer.map = player.map
+	
 
 func _process(delta: float) -> void:
 	if player and player.position != null:
