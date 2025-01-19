@@ -20,9 +20,28 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	for i: StringName in InputTag.MOVE_ACTIONS:
 		if event.is_action_pressed(i):
-			Global.move_pc(i)
+			_move_pc(i)
 			return
 	
 	if event.is_action_pressed('quicksave'):
 		Global.save()
 		return
+
+
+func _move_pc(direction: StringName) -> void:
+	if !player:
+		return
+
+	var coord: Vector2i = Vector2i.ZERO
+	
+	match direction:
+		InputTag.MOVE_LEFT:
+			coord += Vector2i.LEFT
+		InputTag.MOVE_RIGHT:
+			coord += Vector2i.RIGHT
+		InputTag.MOVE_UP:
+			coord += Vector2i.UP
+		InputTag.MOVE_DOWN:
+			coord += Vector2i.DOWN
+
+	var result = MovementAction.new(coord).perform(player)

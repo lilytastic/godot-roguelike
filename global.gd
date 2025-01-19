@@ -28,22 +28,3 @@ func save() -> void:
 	)
 	data.player = player.uuid
 	Files.save(data)
-
-
-func move_pc(direction: StringName) -> void:
-	if !player:
-		return
-
-	var coord: Vector2i = Vector2i.ZERO
-	
-	match direction:
-		InputTag.MOVE_LEFT:
-			coord += Vector2i.LEFT
-		InputTag.MOVE_RIGHT:
-			coord += Vector2i.RIGHT
-		InputTag.MOVE_UP:
-			coord += Vector2i.UP
-		InputTag.MOVE_DOWN:
-			coord += Vector2i.DOWN
-
-	MovementAction.new(coord).perform(player)
