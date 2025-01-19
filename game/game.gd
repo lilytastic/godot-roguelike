@@ -5,6 +5,8 @@ var player: Entity:
 	get: return Global.player
 var cameraSpeed := 6
 
+signal action_triggered
+
 
 func _ready() -> void:
 	if !Global.player:
@@ -18,20 +20,25 @@ func _process(delta: float) -> void:
 	
 
 func _unhandled_input(event: InputEvent) -> void:
+	var action: Action
 	for i: StringName in InputTag.MOVE_ACTIONS:
 		if event.is_action_pressed(i):
-			_move_pc(i)
-			return
+			action = _move_pc(i)
+			break
 	
 	if event.is_action_pressed('quicksave'):
 		Global.save()
 		return
+		
+	if action:
+		action.perform(player)
+		action_triggered.emit(action)
 
 
-func _move_pc(direction: StringName) -> void:
+func _move_pc(direction: StringName) -> Action:
 	if !player:
 		return
-
+	
 	var coord: Vector2i = Vector2i.ZERO
 	
 	match direction:
@@ -44,4 +51,4 @@ func _move_pc(direction: StringName) -> void:
 		InputTag.MOVE_DOWN:
 			coord += Vector2i.DOWN
 
-	var result = MovementAction.new(coord).perform(player)
+	return MovementAction.new(coord)
