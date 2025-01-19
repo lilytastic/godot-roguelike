@@ -14,7 +14,7 @@ var glyph: Glyph:
 
 
 func _process(delta: float) -> void:
-	if entity and entity.position:
+	if entity and entity.position != null:
 		position = lerp(position, Coords.get_position(entity.position), delta * 30)
 
 
