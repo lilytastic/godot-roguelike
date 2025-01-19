@@ -8,7 +8,7 @@ var entity: Entity:
 var _entityId: int
 
 var blueprint: Blueprint:
-	get: return entity.blueprint
+	get: return entity.blueprint if entity else null
 
 var glyph: Glyph:
 	get: return blueprint.glyph

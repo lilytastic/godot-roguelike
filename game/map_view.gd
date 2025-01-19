@@ -23,7 +23,7 @@ func _ready():
 	Global.ecs.entity_added.connect(
 		func(value: Entity):
 			print('added ', value.uuid)
-			_create(value)
+			_init_actor(value)
 	)
 	Global.player_changed.connect(
 		func(value: Entity):
@@ -39,9 +39,11 @@ func _assign_entities():
 	for child in get_children():
 		if (!child.entity):
 			var opts = EntityCreationOptions.new()
-			opts.blueprint = 'quadropus'
+			opts.blueprint = child.get_meta('blueprint') if child.has_meta('blueprint') else 'quadropus'
+			print(child.blueprint)
 			print('loading new actor ', child)
-			_create(Global.ecs.create(opts), child)
+			var new_entity = Global.ecs.create(opts)
+			_init_actor(new_entity, child)
 
 
 func _init_actors(_map):
@@ -58,10 +60,10 @@ func _init_actors(_map):
 	for entity in entities:
 		var child = find_child('Entity<'+str(entity.uuid)+'>')
 		if !child:
-			_create(entity)
+			_init_actor(entity)
 
 
-func _create(entity: Entity, new_actor := Actor.new()):
+func _init_actor(entity: Entity, new_actor := Actor.new()):
 	entity.position = Coords.get_coord(new_actor.position)
 	new_actor.entity = entity
 	add_child(new_actor)
