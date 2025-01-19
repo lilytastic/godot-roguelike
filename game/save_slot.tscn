@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://hdb51gogs12"]
+
+[node name="SaveSlot" type="Button"]
+text = "Save 1"

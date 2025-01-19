@@ -20,25 +20,25 @@ func _process(delta: float) -> void:
 	
 
 func _unhandled_input(event: InputEvent) -> void:
-	var action: Action
-	for i: StringName in InputTag.MOVE_ACTIONS:
-		if event.is_action_pressed(i):
-			action = _move_pc(i)
-			break
-	
 	if event.is_action_pressed('quicksave'):
 		Global.save()
 		return
 		
+	var action := _check_for_action(event)
 	if action:
 		action.perform(player)
 		action_triggered.emit(action)
 
 
-func _move_pc(direction: StringName) -> Action:
-	if !player:
-		return
-	
+func _check_for_action(event: InputEvent) -> Action:
+	for i: StringName in InputTag.MOVE_ACTIONS:
+		if event.is_action_pressed(i):
+			return MovementAction.new(_input_to_direction(i))
+
+	return null
+
+
+func _input_to_direction(direction: StringName):
 	var coord: Vector2i = Vector2i.ZERO
 	
 	match direction:
@@ -51,4 +51,4 @@ func _move_pc(direction: StringName) -> Action:
 		InputTag.MOVE_DOWN:
 			coord += Vector2i.DOWN
 
-	return MovementAction.new(coord)
+	return coord

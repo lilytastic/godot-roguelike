@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=6 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
 [ext_resource type="PackedScene" uid="uid://dabn80pt603jc" path="res://game/actor.tscn" id="3_h3nby"]
+[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="4_jy1my"]
+[ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="5_85rkj"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -15,3 +17,30 @@ zoom = Vector2(2, 2)
 [node name="Actor" parent="TileMapLayer" instance=ExtResource("3_h3nby")]
 position = Vector2(66, -44)
 metadata/blueprint = "ghoul"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -262.0
+offset_top = -155.0
+offset_right = 277.0
+offset_bottom = 154.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_jy1my")
+
+[node name="SaveSlots" parent="CanvasLayer" instance=ExtResource("5_85rkj")]
+visible = false
+anchors_preset = 9
+anchor_top = 0.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 220.0
+offset_bottom = -11.0
+grow_vertical = 2

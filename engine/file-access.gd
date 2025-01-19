@@ -8,9 +8,7 @@ static func get_dictionary(path: String) -> Dictionary:
 	return file.data if file.has('data') else {}
 
 
-static func save(data: Dictionary) -> void:
-	var path = "user://savegame.save"
-	
+static func save(data: Dictionary, path := "user://savegame.save") -> void:
 	var save_file = FileAccess.open(path, FileAccess.WRITE)
 	save_file.store_line(JSON.stringify(data))
 	save_file.close()
@@ -19,9 +17,7 @@ static func save(data: Dictionary) -> void:
 	return
 
 
-static func load() -> Dictionary:
-	var path = "user://savegame.save"
-	
+static func load(path := "user://savegame.save") -> Dictionary:
 	var save_file = FileAccess.open(path, FileAccess.READ)
 	var json = JSON.new()
 	var text = save_file.get_line()
