@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=4 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
+[ext_resource type="PackedScene" uid="uid://dabn80pt603jc" path="res://game/actor.tscn" id="3_h3nby"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -10,3 +11,7 @@ script = ExtResource("1_4nfvf")
 zoom = Vector2(2, 2)
 
 [node name="TileMapLayer" parent="." instance=ExtResource("2_ly086")]
+
+[node name="Actor" parent="TileMapLayer" instance=ExtResource("3_h3nby")]
+position = Vector2(66, -44)
+metadata/blueprint = "ghoul"
