@@ -8,6 +8,7 @@ var cameraSpeed := 6
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
 	Global.ecs.load_data()
+	$TileMapLayer.map = 'Test'
 
 	_new_game()
 
@@ -32,6 +33,7 @@ func _new_game() -> void:
 	var options = EntityCreationOptions.new()
 	options.blueprint = 'hero'
 	player = Global.ecs.create(options)
+	player.map = 'Test'
 	# player.position = Coords.get_position(Vector2i(0, 0))
 	save()
 	

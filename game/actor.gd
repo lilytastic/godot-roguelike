@@ -24,7 +24,7 @@ func _init(_entity: Entity):
 func load(id: int):
 	_entityId = id
 	name = 'Entity<' + str(entity.uuid) + '>'
-	position = Coords.get_position(entity.position)
+	position = Coords.get_position(entity.position,  Vector2(8, 8))
 	if glyph:
 		set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg

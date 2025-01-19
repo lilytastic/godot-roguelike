@@ -6,11 +6,14 @@ var location := Location.new()
 
 var map: String:
 		get: return location.map
-		set(value): location.map = value
+		set(value):
+			location.map = value
+			Global.ecs.map_changed.emit(location.map)
 
 var position: Vector2:
 		get: return location.position if location.position else Vector2(0,0)
-		set(value): location.position = value
+		set(value):
+			location.position = value
 
 # var inventory: { uuid: int, stack: int }[]
 

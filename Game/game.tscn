@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=4 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=3 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
-[ext_resource type="TileSet" uid="uid://20orwfw58n08" path="res://game/map_test.tres" id="2_yu8y0"]
-[ext_resource type="Script" path="res://game/map_view.gd" id="3_01nnp"]
+[ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -10,7 +9,4 @@ script = ExtResource("1_4nfvf")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD+/wEAAAAFAAAAAAD7//7/AAAFAAAAAAAEAPz/AAAFAAAAAAD5//3/AAAFAAAAAAD5////AAAFAAAAAAD7/wYAAAAFAAAAAAD8//r/AAAFAAAAAAAEAAEAAAAFAAAAAAAEAAIAAAAFAAAAAAAHAAEAAAAFAAAAAAA=")
-tile_set = ExtResource("2_yu8y0")
-script = ExtResource("3_01nnp")
+[node name="TileMapLayer" parent="." instance=ExtResource("2_ly086")]
