@@ -8,7 +8,7 @@ func _ready() -> void:
 	Global.ecs.load_data()
   
 
-func _new_game() -> void:
+func new_game() -> void:
 	var options = EntityCreationOptions.new()
 	options.blueprint = 'hero'
 	player = Global.ecs.create(options)
@@ -26,7 +26,7 @@ func save() -> void:
 	Files.save(data)
 
 
-func _move_pc(direction: StringName) -> void:
+func move_pc(direction: StringName) -> void:
 	if !player:
 		return
 

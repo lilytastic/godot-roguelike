@@ -7,7 +7,8 @@ var cameraSpeed := 6
 
 
 func _ready() -> void:
-	Global._new_game()
+	if !Global.player:
+		Global.new_game()
 	$TileMapLayer.map = player.map
 	
 
@@ -20,7 +21,7 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	for i: StringName in InputTag.MOVE_ACTIONS:
 		if event.is_action_pressed(i):
-			Global._move_pc(i)
+			Global.move_pc(i)
 			return
 	
 	if event.is_action_pressed('quicksave'):
