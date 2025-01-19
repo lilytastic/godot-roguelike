@@ -34,7 +34,7 @@ func move_pc(direction: StringName) -> void:
 	if !player:
 		return
 
-	var coord: Vector2i = player.position
+	var coord: Vector2i = Vector2i.ZERO
 	
 	match direction:
 		InputTag.MOVE_LEFT:
@@ -46,4 +46,4 @@ func move_pc(direction: StringName) -> void:
 		InputTag.MOVE_DOWN:
 			coord += Vector2i.DOWN
 
-	player.position = coord
+	MovementAction.new(coord).perform(player)
