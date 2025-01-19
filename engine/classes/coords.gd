@@ -13,9 +13,9 @@ static func get_position(coord: Vector2, offset: Vector2 = Vector2i(0, 0)) -> Ve
 	return Vector2i(new_x, new_y)
 
 
-static func get_coord(sprite: Sprite2D) -> Vector2i: 
-	var new_x: int = floor((sprite.position.x - START_X) / STEP_X)
-	var new_y: int = floor((sprite.position.y - START_Y) / STEP_Y)
+static func get_coord(in_world_position: Vector2) -> Vector2i: 
+	var new_x: int = floor((in_world_position.x - START_X) / STEP_X)
+	var new_y: int = floor((in_world_position.y - START_Y) / STEP_Y)
 	
 	return Vector2i(new_x, new_y)
 	
