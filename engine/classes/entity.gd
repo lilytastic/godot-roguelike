@@ -4,11 +4,13 @@ var uuid: int = ResourceUID.create_id()
 var _blueprint: String
 var location := Location.new()
 
+signal map_changed
+
 var map: String:
 		get: return location.map
 		set(value):
 			location.map = value
-			Global.ecs.map_changed.emit(location.map)
+			map_changed.emit(location.map)
 
 var position: Vector2:
 		get: return location.position if location.position else Vector2(0,0)

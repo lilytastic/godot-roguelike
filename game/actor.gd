@@ -12,7 +12,10 @@ var blueprint: Blueprint:
 
 var glyph: Glyph:
 	get: return blueprint.glyph
+	
 
+func _ready() -> void:
+	print('actor ready ', _entityId)
 
 func _process(delta: float) -> void:
 	if entity and entity.position != null:

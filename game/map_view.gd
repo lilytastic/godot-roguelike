@@ -3,6 +3,16 @@ extends TileMapLayer
 
 var map := ''
 var actor: PackedScene = preload("res://game/actor.tscn")
+var subscription := func(_map): _update()
+
+var _player: Entity
+var player: Entity:
+	get: return _player
+	set(value):
+		if _player:
+			_player.map_changed.disconnect(subscription)
+		_player = value
+		_player.map_changed.connect(subscription)
 
 func _init():
 	_update()
@@ -11,16 +21,24 @@ func _init():
 			print('added ', entity.uuid)
 			_update()
 	)
-	Global.ecs.map_changed.connect(
-		func(_map):
+	Global.player_changed.connect(
+		func(__player):
+			player = __player
 			_update()
 	)
 
 func _update():
+	if !player:
+		return
+
+	map = player.map
+	
 	var entities = Global.ecs.entities.values().filter(
 		func(entity): return entity.map == map
 	)
+	
 	var safe := {}
+	
 	for entity in entities:
 		var child = find_child('Entity<'+str(entity.uuid)+'>')
 		if !child:

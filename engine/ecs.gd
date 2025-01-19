@@ -4,7 +4,6 @@ var entities: Dictionary = {}
 var blueprints: Dictionary = {}
 
 signal entity_added
-signal map_changed
 
 func entity(id: int) -> Entity:
 	if (entities.has(id)):
