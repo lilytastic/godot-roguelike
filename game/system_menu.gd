@@ -4,9 +4,13 @@ var isOpen:
 	get: return visible
 
 
-func _init():
+func _ready():
 	visible = false
 
+	if %AsideMenu:
+		%AsideMenu.resume_pressed.connect(
+			func(): visible = false
+		)
 
 func _input(event: InputEvent):
 	if event.is_action_pressed('open_system_menu'):

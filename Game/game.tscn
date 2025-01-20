@@ -32,7 +32,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_q6bec")
 
-[node name="Aside Menu" parent="CanvasLayer/System Menu" instance=ExtResource("6_s5ktb")]
+[node name="AsideMenu" parent="CanvasLayer/System Menu" instance=ExtResource("6_s5ktb")]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 58.0
 offset_right = 262.0
