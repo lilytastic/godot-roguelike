@@ -17,14 +17,21 @@ grow_vertical = 2
 theme = ExtResource("1_4cwgy")
 script = ExtResource("1_x6mru")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+offset_right = 204.0
+offset_bottom = 360.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.614
 anchor_right = 1.0
 anchor_bottom = 0.614
-offset_top = -109.04
-offset_bottom = 115.96
+offset_left = 8.0
+offset_top = -116.04
+offset_right = -8.0
+offset_bottom = 123.96
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -33,44 +40,44 @@ theme = SubResource("Theme_drivx")
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Continue" type="Button" parent="VBoxContainer"]
+[node name="Continue" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Continue
 "
 
-[node name="Resume" type="Button" parent="VBoxContainer"]
+[node name="Resume" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Resume"
 
-[node name="NewGame" type="Button" parent="VBoxContainer"]
+[node name="NewGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "New Game"
 
-[node name="SaveGame" type="Button" parent="VBoxContainer"]
+[node name="SaveGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Save Game"
 
-[node name="LoadGame" type="Button" parent="VBoxContainer"]
+[node name="LoadGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Load Game"
 
-[node name="Options" type="Button" parent="VBoxContainer"]
+[node name="Options" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Options
 "
 
-[node name="ExitToMainMenu" type="Button" parent="VBoxContainer"]
+[node name="ExitToMainMenu" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Exit to Main Menu"
 
-[node name="Exit" type="Button" parent="VBoxContainer"]
+[node name="Exit" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Exit"
@@ -90,6 +97,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_inosm")
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_outline_size = 20
 theme_override_font_sizes/normal_font_size = 32
 theme_override_font_sizes/bold_font_size = 32
 bbcode_enabled = true

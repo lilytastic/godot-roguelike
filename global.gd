@@ -23,6 +23,10 @@ func new_game() -> void:
 	player_changed.emit(player)
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
+func clear_game() -> void:
+	ecs = ECS.new()
+	player = null
+
 func autosave():
 	print('autosave')
 	save_game('user://autosave.save')
