@@ -4,21 +4,21 @@ const slot_scene = preload('res://game/save_slot.tscn')
 var mode := 'load'
 
 func _init() -> void:
-	var quicksave = _create()
-	quicksave.text = 'Quicksave'
-	quicksave.path = 'user://%s.save' % 'quicksave'
-	var autosave = _create()
-	autosave.text = 'Autosave'
-	autosave.path = 'user://%s.save' % 'autosave'
+	var quicksave = _create_slot('quicksave', 'Quicksave')
+	var autosave = _create_slot('autosave', 'Autosave')
 	for n in 3:
-		var slot = _create()
-		slot.text = 'Save ' + str(n + 1)
-		slot.path = 'user://%s.save' % ('save' + str(n+1))
+		var num = str(n+1)
+		var slot = _create_slot('save' + num, 'Save ' + num)
 
-func _create(slot := slot_scene.instantiate()) -> SaveSlot:
-	add_child(slot)
+
+func _create_slot(path: String, type: String):
+	var slot = slot_scene.instantiate()
+	slot.text = type
+	slot.path = 'user://%s.save' % path
 	slot.slot_clicked.connect(func(path: String): _select(path))
+	add_child(slot)
 	return slot
+
 
 func _select(path: String):
 	match mode:

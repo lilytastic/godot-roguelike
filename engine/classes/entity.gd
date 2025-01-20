@@ -13,7 +13,7 @@ var map: String:
 			map_changed.emit(location.map)
 
 var position: Vector2:
-		get: return location.position if location.position else Vector2(0,0)
+		get: return location.position
 		set(value):
 			location.position = value
 

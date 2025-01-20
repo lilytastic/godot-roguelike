@@ -17,9 +17,7 @@ var player: Entity:
 
 
 func _ready():
-	_assign_entities()
-	_init_map(map)
-	_clear_uncast_children()
+	_init_player(Global.player)
 	
 	Global.ecs.entity_added.connect(
 		func(value: Entity):
@@ -28,19 +26,27 @@ func _ready():
 	)
 	Global.player_changed.connect(
 		func(value: Entity):
-			player = value
 			print('new player ', value)
-			_init_map(player.map)
-			print('actors', actors)
-			for child in get_children():
-				if (child.entity and child.entity.map != map):
-					print('assign ' + str(child.entity.uuid) + ' to map: ' + map)
-					child.entity.map = map
-			_clear_uncast_children()
+			_init_player(Global.player)
 	)
 
+func _init_player(player: Entity) -> void:
+	player = Global.player
 
-func _assign_entities():
+	_cast_actors()
+	if player:
+		_init_map(player.map)
+		_assign_children_to_current_map()
+	_clear_uncast_children()
+
+func _assign_children_to_current_map():
+	for child in get_children():
+		if (child.entity and child.entity.map != map):
+			print('assign ' + str(child.entity.uuid) + ' to map: ' + map)
+			child.entity.map = map
+
+
+func _cast_actors():
 	print('get_children() ', get_children())
 	for child in get_children():
 		if (!child.entity):
