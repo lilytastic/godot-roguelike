@@ -1,6 +1,8 @@
 class_name SaveSlot
 extends Button
 
+signal slot_clicked
+
 var _path = ''
 var path : String:
 	get: return _path
@@ -13,18 +15,14 @@ func _ready():
 	self.connect('pressed', func(): _click())
 	
 func _click():
-	print(path)
-	Global.save(path)
+	slot_clicked.emit(path)
+	# Global.save(path)
 
 func _load():
-	print('loading ', path)
-	var file := FileAccess.open(path, FileAccess.READ)
-	if file:
-		var text = file.get_line()
-		file.close()
-		var json = JSON.new()
-		json.parse(text)
-		var player_entity = json.data.entities.filter(
-			func(entity): return str(entity['uuid']) == str(json.data.player)
+	var data = Global.load_from_save(path)
+	if data:
+		var player_entity = data.entities.filter(
+			func(entity):
+				return str(entity['uuid']) == str(data.player)
 		)[0]
-		print('player: ' + str(player_entity))
+		print('save slot: ' + str(player_entity))

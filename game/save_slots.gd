@@ -1,6 +1,7 @@
 extends VBoxContainer
 
 const slot_scene = preload('res://game/save_slot.tscn')
+var mode := 'load'
 
 func _init() -> void:
 	var quicksave = _create()
@@ -16,4 +17,12 @@ func _init() -> void:
 
 func _create(slot := slot_scene.instantiate()) -> SaveSlot:
 	add_child(slot)
+	slot.slot_clicked.connect(func(path: String): _select(path))
 	return slot
+
+func _select(path: String):
+	match mode:
+		'load':
+			Global.load_game(path)
+		'save':
+			Global.save_game(path)

@@ -21,17 +21,36 @@ func new_game() -> void:
 
 func autosave():
 	print('autosave')
-	save('user://autosave.save')
+	save_game('user://autosave.save')
 	return
 
 func quicksave():
-	save('user://quicksave.save')
+	save_game('user://quicksave.save')
 	return
 	
-func save(path: String):
+func save_game(path: String):
 	var data = get_save_data()
 	Files.save(data, path)
 	game_saved.emit(data, path)
+
+func load_game(path: String):
+	var data = load_from_save(path)
+
+	if !data:
+		print('no data at ', path)
+		return
+
+	print('loading game: ' + str(data))
+
+func load_from_save(path: String):
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file:
+		var text = file.get_line()
+		file.close()
+		var json = JSON.new()
+		json.parse(text)
+		return json.data
+	return null
 	
 func get_save_data() -> Dictionary:
 	var data = {}

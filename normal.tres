@@ -6,6 +6,10 @@
 [ext_resource type="FontFile" uid="uid://cudtha27dyb4r" path="res://assets/fonts/NoticiaText-Regular.ttf" id="4_yk8wm"]
 
 [resource]
+MarginContainer/constants/margin_bottom = 16
+MarginContainer/constants/margin_left = 16
+MarginContainer/constants/margin_right = 16
+MarginContainer/constants/margin_top = 16
 RichTextLabel/fonts/bold_font = ExtResource("1_w6ik5")
 RichTextLabel/fonts/bold_italics_font = ExtResource("2_nb8je")
 RichTextLabel/fonts/italics_font = ExtResource("3_ywbse")
