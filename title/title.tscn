@@ -72,4 +72,5 @@ script = ExtResource("3_i8ltf")
 
 [node name="Aside Menu" parent="CanvasLayer/Panel" instance=ExtResource("4_no1s0")]
 layout_mode = 1
-anchors_preset = 9
+offset_left = 51.0
+offset_right = 255.0

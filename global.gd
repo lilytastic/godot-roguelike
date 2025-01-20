@@ -6,6 +6,10 @@ var player: Entity
 signal player_changed
 signal game_saved
 
+var is_game_started: bool:
+	get: return player != null
+	
+
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
 	Global.ecs.load_data()

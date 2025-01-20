@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=9 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="5_85rkj"]
 [ext_resource type="PackedScene" uid="uid://ddvx4ua2hhl4j" path="res://game/menu_bar.tscn" id="5_shlem"]
+[ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -31,7 +32,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_q6bec")
 
+[node name="Aside Menu" parent="CanvasLayer/System Menu" instance=ExtResource("6_s5ktb")]
+layout_mode = 1
+offset_left = 58.0
+offset_right = 262.0
+
 [node name="Panel" type="Panel" parent="CanvasLayer/System Menu"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,6 +50,7 @@ size_flags_vertical = 3
 theme = ExtResource("4_jy1my")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/System Menu/Panel"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
