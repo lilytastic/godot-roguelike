@@ -11,7 +11,7 @@ var blueprint: Blueprint:
 	get: return entity.blueprint if entity else null
 
 var glyph: Glyph:
-	get: return blueprint.glyph
+	get: return blueprint.glyph if blueprint else null
 	
 
 func _ready() -> void:

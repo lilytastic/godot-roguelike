@@ -16,6 +16,7 @@ func _ready() -> void:
   
 
 func new_game() -> void:
+	ecs.clear()
 	var options = EntityCreationOptions.new()
 	options.blueprint = 'hero'
 	player = Global.ecs.create(options)
@@ -24,7 +25,7 @@ func new_game() -> void:
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
 func clear_game() -> void:
-	ecs = ECS.new()
+	ecs.clear()
 	player = null
 
 func autosave():
