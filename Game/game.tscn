@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=7 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
 [ext_resource type="PackedScene" uid="uid://dabn80pt603jc" path="res://game/actor.tscn" id="3_h3nby"]
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="4_jy1my"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="5_85rkj"]
+[ext_resource type="PackedScene" uid="uid://ddvx4ua2hhl4j" path="res://game/menu_bar.tscn" id="5_shlem"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -19,28 +20,50 @@ position = Vector2(66, -44)
 metadata/blueprint = "ghoul"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Panel" type="Panel" parent="CanvasLayer"]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -262.0
-offset_top = -155.0
-offset_right = 277.0
-offset_bottom = 154.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
 theme = ExtResource("4_jy1my")
 
-[node name="SaveSlots" parent="CanvasLayer" instance=ExtResource("5_85rkj")]
-visible = false
-anchors_preset = 9
-anchor_top = 0.0
-offset_left = 12.0
-offset_top = 12.0
-offset_right = 220.0
-offset_bottom = -11.0
+[node name="Main" type="Control" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/Main"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel/Main/MarginContainer"]
+layout_mode = 2
+
+[node name="MenuBar" parent="CanvasLayer/Panel/Main/MarginContainer/VBoxContainer" instance=ExtResource("5_shlem")]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Panel/Main/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/Main/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SaveSlots" parent="CanvasLayer/Panel/Main/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer" instance=ExtResource("5_85rkj")]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 1

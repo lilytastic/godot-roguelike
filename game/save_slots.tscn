@@ -1,20 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://uo48yikfpeo8"]
+[gd_scene load_steps=3 format=3 uid="uid://uo48yikfpeo8"]
 
 [ext_resource type="PackedScene" uid="uid://hdb51gogs12" path="res://game/save_slot.tscn" id="1_0pvvu"]
+[ext_resource type="Script" path="res://game/save_slots.gd" id="1_hh1h5"]
 
-[node name="SaveSlots" type="ScrollContainer"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -300.0
+[node name="VBoxContainer" type="VBoxContainer"]
 offset_right = 200.0
-grow_vertical = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
+offset_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-alignment = 2
+script = ExtResource("1_hh1h5")
 
-[node name="Button" parent="VBoxContainer" instance=ExtResource("1_0pvvu")]
+[node name="Button" parent="." instance=ExtResource("1_0pvvu")]
+visible = false
 layout_mode = 2

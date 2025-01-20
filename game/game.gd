@@ -11,6 +11,7 @@ signal action_triggered
 func _ready() -> void:
 	if !Global.player:
 		Global.new_game()
+		Global.autosave()
 	
 
 func _process(delta: float) -> void:
@@ -21,7 +22,7 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('quicksave'):
-		Global.save()
+		Global.quicksave()
 		return
 		
 	var action := _check_for_action(event)

@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://hdb51gogs12"]
+[gd_scene load_steps=2 format=3 uid="uid://hdb51gogs12"]
+
+[ext_resource type="Script" path="res://game/save_slot.gd" id="1_uelva"]
 
 [node name="SaveSlot" type="Button"]
 text = "Save 1"
+script = ExtResource("1_uelva")

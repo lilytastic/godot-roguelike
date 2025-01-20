@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ddvx4ua2hhl4j"]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Options
+"

@@ -13,7 +13,10 @@ static func save(data: Dictionary, path := "user://savegame.save") -> void:
 	save_file.store_line(JSON.stringify(data))
 	save_file.close()
 	
-	Files.load()
+	print('saved')
+	# game_saved.emit(data, path)
+	
+	# Files.load()
 	return
 
 
