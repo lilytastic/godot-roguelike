@@ -13,6 +13,11 @@ func _input(ev: InputEvent) -> void:
 func _ready() -> void:
 	_initialize()
 	%SaveSlotWrapper.visible = false
+	Global.game_loaded.connect(
+		func():
+			%SaveSlotWrapper.visible = false
+			get_tree().change_scene_to_file('res://game/game.tscn')
+	)
 	%'Resume'.pressed.connect(
 		func():
 			option_pressed.emit('Resume')

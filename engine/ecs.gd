@@ -15,6 +15,17 @@ func add(_entity: Entity) -> int:
 	entity_added.emit(_entity)
 	return _entity.uuid
 	
+func load_from_save(data: Dictionary) -> void:
+	var opts = EntityCreationOptions.new()
+	var entity = Entity.new(opts)
+	print(data)
+	entities[data.uuid] = entity
+	entity.uuid = data.uuid
+	entity.map = data.map
+	var position = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
+	print(position)
+	entity.position = Vector2(int(position[0]), int(position[1]))
+	
 func clear() -> void:
 	entities = {}
 

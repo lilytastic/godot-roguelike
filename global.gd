@@ -5,6 +5,7 @@ var player: Entity
 
 signal player_changed
 signal game_saved
+signal game_loaded
 
 var is_game_started: bool:
 	get: return player != null
@@ -50,6 +51,11 @@ func load_game(path: String):
 		return
 
 	print('loading game: ' + str(data))
+	ecs.clear()
+	for entity in data.entities:
+		ecs.load_from_save(entity)
+		
+	game_loaded.emit()
 
 func load_from_save(path: String):
 	var file := FileAccess.open(path, FileAccess.READ)
