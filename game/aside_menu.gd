@@ -18,6 +18,11 @@ func _ready() -> void:
 			%SaveSlotWrapper.visible = false
 			get_tree().change_scene_to_file('res://game/game.tscn')
 	)
+	%Continue.pressed.connect(
+		func():
+			option_pressed.emit('Continue')
+			_continue()
+	)
 	%'Resume'.pressed.connect(
 		func():
 			option_pressed.emit('Resume')
@@ -68,7 +73,11 @@ func _initialize() -> void:
 		%'SaveGame'.visible = true
 		%'ExitToMainMenu'.visible = true
 	else:
-		%'Continue'.visible = true
+		var latestSave = _get_latest_save()
+		if latestSave:
+			%'Continue'.visible = true
+		else:
+			%'Continue'.visible = false
 		%'Resume'.visible = false
 		%'NewGame'.visible = true
 		%'SaveGame'.visible = false
@@ -78,3 +87,23 @@ func _initialize() -> void:
 func _start_game():
 	Global.new_game()
 	get_tree().change_scene_to_file('res://game/game.tscn')
+
+func _get_latest_save():
+	var latestSave: Dictionary
+	var latestDate = 0
+	for slot in Global.get_save_slots():
+		var data = Global.load_from_save(slot.path)
+		if data and data.has('date_modified'):
+			var date = Time.get_unix_time_from_datetime_string(data.date_modified)
+			if date > latestDate:
+				latestDate = date
+				latestSave = slot
+	if latestSave:
+		return latestSave
+	return null
+
+func _continue():
+	var latestSave = _get_latest_save()
+	if latestSave:
+		Global.load_game(latestSave.path)
+		# get_tree().change_scene_to_file('res://game/game.tscn')

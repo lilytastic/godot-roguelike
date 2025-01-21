@@ -4,17 +4,14 @@ const slot_scene = preload('res://game/save_slot.tscn')
 var mode := 'load'
 
 func _init() -> void:
-	var quicksave = _create_slot('quicksave', 'Quicksave')
-	var autosave = _create_slot('autosave', 'Autosave')
-	for n in 3:
-		var num = str(n+1)
-		var slot = _create_slot('save' + num, 'Manual Save')
+	for dict in Global.get_save_slots():
+		_create_slot(dict.path, dict.type)
 
 
 func _create_slot(path: String, type: String):
 	var slot = slot_scene.instantiate()
 	slot.slot_type = type
-	slot.path = 'user://%s.save' % path
+	slot.path = path
 	slot.slot_clicked.connect(func(path: String): _select(path))
 	add_child(slot)
 	return slot

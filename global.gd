@@ -38,6 +38,16 @@ func quicksave():
 	save_game('user://quicksave.save')
 	return
 	
+func get_save_slots() -> Array[Dictionary]:
+	var arr: Array[Dictionary] = [
+		{'path': 'user://%s.save' % 'quicksave', 'type': 'quicksave'},
+		{'path': 'user://%s.save' % 'autosave', 'type': 'autosave'}
+	]
+	for n in 3:
+		var num = str(n+1)
+		arr.append({'path': 'user://%s.save' % ('save' + num), 'type': 'manual'})
+	return arr
+	
 func save_game(path: String):
 	var data = get_save_data()
 	Files.save(data, path)
