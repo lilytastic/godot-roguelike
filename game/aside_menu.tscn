@@ -71,30 +71,35 @@ custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "Continue
 "
+flat = true
 
 [node name="Resume" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "Resume"
+flat = true
 
 [node name="NewGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "New Game"
+flat = true
 
 [node name="SaveGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "Save Game"
+flat = true
 
 [node name="LoadGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "Load Game"
+flat = true
 
 [node name="Options" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
@@ -102,18 +107,21 @@ custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "Options
 "
+flat = true
 
 [node name="ExitToMainMenu" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "Exit to Main Menu"
+flat = true
 
 [node name="Exit" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 text = "Exit"
+flat = true
 
 [node name="SaveSlotWrapper" type="Panel" parent="."]
 unique_name_in_owner = true
