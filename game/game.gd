@@ -12,6 +12,8 @@ func _ready() -> void:
 	if !Global.player:
 		Global.new_game()
 		# Global.autosave()
+
+	$Camera2D.position = Coords.get_position(Global.player.position)
 	
 
 func _process(delta: float) -> void:
