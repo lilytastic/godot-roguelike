@@ -18,16 +18,21 @@ func add(_entity: Entity) -> int:
 func load_from_save(data: Dictionary) -> void:
 	var opts = EntityCreationOptions.new()
 	var entity = Entity.new(opts)
-	print(data)
-	entities[data.uuid] = entity
 	entity.uuid = data.uuid
-	entity.map = data.map
-	var position = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
-	print(position)
-	entity.position = Vector2(int(position[0]), int(position[1]))
+	var new_id = add(entity)
+	print('data: ', data)
+	entities[data.uuid] = entity
+	var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
+	entity.location = Location.new(
+		data.map,
+		Vector2(int(_pos[0]), int(_pos[1]))
+	)
+	if data.blueprint:
+		entity.blueprint = blueprints[data.blueprint]
+	print('created ', entity.location.position)
 	
 func clear() -> void:
-	entities = {}
+	entities.clear()
 
 func create(opts: EntityCreationOptions) -> Entity:
 	var new_entity = Entity.new(opts)

@@ -11,7 +11,7 @@ signal action_triggered
 func _ready() -> void:
 	if !Global.player:
 		Global.new_game()
-		Global.autosave()
+		# Global.autosave()
 	
 
 func _process(delta: float) -> void:

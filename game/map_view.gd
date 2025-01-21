@@ -79,8 +79,8 @@ func _init_map(_map):
 			actors[entity.uuid] = child
 
 func _init_actor(entity: Entity, new_actor := Actor.new()):
-	entity.position = Coords.get_coord(new_actor.position)
 	new_actor.entity = entity
+	new_actor.position = Coords.get_position(entity.position)
 	if new_actor.get_parent():
 		new_actor.reparent(self)
 	else:

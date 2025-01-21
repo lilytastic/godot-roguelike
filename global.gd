@@ -60,10 +60,13 @@ func load_game(path: String):
 		print('no data at ', path)
 		return
 
-	print('loading game: ' + str(data))
 	ecs.clear()
-	for entity in data.entities:
-		ecs.load_from_save(entity)
+	var _entities: Array = data.entities
+	print('loading game: ', _entities)
+	for _entity in _entities:
+		print(_entity)
+		ecs.load_from_save(_entity)
+	player = ecs.entity(data.player)
 		
 	game_loaded.emit()
 
