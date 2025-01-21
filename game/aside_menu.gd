@@ -3,6 +3,13 @@ extends Control
 signal option_pressed
 signal resume_pressed
 
+func _input(ev: InputEvent) -> void:
+	if ev.is_action_pressed('open_system_menu'):
+		if %SaveSlotWrapper.visible:
+			%SaveSlotWrapper.visible = false
+			get_viewport().set_input_as_handled()
+		
+
 func _ready() -> void:
 	_initialize()
 	%'Resume'.pressed.connect(
@@ -14,6 +21,16 @@ func _ready() -> void:
 		func():
 			option_pressed.emit('NewGame')
 			_start_game()
+	)
+	%'SaveGame'.pressed.connect(
+		func():
+			option_pressed.emit('SaveGame')
+			%SaveSlotWrapper.visible = true
+	)
+	%'LoadGame'.pressed.connect(
+		func():
+			option_pressed.emit('LoadGame')
+			%SaveSlotWrapper.visible = true
 	)
 	%'ExitToMainMenu'.pressed.connect(
 		func():

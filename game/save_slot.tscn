@@ -4,4 +4,5 @@
 
 [node name="SaveSlot" type="Button"]
 text = "Save 1"
+alignment = 0
 script = ExtResource("1_uelva")
