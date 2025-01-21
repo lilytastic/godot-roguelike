@@ -25,11 +25,13 @@ func _ready() -> void:
 	%'SaveGame'.pressed.connect(
 		func():
 			option_pressed.emit('SaveGame')
+			%SaveSlots.mode = 'save'
 			%SaveSlotWrapper.visible = true
 	)
 	%'LoadGame'.pressed.connect(
 		func():
 			option_pressed.emit('LoadGame')
+			%SaveSlots.mode = 'load'
 			%SaveSlotWrapper.visible = true
 	)
 	%'ExitToMainMenu'.pressed.connect(
