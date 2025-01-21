@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dju8px38gxg0m"]
+
+[ext_resource type="Texture2D" uid="uid://cqumfgdqea7q5" path="res://monochrome-transparent_packed.png" id="1_p1ffb"]
+[ext_resource type="Script" path="res://game/tile_item.gd" id="1_vcmlp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skahh"]
+atlas = ExtResource("1_p1ffb")
+region = Rect2(512, 112, 16, 16)
+
+[node name="TileItem" type="Button"]
+custom_minimum_size = Vector2(40, 40)
+icon = SubResource("AtlasTexture_skahh")
+expand_icon = true
+script = ExtResource("1_vcmlp")

@@ -1,13 +1,10 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bfoqpkkix7gdf"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bfoqpkkix7gdf"]
 
 [ext_resource type="FontFile" uid="uid://d0yfn4ceqhto0" path="res://assets/fonts/AlikeAngular/AlikeAngular-Regular.ttf" id="1_gfr81"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tlpp0"]
-
 [resource]
-Button/font_sizes/font_size = 12
+Button/font_sizes/font_size = 14
 Button/fonts/font = ExtResource("1_gfr81")
-Button/styles/normal = SubResource("StyleBoxEmpty_tlpp0")
 MarginContainer/constants/margin_bottom = 16
 MarginContainer/constants/margin_left = 16
 MarginContainer/constants/margin_right = 16
