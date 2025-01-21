@@ -14,7 +14,6 @@ static func save(data: Dictionary, path := "user://savegame.save") -> void:
 	save_file.close()
 	
 	print('saved')
-	# game_saved.emit(data, path)
 	
 	# Files.load()
 	return

@@ -1,6 +1,11 @@
 class_name Entity
 
-var uuid: int = ResourceUID.create_id()
+var _uuid: int = 0
+var uuid: int:
+	get: return _uuid
+	set(value):
+		Global.ecs.entities.erase(_uuid)
+		_uuid = value
 var _blueprint: String
 var location := Location.new()
 
@@ -24,9 +29,10 @@ var blueprint: Blueprint:
 	set(value): _blueprint = value.id
 
 
-func _init(opts: EntityCreationOptions):
+func _init(opts: Dictionary):
 	print('Initializing entity with template: ', opts.blueprint)
 	_blueprint = opts.blueprint
+	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
 	return
 
 

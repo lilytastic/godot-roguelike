@@ -32,8 +32,13 @@ func _ready():
 
 func _init_player(player: Entity) -> void:
 	player = Global.player
+	
+	print('loaded? ', Global.maps_loaded.has(player.map))
+	if Global.maps_loaded.has(player.map):
+		_clear_uncast_children()
+	else:
+		_cast_actors()
 
-	_cast_actors()
 	if player:
 		_init_map(player.map)
 		_assign_children_to_current_map()
@@ -50,10 +55,9 @@ func _cast_actors():
 	print('get_children() ', get_children())
 	for child in get_children():
 		if (!child.entity):
-			var opts = EntityCreationOptions.new()
-			if child.has_meta('blueprint'):
-				opts.blueprint = child.get_meta('blueprint')
-			else: opts.blueprint = 'quadropus'
+			var opts = {
+				'blueprint': child.get_meta('blueprint') if child.has_meta('blueprint') else 'quadropus'
+			}
 			print(child.blueprint)
 			print('loading new actor ', child)
 			var new_entity = Global.ecs.create(opts)
@@ -64,6 +68,7 @@ func _cast_actors():
 func _init_map(_map):
 	if map != _map:
 		print('Initializing map: ', _map)
+		Global.maps_loaded[_map] = true
 		map = _map
 
 	actors = {}

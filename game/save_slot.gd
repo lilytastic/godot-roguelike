@@ -15,7 +15,7 @@ var path: String:
 		_load()
 
 func _ready():
-	Global.game_saved.connect(func(data, path): _load())
+	Global.game_saved.connect(func(): _load())
 	self.connect('pressed', func(): _click())
 	
 func _click():

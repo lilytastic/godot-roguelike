@@ -2,6 +2,7 @@ extends Node
 
 var ecs = ECS.new()
 var player: Entity
+var maps_loaded: Dictionary = {}
 
 signal player_changed
 signal game_saved
@@ -18,8 +19,8 @@ func _ready() -> void:
 
 func new_game() -> void:
 	ecs.clear()
-	var options = EntityCreationOptions.new()
-	options.blueprint = 'hero'
+	maps_loaded.clear()
+	var options = { 'blueprint': 'hero' }
 	player = Global.ecs.create(options)
 	player.map = 'Test'
 	player_changed.emit(player)
@@ -66,6 +67,7 @@ func load_game(path: String):
 	for _entity in _entities:
 		print(_entity)
 		ecs.load_from_save(_entity)
+	maps_loaded = data.maps_loaded
 	player = ecs.entity(data.player)
 		
 	game_loaded.emit()
@@ -82,9 +84,11 @@ func load_from_save(path: String):
 	
 func get_save_data() -> Dictionary:
 	var data = {}
-	data.entities = Global.ecs.entities.values().map(
-		func(entity): return entity.save()
+	data.entities = Global.ecs.entities.keys().map(
+		func(entity): return Global.ecs.entity(entity).save()
 	)
+	data.maps_loaded = maps_loaded
 	data.player = player.uuid
 	data.date_modified = Time.get_datetime_string_from_system()
+	print('keys', Global.ecs.entities.keys())
 	return data
