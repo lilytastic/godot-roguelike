@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ddqjaui3syr1o"
-path="res://.godot/imported/IbarraRealNova-Italic-VariableFont_wght.ttf-bb4bb7f152fecbac3e8c3fc73ac40b88.fontdata"
+uid="uid://bymanpt2d3ahu"
+path="res://.godot/imported/Caudex-Regular.ttf-0a71b02b49ac7c324834375a81eda070.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/IbarraRealNova-Italic-VariableFont_wght.ttf"
-dest_files=["res://.godot/imported/IbarraRealNova-Italic-VariableFont_wght.ttf-bb4bb7f152fecbac3e8c3fc73ac40b88.fontdata"]
+source_file="res://assets/fonts/Caudex/Caudex-Regular.ttf"
+dest_files=["res://.godot/imported/Caudex-Regular.ttf-0a71b02b49ac7c324834375a81eda070.fontdata"]
 
 [params]
 

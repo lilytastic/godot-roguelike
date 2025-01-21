@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c6oqgovy52ds2"
-path="res://.godot/imported/IbarraRealNova-VariableFont_wght.ttf-d6eef75ead9eb5008731d5d0edd20919.fontdata"
+uid="uid://ceckuhft48785"
+path="res://.godot/imported/Caudex-BoldItalic.ttf-cfe4bca0c6c108303e9cbd0d76b7c2e6.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/IbarraRealNova-VariableFont_wght.ttf"
-dest_files=["res://.godot/imported/IbarraRealNova-VariableFont_wght.ttf-d6eef75ead9eb5008731d5d0edd20919.fontdata"]
+source_file="res://assets/fonts/Caudex/Caudex-BoldItalic.ttf"
+dest_files=["res://.godot/imported/Caudex-BoldItalic.ttf-cfe4bca0c6c108303e9cbd0d76b7c2e6.fontdata"]
 
 [params]
 

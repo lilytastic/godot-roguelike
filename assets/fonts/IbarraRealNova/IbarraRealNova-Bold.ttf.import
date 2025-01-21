@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dbp6injxx2t1k"
-path="res://.godot/imported/IbarraRealNova-SemiBold.ttf-40abde11423a202126bf5208af072cff.fontdata"
+uid="uid://b6hmuord2jpl0"
+path="res://.godot/imported/IbarraRealNova-Bold.ttf-4c28e749fdf1236724c3044f983cebb7.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/IbarraRealNova-SemiBold.ttf"
-dest_files=["res://.godot/imported/IbarraRealNova-SemiBold.ttf-40abde11423a202126bf5208af072cff.fontdata"]
+source_file="res://assets/fonts/IbarraRealNova/IbarraRealNova-Bold.ttf"
+dest_files=["res://.godot/imported/IbarraRealNova-Bold.ttf-4c28e749fdf1236724c3044f983cebb7.fontdata"]
 
 [params]
 

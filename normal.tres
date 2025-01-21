@@ -1,14 +1,16 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bfoqpkkix7gdf"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bfoqpkkix7gdf"]
 
-[ext_resource type="FontFile" uid="uid://dvhdrlkkngd7h" path="res://assets/fonts/NoticiaText-Bold.ttf" id="1_w6ik5"]
-[ext_resource type="FontFile" uid="uid://dw0hqkc5j4kfv" path="res://assets/fonts/NoticiaText-BoldItalic.ttf" id="2_nb8je"]
-[ext_resource type="FontFile" uid="uid://bim0b8xdgpoov" path="res://assets/fonts/NoticiaText-Italic.ttf" id="3_ywbse"]
-[ext_resource type="FontFile" uid="uid://cudtha27dyb4r" path="res://assets/fonts/NoticiaText-Regular.ttf" id="4_yk8wm"]
+[ext_resource type="FontFile" uid="uid://bqgwjp6gxi5ig" path="res://assets/fonts/Caudex/Caudex-Bold.ttf" id="1_3oefn"]
+[ext_resource type="FontFile" uid="uid://dvhdrlkkngd7h" path="res://assets/fonts/NoticiaText/NoticiaText-Bold.ttf" id="1_w6ik5"]
+[ext_resource type="FontFile" uid="uid://dw0hqkc5j4kfv" path="res://assets/fonts/NoticiaText/NoticiaText-BoldItalic.ttf" id="2_nb8je"]
+[ext_resource type="FontFile" uid="uid://bim0b8xdgpoov" path="res://assets/fonts/NoticiaText/NoticiaText-Italic.ttf" id="3_ywbse"]
+[ext_resource type="FontFile" uid="uid://cudtha27dyb4r" path="res://assets/fonts/NoticiaText/NoticiaText-Regular.ttf" id="4_yk8wm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tlpp0"]
 
 [resource]
-Button/fonts/font = ExtResource("1_w6ik5")
+Button/font_sizes/font_size = 14
+Button/fonts/font = ExtResource("1_3oefn")
 Button/styles/normal = SubResource("StyleBoxEmpty_tlpp0")
 MarginContainer/constants/margin_bottom = 16
 MarginContainer/constants/margin_left = 16

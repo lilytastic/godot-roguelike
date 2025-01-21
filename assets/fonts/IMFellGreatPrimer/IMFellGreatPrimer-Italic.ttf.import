@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bim0b8xdgpoov"
-path="res://.godot/imported/NoticiaText-Italic.ttf-041656fcd3c295b48bffe022f723450d.fontdata"
+uid="uid://ko87hqjfck5h"
+path="res://.godot/imported/IMFellGreatPrimer-Italic.ttf-bf27d0c70fc3d93ead8a1a4a3e970e75.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/NoticiaText-Italic.ttf"
-dest_files=["res://.godot/imported/NoticiaText-Italic.ttf-041656fcd3c295b48bffe022f723450d.fontdata"]
+source_file="res://assets/fonts/IMFellGreatPrimer/IMFellGreatPrimer-Italic.ttf"
+dest_files=["res://.godot/imported/IMFellGreatPrimer-Italic.ttf-bf27d0c70fc3d93ead8a1a4a3e970e75.fontdata"]
 
 [params]
 

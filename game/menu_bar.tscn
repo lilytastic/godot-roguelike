@@ -4,6 +4,7 @@
 custom_minimum_size = Vector2(0, 40)
 
 [node name="Button" type="Button" parent="."]
+visible = false
 layout_mode = 2
 text = "Options
 "

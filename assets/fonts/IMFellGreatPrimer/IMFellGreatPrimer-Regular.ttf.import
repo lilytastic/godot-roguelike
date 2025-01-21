@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://hjawhkfkoakm"
-path="res://.godot/imported/IbarraRealNova-Regular.ttf-e094814c6eb131b629b291eaf4c9f9e0.fontdata"
+uid="uid://bl7pq3oeooar3"
+path="res://.godot/imported/IMFellGreatPrimer-Regular.ttf-7620351694c2ecc17831169eb37a10dd.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/IbarraRealNova-Regular.ttf"
-dest_files=["res://.godot/imported/IbarraRealNova-Regular.ttf-e094814c6eb131b629b291eaf4c9f9e0.fontdata"]
+source_file="res://assets/fonts/IMFellGreatPrimer/IMFellGreatPrimer-Regular.ttf"
+dest_files=["res://.godot/imported/IMFellGreatPrimer-Regular.ttf-7620351694c2ecc17831169eb37a10dd.fontdata"]
 
 [params]
 

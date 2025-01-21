@@ -67,4 +67,5 @@ func get_save_data() -> Dictionary:
 		func(entity): return entity.save()
 	)
 	data.player = player.uuid
+	data.date_modified = Time.get_datetime_string_from_system()
 	return data

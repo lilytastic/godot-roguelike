@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ciwsqw637g5r7"
-path="res://.godot/imported/IbarraRealNova-Medium.ttf-7eae9eb7a3f3aa25174e8c097294f2a7.fontdata"
+uid="uid://bim0b8xdgpoov"
+path="res://.godot/imported/NoticiaText-Italic.ttf-68386d9bf055a05df3d4c28f93957c63.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/IbarraRealNova-Medium.ttf"
-dest_files=["res://.godot/imported/IbarraRealNova-Medium.ttf-7eae9eb7a3f3aa25174e8c097294f2a7.fontdata"]
+source_file="res://assets/fonts/NoticiaText/NoticiaText-Italic.ttf"
+dest_files=["res://.godot/imported/NoticiaText-Italic.ttf-68386d9bf055a05df3d4c28f93957c63.fontdata"]
 
 [params]
 
