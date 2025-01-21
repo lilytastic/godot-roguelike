@@ -15,7 +15,6 @@ var is_game_started: bool:
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
 	Global.ecs.load_data()
-  
 
 func new_game() -> void:
 	ecs.clear()
@@ -67,7 +66,7 @@ func load_game(path: String):
 	for _entity in _entities:
 		print(_entity)
 		ecs.load_from_save(_entity)
-	maps_loaded = data.maps_loaded
+	maps_loaded = data.maps_loaded if data.maps_loaded else {}
 	player = ecs.entity(data.player)
 		
 	game_loaded.emit()

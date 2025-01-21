@@ -30,6 +30,7 @@ func _ready():
 			_init_player(Global.player)
 	)
 
+
 func _init_player(player: Entity) -> void:
 	player = Global.player
 	
@@ -43,6 +44,7 @@ func _init_player(player: Entity) -> void:
 		_init_map(player.map)
 		_assign_children_to_current_map()
 	_clear_uncast_children()
+
 
 func _assign_children_to_current_map():
 	for child in get_children():
@@ -86,12 +88,12 @@ func _init_map(_map):
 
 func _init_actor(entity: Entity, new_actor := Actor.new()):
 	new_actor.entity = entity
-	new_actor.position = Coords.get_position(entity.position)
 	if new_actor.get_parent():
 		new_actor.reparent(self)
 	else:
 		add_child(new_actor)
 	actors[entity.uuid] = new_actor
+	new_actor.position = Coords.get_position(entity.position) + Vector2(8, 8)
 	if new_actor.has_method('load'):
 		new_actor.load(entity.uuid)
 	return new_actor

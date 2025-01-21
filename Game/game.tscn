@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=9 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://ddvx4ua2hhl4j" path="res://game/menu_bar.tscn" id="5_shlem"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
+[ext_resource type="Script" path="res://game/character_menu.gd" id="7_tennr"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -35,8 +36,9 @@ script = ExtResource("4_q6bec")
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="CharacterMenu" type="Panel" parent="CanvasLayer"]
-visible = false
+[node name="CharacterMenu" type="Panel" parent="CanvasLayer/System Menu"]
+unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -45,8 +47,9 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 theme = ExtResource("4_jy1my")
+script = ExtResource("7_tennr")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CharacterMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/System Menu/CharacterMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,15 +57,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CharacterMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/System Menu/CharacterMenu/MarginContainer"]
 layout_mode = 2
 
-[node name="MenuBar" parent="CanvasLayer/CharacterMenu/MarginContainer/VBoxContainer" instance=ExtResource("5_shlem")]
+[node name="MenuBar" parent="CanvasLayer/System Menu/CharacterMenu/MarginContainer/VBoxContainer" instance=ExtResource("5_shlem")]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/CharacterMenu/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/System Menu/CharacterMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Control" type="Control" parent="CanvasLayer/CharacterMenu/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="Control" type="Control" parent="CanvasLayer/System Menu/CharacterMenu/MarginContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2

@@ -23,95 +23,101 @@ script = ExtResource("1_x6mru")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 2
+anchor_left = 0.211
+anchor_right = 0.211
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_right = 244.0
+offset_left = -88.04
+offset_top = 11.0
+offset_right = 89.96
+offset_bottom = -11.0
 
 [node name="Title" type="RichTextLabel" parent="Panel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -130.0
-offset_right = 119.0
-offset_bottom = -89.0
+anchors_preset = -1
+anchor_top = 0.25
+anchor_right = 1.0
+anchor_bottom = 0.25
+offset_top = -37.0
+offset_bottom = -9.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_inosm")
-theme_override_constants/outline_size = 4
 theme_override_constants/shadow_outline_size = 20
-theme_override_font_sizes/normal_font_size = 32
-theme_override_font_sizes/bold_font_size = 32
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
 bbcode_enabled = true
-text = "[center][b]CROSSROADS[/b][/center]"
+text = "[center][b]CrossRoadS[/b][/center]"
 fit_content = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.614
+anchor_top = 0.24
 anchor_right = 1.0
-anchor_bottom = 0.614
+anchor_bottom = 0.24
 offset_left = 8.0
-offset_top = -116.04
+offset_top = 18.644
 offset_right = -8.0
-offset_bottom = 123.96
+offset_bottom = 194.644
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_drivx")
-theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Continue" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "Continue
 "
 
 [node name="Resume" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "Resume"
 
 [node name="NewGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "New Game"
 
 [node name="SaveGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "Save Game"
 
 [node name="LoadGame" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "Load Game"
 
 [node name="Options" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "Options
 "
 
 [node name="ExitToMainMenu" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "Exit to Main Menu"
 
 [node name="Exit" type="Button" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "Exit"
 
 [node name="SaveSlotWrapper" type="Panel" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
