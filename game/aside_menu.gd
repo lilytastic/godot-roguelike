@@ -12,6 +12,7 @@ func _input(ev: InputEvent) -> void:
 
 func _ready() -> void:
 	_initialize()
+	%SaveSlotWrapper.visible = false
 	%'Resume'.pressed.connect(
 		func():
 			option_pressed.emit('Resume')
@@ -26,12 +27,14 @@ func _ready() -> void:
 		func():
 			option_pressed.emit('SaveGame')
 			%SaveSlots.mode = 'save'
+			%SaveSlotsLabel.text = '[center]Save Game[/center]'
 			%SaveSlotWrapper.visible = true
 	)
 	%'LoadGame'.pressed.connect(
 		func():
 			option_pressed.emit('LoadGame')
 			%SaveSlots.mode = 'load'
+			%SaveSlotsLabel.text = '[center]Load Game[/center]'
 			%SaveSlotWrapper.visible = true
 	)
 	%'ExitToMainMenu'.pressed.connect(

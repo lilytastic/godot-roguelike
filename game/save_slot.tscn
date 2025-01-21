@@ -3,6 +3,85 @@
 [ext_resource type="Script" path="res://game/save_slot.gd" id="1_uelva"]
 
 [node name="SaveSlot" type="Button"]
-text = "Save 1"
+custom_minimum_size = Vector2(0, 55)
+offset_right = 283.0
+offset_bottom = 84.0
 alignment = 0
 script = ExtResource("1_uelva")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="Center" type="RichTextLabel" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Center[/center]"
+fit_content = true
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+columns = 2
+
+[node name="TopLeft" type="RichTextLabel" parent="MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+text = "TopLeft"
+fit_content = true
+
+[node name="TopRight" type="RichTextLabel" parent="MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[right]TopRight[/right]"
+fit_content = true
+
+[node name="BottomLeft" type="RichTextLabel" parent="MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "BottomLeft
+"
+fit_content = true
+
+[node name="BottomRight" type="RichTextLabel" parent="MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[right]BottomRight[/right]"
+fit_content = true

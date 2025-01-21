@@ -8,12 +8,12 @@ func _init() -> void:
 	var autosave = _create_slot('autosave', 'Autosave')
 	for n in 3:
 		var num = str(n+1)
-		var slot = _create_slot('save' + num, 'Save ' + num)
+		var slot = _create_slot('save' + num, 'Manual Save')
 
 
 func _create_slot(path: String, type: String):
 	var slot = slot_scene.instantiate()
-	slot.text = type
+	slot.slot_type = type
 	slot.path = 'user://%s.save' % path
 	slot.slot_clicked.connect(func(path: String): _select(path))
 	add_child(slot)
