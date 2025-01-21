@@ -57,6 +57,7 @@ func _cast_actors():
 			print(child.blueprint)
 			print('loading new actor ', child)
 			var new_entity = Global.ecs.create(opts)
+			new_entity.position = Coords.get_coord(child.position)
 			_init_actor(new_entity, child)
 
 
