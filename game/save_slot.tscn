@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://hdb51gogs12"]
+[gd_scene load_steps=3 format=3 uid="uid://hdb51gogs12"]
 
 [ext_resource type="Script" path="res://game/save_slot.gd" id="1_uelva"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6bts"]
+bg_color = Color(0.114897, 0.114897, 0.114897, 1)
 
 [node name="SaveSlot" type="Button"]
 custom_minimum_size = Vector2(0, 55)
 offset_right = 283.0
 offset_bottom = 84.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_r6bts")
 alignment = 0
 script = ExtResource("1_uelva")
 

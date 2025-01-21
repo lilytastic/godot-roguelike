@@ -13,6 +13,10 @@ func _input(ev: InputEvent) -> void:
 func _ready() -> void:
 	_initialize()
 	%SaveSlotWrapper.visible = false
+	Global.game_saved.connect(
+		func():
+			%SaveSlotWrapper.visible = false
+	)
 	Global.game_loaded.connect(
 		func():
 			%SaveSlotWrapper.visible = false

@@ -51,7 +51,7 @@ func get_save_slots() -> Array[Dictionary]:
 func save_game(path: String):
 	var data = get_save_data()
 	Files.save(data, path)
-	game_saved.emit(data, path)
+	game_saved.emit()
 
 func load_game(path: String):
 	var data = load_from_save(path)
