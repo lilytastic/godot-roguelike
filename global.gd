@@ -74,6 +74,7 @@ func load_game(path: String):
 	maps_loaded = data.maps_loaded if data.maps_loaded else {}
 	player = ecs.entity(data.player)
 		
+	player_changed.emit(player)
 	game_loaded.emit()
 
 func load_from_save(path: String):

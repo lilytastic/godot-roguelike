@@ -6,6 +6,7 @@ var max_items = 20
 signal items_changed
 
 func _init(opts := {}):
+	print('init inventory ', opts)
 	items = opts.get('items', [])
 	max_items = opts.get('max_items', 20)
 	_initialized()

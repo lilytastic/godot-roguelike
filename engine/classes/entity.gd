@@ -72,6 +72,6 @@ func load_from_save(data: Dictionary) -> void:
 	var json = JSON.new()
 
 	if data.has('inventory'):
-		inventory = InventoryProps.new(data)
+		inventory = InventoryProps.new(data.inventory)
 	
 	
