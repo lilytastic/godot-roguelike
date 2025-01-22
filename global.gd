@@ -22,6 +22,11 @@ func new_game() -> void:
 	var options = { 'blueprint': 'hero' }
 	player = Global.ecs.create(options)
 	player.map = 'Test'
+	player.inventory = InventoryProps.new()
+	player.inventory.add({
+		'entity': Global.ecs.create({ 'blueprint': 'sword' }).uuid,
+		'num': 1
+	})
 	player_changed.emit(player)
 	# player.position = Coords.get_position(Vector2i(0, 0))
 

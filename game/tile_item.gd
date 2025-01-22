@@ -1,6 +1,8 @@
 extends Button
 
-var entity: Entity # Global.ecs.create({ 'blueprint': 'sword' })
+var entity: Entity:
+	get: return Global.ecs.entity(stack.entity) if stack and stack.entity else null
+var stack: Dictionary
 
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if entity:

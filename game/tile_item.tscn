@@ -10,6 +10,5 @@ region = Rect2(512, 112, 16, 16)
 [node name="TileItem" type="Button"]
 custom_minimum_size = Vector2(40, 40)
 icon = SubResource("AtlasTexture_skahh")
-icon_alignment = 1
 expand_icon = true
 script = ExtResource("1_vcmlp")

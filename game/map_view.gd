@@ -22,7 +22,8 @@ func _ready():
 	Global.ecs.entity_added.connect(
 		func(value: Entity):
 			print('added ', value.uuid)
-			_init_actor(value)
+			if map and value.map == map:
+				_init_actor(value)
 	)
 	Global.player_changed.connect(
 		func(value: Entity):
@@ -34,8 +35,10 @@ func _ready():
 func _init_player(player: Entity) -> void:
 	player = Global.player
 	
-	print('loaded? ', Global.maps_loaded.has(player.map))
-	if Global.maps_loaded.has(player.map):
+	if player:
+		print('loaded? ', Global.maps_loaded.has(player.map))
+	
+	if player and Global.maps_loaded.has(player.map):
 		_clear_uncast_children()
 	else:
 		_cast_actors()

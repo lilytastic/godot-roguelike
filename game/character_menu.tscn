@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="1_xhxxf"]
 [ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
-[ext_resource type="PackedScene" uid="uid://t0wk5px8wa76" path="res://game/inventory_tab.tscn" id="3_byvbg"]
+[ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 
 [node name="CharacterMenu" type="Panel"]
 anchors_preset = 15
@@ -85,7 +85,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_bottom = 1.0
 offset_bottom = 0.0
-grow_horizontal = 2
 grow_vertical = 2
 
 [node name="JournalTab" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/Control"]
