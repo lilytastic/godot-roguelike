@@ -19,5 +19,11 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	entity = Global.ecs.entity(data)
 	
 func _process(delta):
-	if self.icon and entity == null:
-		self.icon = null
+	if entity == null:
+		if self.icon:
+			self.icon = null
+		if !disabled:
+			disabled = true
+	else:
+		if disabled:
+			disabled = false

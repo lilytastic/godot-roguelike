@@ -37,11 +37,10 @@ func _init_player(player: Entity) -> void:
 	
 	if player:
 		print('loaded? ', Global.maps_loaded.has(player.map))
-	
-	if player and Global.maps_loaded.has(player.map):
-		_clear_uncast_children()
-	else:
-		_cast_actors()
+		if Global.maps_loaded.has(player.map):
+			_clear_uncast_children()
+		else:
+			_cast_actors()
 
 	if player:
 		_init_map(player.map)
@@ -96,7 +95,8 @@ func _init_actor(entity: Entity, new_actor := Actor.new()):
 	else:
 		add_child(new_actor)
 	actors[entity.uuid] = new_actor
-	new_actor.position = Coords.get_position(entity.position) + Vector2(8, 8)
+	if entity.location:
+		new_actor.position = Coords.get_position(entity.position) + Vector2(8, 8)
 	if new_actor.has_method('load'):
 		new_actor.load(entity.uuid)
 	return new_actor

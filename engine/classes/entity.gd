@@ -10,20 +10,27 @@ var _blueprint: String
 var blueprint: Blueprint:
 	get: return Global.ecs.blueprints.get(_blueprint, null)
 	set(value): _blueprint = value.id
-var location := Location.new()
+var location: Location
 var inventory: InventoryProps
 
 signal map_changed
 
 var map: String:
-		get: return location.map
+		get: return location.map if location else ''
 		set(value):
+			if !location:
+				location = Location.new()
 			location.map = value
 			map_changed.emit(location.map)
 
 var position: Vector2:
-		get: return location.position
+		get:
+			if location:
+				return location.position
+			return Vector2(0,0)
 		set(value):
+			if !location:
+				location = Location.new()
 			location.position = value
 
 
@@ -38,8 +45,9 @@ func _init(opts: Dictionary):
 func save() -> Dictionary:
 	var dict := {}
 	dict.blueprint = _blueprint
-	dict.map = location.map
-	dict.position = position
+	if location:
+		dict.map = location.map
+		dict.position = location.position
 	dict.uuid = uuid
 	if inventory:
 		print(inventory)
@@ -47,16 +55,22 @@ func save() -> Dictionary:
 	print('saving ', dict)
 	return dict
 
+
 func load_from_save(data: Dictionary) -> void:
 	print('data: ', data)
-	var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
-	location = Location.new(
-		data.map,
-		Vector2(int(_pos[0]), int(_pos[1]))
-	)
+	
+	if data.has('position'):
+		var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
+		location = Location.new(
+			data.map,
+			Vector2(int(_pos[0]), int(_pos[1]))
+		)
+		print('location: ', location.position)
+		map_changed.emit(location.map)
+
 	var new_id = Global.ecs.add(self)
-	uuid = new_id
 	var json = JSON.new()
+
 	if data.has('inventory'):
 		inventory = InventoryProps.new(data)
 	
