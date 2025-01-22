@@ -8,4 +8,5 @@ var entity: Entity:
 	set(value):
 		_entity = value
 		%InventoryDisplay.entity = _entity
+		%EquipmentDisplay.entity = _entity
 	

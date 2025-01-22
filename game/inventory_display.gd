@@ -7,7 +7,6 @@ var entity: Entity:
 	get: return _entity
 	set(value):
 		_entity = value
-		%EquipmentDisplay.entity = _entity
 		_initialize_slots()
 
 func _ready():
@@ -18,7 +17,7 @@ func _initialize_slots():
 		child.queue_free()
 	
 	if entity and entity.inventory:
-		print('initialized for ', entity)
+		print('initialized inventory display with ', entity.uuid)
 		for i in entity.inventory.max_items:
 			var tile = tile_prefab.instantiate()
 			add_child(tile)
