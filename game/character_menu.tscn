@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjchh"]
-bg_color = Color(0.150662, 0.156874, 0.170692, 1)
+bg_color = Color(0, 0, 0, 1)
 
 [node name="CharacterMenu" type="Panel"]
 anchors_preset = 15
@@ -58,3 +58,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_tab_index = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -67.0
+offset_right = -7.0
+offset_bottom = 34.0
+grow_horizontal = 0
+text = "Close"
+flat = true
+expand_icon = true

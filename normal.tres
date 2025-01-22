@@ -1,12 +1,43 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bfoqpkkix7gdf"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bfoqpkkix7gdf"]
 
 [ext_resource type="FontFile" uid="uid://d0yfn4ceqhto0" path="res://assets/fonts/AlikeAngular/AlikeAngular-Regular.ttf" id="1_gfr81"]
+[ext_resource type="FontFile" uid="uid://dio5l4xquec2a" path="res://assets/fonts/LibreCaslonText/LibreCaslonText-Regular.ttf" id="1_t0kpw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftch6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pwv4"]
+bg_color = Color(0.127662, 0.137317, 0.138264, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cvnna"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0)
+border_color = Color(0.8, 0.8, 0.8, 0)
+expand_margin_left = 16.0
+expand_margin_right = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rcv7f"]
+bg_color = Color(0, 0, 0, 1)
 
 [resource]
 Button/font_sizes/font_size = 14
 Button/fonts/font = ExtResource("1_gfr81")
+Button/styles/hover = SubResource("StyleBoxFlat_ftch6")
 MarginContainer/constants/margin_bottom = 16
 MarginContainer/constants/margin_left = 16
 MarginContainer/constants/margin_right = 16
 MarginContainer/constants/margin_top = 16
 RichTextLabel/fonts/normal_font = ExtResource("1_gfr81")
+TabContainer/colors/drop_mark_color = Color(1, 1, 1, 0)
+TabContainer/font_sizes/font_size = 13
+TabContainer/fonts/font = ExtResource("1_t0kpw")
+TabContainer/icons/drop_mark = null
+TabContainer/styles/panel = SubResource("StyleBoxFlat_5pwv4")
+TabContainer/styles/tab_disabled = SubResource("StyleBoxFlat_cvnna")
+TabContainer/styles/tab_focus = SubResource("StyleBoxFlat_cvnna")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_cvnna")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_cvnna")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_cvnna")
+TabContainer/styles/tabbar_background = SubResource("StyleBoxFlat_rcv7f")
