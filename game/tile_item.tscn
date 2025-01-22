@@ -12,3 +12,4 @@ custom_minimum_size = Vector2(40, 40)
 icon = SubResource("AtlasTexture_skahh")
 expand_icon = true
 script = ExtResource("1_vcmlp")
+metadata/slot = ""

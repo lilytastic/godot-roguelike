@@ -1,32 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2o6kp0x6jeb0"]
+[gd_scene load_steps=4 format=3 uid="uid://b2o6kp0x6jeb0"]
 
-[ext_resource type="PackedScene" uid="uid://dju8px38gxg0m" path="res://game/tile_item.tscn" id="1_fudjl"]
 [ext_resource type="Script" path="res://game/inventory_tab.gd" id="1_sbvjl"]
+[ext_resource type="PackedScene" uid="uid://wbe1mck10xec" path="res://game/equipment_display.tscn" id="2_ikqqu"]
+[ext_resource type="PackedScene" uid="uid://dkwvu2cc7wnbr" path="res://game/inventory_display.tscn" id="3_3j3vn"]
 
-[node name="InventoryTab" type="Control"]
-layout_mode = 3
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 284.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("1_sbvjl")
-
-[node name="InventoryGrid" type="GridContainer" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
+[node name="InventoryTab" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 6
-columns = 10
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+script = ExtResource("1_sbvjl")
 
-[node name="TileItem" parent="InventoryGrid" instance=ExtResource("1_fudjl")]
+[node name="Container" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="EquipmentDisplay" parent="Container" instance=ExtResource("2_ikqqu")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TileItem2" parent="InventoryGrid" instance=ExtResource("1_fudjl")]
+[node name="InventoryDisplay" parent="." instance=ExtResource("3_3j3vn")]
+unique_name_in_owner = true
 layout_mode = 2

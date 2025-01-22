@@ -23,6 +23,12 @@ func _input(event: InputEvent):
 		%CharacterMenu.visible = !%CharacterMenu.visible
 		get_viewport().set_input_as_handled()
 	
+	if event.is_action_pressed('ui_escape'):
+		if %CharacterMenu.visible:
+			%CharacterMenu.visible = false
+			%AsideMenu.visible = false
+			get_viewport().set_input_as_handled()
+	
 	if !isMenuOpen:
 		Engine.time_scale = 1
 	else:

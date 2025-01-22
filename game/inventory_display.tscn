@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkwvu2cc7wnbr"]
+
+[ext_resource type="Script" path="res://game/inventory_display.gd" id="1_iaycy"]
+[ext_resource type="PackedScene" uid="uid://dju8px38gxg0m" path="res://game/tile_item.tscn" id="1_y7y0k"]
+
+[node name="InventoryDisplay" type="GridContainer"]
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 10
+script = ExtResource("1_iaycy")
+
+[node name="TileItem" parent="." instance=ExtResource("1_y7y0k")]
+layout_mode = 2
+
+[node name="TileItem2" parent="." instance=ExtResource("1_y7y0k")]
+layout_mode = 2

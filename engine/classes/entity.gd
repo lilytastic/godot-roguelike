@@ -12,26 +12,9 @@ var blueprint: Blueprint:
 	set(value): _blueprint = value.id
 var location: Location
 var inventory: InventoryProps
+var equipment: EquipmentProps
 
 signal map_changed
-
-var map: String:
-		get: return location.map if location else ''
-		set(value):
-			if !location:
-				location = Location.new()
-			location.map = value
-			map_changed.emit(location.map)
-
-var position: Vector2:
-		get:
-			if location:
-				return location.position
-			return Vector2(0,0)
-		set(value):
-			if !location:
-				location = Location.new()
-			location.position = value
 
 
 func _init(opts: Dictionary):

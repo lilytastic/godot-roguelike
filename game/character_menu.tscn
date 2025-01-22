@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqasfn61u6sl5"]
+[gd_scene load_steps=5 format=3 uid="uid://dqasfn61u6sl5"]
 
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="1_xhxxf"]
 [ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjchh"]
+bg_color = Color(0.150662, 0.156874, 0.170692, 1)
 
 [node name="CharacterMenu" type="Panel"]
 anchors_preset = 15
@@ -13,6 +16,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 theme = ExtResource("1_xhxxf")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hjchh")
 script = ExtResource("2_mm07u")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -82,10 +86,6 @@ size_flags_vertical = 3
 [node name="InventoryMenu" parent="MarginContainer/VBoxContainer/ScrollContainer/Control" instance=ExtResource("3_byvbg")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_bottom = 1.0
-offset_bottom = 0.0
-grow_vertical = 2
 
 [node name="JournalMenu" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/Control"]
 unique_name_in_owner = true

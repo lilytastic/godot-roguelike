@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://wbe1mck10xec"]
+
+[ext_resource type="Script" path="res://game/equipment_display.gd" id="1_brgwq"]
+[ext_resource type="PackedScene" uid="uid://dju8px38gxg0m" path="res://game/tile_item.tscn" id="1_ixvtc"]
+
+[node name="EquipmentDisplay" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 180)
+theme_override_constants/separation = 12
+alignment = 1
+script = ExtResource("1_brgwq")
+
+[node name="SlotsLeft" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TileItem" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+metadata/slot = "main hand"
+
+[node name="TileItem2" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+metadata/slot = "off-hand"
+
+[node name="TileItem3" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+
+[node name="TileItem4" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+
+[node name="PaperDoll" type="Control" parent="."]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="SlotsRight" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TileItem" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+
+[node name="TileItem2" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+
+[node name="TileItem3" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+
+[node name="TileItem4" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
