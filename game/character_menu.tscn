@@ -35,21 +35,21 @@ layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Character" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CharacterTab" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/align_to_largest_stylebox = 1
 text = "Character"
 flat = true
 
-[node name="Inventory" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="InventoryTab" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/align_to_largest_stylebox = 1
 text = "Inventory"
 flat = true
 
-[node name="Journal" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="JournalTab" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/align_to_largest_stylebox = 1
@@ -69,7 +69,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CharacterTab" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/Control"]
+[node name="CharacterMenu" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/Control"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -79,7 +79,7 @@ offset_bottom = 284.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="InventoryTab" parent="MarginContainer/VBoxContainer/ScrollContainer/Control" instance=ExtResource("3_byvbg")]
+[node name="InventoryMenu" parent="MarginContainer/VBoxContainer/ScrollContainer/Control" instance=ExtResource("3_byvbg")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -87,7 +87,7 @@ anchor_bottom = 1.0
 offset_bottom = 0.0
 grow_vertical = 2
 
-[node name="JournalTab" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/Control"]
+[node name="JournalMenu" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/Control"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
