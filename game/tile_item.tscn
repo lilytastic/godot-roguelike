@@ -1,7 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dju8px38gxg0m"]
+[gd_scene load_steps=5 format=3 uid="uid://dju8px38gxg0m"]
 
 [ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="1_p1ffb"]
 [ext_resource type="Script" path="res://game/tile_item.gd" id="1_vcmlp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3rxi"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.384314)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_skahh"]
 atlas = ExtResource("1_p1ffb")
@@ -9,6 +20,7 @@ region = Rect2(512, 112, 16, 16)
 
 [node name="TileItem" type="Button"]
 custom_minimum_size = Vector2(40, 40)
+theme_override_styles/normal = SubResource("StyleBoxFlat_i3rxi")
 icon = SubResource("AtlasTexture_skahh")
 expand_icon = true
 script = ExtResource("1_vcmlp")

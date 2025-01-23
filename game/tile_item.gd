@@ -42,12 +42,36 @@ func _ready():
 func _set_slots():
 	var _entity = entity
 	if _entity == null:
-		if self.icon:
+		if slot:
+			var atlas = AtlasTexture.new()
+			atlas.set_atlas(Glyph.tileset)
+			var glyph = 'G_SWORD'
+			match slot:
+				'main hand':
+					glyph = 'G_SWORD'
+				'off-hand':
+					glyph = 'G_DAGGER'
+				'amulet':
+					glyph = 'G_AMULET'
+				'ring1':
+					glyph = 'G_RING'
+				'ring2':
+					glyph = 'G_RING_ALT'
+				'head':
+					glyph = 'G_HELMET'
+				'body':
+					glyph = 'G_ARMOR'
+				'hands':
+					glyph = 'G_GLOVES'
+				'feet':
+					glyph = 'G_BOOTS'
+			atlas.region = Glyph.get_atlas_region(glyph)
+			modulate = Color(0, 0, 0, 0.9)
+			self.icon = atlas
+		else:
 			self.icon = null
-		if !disabled:
-			disabled = true
+		disabled = true
 	else:
-		if !self.icon and _entity.blueprint.glyph:
-			self.icon = _entity.glyph.to_atlas_texture()
-		if disabled:
-			disabled = false
+		self.icon = _entity.glyph.to_atlas_texture()
+		modulate = Color(1, 1, 1)
+		disabled = false
