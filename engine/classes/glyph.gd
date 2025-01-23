@@ -22,5 +22,17 @@ func _init(props: Dictionary) -> void:
 func to_atlas_texture() -> AtlasTexture:
 	var atlas = AtlasTexture.new()
 	atlas.set_atlas(preload('res://assets/KenneyRoguelike/monochrome-transparent_packed.png'))
-	atlas.region = Rect2(432, 0, 16, 16)
+	var rect = Rect2(0, 0, 16, 16)
+	match ch:
+		'G_SWORD':
+			rect = Rect2(32 * 16, 7 * 16, 16, 16)
+		'G_AXE':
+			rect = Rect2(41 * 16, 8 * 16, 16, 16)
+		'G_HERO':
+			rect = Rect2(27 * 16, 0 * 16, 16, 16)
+		'G_HUMAN':
+			rect = Rect2(25 * 16, 0 * 16, 16, 16)
+		'G_GOBLIN':
+			rect = Rect2(25 * 16, 1 * 16, 16, 16)
+	atlas.region = rect
 	return atlas

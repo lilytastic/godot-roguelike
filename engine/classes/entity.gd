@@ -10,6 +10,8 @@ var _blueprint: String
 var blueprint: Blueprint:
 	get: return Global.ecs.blueprints.get(_blueprint, null)
 	set(value): _blueprint = value.id
+var glyph: Glyph:
+	get: return blueprint.glyph if blueprint else null
 var location: Location
 var inventory: InventoryProps
 var equipment: EquipmentProps

@@ -2,6 +2,8 @@ class_name EquipmentProps
 
 var slots := {}
 
+signal item_equipped
+
 func _init(props: Dictionary):
 	if !(props.get('slots', {}) is Dictionary):
 		return
@@ -23,6 +25,7 @@ func equip(uuid: int):
 			for slot in slotSet:
 				slots[slot] = entity.uuid
 			print('equipped to ', slotSet)
+			item_equipped.emit({ 'slots': slotSet, 'item': entity.uuid })
 			return true
 	print(entity.uuid, entity.blueprint)
 	return false

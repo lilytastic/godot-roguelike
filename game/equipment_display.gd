@@ -5,11 +5,17 @@ var entity: Entity:
 	get: return _entity
 	set(value):
 		_entity = value
+		if _entity.equipment:
+			_entity.equipment.item_equipped.connect(
+				func(item):
+					print(item)
+					_initialize_slots()
+			)
 		_initialize_slots()
 
 func _ready():
 	_initialize_slots()
-	
+
 func _initialize_slots():
 	if entity and entity.equipment:
 		print('initialized equipment display with ', entity.uuid)

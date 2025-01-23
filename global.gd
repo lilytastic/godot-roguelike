@@ -20,7 +20,7 @@ func new_game() -> void:
 	ecs.clear()
 	maps_loaded.clear()
 	var options = { 'blueprint': 'hero' }
-	player = Global.ecs.create(options)
+	player = Entity.new(options)
 	player.location = Location.new('Test', Vector2(0,0))
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
@@ -30,6 +30,7 @@ func new_game() -> void:
 	player.equipment = EquipmentProps.new({})
 	player.equipment.equip(Global.ecs.create({ 'blueprint': 'sword' }).uuid)
 	player_changed.emit(player)
+	Global.ecs.add(player)
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
 func clear_game() -> void:
