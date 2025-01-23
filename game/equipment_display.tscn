@@ -24,8 +24,13 @@ slot = "off-hand"
 metadata/slot = "off-hand"
 
 [node name="Control" type="Control" parent="SlotsLeft"]
+visible = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+
+[node name="Amulet" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+slot = "amulet"
 
 [node name="Ring1" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
@@ -52,6 +57,10 @@ slot = "head"
 layout_mode = 2
 slot = "torso"
 
+[node name="Back" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+slot = "back"
+
 [node name="Hands" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
 slot = "hands"
@@ -59,7 +68,3 @@ slot = "hands"
 [node name="Feet" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
 slot = "feet"
-
-[node name="Amulet" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
-layout_mode = 2
-slot = "amulet"

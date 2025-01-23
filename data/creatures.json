@@ -45,6 +45,9 @@
 		  {
 			"id": "rings"
 		  },
+		  {
+			"id": "back"
+		  },
 		],
 		"glyph": {
 		  "ch": "G_UNKNOWN",

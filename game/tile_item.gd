@@ -59,6 +59,8 @@ func _set_slots():
 					glyph = 'G_RING_ALT'
 				'head':
 					glyph = 'G_HELMET'
+				'back':
+					glyph = 'G_CLOAK'
 				'torso':
 					glyph = 'G_ARMOR'
 				'hands':
@@ -66,9 +68,10 @@ func _set_slots():
 				'feet':
 					glyph = 'G_BOOTS'
 			atlas.region = Glyph.get_atlas_region(glyph)
-			modulate = Color(0, 0, 0, 0.9)
+			modulate = Color(0, 0, 0, 0.5)
 			self.icon = atlas
 		else:
+			modulate = Color(0, 0, 0, 0.5)
 			self.icon = null
 		disabled = true
 	else:
