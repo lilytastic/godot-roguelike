@@ -6,7 +6,7 @@
 [node name="InventoryDisplay" type="GridContainer"]
 theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 6
-columns = 10
+columns = 5
 script = ExtResource("1_iaycy")
 
 [node name="TileItem" parent="." instance=ExtResource("1_y7y0k")]
