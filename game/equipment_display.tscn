@@ -5,7 +5,6 @@
 
 [node name="EquipmentDisplay" type="HBoxContainer"]
 custom_minimum_size = Vector2(0, 180)
-theme_override_constants/separation = 12
 alignment = 1
 script = ExtResource("1_brgwq")
 
@@ -16,17 +15,25 @@ theme_override_constants/separation = 6
 
 [node name="TileItem" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "main hand"
 metadata/slot = "main hand"
 
 [node name="TileItem2" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "off-hand"
 metadata/slot = "off-hand"
+
+[node name="Control" type="Control" parent="SlotsLeft"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 
 [node name="TileItem3" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "amulet"
 
 [node name="TileItem4" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "rings"
 
 [node name="PaperDoll" type="Control" parent="."]
 custom_minimum_size = Vector2(120, 0)
@@ -39,12 +46,20 @@ theme_override_constants/separation = 6
 
 [node name="TileItem" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "head"
 
 [node name="TileItem2" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "torso"
 
 [node name="TileItem3" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "hands"
 
 [node name="TileItem4" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "legs"
+
+[node name="TileItem5" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+slot = "feet"

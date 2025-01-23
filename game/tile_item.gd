@@ -1,3 +1,4 @@
+class_name TileItem
 extends Button
 
 var entity: Entity:
@@ -5,6 +6,8 @@ var entity: Entity:
 		if stack and stack.entity:
 			return Global.ecs.entity(stack.entity)
 		return null
+
+@export var slot := ''
 
 var _stack: Dictionary
 var stack: Dictionary:

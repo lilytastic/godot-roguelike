@@ -38,7 +38,13 @@
 		  },
 		  {
 			"id": "feet"
-		  }
+		  },
+		  {
+			"id": "amulet"
+		  },
+		  {
+			"id": "rings"
+		  },
 		],
 		"glyph": {
 		  "ch": "G_UNKNOWN",

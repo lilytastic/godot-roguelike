@@ -1,14 +1,14 @@
 class_name InventoryProps
 
 var items: Array = []
-var max_items = 20
+var max_items = 25
 
 signal items_changed
 
 func _init(opts := {}):
 	print('init inventory ', opts)
 	items = opts.get('items', [])
-	max_items = opts.get('max_items', 20)
+	max_items = opts.get('max_items', 25)
 	_initialized()
 	Global.player_changed.connect(func(player): _initialized())
 	Global.game_loaded.connect(func(): _initialized())

@@ -5,15 +5,22 @@
 [ext_resource type="PackedScene" uid="uid://dkwvu2cc7wnbr" path="res://game/inventory_display.tscn" id="3_3j3vn"]
 
 [node name="InventoryTab" type="HBoxContainer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -167.0
-offset_right = 167.0
-offset_bottom = 180.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 36.0
+offset_right = -36.0
+offset_bottom = 224.0
 grow_horizontal = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
 theme_override_constants/separation = 60
 script = ExtResource("1_sbvjl")
+
+[node name="InventoryDisplay" parent="." instance=ExtResource("3_3j3vn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="Container" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 160)
@@ -24,8 +31,3 @@ size_flags_vertical = 0
 [node name="EquipmentDisplay" parent="Container" instance=ExtResource("2_ikqqu")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="InventoryDisplay" parent="." instance=ExtResource("3_3j3vn")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4

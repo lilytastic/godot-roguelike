@@ -22,7 +22,7 @@ func _initialize_slots():
 		var tiles = %SlotsLeft.get_children() + %SlotsRight.get_children()
 		print(tiles)
 		for tile in tiles:
-			var slot = tile.get_meta('slot')
+			var slot = tile.slot if tile is TileItem else ''
 			print(slot, ': ', equipment.slots.has(slot))
 			if slot and equipment.slots.has(slot):
 				print(equipment.slots[slot])
