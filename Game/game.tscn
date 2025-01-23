@@ -44,12 +44,8 @@ script = ExtResource("4_q6bec")
 
 [node name="AsideMenu" parent="CanvasLayer/System Menu" instance=ExtResource("6_s5ktb")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 
 [node name="CharacterMenu" parent="CanvasLayer/System Menu" instance=ExtResource("6_8exhv")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
-grow_horizontal = 1
-grow_vertical = 1
