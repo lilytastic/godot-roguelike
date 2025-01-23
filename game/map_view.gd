@@ -22,7 +22,7 @@ func _ready():
 	Global.ecs.entity_added.connect(
 		func(value: Entity):
 			print('added ', value.uuid)
-			if map and value.map == map:
+			if map and value.location and value.location.map == map:
 				_init_actor(value)
 	)
 	Global.player_changed.connect(
