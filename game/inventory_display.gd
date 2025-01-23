@@ -7,6 +7,10 @@ var entity: Entity:
 	get: return _entity
 	set(value):
 		_entity = value
+		if _entity.inventory:
+			_entity.inventory.items_changed.connect(func():
+				_initialize_slots()
+			)
 		_initialize_slots()
 
 func _ready():

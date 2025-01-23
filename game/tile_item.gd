@@ -14,6 +14,8 @@ var stack: Dictionary:
 			_set_slots()
 		return value
 
+signal item_dropped
+
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if entity:
 		return entity.uuid
@@ -26,9 +28,7 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
 	print(data)
-	stack = {
-		'entity': data
-	}
+	item_dropped.emit(data)
 	
 func _ready():
 	_set_slots()
