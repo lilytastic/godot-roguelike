@@ -1,9 +1,29 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bfoqpkkix7gdf"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bfoqpkkix7gdf"]
 
 [ext_resource type="FontFile" uid="uid://d0yfn4ceqhto0" path="res://assets/fonts/AlikeAngular/AlikeAngular-Regular.ttf" id="1_gfr81"]
 [ext_resource type="FontFile" uid="uid://dio5l4xquec2a" path="res://assets/fonts/LibreCaslonText/LibreCaslonText-Regular.ttf" id="1_t0kpw"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftch6"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x4ruw"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tl8b8"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.768627)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pwv4"]
 bg_color = Color(0.127662, 0.137317, 0.138264, 1)
@@ -24,7 +44,8 @@ bg_color = Color(0, 0, 0, 1)
 [resource]
 Button/font_sizes/font_size = 14
 Button/fonts/font = ExtResource("1_gfr81")
-Button/styles/hover = SubResource("StyleBoxFlat_ftch6")
+Button/styles/hover = SubResource("StyleBoxFlat_x4ruw")
+Button/styles/normal = SubResource("StyleBoxFlat_tl8b8")
 MarginContainer/constants/margin_bottom = 16
 MarginContainer/constants/margin_left = 16
 MarginContainer/constants/margin_right = 16

@@ -35,6 +35,8 @@ func save() -> Dictionary:
 	if inventory:
 		print(inventory)
 		dict.inventory = inventory.save()
+	if equipment:
+		dict.equipment = equipment.save()
 	print('saving ', dict)
 	return dict
 
@@ -56,5 +58,7 @@ func load_from_save(data: Dictionary) -> void:
 
 	if data.has('inventory'):
 		inventory = InventoryProps.new(data.inventory)
+	if data.has('equipment') and data.equipment:
+		equipment = EquipmentProps.new(data.equipment)
 	
 	

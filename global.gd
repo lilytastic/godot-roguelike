@@ -24,9 +24,11 @@ func new_game() -> void:
 	player.location = Location.new('Test', Vector2(0,0))
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
-		'entity': Global.ecs.create({ 'blueprint': 'sword' }).uuid,
+		'entity': Global.ecs.create({ 'blueprint': 'axe' }).uuid,
 		'num': 1
 	})
+	player.equipment = EquipmentProps.new({})
+	player.equipment.equip(Global.ecs.create({ 'blueprint': 'sword' }).uuid)
 	player_changed.emit(player)
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
