@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=8 format=4 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
@@ -17,6 +17,7 @@ script = ExtResource("1_4nfvf")
 zoom = Vector2(2, 2)
 
 [node name="TileMapLayer" parent="." instance=ExtResource("2_ly086")]
+tile_map_data = PackedByteArray("AAD+/wEAAAAFAAAAAAD7//7/AAAFAAAAAAAEAPz/AAAFAAAAAAD5//3/AAAFAAAAAAD5////AAAFAAAAAAD7/wYAAAAFAAAAAAD8//r/AAAFAAAAAAAEAAEAAAAFAAAAAAAEAAIAAAAFAAAAAAAHAAEAAAAFAAAAAAA=")
 
 [node name="Actor" parent="TileMapLayer" instance=ExtResource("3_h3nby")]
 position = Vector2(66, -44)
