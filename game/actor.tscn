@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dabn80pt603jc"]
 
-[ext_resource type="Texture2D" uid="uid://cqumfgdqea7q5" path="res://monochrome-transparent_packed.png" id="1_nu0dg"]
+[ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="1_nu0dg"]
 [ext_resource type="Script" path="res://game/actor.gd" id="2_im4yg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l4awr"]

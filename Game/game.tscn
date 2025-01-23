@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=8 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
@@ -6,6 +6,9 @@
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://dqasfn61u6sl5" path="res://game/character_menu.tscn" id="6_8exhv"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4awr"]
+region = Rect2(432, 0, 16, 16)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -17,6 +20,7 @@ zoom = Vector2(2, 2)
 
 [node name="Actor" parent="TileMapLayer" instance=ExtResource("3_h3nby")]
 position = Vector2(66, -44)
+texture = SubResource("AtlasTexture_l4awr")
 metadata/blueprint = "ghoul"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

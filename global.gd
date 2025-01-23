@@ -21,7 +21,7 @@ func new_game() -> void:
 	maps_loaded.clear()
 	var options = { 'blueprint': 'hero' }
 	player = Global.ecs.create(options)
-	player.map = 'Test'
+	player.location = Location.new('Test', Vector2(0,0))
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
 		'entity': Global.ecs.create({ 'blueprint': 'sword' }).uuid,

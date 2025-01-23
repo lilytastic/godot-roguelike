@@ -2,7 +2,7 @@ class_name MapView
 extends TileMapLayer
 
 var map := ''
-var actor: PackedScene = preload("res://game/actor.tscn")
+var actor: PackedScene = preload('res://game/actor.tscn')
 var subscription := _init_map
 var actors := {}
 
@@ -66,7 +66,7 @@ func _cast_actors():
 			print('loading new actor ', child)
 			var new_entity = Global.ecs.create(opts)
 			var coords = Coords.get_coord(child.position)
-			if !new_entity.location:
+			if new_entity.location:
 				new_entity.location.position = coords
 			else: 
 				new_entity.location = Location.new(map, coords)
