@@ -59,7 +59,7 @@ func _set_slots():
 					glyph = 'G_RING_ALT'
 				'head':
 					glyph = 'G_HELMET'
-				'body':
+				'torso':
 					glyph = 'G_ARMOR'
 				'hands':
 					glyph = 'G_GLOVES'
