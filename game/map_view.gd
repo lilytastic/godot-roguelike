@@ -1,7 +1,7 @@
 class_name MapView
 extends TileMapLayer
 
-var map := ''
+@export var map := ''
 var actor: PackedScene = preload('res://game/actor.tscn')
 var subscription := _init_map
 var actors := {}
@@ -36,41 +36,21 @@ func _init_player(player: Entity) -> void:
 	player = Global.player
 	
 	if player and player.location:
-		print('loaded? ', Global.maps_loaded.has(player.location.map))
-		if Global.maps_loaded.has(player.location.map):
-			_clear_uncast_children()
-		else:
-			_cast_actors()
-
-	if player and player.location:
 		_init_map(player.location.map)
-		_assign_children_to_current_map()
-	_clear_uncast_children()
 
 
-func _assign_children_to_current_map():
-	for child in get_children():
-		if (child.entity and (!child.entity.location or child.entity.location.map != map)):
-			print('assign ' + str(child.entity.uuid) + ' to map: ' + map)
-			child.entity.location = Location.new(map, Coords.get_coord(child.position))
-
-
-func _cast_actors():
-	print('get_children() ', get_children())
-	for child in get_children():
-		if (!child.entity):
-			var opts = {
-				'blueprint': child.get_meta('blueprint') if child.has_meta('blueprint') else 'quadropus'
-			}
-			print(child.blueprint)
-			print('loading new actor ', child)
-			var new_entity = Global.ecs.create(opts)
-			var coords = Coords.get_coord(child.position)
-			if new_entity.location:
-				new_entity.location.position = coords
-			else: 
-				new_entity.location = Location.new(map, coords)
-			_init_actor(new_entity, child)
+func _init_actor(entity: Entity, new_actor := Actor.new()):
+	new_actor.entity = entity
+	if new_actor.get_parent():
+		new_actor.reparent(self)
+	else:
+		add_child(new_actor)
+	actors[entity.uuid] = new_actor
+	if entity.location:
+		new_actor.position = Coords.get_position(entity.location.position) + Vector2(8, 8)
+	if new_actor.has_method('load'):
+		new_actor.load(entity.uuid)
+	return new_actor
 
 
 func _init_map(_map):
@@ -93,24 +73,3 @@ func _init_map(_map):
 			_init_actor(entity)
 		else:
 			actors[entity.uuid] = child
-
-func _init_actor(entity: Entity, new_actor := Actor.new()):
-	new_actor.entity = entity
-	if new_actor.get_parent():
-		new_actor.reparent(self)
-	else:
-		add_child(new_actor)
-	actors[entity.uuid] = new_actor
-	if entity.location:
-		new_actor.position = Coords.get_position(entity.location.position) + Vector2(8, 8)
-	if new_actor.has_method('load'):
-		new_actor.load(entity.uuid)
-	return new_actor
-
-
-func _clear_uncast_children():
-	print('clearing children ', get_children())
-	for child in get_children():
-		if (!child.entity or (!child.entity.location or child.entity.location.map != map)):
-			print('deleting actor for ' + str(child.entity.uuid) if child.entity else '<unknown>')
-			child.queue_free()

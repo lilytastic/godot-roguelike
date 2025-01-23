@@ -2,13 +2,13 @@ extends GridContainer
 
 var tile_prefab = preload('res://game/tile_item.tscn')
 
-var _entity: Entity
-var entity: Entity:
-	get: return _entity
+var _inventory: InventoryProps
+var inventory: InventoryProps:
+	get: return _inventory
 	set(value):
-		_entity = value
-		if _entity.inventory:
-			_entity.inventory.items_changed.connect(func():
+		_inventory = value
+		if _inventory:
+			_inventory.items_changed.connect(func():
 				_initialize_slots()
 			)
 		_initialize_slots()
@@ -20,12 +20,12 @@ func _initialize_slots():
 	for child in get_children():
 		child.queue_free()
 	
-	if entity and entity.inventory:
-		print('initialized inventory display with ', entity.uuid)
-		for i in entity.inventory.max_items:
+	if inventory:
+		print('initialized inventory display')
+		for i in inventory.max_items:
 			var tile = tile_prefab.instantiate()
 			add_child(tile)
-			if entity.inventory.items.size() > i:
-				var item = entity.inventory.items[i]
+			if inventory.items.size() > i:
+				var item = inventory.items[i]
 				if item:
 					tile.stack = item

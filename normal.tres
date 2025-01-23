@@ -1,7 +1,6 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bfoqpkkix7gdf"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bfoqpkkix7gdf"]
 
-[ext_resource type="FontFile" uid="uid://d0yfn4ceqhto0" path="res://assets/fonts/AlikeAngular/AlikeAngular-Regular.ttf" id="1_gfr81"]
-[ext_resource type="FontFile" uid="uid://dio5l4xquec2a" path="res://assets/fonts/LibreCaslonText/LibreCaslonText-Regular.ttf" id="1_t0kpw"]
+[ext_resource type="FontFile" uid="uid://c2mmakmqpgvv7" path="res://assets/fonts/SofiaSansCondensed/SofiaSansCondensed-VariableFont_wght.ttf" id="1_pjhjo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x4ruw"]
 content_margin_left = 4.0
@@ -42,18 +41,18 @@ expand_margin_right = 16.0
 bg_color = Color(0, 0, 0, 1)
 
 [resource]
-Button/font_sizes/font_size = 14
-Button/fonts/font = ExtResource("1_gfr81")
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("1_pjhjo")
 Button/styles/hover = SubResource("StyleBoxFlat_x4ruw")
 Button/styles/normal = SubResource("StyleBoxFlat_tl8b8")
 MarginContainer/constants/margin_bottom = 16
 MarginContainer/constants/margin_left = 16
 MarginContainer/constants/margin_right = 16
 MarginContainer/constants/margin_top = 16
-RichTextLabel/fonts/normal_font = ExtResource("1_gfr81")
+RichTextLabel/fonts/normal_font = ExtResource("1_pjhjo")
 TabContainer/colors/drop_mark_color = Color(1, 1, 1, 0)
-TabContainer/font_sizes/font_size = 13
-TabContainer/fonts/font = ExtResource("1_t0kpw")
+TabContainer/font_sizes/font_size = 15
+TabContainer/fonts/font = ExtResource("1_pjhjo")
 TabContainer/icons/drop_mark = null
 TabContainer/styles/panel = SubResource("StyleBoxFlat_5pwv4")
 TabContainer/styles/tab_disabled = SubResource("StyleBoxFlat_cvnna")

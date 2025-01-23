@@ -5,9 +5,7 @@ var slots := {}
 signal item_equipped
 
 func _init(props: Dictionary):
-	if !(props.get('slots', {}) is Dictionary):
-		return
-	slots = props.get('slots', {})
+	slots = props
 
 func equip(uuid: int):
 	var entity = Global.ecs.entity(uuid)

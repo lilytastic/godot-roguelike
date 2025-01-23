@@ -1,12 +1,12 @@
 extends HBoxContainer
 
-var _entity: Entity
-var entity: Entity:
-	get: return _entity
+var _equipment: EquipmentProps
+var equipment: EquipmentProps:
+	get: return _equipment
 	set(value):
-		_entity = value
-		if _entity.equipment:
-			_entity.equipment.item_equipped.connect(
+		_equipment = value
+		if _equipment:
+			_equipment.item_equipped.connect(
 				func(item):
 					print(item)
 					_initialize_slots()
@@ -17,16 +17,16 @@ func _ready():
 	_initialize_slots()
 
 func _initialize_slots():
-	if entity and entity.equipment:
-		print('initialized equipment display with ', entity.uuid)
+	if equipment:
+		print('initialized equipment display with ', equipment.slots)
 		var tiles = %SlotsLeft.get_children() + %SlotsRight.get_children()
 		print(tiles)
 		for tile in tiles:
 			var slot = tile.get_meta('slot')
-			print(slot, ': ', entity.equipment.slots.has(slot))
-			if slot and entity.equipment.slots.has(slot):
-				print(entity.equipment.slots[slot])
+			print(slot, ': ', equipment.slots.has(slot))
+			if slot and equipment.slots.has(slot):
+				print(equipment.slots[slot])
 				tile.stack = {
-					'entity': entity.equipment.slots[slot]
+					'entity': equipment.slots[slot]
 				}
 				continue
