@@ -68,13 +68,10 @@ func _set_slots():
 				'feet':
 					glyph = 'G_BOOTS'
 			atlas.region = Glyph.get_atlas_region(glyph)
-			modulate = Color(0, 0, 0, 0.5)
 			self.icon = atlas
 		else:
-			modulate = Color(0, 0, 0, 0.5)
 			self.icon = null
 		disabled = true
 	else:
 		self.icon = _entity.glyph.to_atlas_texture()
-		modulate = Color(1, 1, 1)
 		disabled = false
