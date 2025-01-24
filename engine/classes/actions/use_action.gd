@@ -8,5 +8,4 @@ func _init(_target: Entity):
 	pass
 
 func perform(entity: Entity) -> ActionResult:
-	entity.energy -= 10
-	return ActionResult.new(true)
+	return ActionResult.new(false)
