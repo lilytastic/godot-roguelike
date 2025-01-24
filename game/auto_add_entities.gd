@@ -3,6 +3,12 @@ extends Node2D
 @export var map := ''
 
 func _ready():
+	if Global.maps_loaded.has(map):
+		print('map already loaded')
+		for child in get_children():
+			child.queue_free()
+		return;
+
 	print('get_children() ', get_children())
 	for child in get_children():
 		var opts = {

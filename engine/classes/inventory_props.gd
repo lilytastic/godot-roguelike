@@ -16,7 +16,7 @@ func _init(opts := {}):
 func _initialized():
 	for n in max_items:
 		# items.append(null)
-		items_changed.emit(items)
+		items_changed.emit()
 
 func add(stack: Dictionary) -> bool:
 	var slot = items.find(func(_slot): return _slot != null)
