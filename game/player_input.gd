@@ -19,7 +19,18 @@ func _check_for_action(event: InputEvent) -> Action:
 
 	if event.is_action_pressed('use'):
 		var target = Global.player
-		return UseAction.new(target)
+		var entities = Global.ecs.entities.values().filter(
+			func(entity):
+				if entity.uuid == Global.player.uuid:
+					return false
+				if !entity.location:
+					return false
+				if entity.location.map == Global.player.location.map and entity.location.position == Global.player.location.position:
+					return true
+		)
+		if entities.size() > 0:
+			print(entities[0].uuid)
+			return UseAction.new(entities[0])
 
 	return null
 

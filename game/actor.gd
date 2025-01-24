@@ -12,7 +12,8 @@ var blueprint: Blueprint:
 
 var glyph: Glyph:
 	get: return blueprint.glyph if blueprint else null
-	
+
+signal destroyed
 
 func _ready() -> void:
 	print('actor ready ', _entityId)
@@ -25,12 +26,16 @@ func _ready() -> void:
 		z_index = 1
 
 func _process(delta: float) -> void:
-	if entity and entity.location:
-		position = lerp(
-			position,
-			Coords.get_position(entity.location.position, Vector2(8, 8)),
-			delta * 30
-		)
+	if entity:
+		if !entity.location:
+			destroyed.emit()
+			queue_free()
+		else:
+			position = lerp(
+				position,
+				Coords.get_position(entity.location.position, Vector2(8, 8)),
+				delta * 30
+			)
 
 func _load(id: int):
 	_entityId = id

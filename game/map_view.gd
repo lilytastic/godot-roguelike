@@ -36,20 +36,28 @@ func _ready():
 	
 	PlayerInput.action_triggered.connect(func(action):
 		if next_actor and next_actor.uuid == Global.player.uuid:
-			var result = action.perform(Global.player)
+			var result = _perform_action(action, Global.player)
 			if result.success:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
 	)
 
+func _perform_action(action: Action, _entity: Entity):
+	var result = action.perform(_entity)
+	if !result.success and result.alternate:
+		return _perform_action(result.alternate, _entity)
+	return result
 
 func _process(delta):
 	scheduler.entities = actors.keys()
 	if next_actor != null or !Global.player:
 		return
-		
+	
 	var valid = actors.values().filter(
 		func(actor):
+			if !actor:
+				actors.erase(actor)
+				return false
 			return actor.entity.blueprint.speed >= 0 and actor.entity.energy >= 0
 	)
 	var next = valid[0] if valid.size() else null
@@ -65,6 +73,8 @@ func _process(delta):
 
 	if !next_actor:
 		for actor in actors:
+			if !actors[actor]:
+				continue
 			var entity = actors[actor].entity
 			if entity and entity.blueprint.speed:
 				# print(entity.energy, ' ', entity.blueprint.speed * delta)

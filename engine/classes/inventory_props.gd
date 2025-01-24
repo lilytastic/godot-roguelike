@@ -24,11 +24,11 @@ func add(stack: Dictionary) -> bool:
 	print('slot ', slot)
 	if slot != -1:
 		slot = stack
-		items_changed.emit(items)
+		items_changed.emit()
 		return true
 	if items.size() < max_items:
 		items.append(stack)
-		items_changed.emit(items)
+		items_changed.emit()
 		return true
 	return false
 
