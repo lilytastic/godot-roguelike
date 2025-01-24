@@ -21,6 +21,8 @@ func _ready() -> void:
 		Coords.get_coord(position),
 		Vector2(8, 8)
 	)
+	if blueprint and blueprint.equipment:
+		z_index = 1
 
 func _process(delta: float) -> void:
 	if entity and entity.location:

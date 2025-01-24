@@ -62,5 +62,4 @@ func load_from_save(data: Dictionary) -> void:
 		inventory = InventoryProps.new(data.inventory)
 	if data.has('equipment') and data.equipment:
 		equipment = EquipmentProps.new(data.equipment)
-	
-	
+		

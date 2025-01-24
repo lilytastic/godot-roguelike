@@ -23,6 +23,11 @@ zoom = Vector2(2, 2)
 script = ExtResource("2_iebwc")
 map = "Test"
 
+[node name="Dagger" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
+position = Vector2(-59, 22)
+texture = SubResource("AtlasTexture_l4awr")
+metadata/blueprint = "dagger"
+
 [node name="Actor" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
 position = Vector2(72, -38)
 texture = SubResource("AtlasTexture_l4awr")
@@ -44,8 +49,10 @@ script = ExtResource("4_q6bec")
 
 [node name="AsideMenu" parent="CanvasLayer/System Menu" instance=ExtResource("6_s5ktb")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 
 [node name="CharacterMenu" parent="CanvasLayer/System Menu" instance=ExtResource("6_8exhv")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
