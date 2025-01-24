@@ -45,6 +45,7 @@ Button/font_sizes/font_size = 16
 Button/fonts/font = ExtResource("1_pjhjo")
 Button/styles/hover = SubResource("StyleBoxFlat_x4ruw")
 Button/styles/normal = SubResource("StyleBoxFlat_tl8b8")
+Label/fonts/font = ExtResource("1_pjhjo")
 MarginContainer/constants/margin_bottom = 16
 MarginContainer/constants/margin_left = 16
 MarginContainer/constants/margin_right = 16

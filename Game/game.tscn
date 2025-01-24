@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=12 format=4 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="Script" path="res://game/auto_add_entities.gd" id="2_iebwc"]
@@ -8,10 +8,22 @@
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://dqasfn61u6sl5" path="res://game/character_menu.tscn" id="6_8exhv"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
+[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="9_o4gab"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l4awr"]
 atlas = ExtResource("3_rekeo")
 region = Rect2(432, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41kpf"]
+bg_color = Color(0, 0, 0, 0.65098)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 6.0
+expand_margin_top = 4.0
+expand_margin_right = 6.0
+expand_margin_bottom = 3.0
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -38,7 +50,7 @@ tile_map_data = PackedByteArray("AAD+/wEAAAAFAAAAAAD7//7/AAAFAAAAAAAEAPz/AAAFAAA
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="System Menu" type="Control" parent="CanvasLayer"]
+[node name="SystemMenu" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,12 +59,36 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_q6bec")
 
-[node name="AsideMenu" parent="CanvasLayer/System Menu" instance=ExtResource("6_s5ktb")]
+[node name="AsideMenu" parent="CanvasLayer/SystemMenu" instance=ExtResource("6_s5ktb")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[node name="CharacterMenu" parent="CanvasLayer/System Menu" instance=ExtResource("6_8exhv")]
+[node name="CharacterMenu" parent="CanvasLayer/SystemMenu" instance=ExtResource("6_8exhv")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
+
+[node name="FloatingText" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("9_o4gab")
+
+[node name="PopupText" type="Label" parent="CanvasLayer/FloatingText"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 30.0
+offset_right = 62.0
+offset_bottom = 53.0
+theme = ExtResource("9_o4gab")
+theme_override_styles/normal = SubResource("StyleBoxFlat_41kpf")
+text = "Yeet"
+horizontal_alignment = 1
+vertical_alignment = 1

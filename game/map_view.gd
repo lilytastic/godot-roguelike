@@ -6,6 +6,9 @@ var actor: PackedScene = preload('res://game/actor.tscn')
 var subscription := _init_map
 var actors := {}
 
+var scheduler = Scheduler.new()
+var next_actor: Entity
+
 var _player: Entity
 var player: Entity:
 	get: return _player
@@ -30,7 +33,41 @@ func _ready():
 			print('new player ', value)
 			_init_player(Global.player)
 	)
+	
+	PlayerInput.action_triggered.connect(func(action):
+		if next_actor and next_actor.uuid == Global.player.uuid:
+			action.perform(Global.player)
+			next_actor = null
+	)
 
+
+func _process(delta):
+	scheduler.entities = actors.keys()
+	if next_actor != null or !Global.player:
+		return
+		
+	var valid = actors.values().filter(
+		func(actor):
+			return actor.entity.energy >= 0
+	)
+	var next = valid[0] if valid.size() else null
+	
+	if next != null:
+		next_actor = next.entity
+		print('ready! ', next_actor.blueprint.id)
+		if Global.player and next_actor.uuid == Global.player.uuid:
+			print('it you')
+		else:
+			next_actor.energy -= 10
+			next_actor = null
+
+	if !next_actor:
+		for actor in actors:
+			var entity = actors[actor].entity
+			if entity and entity.blueprint.speed:
+				# print(entity.energy, ' ', entity.blueprint.speed * delta)
+				entity.energy += entity.blueprint.speed * delta
+			
 
 func _init_player(player: Entity) -> void:
 	player = Global.player

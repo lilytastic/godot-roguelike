@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
 [autoload]
 
 Global="*res://global.gd"
+PlayerInput="*res://game/player_input.gd"
 
 [display]
 

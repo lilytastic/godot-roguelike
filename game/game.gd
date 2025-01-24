@@ -5,9 +5,6 @@ var player: Entity:
 	get: return Global.player
 var cameraSpeed := 6
 
-signal action_triggered
-
-
 func _ready() -> void:
 	if !Global.player:
 		Global.new_game()
@@ -21,38 +18,3 @@ func _process(delta: float) -> void:
 	if player and player.location != null:
 		$Camera2D.position = lerp($Camera2D.position, Coords.get_position(player.location.position), delta * cameraSpeed)
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
-	
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed('quicksave'):
-		Global.quicksave()
-		return
-		
-	var action := _check_for_action(event)
-	if action:
-		action.perform(player)
-		action_triggered.emit(action)
-
-
-func _check_for_action(event: InputEvent) -> Action:
-	for i: StringName in InputTag.MOVE_ACTIONS:
-		if event.is_action_pressed(i):
-			return MovementAction.new(_input_to_direction(i))
-
-	return null
-
-
-func _input_to_direction(direction: StringName):
-	var coord: Vector2i = Vector2i.ZERO
-	
-	match direction:
-		InputTag.MOVE_LEFT:
-			coord += Vector2i.LEFT
-		InputTag.MOVE_RIGHT:
-			coord += Vector2i.RIGHT
-		InputTag.MOVE_UP:
-			coord += Vector2i.UP
-		InputTag.MOVE_DOWN:
-			coord += Vector2i.DOWN
-
-	return coord

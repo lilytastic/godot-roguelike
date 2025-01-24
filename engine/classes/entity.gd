@@ -15,6 +15,7 @@ var glyph: Glyph:
 var location: Location
 var inventory: InventoryProps
 var equipment: EquipmentProps
+var energy := 0
 
 signal map_changed
 
@@ -40,6 +41,7 @@ func save() -> Dictionary:
 	if equipment:
 		dict.equipment = equipment.save()
 	print('saving ', dict)
+	dict.energy = energy
 	return dict
 
 
@@ -62,4 +64,5 @@ func load_from_save(data: Dictionary) -> void:
 		inventory = InventoryProps.new(data.inventory)
 	if data.has('equipment') and data.equipment:
 		equipment = EquipmentProps.new(data.equipment)
+	energy = data.energy if data.has('energy') else 0
 		
