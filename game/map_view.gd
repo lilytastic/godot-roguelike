@@ -36,8 +36,8 @@ func _ready():
 	
 	PlayerInput.action_triggered.connect(func(action):
 		if next_actor and next_actor.uuid == Global.player.uuid:
-			action.perform(Global.player)
-			next_actor = null
+			if action.perform(Global.player):
+				next_actor = null
 	)
 
 
@@ -48,7 +48,7 @@ func _process(delta):
 		
 	var valid = actors.values().filter(
 		func(actor):
-			return actor.entity.energy >= 0
+			return actor.entity.blueprint.speed >= 0 and actor.entity.energy >= 0
 	)
 	var next = valid[0] if valid.size() else null
 	

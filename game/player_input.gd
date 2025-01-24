@@ -17,6 +17,10 @@ func _check_for_action(event: InputEvent) -> Action:
 		if event.is_action_pressed(i):
 			return MovementAction.new(_input_to_direction(i))
 
+	if event.is_action_pressed('use'):
+		var target = Global.player
+		return UseAction.new(target)
+
 	return null
 
 
