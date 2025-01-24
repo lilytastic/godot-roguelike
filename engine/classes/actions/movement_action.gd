@@ -17,7 +17,7 @@ func perform(entity: Entity) -> ActionResult:
 			return _entity.location.position.x == new_position.x and _entity.location.position.y == new_position.y
 	)
 	if collisions.size():
-		return
+		return ActionResult.new(false)
 	
 	entity.location.position = new_position
 	entity.energy -= 10
