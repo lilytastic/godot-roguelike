@@ -23,6 +23,5 @@ func unequip(receiver: Entity, item: Entity):
 			var equipped = receiver.equipment.unequip(slot)
 			if equipped != -1:
 				receiver.inventory.add({ 'entity': equipped, 'num': 1 })
-			print('in equipment')
-			return true
+				return true
 	return false

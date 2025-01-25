@@ -23,20 +23,16 @@ func _empty_slots_first(a, b):
 	if all_slots_empty and !all_slots_empty_b:
 		return true
 	return false
-	
 
 func equip(entity: Entity, opts := {}) -> Dictionary:
 	var blueprint = entity.blueprint
 	if !blueprint or !blueprint.item:
-		return { 'success': false, 'items_swapped': [] }
+		return { 'success': false }
 		
-	var swapped = []
-
-	print(blueprint.item.slots)
-	
 	var item_slots = blueprint.item.slots.duplicate(true)
 	item_slots.sort_custom(_empty_slots_first)
 
+	var swapped = []
 	for slotSet in item_slots:
 		print(slotSet)
 		for slot in slotSet:
@@ -48,7 +44,7 @@ func equip(entity: Entity, opts := {}) -> Dictionary:
 		item_equipped.emit({ 'slots': slotSet, 'item': entity.uuid })
 		return { 'success': true, 'items_swapped': swapped }
 
-	return { 'success': false, 'items_swapped': swapped }
+	return { 'success': false }
 	
 func unequip(slot) -> int:
 	if !slots.has(slot):

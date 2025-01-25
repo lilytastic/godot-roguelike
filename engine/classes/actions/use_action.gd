@@ -5,7 +5,6 @@ var target: Entity
 
 func _init(_target: Entity):
 	target = _target
-	pass
 
 func perform(entity: Entity) -> ActionResult:
 	if !target:

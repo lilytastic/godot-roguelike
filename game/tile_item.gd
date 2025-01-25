@@ -35,9 +35,12 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	print(data)
 	item_dropped.emit(data)
 	
-func _ready():
+func _init():
 	set_slots()
 	connect('gui_input', on_input)
+	
+func _exit_tree():
+	disconnect('gui_input', on_input)
 
 func on_input(ev: InputEvent):
 	if !ev is InputEventMouseButton:
