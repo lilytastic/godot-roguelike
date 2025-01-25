@@ -1,7 +1,7 @@
 extends Node
 
 func give(receiver: Entity, item: Entity):
-	if item.location and item.blueprint.item:
+	if item.blueprint.item:
 		item.location = null
 		receiver.inventory.add({ 'entity': item.uuid, 'num': 1 })
 		return true
@@ -9,11 +9,14 @@ func give(receiver: Entity, item: Entity):
 
 func equip(receiver: Entity, item: Entity):
 	if item.blueprint.item:
-		var success = receiver.equipment.equip(item)
-		# TODO: Add anything that got swapped out to the inventory!
-		if success:
+		var result = receiver.equipment.equip(item)
+		for other_item in result.get('items_swapped', []):
+			give(receiver, Global.ecs.entity(other_item))
+		if result.success:
 			receiver.inventory.remove(item.uuid)
-	
+			return true
+		return false
+
 func unequip(receiver: Entity, item: Entity):
 	for slot in receiver.equipment.slots:
 		if receiver.equipment.slots[slot] == item.uuid:
