@@ -25,6 +25,16 @@ func add(stack: Dictionary) -> bool:
 		items_changed.emit()
 		return true
 	return false
+	
+func remove(uuid: int) -> bool:
+	var index = -1
+	for item in items:
+		index += 1
+		if item.has('entity') and item.entity == uuid:
+			items.remove_at(index)
+			items_changed.emit()
+			return true
+	return false
 
 func save() -> Dictionary:
 	return {

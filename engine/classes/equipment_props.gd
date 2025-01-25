@@ -8,8 +8,7 @@ signal item_unequipped
 func _init(props: Dictionary):
 	slots = props
 
-func equip(uuid: int):
-	var entity = Global.ecs.entity(uuid)
+func equip(entity: Entity):
 	var blueprint = entity.blueprint
 	if !blueprint or !blueprint.item:
 		return
@@ -28,6 +27,14 @@ func equip(uuid: int):
 			return true
 	print(entity.uuid, entity.blueprint)
 	return false
+	
+func unequip(slot) -> int:
+	if !slots.has(slot):
+		return -1
+	var equipped = slots[slot]
+	slots.erase(slot)
+	item_unequipped.emit(equipped)
+	return equipped
 
 func save():
 	return slots
