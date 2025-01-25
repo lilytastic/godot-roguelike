@@ -12,31 +12,15 @@ func perform(entity: Entity) -> ActionResult:
 		return ActionResult.new(false)
 
 	if target.location and target.blueprint.item:
-		target.location = null
-		entity.inventory.add({ 'entity': target.uuid, 'num': 1 })
-		return ActionResult.new(true)
-	
-	
-	var is_in_equipment = entity.equipment and entity.equipment.has(target.uuid)
-	
-	if is_in_equipment:
-		for slot in entity.equipment.slots:
-			if entity.equipment.slots[slot] == target.uuid:
-				var equipped = entity.equipment.unequip(slot)
-				if equipped != -1:
-					entity.inventory.add({ 'entity': equipped, 'num': 1 })
-				print('in equipment')
-				return ActionResult.new(true)
-	
-	
-	var is_in_inventory = entity.inventory and entity.inventory.has(target.uuid)
-	
-	if is_in_inventory:
-		if target.blueprint.item:
-			var success = entity.equipment.equip(target)
-			# TODO: Add anything that got swapped out to the inventory!
-			if success:
-				entity.inventory.remove(target.uuid)
+		if InventoryManager.give(entity, target):
+			return ActionResult.new(true)
 
+	if entity.equipment and entity.equipment.has(target.uuid):
+		if InventoryManager.unequip(entity, target):
+			return ActionResult.new(true)
+
+	if entity.inventory and entity.inventory.has(target.uuid):
+		if InventoryManager.equip(entity, target):
+			return ActionResult.new(true)
 
 	return ActionResult.new(false)
