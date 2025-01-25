@@ -16,9 +16,7 @@ func perform(entity: Entity) -> ActionResult:
 		entity.inventory.add({ 'entity': target.uuid, 'num': 1 })
 		return ActionResult.new(true)
 	
-	var is_in_inventory = entity.inventory and entity.inventory.items.any(
-		func(e): return target.uuid == e.entity
-	)
+	
 	var is_in_equipment = entity.equipment and entity.equipment.slots.values().any(
 		func(e): return target.uuid == e
 	)
@@ -32,11 +30,15 @@ func perform(entity: Entity) -> ActionResult:
 				print('in equipment')
 				return ActionResult.new(true)
 	
+	
+	var is_in_inventory = entity.inventory and entity.inventory.has(target.uuid)
+	
 	if is_in_inventory:
 		if target.blueprint.item:
 			var success = entity.equipment.equip(target)
 			# TODO: Add anything that got swapped out to the inventory!
 			if success:
 				entity.inventory.remove(target.uuid)
+
 
 	return ActionResult.new(false)

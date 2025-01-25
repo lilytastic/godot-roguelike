@@ -18,6 +18,7 @@ var equipment: EquipmentProps:
 			)
 		_initialize_slots()
 
+
 func _ready():
 	_initialize_slots()
 

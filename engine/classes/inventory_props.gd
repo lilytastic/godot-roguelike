@@ -36,6 +36,11 @@ func remove(uuid: int) -> bool:
 			return true
 	return false
 
+func has(uuid: int) -> bool:
+	return items.any(
+		func(e): return uuid == e.entity
+	)
+	
 func save() -> Dictionary:
 	return {
 		'items': items,

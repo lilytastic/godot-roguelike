@@ -24,29 +24,29 @@ func _init(opts: Dictionary):
 	print('Initializing entity with template: ', opts.blueprint)
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
-	
 	return
-
 
 func save() -> Dictionary:
 	var dict := {}
+	
+	dict.uuid = uuid
 	dict.blueprint = _blueprint
+	dict.energy = energy
+
 	if location:
 		dict.map = location.map
 		dict.position = location.position
-	dict.uuid = uuid
-	if inventory:
-		print(inventory)
-		dict.inventory = inventory.save()
-	if equipment:
-		dict.equipment = equipment.save()
-	print('saving ', dict)
-	dict.energy = energy
-	return dict
+	if inventory: dict.inventory = inventory.save()
+	if equipment: dict.equipment = equipment.save()
 
+	print('saving ', dict)
+	return dict
 
 func load_from_save(data: Dictionary) -> void:
 	print('data: ', data)
+
+	var new_id = Global.ecs.add(self)
+	var json = JSON.new()
 	
 	if data.has('position'):
 		var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
@@ -57,12 +57,8 @@ func load_from_save(data: Dictionary) -> void:
 		print('location: ', location.position)
 		map_changed.emit(location.map)
 
-	var new_id = Global.ecs.add(self)
-	var json = JSON.new()
-
-	if data.has('inventory'):
-		inventory = InventoryProps.new(data.inventory)
-	if data.has('equipment') and data.equipment:
-		equipment = EquipmentProps.new(data.equipment)
 	energy = data.energy if data.has('energy') else 0
-		
+	
+	if data.has('inventory'): inventory = InventoryProps.new(data.inventory)
+	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
+	
