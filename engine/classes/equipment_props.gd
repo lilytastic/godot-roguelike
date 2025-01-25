@@ -3,6 +3,7 @@ class_name EquipmentProps
 var slots := {}
 
 signal item_equipped
+signal item_unequipped
 
 func _init(props: Dictionary):
 	slots = props

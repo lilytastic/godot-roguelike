@@ -6,6 +6,11 @@ var equipment: EquipmentProps:
 	set(value):
 		_equipment = value
 		if _equipment:
+			_equipment.item_unequipped.connect(
+				func(item):
+					print(item)
+					_initialize_slots()
+			)
 			_equipment.item_equipped.connect(
 				func(item):
 					print(item)
@@ -23,10 +28,12 @@ func _initialize_slots():
 		print(tiles)
 		for tile in tiles:
 			var slot = tile.slot if tile is TileItem else ''
-			print(slot, ': ', equipment.slots.has(slot))
-			if slot and equipment.slots.has(slot):
-				print(equipment.slots[slot])
-				tile.stack = {
-					'entity': equipment.slots[slot]
-				}
-				continue
+			if slot:
+				if equipment.slots.has(slot):
+					print(equipment.slots[slot])
+					tile.stack = {
+						'entity': equipment.slots[slot]
+					}
+					continue
+				else:
+					tile.stack = {}

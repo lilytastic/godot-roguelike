@@ -14,10 +14,8 @@ var stack: Dictionary:
 	get:
 		return _stack
 	set(value):
-		if value.entity:
-			print(value)
-			_stack = value
-			_set_slots()
+		_stack = value
+		set_slots()
 		return value
 
 signal item_dropped
@@ -38,7 +36,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	item_dropped.emit(data)
 	
 func _ready():
-	_set_slots()
+	set_slots()
 	connect('gui_input', on_input)
 
 func on_input(ev: InputEvent):
@@ -47,8 +45,9 @@ func on_input(ev: InputEvent):
 	if ev.double_click and stack:
 		var action = UseAction.new(Global.ecs.entity(stack.entity))
 		PlayerInput.ui_action_triggered.emit(action)
+	set_slots()
 
-func _set_slots():
+func set_slots():
 	var _entity = entity
 	if _entity == null:
 		if slot:
