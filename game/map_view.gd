@@ -50,17 +50,20 @@ func _perform_action(action: Action, _entity: Entity):
 
 func _process(delta):
 	scheduler.entities = actors.keys()
+	
 	if next_actor != null or !Global.player:
 		return
 	
-	var valid = actors.values().filter(
-		func(actor):
-			if !actor:
-				actors.erase(actor)
+	var valid = actors.keys().filter(
+		func(uuid):
+			if !actors[uuid]:
+				actors.erase(uuid)
 				return false
+			var actor = actors[uuid]
 			return actor.entity.blueprint.speed >= 0 and actor.entity.energy >= 0
 	)
-	var next = valid[0] if valid.size() else null
+	
+	var next = actors[valid[0]] if valid.size() else null
 	
 	if next != null:
 		next_actor = next.entity

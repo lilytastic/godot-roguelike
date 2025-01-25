@@ -19,14 +19,10 @@ func _check_for_action(event: InputEvent) -> Action:
 
 	if event.is_action_pressed('use'):
 		var target = Global.player
-		var entities = Global.ecs.entities.values().filter(
-			func(entity):
-				if entity.uuid == Global.player.uuid:
-					return false
-				if !entity.location:
-					return false
-				if entity.location.map == Global.player.location.map and entity.location.position == Global.player.location.position:
-					return true
+		var entities = Global.ecs.find_by_location(
+			Global.player.location
+		).filter(
+			func(entity): return entity.uuid != Global.player.uuid
 		)
 		if entities.size() > 0:
 			print(entities[0].uuid)

@@ -46,6 +46,7 @@ texture = SubResource("AtlasTexture_l4awr")
 metadata/blueprint = "ghoul"
 
 [node name="Map" parent="." instance=ExtResource("2_ly086")]
+unique_name_in_owner = true
 tile_map_data = PackedByteArray("AAD+/wEAAAAFAAAAAAD7//7/AAAFAAAAAAAEAPz/AAAFAAAAAAD5//3/AAAFAAAAAAD5////AAAFAAAAAAD7/wYAAAAFAAAAAAD8//r/AAAFAAAAAAAEAAEAAAAFAAAAAAAEAAIAAAAFAAAAAAAHAAEAAAAFAAAAAAA=")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

@@ -53,4 +53,12 @@ func load_data() -> void:
 		
 	blueprints = preprocess
 	print(blueprints.values().size(), " records loaded")
-	
+
+func find_by_location(location: Location) -> Array:
+	return entities.values().filter(
+		func(entity):
+			if !entity.location:
+				return false
+			if entity.location.map == location.map and entity.location.position.x == location.position.x and entity.location.position.y == location.position.y:
+				return true
+	)
