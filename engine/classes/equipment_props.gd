@@ -38,10 +38,17 @@ func equip(entity: Entity) -> bool:
 func unequip(slot) -> int:
 	if !slots.has(slot):
 		return -1
-	var equipped = slots[slot]
-	slots.erase(slot)
-	item_unequipped.emit(equipped)
-	return equipped
 
+	var previously_equipped = slots[slot]
+	slots.erase(slot)
+	item_unequipped.emit(previously_equipped)
+
+	return previously_equipped
+
+func has(uuid: int) -> bool:
+	return slots.values().any(
+		func(e): return uuid == e
+	)
+	
 func save():
 	return slots

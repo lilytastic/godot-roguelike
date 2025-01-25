@@ -17,9 +17,7 @@ func perform(entity: Entity) -> ActionResult:
 		return ActionResult.new(true)
 	
 	
-	var is_in_equipment = entity.equipment and entity.equipment.slots.values().any(
-		func(e): return target.uuid == e
-	)
+	var is_in_equipment = entity.equipment and entity.equipment.has(target.uuid)
 	
 	if is_in_equipment:
 		for slot in entity.equipment.slots:
