@@ -21,6 +21,7 @@ var stack: Dictionary:
 		return value
 
 signal item_dropped
+signal on_double_click
 
 
 func _get_drag_data(at_position: Vector2) -> Variant:
@@ -44,9 +45,9 @@ func _ready():
 func on_input(ev: InputEvent):
 	if !ev is InputEventMouseButton:
 		return
-	# print(ev)
 	if ev.double_click:
-		print('YES! ', slot)
+		PlayerInput.on_double_click(self)
+		on_double_click.emit()
 
 func _set_slots():
 	var _entity = entity

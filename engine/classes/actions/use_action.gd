@@ -18,7 +18,7 @@ func perform(entity: Entity) -> ActionResult:
 		return ActionResult.new(true)
 	
 	var is_in_inventory = entity.inventory and entity.inventory.items.any(
-		func(e): return target.uuid == e.uuid
+		func(e): return target.uuid == e.entity
 	)
 	
 	if is_in_inventory:

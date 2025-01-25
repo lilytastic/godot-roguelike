@@ -2,6 +2,7 @@ extends Node
 
 signal action_triggered
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('quicksave'):
 		Global.quicksave()
@@ -10,7 +11,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	var action := _check_for_action(event)
 	if action:
 		action_triggered.emit(action)
-
 
 func _check_for_action(event: InputEvent) -> Action:
 	for i: StringName in InputTag.MOVE_ACTIONS:
@@ -27,6 +27,13 @@ func _check_for_action(event: InputEvent) -> Action:
 
 	return null
 
+func on_double_click(target):
+	print(target)
+	if target is TileItem and target.stack:
+		print(target.stack.entity)
+		action_triggered.emit(
+			UseAction.new(Global.ecs.entity(target.stack.entity))
+		)
 
 func _input_to_direction(direction: StringName):
 	var coord: Vector2i = Vector2i.ZERO
