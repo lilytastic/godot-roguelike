@@ -28,9 +28,9 @@ func perform(entity: Entity) -> ActionResult:
 			if entity.equipment.slots[slot] == target.uuid:
 				entity.equipment.slots.erase(slot)
 				entity.equipment.item_unequipped.emit(target)
-		entity.inventory.add({ 'entity': target.uuid, 'num': 1 })
-		print('in equipment')
-		return ActionResult.new(true)
+				entity.inventory.add({ 'entity': target.uuid, 'num': 1 })
+				print('in equipment')
+				return ActionResult.new(true)
 	
 	if is_in_inventory:
 		if target.blueprint.item:
