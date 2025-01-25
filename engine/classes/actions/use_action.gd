@@ -21,7 +21,10 @@ func perform(entity: Entity) -> ActionResult:
 	)
 	
 	if is_in_inventory:
-		# ...
-		pass
+		if target.blueprint.item:
+			var item_props = target.blueprint.item
+			if !item_props.slots:
+				pass
+			print(item_props.slots)
 
 	return ActionResult.new(false)

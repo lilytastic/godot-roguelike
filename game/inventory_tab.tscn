@@ -11,16 +11,18 @@ offset_left = 36.0
 offset_right = -36.0
 offset_bottom = 224.0
 grow_horizontal = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = 60
+theme_override_constants/separation = 0
+alignment = 1
 script = ExtResource("1_sbvjl")
 
 [node name="InventoryDisplay" parent="." instance=ExtResource("3_3j3vn")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 0)
+custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+columns = 6
 
 [node name="Container" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 160)

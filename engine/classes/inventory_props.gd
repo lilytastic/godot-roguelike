@@ -9,7 +9,7 @@ signal items_changed
 func _init(opts := {}):
 	print('init inventory ', opts)
 	items = opts.get('items', [])
-	max_items = opts.get('max_items', 25)
+	max_items = opts.get('max_items', 30)
 	items_changed.emit()
 
 func add(stack: Dictionary) -> bool:
