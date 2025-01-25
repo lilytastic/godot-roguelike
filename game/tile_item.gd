@@ -22,6 +22,7 @@ var stack: Dictionary:
 
 signal item_dropped
 
+
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if entity:
 		return entity.uuid
@@ -38,7 +39,15 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	
 func _ready():
 	_set_slots()
-			
+	connect('gui_input', on_input)
+
+func on_input(ev: InputEvent):
+	if !ev is InputEventMouseButton:
+		return
+	# print(ev)
+	if ev.double_click:
+		print('YES! ', slot)
+
 func _set_slots():
 	var _entity = entity
 	if _entity == null:

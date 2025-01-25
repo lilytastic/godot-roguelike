@@ -18,10 +18,7 @@ func _check_for_action(event: InputEvent) -> Action:
 			return MovementAction.new(_input_to_direction(i))
 
 	if event.is_action_pressed('use'):
-		var target = Global.player
-		var entities = Global.ecs.find_by_location(
-			Global.player.location
-		).filter(
+		var entities = Global.ecs.find_by_location(Global.player.location).filter(
 			func(entity): return entity.uuid != Global.player.uuid
 		)
 		if entities.size() > 0:
