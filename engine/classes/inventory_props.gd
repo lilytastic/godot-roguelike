@@ -5,18 +5,12 @@ var max_items = 25
 
 signal items_changed
 
+
 func _init(opts := {}):
 	print('init inventory ', opts)
 	items = opts.get('items', [])
 	max_items = opts.get('max_items', 25)
-	_initialized()
-	Global.player_changed.connect(func(player): _initialized())
-	Global.game_loaded.connect(func(): _initialized())
-
-func _initialized():
-	for n in max_items:
-		# items.append(null)
-		items_changed.emit()
+	items_changed.emit()
 
 func add(stack: Dictionary) -> bool:
 	var slot = items.find(func(_slot): return _slot != null)
