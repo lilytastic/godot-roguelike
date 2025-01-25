@@ -1,6 +1,7 @@
 extends Node
 
 signal action_triggered
+signal ui_action_triggered
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -26,14 +27,6 @@ func _check_for_action(event: InputEvent) -> Action:
 			return UseAction.new(entities[0])
 
 	return null
-
-func on_double_click(target):
-	print(target)
-	if target is TileItem and target.stack:
-		print(target.stack.entity)
-		action_triggered.emit(
-			UseAction.new(Global.ecs.entity(target.stack.entity))
-		)
 
 func _input_to_direction(direction: StringName):
 	var coord: Vector2i = Vector2i.ZERO

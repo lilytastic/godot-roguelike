@@ -34,6 +34,9 @@ func _ready():
 			_init_player(Global.player)
 	)
 	
+	PlayerInput.ui_action_triggered.connect(func(action):
+		action.perform(Global.player)
+	)
 	PlayerInput.action_triggered.connect(func(action):
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			var result = _perform_action(action, Global.player)

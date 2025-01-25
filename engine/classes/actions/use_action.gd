@@ -8,7 +8,6 @@ func _init(_target: Entity):
 	pass
 
 func perform(entity: Entity) -> ActionResult:
-	print(entity.uuid)
 	if !target:
 		return ActionResult.new(false)
 
@@ -22,6 +21,7 @@ func perform(entity: Entity) -> ActionResult:
 	)
 	
 	if is_in_inventory:
+		# ...
 		pass
 
 	return ActionResult.new(false)
