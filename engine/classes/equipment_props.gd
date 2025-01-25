@@ -8,23 +8,31 @@ signal item_unequipped
 func _init(props: Dictionary):
 	slots = props
 
-func equip(entity: Entity):
+func equip(entity: Entity) -> bool:
 	var blueprint = entity.blueprint
+	var swapped = []
 	if !blueprint or !blueprint.item:
-		return
+		return false
+
 	print(blueprint.item.slots)
+
 	for slotSet in blueprint.item.slots:
 		print(slotSet)
-		var invalidSlots = slotSet.filter(
+		var isValid = slotSet.filter(
 			func(key):
 				return slots.has(key) and slots[key] != null
-		)
-		if invalidSlots.size() == 0:
+		).size() == 0
+		
+		if isValid:
 			for slot in slotSet:
+				if slots.has('slot'):
+					swapped.append(slots[slot])
 				slots[slot] = entity.uuid
+
 			print('equipped to ', slotSet)
 			item_equipped.emit({ 'slots': slotSet, 'item': entity.uuid })
 			return true
+
 	print(entity.uuid, entity.blueprint)
 	return false
 	

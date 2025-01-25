@@ -34,7 +34,9 @@ func perform(entity: Entity) -> ActionResult:
 	
 	if is_in_inventory:
 		if target.blueprint.item:
-			entity.equipment.equip(target)
-			entity.inventory.remove(target.uuid)
+			var success = entity.equipment.equip(target)
+			# TODO: Add anything that got swapped out to the inventory!
+			if success:
+				entity.inventory.remove(target.uuid)
 
 	return ActionResult.new(false)
