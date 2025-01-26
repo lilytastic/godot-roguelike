@@ -3,10 +3,13 @@ extends Action
 
 var target: Entity
 var ability: Ability
+var conduit: Entity
 
-func _init(_target: Entity, abilityId: String):
+func _init(_target: Entity, abilityId: String, opts := {}):
 	target = _target
 	ability = Global.ecs.abilities[abilityId]
+	conduit = opts.get('conduit', null)
+	
 
 func perform(entity: Entity) -> ActionResult:
 	if !target:
@@ -16,7 +19,11 @@ func perform(entity: Entity) -> ActionResult:
 	for effect in ability.effects:
 		match effect.type:
 			'damage':
-				Global.ecs.remove(target.uuid)
+				var damageRange = conduit.blueprint.weapon.damage if conduit.blueprint.weapon else [5, 5]
+				var damage = randf_range(damageRange[0], damageRange[1])
+				target.damage(
+					{ 'damage': damage, 'source': entity }
+				)
 				pass
 
 	return ActionResult.new(false)

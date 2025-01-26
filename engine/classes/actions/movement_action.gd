@@ -29,7 +29,8 @@ func perform(entity: Entity) -> ActionResult:
 							false,
 							{'alternate': UseAbilityAction.new(
 								collision,
-								equipment.blueprint.weapon.weaponskills[0]
+								equipment.blueprint.weapon.weaponskills[0],
+								{ 'conduit': equipment }
 							)}
 						)
 			# TODO: Otherwise, if it's usable, use it!

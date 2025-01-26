@@ -25,6 +25,10 @@ func _init(opts: Dictionary):
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
 	return
+	
+func damage(opts: Dictionary):
+	if opts.has('damage'):
+		print(opts.damage)
 
 func save() -> Dictionary:
 	var dict := {}
