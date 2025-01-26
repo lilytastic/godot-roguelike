@@ -46,6 +46,7 @@ func save() -> Dictionary:
 		dict.position = location.position
 	if inventory: dict.inventory = inventory.save()
 	if equipment: dict.equipment = equipment.save()
+	if health: dict.health = health.current
 
 	print('saving ', dict)
 	return dict
@@ -69,4 +70,5 @@ func load_from_save(data: Dictionary) -> void:
 	
 	if data.has('inventory'): inventory = InventoryProps.new(data.inventory)
 	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
+	if data.has('health'): health.current = data.get('health', 1)
 	
