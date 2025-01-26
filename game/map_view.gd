@@ -2,7 +2,7 @@ class_name MapView
 extends TileMapLayer
 
 @export var map := ''
-var actor: PackedScene = preload('res://game/actor.tscn')
+var actor_prefab: PackedScene = preload('res://game/actor.tscn')
 var subscription := _init_map
 var actors := {}
 
@@ -20,7 +20,7 @@ var player: Entity:
 
 
 func _ready():
-	_init_player(Global.player)
+	_init_player()
 	
 	Global.ecs.entity_added.connect(
 		func(value: Entity):
@@ -28,15 +28,17 @@ func _ready():
 			if map and value.location and value.location.map == map:
 				_init_actor(value)
 	)
+	
 	Global.player_changed.connect(
 		func(value: Entity):
 			print('new player ', value)
-			_init_player(Global.player)
+			_init_player()
 	)
 	
 	PlayerInput.ui_action_triggered.connect(func(action):
 		action.perform(Global.player)
 	)
+	
 	PlayerInput.action_triggered.connect(func(action):
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			var result = _perform_action(action, Global.player)
@@ -70,9 +72,8 @@ func _process(delta):
 	
 	if next != null:
 		next_actor = next.entity
-		print('ready! ', next_actor.blueprint.id)
 		if Global.player and next_actor.uuid == Global.player.uuid:
-			print('it you')
+			pass
 		else:
 			next_actor.energy -= 10
 			next_actor = null
@@ -87,11 +88,11 @@ func _process(delta):
 				entity.energy += entity.blueprint.speed * delta
 			
 
-func _init_player(player: Entity) -> void:
-	player = Global.player
+func _init_player() -> void:
+	_player = Global.player
 	
-	if player and player.location:
-		_init_map(player.location.map)
+	if _player and _player.location:
+		_init_map(_player.location.map)
 
 
 func _init_actor(entity: Entity, new_actor := Actor.new()):

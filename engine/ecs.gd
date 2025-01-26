@@ -1,9 +1,11 @@
 class_name ECS
 
-var entities: Dictionary = {}
-var blueprints: Dictionary = {}
+var entities := {}
+var blueprints := {}
+var abilities := {}
 
 signal entity_added
+
 
 func entity(id: int) -> Entity:
 	if (entities.has(id)):
@@ -31,28 +33,12 @@ func create(opts: Dictionary) -> Entity:
 
 func load_data() -> void:
 	var resources = Files.get_all_files('res://data')
-	var preprocess: Dictionary
-	
-	for resource in resources:
-		print(resource)
-		var data = Files.get_dictionary(resource)
-		if data.has('blueprints'):
-			var _blueprints = data.blueprints
-			for blueprint in _blueprints:
-				if blueprint.has('id'):
-					preprocess[blueprint.id] = Blueprint.new(blueprint)
-
-	for blueprint in preprocess:
-		var current = preprocess[blueprint]
-		var curr = preprocess[blueprint]
-		while curr.parent:
-			if !preprocess.has(curr.parent):
-				break
-			curr = preprocess[curr.parent]
-			current.concat(curr)
-		
-	blueprints = preprocess
-	print(blueprints.values().size(), " records loaded")
+	blueprints = Blueprint.load_from_files(resources)
+	abilities = Ability.load_from_files(resources)
+	print(
+		blueprints.keys().size() + abilities.keys().size(),
+		" records loaded"
+	)
 
 func find_by_location(location: Location) -> Array:
 	return entities.values().filter(

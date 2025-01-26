@@ -3,6 +3,7 @@ extends Action
 
 var vector: Vector2
 
+
 func _init(_vector):
 	vector = _vector
 
@@ -17,6 +18,15 @@ func perform(entity: Entity) -> ActionResult:
 			return _entity.location.position.x == new_position.x and _entity.location.position.y == new_position.y
 	)
 	if collisions.size():
+		for collision in collisions:
+			# TODO: If it's hostile, use this entity's first weaponskill on it.
+			if entity.equipment:
+				for uuid in entity.equipment.slots.values():
+					var equipment = Global.ecs.entity(uuid)
+					if equipment.blueprint.weapon:
+						print('attack! ', equipment.blueprint.weapon.weaponskills)
+			# TODO: Otherwise, if it's usable, use it!
+			pass
 		return ActionResult.new(false)
 	
 	entity.location.position = new_position

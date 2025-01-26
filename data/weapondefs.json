@@ -6,16 +6,18 @@
 		"name": "weapon",
 		"parent": "item",
 		"type": "weapon",
-		"abilities": [ "strike" ],
 		"categories": [ "weapons", "melee weapons" ],
 		"use": {
-		  "type": "equip"
+			"type": "equip"
 		},
 		"weapon": {
-		  "type": "slash",
-		  "damage": [3, 5],
-		  "range": 1,
-		  "speed": 1
+			"type": "slash",
+			"damage": [3, 5],
+			"range": 1,
+			"speed": 1,
+			"weaponskills": [
+				"strike"
+			],
 		},
 		"glyph": {
 		  "ch": "G_SWORD",
@@ -45,7 +47,8 @@
 		  "type": "bludgeon",
 		  "damage": [2, 7],
 		  "range": 1,
-		  "speed": 1
+		  "speed": 1,
+		  "weaponskills": [ "punch" ]
 		},
 		"glyph": {
 		  "ch": "G_FISTS",
@@ -61,14 +64,14 @@
 		"name": "dagger",
 		"parent": "weapon",
 		"type": "dagger",
-		"abilities": [ "slash" ],
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "Doubles as a toothpick.",
 		"weapon": {
 		  "type": "slash",
 		  "damage": [3, 8],
 		  "range": 1,
-		  "speed": 1.3
+		  "speed": 1.3,
+		  "weaponskills": [ "slash" ]
 		},
 		"glyph": {
 		  "ch": "G_DAGGER",
@@ -84,13 +87,13 @@
 		"name": "sword",
 		"parent": "weapon",
 		"type": "sword",
-		"abilities": [ "slash" ],
 		"description": "Goes 'whoosh' when you swing it.",
 		"weapon": {
 		  "type": "slash",
 		  "damage": [5, 8],
 		  "range": 1,
-		  "speed": 1
+		  "speed": 1,
+		  "weaponskills": [ "slash" ],
 		},
 		"glyph": {
 		  "ch": "G_SWORD",
@@ -106,13 +109,13 @@
 		"name": "greatsword",
 		"parent": "weapon",
 		"type": "greatsword",
-		"abilities": [ "slash" ],
 		"description": "Goes 'whoosh' when you swing it.",
 		"weapon": {
 		  "type": "slash",
 		  "damage": [8, 10],
 		  "range": 2,
-		  "speed": 0.8
+		  "speed": 0.8,
+		  "weaponskills": [ "slash" ],
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -132,13 +135,13 @@
 		"name": "spear",
 		"parent": "weapon",
 		"type": "spear",
-		"abilities": [ "thrust" ],
 		"description": "Slang for genitalia.",
 		"weapon": {
 		  "type": "pierce",
 		  "damage": [7, 8],
 		  "range": 2,
-		  "speed": 1
+		  "speed": 1,
+		  "weaponskills": [ "thrust" ],
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -158,14 +161,14 @@
 		"name": "axe",
 		"parent": "weapon",
 		"type": "axe",
-		"abilities": [ "slash" ],
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "The trees will fear you.",
 		"weapon": {
 		  "type": "slash",
 		  "damage": [5, 6],
 		  "range": 1,
-		  "speed": 1
+		  "speed": 1,
+		  "weaponskills": [ "slash" ],
 		},
 		"glyph": {
 		  "ch": "G_AXE",
@@ -181,14 +184,14 @@
 		"name": "mace",
 		"parent": "weapon",
 		"type": "mace",
-		"abilities": [ "strike" ],
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "Good for cracking bones.",
 		"weapon": {
 		  "type": "bludgeon",
 		  "damage": [6, 7],
 		  "range": 1,
-		  "speed": 1
+		  "speed": 1,
+		  "weaponskills": [ "strike" ],
 		},
 		"glyph": {
 		  "ch": "G_MACE",
@@ -204,14 +207,14 @@
 		"name": "warhammer",
 		"parent": "weapon",
 		"type": "warhammer",
-		"abilities": [ "strike" ],
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "Good for cracking bones.",
 		"weapon": {
 		  "type": "bludgeon",
 		  "damage": [4, 10],
 		  "range": 1,
-		  "speed": 0.7
+		  "speed": 0.7,
+		  "weaponskills": [ "strike" ],
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -231,13 +234,13 @@
 		"name": "scepter",
 		"parent": "weapon",
 		"type": "staff",
-		"abilities": [ "strike" ],
 		"description": "Bonk.",
 		"weapon": {
 		  "type": "bludgeon",
 		  "damage": [3, 4],
 		  "range": 1,
-		  "speed": 1
+		  "speed": 1,
+		  "weaponskills": [ "strike" ],
 		},
 		"glyph": {
 		  "ch": "G_STAFF",
@@ -259,7 +262,8 @@
 		  "type": "pierce",
 		  "damage": [4, 6],
 		  "range": 8,
-		  "speed": 1.3
+		  "speed": 1.3,
+		  "weaponskills": [ "shoot" ],
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -280,12 +284,12 @@
 		"parent": "weapon",
 		"type": "longbow",
 		"description": "Pew.",
-		"abilities": [ "shoot" ],
 		"weapon": {
 		  "type": "pierce",
 		  "damage": [3, 11],
 		  "range": 12,
-		  "speed": 0.8
+		  "speed": 0.8,
+		  "weaponskills": [ "shoot" ],
 		},
 		"wearable": {
 		  "slot": "weapon",

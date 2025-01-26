@@ -1,280 +1,280 @@
 {
-    "data": {
-        "abilities": [
-            {
-                "id": "dash",
-                "name": "Dash",
-                "isActive": true,
-                "cost": { "stamina": 20, "focus": 1 },
-                "requirements": {},
-                "effects": [],
-                "area": {
-                    "type": "directional",
-                    "layout": ["X",
-                               " ",
-                               "@"],
-                    "layoutDiagonal": ["  X",
-                                       "   ",
-                                       "@  "]
-                }
-            },
-            {
-                "id": "slash",
-                "name": "Slash",
-                "isActive": true,
-                "effects": [
-                    {
-                        "type": "damage",
-                        "damageType": "slash",
-                        "potency": 0.8
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": ["#",
-                               "@"],
-                    "layoutDiagonal": [" #",
-                                       "@ "]
-                },
-                "chain": "slash_double"
-            },
-            {
-                "id": "strike",
-                "name": "Strike",
-                "isActive": true,
-                "effects": [
-                    {
-                        "type": "damage",
-                        "damageType": "bludgeon",
-                        "potency": 0.8
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": ["#",
-                               "@"],
-                    "layoutDiagonal": [" #",
-                                       "@ "]
-                }
-            },
-            {
-                "id": "punch",
-                "name": "Punch",
-                "isActive": true,
-                "effects": [
-                    {
-                        "type": "damage",
-                        "damageType": "bludgeon",
-                        "potency": 0.8
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": ["#",
-                               "@"],
-                    "layoutDiagonal": [" #",
-                                       "@ "]
-                }
-            },
-            {
-                "id": "thrust",
-                "name": "Thrust",
-                "isActive": true,
-                "effects": [
-                    {
-                        "type": "damage",
-                        "damageType": "pierce",
-                        "potency": 0.8
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": ["#",
-                               "#",
-                               "@"],
-                    "layoutDiagonal": ["  #",
-                                       " # ",
-                                       "@  "]
-                }
-            },
-            {
-                "id": "shoot",
-                "name": "Shoot",
-                "isActive": true,
-                "effects": [
-                    {
-                        "type": "damage",
-                        "damageType": "pierce",
-                        "potency": 0.8
-                    }
-                ],
-                "area": {
-                    "type": "ranged"
-                }
-            },
-            {
-                "id": "slash_double",
-                "parent": "slash",
-                "name": "Double Slash",
-                "effects": [
-                    {
-                        "type": "damage",
-                        "damageType": "slash",
-                        "potency": 0.9
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": ["#",
-                               "@"],
-                    "layoutDiagonal": [" #",
-                                       "@ "]
-                },
-                "chain": "slash_final"
-            },
-            {
-                "id": "slash_final",
-                "parent": "slash",
-                "name": "Critical Strike",
-                "effects": [
-                    {
-                        "type": "damage",
-                        "damageType": "slash",
-                        "potency": 1.3
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": ["#",
-                               "@"],
-                    "layoutDiagonal": [" #",
-                                       "@ "]
-                },
-                "chain": "slash"
-            },
-            {
-                "id": "cleave",
-                "name": "Cleave",
-                "isActive": true,
-                "cost": { "stamina": 20, "focus": 3 },
-                "requirements": {
-                    "range": { "min": 1 },
-                    "damageType": [ "slash" ]
-                },
-                "effects": [{
-                    "type": "damage",
-                    "damageType": "slash",
-                    "potency": 1.3
-                }],
-                "area": {
-                    "type": "directional",
-                    "layout": ["###",
-                               " @ "],
-                    "layoutDiagonal": ["##",
-                                       "@#"]
-                }
-            },
-            {
-                "id": "crosscut",
-                "name": "Cross-cut",
-                "isActive": true,
-                "cost": { "stamina": 25, "focus": 3 },
-                "requirements": { "damageType": ["slash"], "weaponCount": { "min": 2 } },
-                "effects": [
-                    {
-                        "type": "damage", "potency": 1.3
-                    },
-                    {
-                        "type": "bleed", "potency": 0.3, "duration": [1, 4]
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": ["#",
-                               "@"],
-                    "layoutDiagonal": [" #",
-                                       "@ "]
-                }
-            },
-            {
-                "id": "heal",
-                "name": "Heal",
-                "isActive": true,
-                "requirements": [],
-                "cost": {"focus": 5 },
-                "canTargetSelf": true,
-                "effects": [
-                    {
-                        "type": "heal",
-                        "potency": [10, 20]
-                    }
-                ],
-                "area": {
-                    "type": "self",
-                    "layout": [ "#" ]
-                }
-            },
-            {
-                "id": "camp",
-                "name": "Make Camp",
-                "isActive": true,
-                "requirements": [],
-                "cost": { "supplies": 10 },
-                "effects": [
-                    {
-                        "type": "camp"
-                    }
-                ]
-            },
-            {
-                "id": "spore_explosion",
-                "name": "Spore Explosion",
-                "needsTarget": false,
-                "isActive": true,
-                "requirements": [],
-                "cost": { "stamina": 50, "focus": 5 },
-                "canTargetSelf": true,
-                "effects": [
-                    {
-                        "type": "damage",
-                        "potency": 20
-                    }
-                ],
-                "area": {
-                    "type": "directional",
-                    "layout": [ 
-                        "###",
-                        "#@#",
-                        "###"
-                    ]
-                }
-            }
-        ],
-        "abilityTrees": [
-            {
-                "id": "swords",
-                "name": "Swords"
-            },
-            {
-                "id": "daggers",
-                "name": "Daggers"
-            },
-            {
-                "id": "spears",
-                "name": "Polearms"
-            },
-            {
-                "id": "axes",
-                "name": "Axes"
-            },
-            {
-                "id": "blunt",
-                "name": "Blunt Weapons"
-            },
-            {
-                "id": "magic",
-                "name": "Magic"
-            }
-        ]
-    }
+	"data": {
+		"abilities": [
+			{
+				"id": "dash",
+				"name": "Dash",
+				"isActive": true,
+				"cost": { "stamina": 20, "focus": 1 },
+				"requirements": {},
+				"effects": [],
+				"area": {
+					"type": "directional",
+					"layout": ["X",
+							   " ",
+							   "@"],
+					"layoutDiagonal": ["  X",
+									   "   ",
+									   "@  "]
+				}
+			},
+			{
+				"id": "slash",
+				"name": "Slash",
+				"isActive": true,
+				"effects": [
+					{
+						"type": "damage",
+						"damageType": "slash",
+						"potency": 0.8
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": ["#",
+							   "@"],
+					"layoutDiagonal": [" #",
+									   "@ "]
+				},
+				"chain": "slash_double"
+			},
+			{
+				"id": "strike",
+				"name": "Strike",
+				"isActive": true,
+				"effects": [
+					{
+						"type": "damage",
+						"damageType": "bludgeon",
+						"potency": 0.8
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": ["#",
+							   "@"],
+					"layoutDiagonal": [" #",
+									   "@ "]
+				}
+			},
+			{
+				"id": "punch",
+				"name": "Punch",
+				"isActive": true,
+				"effects": [
+					{
+						"type": "damage",
+						"damageType": "bludgeon",
+						"potency": 0.8
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": ["#",
+							   "@"],
+					"layoutDiagonal": [" #",
+									   "@ "]
+				}
+			},
+			{
+				"id": "thrust",
+				"name": "Thrust",
+				"isActive": true,
+				"effects": [
+					{
+						"type": "damage",
+						"damageType": "pierce",
+						"potency": 0.8
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": ["#",
+							   "#",
+							   "@"],
+					"layoutDiagonal": ["  #",
+									   " # ",
+									   "@  "]
+				}
+			},
+			{
+				"id": "shoot",
+				"name": "Shoot",
+				"isActive": true,
+				"effects": [
+					{
+						"type": "damage",
+						"damageType": "pierce",
+						"potency": 0.8
+					}
+				],
+				"area": {
+					"type": "ranged"
+				}
+			},
+			{
+				"id": "slash_double",
+				"parent": "slash",
+				"name": "Double Slash",
+				"effects": [
+					{
+						"type": "damage",
+						"damageType": "slash",
+						"potency": 0.9
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": ["#",
+							   "@"],
+					"layoutDiagonal": [" #",
+									   "@ "]
+				},
+				"chain": "slash_final"
+			},
+			{
+				"id": "slash_final",
+				"parent": "slash",
+				"name": "Critical Strike",
+				"effects": [
+					{
+						"type": "damage",
+						"damageType": "slash",
+						"potency": 1.3
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": ["#",
+							   "@"],
+					"layoutDiagonal": [" #",
+									   "@ "]
+				},
+				"chain": "slash"
+			},
+			{
+				"id": "cleave",
+				"name": "Cleave",
+				"isActive": true,
+				"cost": { "stamina": 20, "focus": 3 },
+				"requirements": {
+					"range": { "min": 1 },
+					"damageType": [ "slash" ]
+				},
+				"effects": [{
+					"type": "damage",
+					"damageType": "slash",
+					"potency": 1.3
+				}],
+				"area": {
+					"type": "directional",
+					"layout": ["###",
+							   " @ "],
+					"layoutDiagonal": ["##",
+									   "@#"]
+				}
+			},
+			{
+				"id": "crosscut",
+				"name": "Cross-cut",
+				"isActive": true,
+				"cost": { "stamina": 25, "focus": 3 },
+				"requirements": { "damageType": ["slash"], "weaponCount": { "min": 2 } },
+				"effects": [
+					{
+						"type": "damage", "potency": 1.3
+					},
+					{
+						"type": "bleed", "potency": 0.3, "duration": [1, 4]
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": ["#",
+							   "@"],
+					"layoutDiagonal": [" #",
+									   "@ "]
+				}
+			},
+			{
+				"id": "heal",
+				"name": "Heal",
+				"isActive": true,
+				"requirements": [],
+				"cost": {"focus": 5 },
+				"canTargetSelf": true,
+				"effects": [
+					{
+						"type": "heal",
+						"potency": [10, 20]
+					}
+				],
+				"area": {
+					"type": "self",
+					"layout": [ "#" ]
+				}
+			},
+			{
+				"id": "camp",
+				"name": "Make Camp",
+				"isActive": true,
+				"requirements": [],
+				"cost": { "supplies": 10 },
+				"effects": [
+					{
+						"type": "camp"
+					}
+				]
+			},
+			{
+				"id": "spore_explosion",
+				"name": "Spore Explosion",
+				"needsTarget": false,
+				"isActive": true,
+				"requirements": [],
+				"cost": { "stamina": 50, "focus": 5 },
+				"canTargetSelf": true,
+				"effects": [
+					{
+						"type": "damage",
+						"potency": 20
+					}
+				],
+				"area": {
+					"type": "directional",
+					"layout": [ 
+						"###",
+						"#@#",
+						"###"
+					]
+				}
+			}
+		],
+		"abilityTrees": [
+			{
+				"id": "swords",
+				"name": "Swords"
+			},
+			{
+				"id": "daggers",
+				"name": "Daggers"
+			},
+			{
+				"id": "spears",
+				"name": "Polearms"
+			},
+			{
+				"id": "axes",
+				"name": "Axes"
+			},
+			{
+				"id": "blunt",
+				"name": "Blunt Weapons"
+			},
+			{
+				"id": "magic",
+				"name": "Magic"
+			}
+		]
+	}
 }

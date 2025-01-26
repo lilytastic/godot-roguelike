@@ -8,6 +8,7 @@ var type: String
 var glyph: Glyph
 var item: ItemProps
 var equipment: EquipmentProps
+var weapon: WeaponProps
 var speed := 0
 
 
@@ -24,6 +25,8 @@ func _init(props: Dictionary):
 		item = ItemProps.new(props)
 	if props.has('slots'):
 		equipment = EquipmentProps.new(props)
+	if props.has('weapon'):
+		weapon = WeaponProps.new(props.weapon)
 	return
 
 
@@ -34,5 +37,29 @@ func concat(parent: Blueprint):
 	item = item if item else parent.item
 	equipment = equipment if equipment else parent.equipment
 	speed = speed if speed != 0 else parent.speed
+	weapon = weapon if weapon else parent.weapon
 	
 	return
+
+static func load_from_files(resources: Array) -> Dictionary:
+	var preprocess: Dictionary
+	
+	for resource in resources:
+		print(resource)
+		var data = Files.get_dictionary(resource)
+		if data.has('blueprints'):
+			var _blueprints = data.blueprints
+			for blueprint in _blueprints:
+				if blueprint.has('id'):
+					preprocess[blueprint.id] = Blueprint.new(blueprint)
+
+	for blueprint in preprocess:
+		var current = preprocess[blueprint]
+		var curr = preprocess[blueprint]
+		while curr.parent:
+			if !preprocess.has(curr.parent):
+				break
+			curr = preprocess[curr.parent]
+			current.concat(curr)
+	
+	return preprocess
