@@ -24,7 +24,7 @@ func new_game() -> void:
 	player.location = Location.new('Test', Vector2(0,0))
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
-		'entity': Global.ecs.create({ 'blueprint': 'axe' }).uuid,
+		'entity': Global.ecs.create({ 'blueprint': 'greatsword' }).uuid,
 		'num': 1
 	})
 	player.equipment = EquipmentProps.new({})

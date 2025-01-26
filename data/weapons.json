@@ -1,58 +1,58 @@
 {
   "data": {
-    "blueprints": [
-      {
-        "id": "claws",
-        "name": "claws",
-        "parent": "fist",
-        "glyph": {
-          "ch": "G_FISTS",
-          "fg": [
-            160,
-            100,
-            48
-          ]
-        }
-      },
-      {
-        "id": "sword_bronze",
-        "name": "bronze sword",
-        "parent": "sword",
-        "glyph": {
-          "ch": "G_SWORD",
-          "fg": [
-            160,
-            100,
-            48
-          ]
-        }
-      },
-      {
-        "id": "sword_iron",
-        "name": "iron sword",
-        "parent": "sword",
-        "glyph": {
-          "ch": "G_SWORD",
-          "fg": [
-            160,
-            160,
-            160
-          ]
-        }
-      },
-      {
-        "id": "sword_steel",
-        "name": "steel sword",
-        "parent": "sword",
-        "glyph": {
-          "ch": "G_SWORD",
-          "fg": [
-            210,
-            210,
-            210
-          ]
-        }
-      }
-    ]
+	"blueprints": [
+	  {
+		"id": "claws",
+		"name": "claws",
+		"parent": "fist",
+		"glyph": {
+		  "ch": "G_FISTS",
+		  "fg": [
+			160,
+			100,
+			48
+		  ]
+		}
+	  },
+	  {
+		"id": "sword_bronze",
+		"name": "bronze sword",
+		"parent": "sword",
+		"glyph": {
+		  "ch": "G_SWORD",
+		  "fg": [
+			160,
+			100,
+			48
+		  ]
+		}
+	  },
+	  {
+		"id": "sword_iron",
+		"name": "iron sword",
+		"parent": "sword",
+		"glyph": {
+		  "ch": "G_SWORD",
+		  "fg": [
+			160,
+			160,
+			160
+		  ]
+		}
+	  },
+	  {
+		"id": "sword_steel",
+		"name": "steel sword",
+		"parent": "sword",
+		"glyph": {
+		  "ch": "G_SWORD",
+		  "fg": [
+			210,
+			210,
+			210
+		  ]
+		}
+	  }
+	]
   }
 }

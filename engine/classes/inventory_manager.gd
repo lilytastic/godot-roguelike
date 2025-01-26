@@ -19,10 +19,12 @@ func equip(receiver: Entity, item: Entity):
 		return false
 
 func unequip(receiver: Entity, item: Entity):
+	var slots_taken = 0
 	for slot in receiver.equipment.slots:
 		if receiver.equipment.slots[slot] == item.uuid:
 			var equipped = receiver.equipment.unequip(slot)
+			slots_taken += 1
 			if equipped != -1:
-				receiver.inventory.add({ 'entity': equipped, 'num': 1 })
-				return true
-	return false
+				if !receiver.inventory.has(equipped):
+					receiver.inventory.add({ 'entity': equipped, 'num': 1 })
+	return slots_taken > 0
