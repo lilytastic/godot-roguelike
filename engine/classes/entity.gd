@@ -20,19 +20,31 @@ var energy := 0
 
 signal map_changed
 signal health_changed
-
+signal on_death
 
 func _init(opts: Dictionary):
 	print('Initializing entity with template: ', opts.blueprint)
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
 	health = Meter.new(20)
+	health_changed.connect(
+		func(amount):
+			if !health or health.current <= 0:
+				on_death.emit()
+				Global.ecs.remove(uuid)
+	)
+	on_death.connect(
+		func():
+			# Drop a corpse, drop gear, trigger an event, etc.
+			pass
+	)
 	return
 	
 func damage(opts: Dictionary):
 	var damage = opts.get('damage', 1)
 	if health:
 		health.deduct(damage)
+		health_changed.emit(-damage)
 
 func save() -> Dictionary:
 	var dict := {}

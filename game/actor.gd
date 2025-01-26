@@ -17,11 +17,6 @@ signal destroyed
 
 func _ready() -> void:
 	print('actor ready ', _entityId)
-	Global.ecs.entity_removed.connect(
-		func(uuid):
-			if uuid == _entityId:
-				queue_free()
-	)
 	# snap to grid
 	position = Coords.get_position(
 		Coords.get_coord(position),
@@ -41,6 +36,8 @@ func _process(delta: float) -> void:
 				Coords.get_position(entity.location.position, Vector2(8, 8)),
 				delta * 30
 			)
+	if glyph:
+		modulate = modulate.lerp(glyph.fg, delta * 15)
 
 func _load(id: int):
 	_entityId = id
@@ -50,3 +47,14 @@ func _load(id: int):
 	if glyph:
 		set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
+	if entity.health:
+		entity.health_changed.connect(
+			func(amount):
+				print(amount)
+				modulate = Color(1,0,0)
+		)
+	entity.on_death.connect(
+		func():
+			await get_tree().create_timer(0.1).timeout
+			queue_free()
+	)

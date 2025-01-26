@@ -65,6 +65,8 @@ func _process(delta):
 				actors.erase(uuid)
 				return false
 			var actor = actors[uuid]
+			if !actor.entity:
+				return false
 			return actor.entity.blueprint.speed >= 0 and actor.entity.energy >= 0
 	)
 	
