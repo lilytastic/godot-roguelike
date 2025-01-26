@@ -1,13 +1,13 @@
 class_name TileItem
 extends Button
 
+@export var slot := ''
+
 var entity: Entity:
 	get:
 		if stack and stack.entity:
 			return Global.ecs.entity(stack.entity)
 		return null
-
-@export var slot := ''
 
 var _stack: Dictionary
 var stack: Dictionary:
@@ -23,17 +23,23 @@ signal item_dropped
 
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if entity:
+		PlayerInput.dragging = {
+			'entity': entity.uuid,
+			'source': slot if slot else 'inventory'
+		}
 		return entity.uuid
 	return null
 	
 func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
-	if data and Global.ecs.entities.has(data):
+	if PlayerInput.entity_dragging != null:
 		return true
 	return false
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
-	print(data)
-	item_dropped.emit(data)
+	if PlayerInput.entity_dragging != null:
+		print(PlayerInput.dragging, ' -> ', slot if slot else 'inventory')
+		item_dropped.emit(PlayerInput.entity_dragging.uuid)
+	PlayerInput.dragging = {}
 	
 func _init():
 	set_slots()

@@ -1,5 +1,12 @@
 extends Node
 
+var dragging := {}
+var entity_dragging: Entity:
+	get:
+		if PlayerInput.dragging.has('entity') and Global.ecs.entities.has(PlayerInput.dragging.entity):
+			return Global.ecs.entity(PlayerInput.dragging.entity)
+		return null
+
 signal action_triggered
 signal ui_action_triggered
 

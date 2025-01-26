@@ -1,5 +1,6 @@
 extends Node
 
+
 func give(receiver: Entity, item: Entity):
 	if item.blueprint.item:
 		item.location = null
