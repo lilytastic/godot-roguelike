@@ -19,11 +19,10 @@ func perform(entity: Entity) -> ActionResult:
 	for effect in ability.effects:
 		match effect.type:
 			'damage':
-				var damageRange = conduit.blueprint.weapon.damage if conduit.blueprint.weapon else [5, 5]
-				var damage = randf_range(damageRange[0], damageRange[1])
-				target.damage(
-					{ 'damage': damage, 'source': entity }
-				)
+				var weapon_props = conduit.blueprint.weapon if conduit.blueprint.weapon else null
+				var damageRange = weapon_props.damage if weapon_props else [5, 5]
+				var damage = round(randf_range(damageRange[0], damageRange[1]) * effect.potency)
+				target.damage({ 'damage': damage, 'source': entity })
 				pass
 
 	return ActionResult.new(false)

@@ -15,20 +15,24 @@ var glyph: Glyph:
 var location: Location
 var inventory: InventoryProps
 var equipment: EquipmentProps
+var health: Meter
 var energy := 0
 
 signal map_changed
+signal health_changed
 
 
 func _init(opts: Dictionary):
 	print('Initializing entity with template: ', opts.blueprint)
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
+	health = Meter.new(20)
 	return
 	
 func damage(opts: Dictionary):
-	if opts.has('damage'):
-		print(opts.damage)
+	var damage = opts.get('damage', 1)
+	if health:
+		health.deduct(damage)
 
 func save() -> Dictionary:
 	var dict := {}
