@@ -10,3 +10,13 @@ var entity: Entity:
 		%InventoryDisplay.inventory = _entity.inventory
 		%EquipmentDisplay.equipment = _entity.equipment
 	
+		var tiles = %InventoryDisplay.tiles + %EquipmentDisplay.tiles
+		for tile in tiles:
+			if tile is TileItem:
+				tile.double_click.connect(
+					func(stack):
+						print(stack)
+						if stack.entity:
+							var action = UseAction.new(Global.ecs.entity(stack.entity))
+							PlayerInput.ui_action_triggered.emit(action)
+				)

@@ -19,6 +19,7 @@ var stack: Dictionary:
 		return value
 
 signal item_dropped
+signal double_click
 
 
 func _get_drag_data(at_position: Vector2) -> Variant:
@@ -51,9 +52,8 @@ func _exit_tree():
 func on_input(ev: InputEvent):
 	if !ev is InputEventMouseButton:
 		return
-	if ev.double_click and stack:
-		var action = UseAction.new(Global.ecs.entity(stack.entity))
-		PlayerInput.ui_action_triggered.emit(action)
+	if ev.double_click:
+		double_click.emit(stack)
 	set_slots()
 
 func set_slots():

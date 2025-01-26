@@ -18,6 +18,8 @@ var equipment: EquipmentProps:
 			)
 		_initialize_slots()
 
+var tiles := []
+
 
 func _ready():
 	_initialize_slots()
@@ -25,9 +27,11 @@ func _ready():
 func _initialize_slots():
 	if equipment:
 		print('initialized equipment display with ', equipment.slots)
-		var tiles = %SlotsLeft.get_children() + %SlotsRight.get_children()
-		print(tiles)
-		for tile in tiles:
+		tiles.clear()
+		
+		var _tiles = %SlotsLeft.get_children() + %SlotsRight.get_children()
+
+		for tile in _tiles:
 			var slot = tile.slot if tile is TileItem else ''
 			if slot:
 				if equipment.slots.has(slot):
@@ -38,3 +42,4 @@ func _initialize_slots():
 					continue
 				else:
 					tile.stack = {}
+			tiles.append(tile)
