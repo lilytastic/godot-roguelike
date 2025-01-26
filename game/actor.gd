@@ -17,6 +17,11 @@ signal destroyed
 
 func _ready() -> void:
 	print('actor ready ', _entityId)
+	Global.ecs.entity_removed.connect(
+		func(uuid):
+			if uuid == _entityId:
+				queue_free()
+	)
 	# snap to grid
 	position = Coords.get_position(
 		Coords.get_coord(position),

@@ -11,5 +11,12 @@ func _init(_target: Entity, abilityId: String):
 func perform(entity: Entity) -> ActionResult:
 	if !target:
 		return ActionResult.new(false)
+		
+	print('Doing ability ', ability.name, ' (', ability.effects[0], ')')
+	for effect in ability.effects:
+		match effect.type:
+			'damage':
+				Global.ecs.remove(target.uuid)
+				pass
 
 	return ActionResult.new(false)

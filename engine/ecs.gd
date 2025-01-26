@@ -5,6 +5,7 @@ var blueprints := {}
 var abilities := {}
 
 signal entity_added
+signal entity_removed
 
 
 func entity(id: int) -> Entity:
@@ -16,6 +17,10 @@ func add(_entity: Entity) -> int:
 	entities[_entity.uuid] = _entity
 	entity_added.emit(_entity)
 	return _entity.uuid
+
+func remove(uuid: int) -> void:
+	entity_removed.emit(uuid)
+	entities.erase(uuid)
 	
 func load_from_save(data: Dictionary) -> void:
 	var opts = { 'uuid': data.uuid, 'blueprint': data.blueprint }
