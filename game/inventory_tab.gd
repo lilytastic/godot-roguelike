@@ -7,8 +7,6 @@ var entity: Entity:
 	get: return _entity
 	set(value):
 		_entity = value
-		if !_entity:
-			return
 
 		%InventoryDisplay.inventory = _entity.inventory
 		%EquipmentDisplay.equipment = _entity.equipment

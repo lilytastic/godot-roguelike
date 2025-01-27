@@ -91,4 +91,11 @@ func set_slots():
 		disabled = true
 	else:
 		self.icon = _entity.glyph.to_atlas_texture()
+		var glyph = _entity.glyph
+		if glyph.fg:
+			print(glyph.fg)
+			self.add_theme_color_override(
+				'icon_normal_color',
+				glyph.fg
+			)
 		disabled = false

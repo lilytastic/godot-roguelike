@@ -9,20 +9,22 @@ var equipment: EquipmentProps:
 			_equipment.item_unequipped.connect(
 				func(item):
 					print(item)
-					_initialize_slots()
+					_update_slots()
 			)
 			_equipment.item_equipped.connect(
 				func(item):
 					print(item)
-					_initialize_slots()
+					_update_slots()
 			)
 		_initialize_slots()
+		_update_slots()
 
 var tiles := []
 
 
 func _ready():
 	_initialize_slots()
+	_update_slots()
 
 func _initialize_slots():
 	if equipment:
@@ -36,11 +38,16 @@ func _initialize_slots():
 			if !slot:
 				continue
 			tiles.append(tile)
-			if equipment.slots.has(slot):
-				print(equipment.slots[slot])
-				tile.stack = {
-					'entity': equipment.slots[slot]
-				}
-				continue
-			else:
-				tile.stack = {}
+
+
+func _update_slots():
+	for tile in tiles:
+		var slot = tile.slot if (tile is TileItem) else ''
+		if !slot:
+			continue
+		if equipment.slots.has(slot):
+			tile.stack = {
+				'entity': equipment.slots[slot]
+			}
+		else:
+			tile.stack = {}
