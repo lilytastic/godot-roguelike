@@ -11,6 +11,7 @@ signal game_loaded
 var is_game_started: bool:
 	get: return player != null
 	
+var map_view: MapView = null
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)

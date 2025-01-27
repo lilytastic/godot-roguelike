@@ -4,8 +4,7 @@ var _equipment: EquipmentProps
 var equipment: EquipmentProps:
 	get: return _equipment
 	set(value):
-		_equipment = value
-		_update_equipment()
+		_update_equipment(value)
 
 var tiles := []
 
@@ -28,7 +27,8 @@ func _initialize_slots():
 				continue
 			tiles.append(tile)
 
-func _update_equipment():
+func _update_equipment(value: EquipmentProps):
+	_equipment = value
 	if _equipment:
 		_equipment.item_unequipped.connect(
 			func(item):

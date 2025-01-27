@@ -115,6 +115,7 @@ func _init_map(_map):
 		Global.maps_loaded[_map] = true
 		map = _map
 
+	Global.map_view = self
 	actors = {}
 	
 	var entities = Global.ecs.entities.values().filter(

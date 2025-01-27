@@ -54,6 +54,8 @@ texture = ExtResource("1_7o5ct")
 47:0/0 = 0
 48:0/0 = 0
 0:1/0 = 0
+0:1/0/modulate = Color(0.319731, 0.451836, 0.22779, 1)
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:1/0 = 0
 2:1/0 = 0
 3:1/0 = 0
@@ -1084,4 +1086,7 @@ texture = ExtResource("1_7o5ct")
 48:21/0 = 0
 
 [resource]
+occlusion_layer_0/light_mask = 1
+physics_layer_0/collision_layer = 1
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_b6cl6")
