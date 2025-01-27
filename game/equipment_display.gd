@@ -32,14 +32,15 @@ func _initialize_slots():
 		var _tiles = %SlotsLeft.get_children() + %SlotsRight.get_children()
 
 		for tile in _tiles:
-			var slot = tile.slot if tile is TileItem else ''
-			if slot:
-				if equipment.slots.has(slot):
-					print(equipment.slots[slot])
-					tile.stack = {
-						'entity': equipment.slots[slot]
-					}
-					continue
-				else:
-					tile.stack = {}
+			var slot = tile.slot if (tile is TileItem) else ''
+			if !slot:
+				continue
 			tiles.append(tile)
+			if equipment.slots.has(slot):
+				print(equipment.slots[slot])
+				tile.stack = {
+					'entity': equipment.slots[slot]
+				}
+				continue
+			else:
+				tile.stack = {}

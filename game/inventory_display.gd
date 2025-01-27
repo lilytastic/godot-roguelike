@@ -8,8 +8,8 @@ var inventory: InventoryProps:
 	set(value):
 		_inventory = value
 		if _inventory:
-			_inventory.items_changed.connect(func():
-				_update_slots()
+			_inventory.items_changed.connect(
+				func(): _update_slots()
 			)
 		_initialize_slots()
 		_update_slots()
