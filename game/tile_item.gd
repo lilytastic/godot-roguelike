@@ -15,11 +15,10 @@ var stack: Dictionary:
 		return _stack
 	set(value):
 		_stack = value
-		set_slots()
+		update()
 		return value
 
 signal item_dropped
-signal double_click
 
 
 func _get_drag_data(at_position: Vector2) -> Variant:
@@ -43,7 +42,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	PlayerInput.dragging = {}
 	
 func _init():
-	set_slots()
+	update()
 	connect('gui_input', on_input)
 	
 func _exit_tree():
@@ -53,49 +52,32 @@ func on_input(ev: InputEvent):
 	if !ev is InputEventMouseButton:
 		return
 	if ev.double_click:
-		double_click.emit(stack)
-	set_slots()
+		PlayerInput.double_click.emit(stack)
+	update()
 
-func set_slots():
+func update():
 	var _entity = entity
 	if _entity == null:
-		if slot:
-			var atlas = AtlasTexture.new()
-			atlas.set_atlas(Glyph.tileset)
-			var glyph = 'G_SWORD'
-			match slot:
-				'main hand':
-					glyph = 'G_SWORD'
-				'off-hand':
-					glyph = 'G_DAGGER'
-				'amulet':
-					glyph = 'G_AMULET'
-				'ring1':
-					glyph = 'G_RING'
-				'ring2':
-					glyph = 'G_RING_ALT'
-				'head':
-					glyph = 'G_HELMET'
-				'back':
-					glyph = 'G_CLOAK'
-				'torso':
-					glyph = 'G_ARMOR'
-				'hands':
-					glyph = 'G_GLOVES'
-				'feet':
-					glyph = 'G_BOOTS'
-			atlas.region = Glyph.get_atlas_region(glyph)
-			self.icon = atlas
-		else:
-			self.icon = null
+		_draw_space()
 		disabled = true
 	else:
-		self.icon = _entity.glyph.to_atlas_texture()
-		var glyph = _entity.glyph
-		if glyph.fg:
-			print(glyph.fg)
-			self.add_theme_color_override(
-				'icon_normal_color',
-				glyph.fg
-			)
+		_draw_entity(_entity)
 		disabled = false
+
+func _draw_space():
+	if slot:
+		var atlas = AtlasTexture.new()
+		atlas.set_atlas(Glyph.tileset)
+		atlas.region = Glyph.get_atlas_region(Glyph.get_slot_glyph(slot))
+		self.icon = atlas
+	else:
+		self.icon = null
+	
+func _draw_entity(_entity: Entity):
+	self.icon = _entity.glyph.to_atlas_texture()
+	var glyph = _entity.glyph
+	if glyph.fg:
+		self.add_theme_color_override(
+			'icon_normal_color',
+			glyph.fg
+		)

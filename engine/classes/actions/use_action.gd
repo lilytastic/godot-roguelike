@@ -9,6 +9,8 @@ func _init(_target: Entity):
 func perform(entity: Entity) -> ActionResult:
 	if !target:
 		return ActionResult.new(false)
+		
+	print('Use: ', entity.uuid)
 
 	if target.location and target.blueprint.item:
 		if InventoryManager.give(entity, target):

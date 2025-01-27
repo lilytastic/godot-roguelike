@@ -24,6 +24,31 @@ func to_atlas_texture() -> AtlasTexture:
 	atlas.set_atlas(tileset)
 	atlas.region = get_atlas_region(ch)
 	return atlas
+	
+static func get_slot_glyph(slot: String):
+	var glyph = 'G_SWORD'
+	match slot:
+		'main hand':
+			glyph = 'G_SWORD'
+		'off-hand':
+			glyph = 'G_DAGGER'
+		'amulet':
+			glyph = 'G_AMULET'
+		'ring1':
+			glyph = 'G_RING'
+		'ring2':
+			glyph = 'G_RING_ALT'
+		'head':
+			glyph = 'G_HELMET'
+		'back':
+			glyph = 'G_CLOAK'
+		'torso':
+			glyph = 'G_ARMOR'
+		'hands':
+			glyph = 'G_GLOVES'
+		'feet':
+			glyph = 'G_BOOTS'
+	return glyph
 
 static var tileset = preload('res://assets/KenneyRoguelike/monochrome-transparent_packed.png')
 

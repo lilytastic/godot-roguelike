@@ -21,6 +21,8 @@ var equipment: EquipmentProps:
 
 var tiles := []
 
+signal double_click
+
 
 func _ready():
 	_initialize_slots()

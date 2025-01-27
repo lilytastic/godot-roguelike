@@ -35,11 +35,12 @@ func _ready():
 			_init_player()
 	)
 	
-	PlayerInput.ui_action_triggered.connect(func(action):
-		action.perform(Global.player)
-	)
+	if PlayerInput.ui_action_triggered.get_connections().size() > 0:
+		PlayerInput.ui_action_triggered.disconnect(_on_ui_action)
+	PlayerInput.ui_action_triggered.connect(_on_ui_action)
 	
 	PlayerInput.action_triggered.connect(func(action):
+		print('Triggered: ', action)
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			var result = _perform_action(action, Global.player)
 			if result.success:
@@ -96,6 +97,9 @@ func _init_player() -> void:
 	if _player and _player.location:
 		_init_map(_player.location.map)
 
+func _on_ui_action(action):
+	print('Triggered UI: ', action)
+	action.perform(Global.player)
 
 func _init_actor(entity: Entity, new_actor := Actor.new()):
 	new_actor.entity = entity

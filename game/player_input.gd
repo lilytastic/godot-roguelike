@@ -9,6 +9,7 @@ var entity_dragging: Entity:
 
 signal action_triggered
 signal ui_action_triggered
+signal double_click
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -17,6 +17,7 @@ var inventory: InventoryProps:
 var tiles := []
 
 signal tiles_changed
+signal double_click
 
 
 func _ready():
