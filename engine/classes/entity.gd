@@ -23,7 +23,6 @@ signal health_changed
 signal on_death
 
 func _init(opts: Dictionary):
-	print('Initializing entity with template: ', opts.blueprint)
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
 	health = Meter.new(20)
@@ -60,12 +59,9 @@ func save() -> Dictionary:
 	if equipment: dict.equipment = equipment.save()
 	if health: dict.health = health.current
 
-	print('saving ', dict)
 	return dict
 
 func load_from_save(data: Dictionary) -> void:
-	print('data: ', data)
-
 	var new_id = Global.ecs.add(self)
 	var json = JSON.new()
 	
@@ -75,7 +71,6 @@ func load_from_save(data: Dictionary) -> void:
 			data.map,
 			Vector2(int(_pos[0]), int(_pos[1]))
 		)
-		print('location: ', location.position)
 		map_changed.emit(location.map)
 
 	energy = data.energy if data.has('energy') else 0

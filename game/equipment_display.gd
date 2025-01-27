@@ -8,12 +8,10 @@ var equipment: EquipmentProps:
 		if _equipment:
 			_equipment.item_unequipped.connect(
 				func(item):
-					print(item)
 					_update_slots()
 			)
 			_equipment.item_equipped.connect(
 				func(item):
-					print(item)
 					_update_slots()
 			)
 		_initialize_slots()
@@ -30,7 +28,6 @@ func _ready():
 
 func _initialize_slots():
 	if equipment:
-		print('initialized equipment display with ', equipment.slots)
 		tiles.clear()
 		
 		var _tiles = %SlotsLeft.get_children() + %SlotsRight.get_children()

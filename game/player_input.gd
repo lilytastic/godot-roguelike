@@ -31,7 +31,6 @@ func _check_for_action(event: InputEvent) -> Action:
 			func(entity): return entity.uuid != Global.player.uuid
 		)
 		if entities.size() > 0:
-			print(entities[0].uuid)
 			return UseAction.new(entities[0])
 
 	return null

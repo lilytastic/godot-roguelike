@@ -34,14 +34,12 @@ func equip(entity: Entity, opts := {}) -> Dictionary:
 
 	var swapped = []
 	for slotSet in item_slots:
-		print(slotSet)
 		for slot in slotSet:
 			var previously_equipped = unequip(slot)
 			if previously_equipped != -1:
 				swapped.append(previously_equipped)
 			slots[slot] = entity.uuid
 
-		print('equipped to ', slotSet)
 		item_equipped.emit({ 'slots': slotSet, 'item': entity.uuid })
 		return { 'success': true, 'items_swapped': swapped }
 

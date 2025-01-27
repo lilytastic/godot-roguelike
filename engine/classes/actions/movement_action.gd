@@ -24,7 +24,6 @@ func perform(entity: Entity) -> ActionResult:
 				for uuid in entity.equipment.slots.values():
 					var equipment = Global.ecs.entity(uuid)
 					if equipment.blueprint.weapon:
-						print('attack! ', equipment.blueprint.weapon.weaponskills)
 						return ActionResult.new(
 							false,
 							{'alternate': UseAbilityAction.new(

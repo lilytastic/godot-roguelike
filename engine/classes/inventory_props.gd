@@ -7,15 +7,12 @@ signal items_changed
 
 
 func _init(opts := {}):
-	print('init inventory ', opts)
 	items = opts.get('items', [])
 	max_items = opts.get('max_items', 30)
 	items_changed.emit()
 
 func add(stack: Dictionary) -> bool:
 	var slot = items.find(func(_slot): return _slot != null)
-	print('stack ', stack)
-	print('slot ', slot)
 	if slot != -1:
 		slot = stack
 		items_changed.emit()

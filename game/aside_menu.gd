@@ -68,8 +68,6 @@ func _enter_tree() -> void:
 	_initialize()
 	
 func _initialize() -> void:
-	print('initialize ', Global.is_game_started)
-	
 	if Global.is_game_started:
 		%'Continue'.visible = false
 		%'Resume'.visible = true

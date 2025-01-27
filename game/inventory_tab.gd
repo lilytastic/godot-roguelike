@@ -15,7 +15,6 @@ func _ready():
 	PlayerInput.double_click.connect(_on_double_click)
 
 func _on_double_click(stack):
-	print('double click: ', stack)
 	if !visible:
 		return
 	if stack and stack.entity:

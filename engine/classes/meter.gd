@@ -18,7 +18,6 @@ func _init(_max: int, opts := {}):
 	
 func deduct(amount: int, raisePenalty := false):
 	current = max(0, current - amount)
-	print('deducted by: ', amount, ' -- now: ', current)
 	if raisePenalty:
 		penalty += amount / 10
 	value_changed.emit(current)

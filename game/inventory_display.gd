@@ -30,7 +30,6 @@ func _initialize_slots():
 	
 	tiles.clear()
 	if inventory:
-		print('initialized inventory display')
 		for i in inventory.max_items:
 			var tile = tile_prefab.instantiate()
 			add_child(tile)

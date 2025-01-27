@@ -13,8 +13,6 @@ static func save(data: Dictionary, path := "user://savegame.save") -> void:
 	save_file.store_line(JSON.stringify(data))
 	save_file.close()
 	
-	print('saved')
-	
 	# Files.load()
 	return
 
@@ -24,11 +22,8 @@ static func load(path := "user://savegame.save") -> Dictionary:
 	var json = JSON.new()
 	var text = save_file.get_line()
 	var result = json.parse(text)
-	print('loading ', text)
 	if not result == OK:
 		print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line())
-	print(result)
-	print('loaded: ', json.data)
 	save_file.close()
 	return json.data
 

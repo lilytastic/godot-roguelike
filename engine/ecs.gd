@@ -33,17 +33,12 @@ func clear() -> void:
 func create(opts: Dictionary) -> Entity:
 	var new_entity = Entity.new(opts)
 	var new_id = add(new_entity)
-	# print(new_id, entity(new_id))
 	return entity(new_id)
 
 func load_data() -> void:
 	var resources = Files.get_all_files('res://data')
 	blueprints = Blueprint.load_from_files(resources)
 	abilities = Ability.load_from_files(resources)
-	print(
-		blueprints.keys().size() + abilities.keys().size(),
-		" records loaded"
-	)
 
 func find_by_location(location: Location) -> Array:
 	return entities.values().filter(

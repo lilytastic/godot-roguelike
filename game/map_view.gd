@@ -24,14 +24,12 @@ func _ready():
 	
 	Global.ecs.entity_added.connect(
 		func(value: Entity):
-			print('added ', value.uuid)
 			if map and value.location and value.location.map == map:
 				_init_actor(value)
 	)
 	
 	Global.player_changed.connect(
 		func(value: Entity):
-			print('new player ', value)
 			_init_player()
 	)
 	
@@ -40,7 +38,6 @@ func _ready():
 	PlayerInput.ui_action_triggered.connect(_on_ui_action)
 	
 	PlayerInput.action_triggered.connect(func(action):
-		print('Triggered: ', action)
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			var result = _perform_action(action, Global.player)
 			if result.success:
@@ -87,7 +84,6 @@ func _process(delta):
 				continue
 			var entity = actors[actor].entity
 			if entity and entity.blueprint.speed:
-				# print(entity.energy, ' ', entity.blueprint.speed * delta)
 				entity.energy += entity.blueprint.speed * delta
 			
 
@@ -98,7 +94,6 @@ func _init_player() -> void:
 		_init_map(_player.location.map)
 
 func _on_ui_action(action):
-	print('Triggered UI: ', action)
 	action.perform(Global.player)
 
 func _init_actor(entity: Entity, new_actor := Actor.new()):
@@ -117,7 +112,6 @@ func _init_actor(entity: Entity, new_actor := Actor.new()):
 
 func _init_map(_map):
 	if map != _map:
-		print('Initializing map: ', _map)
 		Global.maps_loaded[_map] = true
 		map = _map
 

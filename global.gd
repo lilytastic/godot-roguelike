@@ -38,7 +38,6 @@ func clear_game() -> void:
 	player = null
 
 func autosave():
-	print('autosave')
 	save_game('user://autosave.save')
 	return
 
@@ -65,12 +64,10 @@ func load_game(path: String):
 	var data = load_from_save(path)
 
 	if !data:
-		print('no data at ', path)
 		return
 
 	ecs.clear()
 	var _entities: Array = data.entities
-	print('loading game: ', _entities)
 	for _entity in _entities:
 		print(_entity)
 		ecs.load_from_save(_entity)
@@ -98,5 +95,4 @@ func get_save_data() -> Dictionary:
 	data.maps_loaded = maps_loaded
 	data.player = player.uuid
 	data.date_modified = Time.get_datetime_string_from_system()
-	print('keys', Global.ecs.entities.keys())
 	return data

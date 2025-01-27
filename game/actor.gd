@@ -16,7 +16,6 @@ var glyph: Glyph:
 signal destroyed
 
 func _ready() -> void:
-	print('actor ready ', _entityId)
 	# snap to grid
 	position = Coords.get_position(
 		Coords.get_coord(position),
@@ -50,7 +49,6 @@ func _load(id: int):
 	if entity.health:
 		entity.health_changed.connect(
 			func(amount):
-				print(amount)
 				modulate = Color(1,0,0)
 		)
 	entity.on_death.connect(

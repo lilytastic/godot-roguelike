@@ -18,7 +18,6 @@ static func load_from_files(resources: Array) -> Dictionary:
 	var preprocess: Dictionary
 	
 	for resource in resources:
-		print(resource)
 		var data = Files.get_dictionary(resource)
 		if data.has('abilities'):
 			var _abilities = data.abilities
