@@ -5,6 +5,7 @@ extends TileMapLayer
 var actor_prefab: PackedScene = preload('res://game/actor.tscn')
 
 var _fov_map := {}
+var last_position: Vector2
 
 func _enter_tree():
 	Global.map_view = self
@@ -15,7 +16,6 @@ func _ready():
 
 	Global.ecs.entity_added.connect(
 		func(entity: Entity):
-			print('added ', entity.uuid)
 			if map and entity.location and entity.location.map == map:
 				_init_actor(entity)
 	)
@@ -26,12 +26,16 @@ func _ready():
 	
 	get_viewport().connect("size_changed", _render_fov)
 	_render_fov()
+	
+func _process(delta):
+	if last_position != Global.player.location.position:
+		last_position = Global.player.location.position
+		_render_fov()
 
 func _init_actor(entity: Entity):
 	var new_actor: Actor = null
 	var child = %Entities.find_child('Entity<'+str(entity.uuid)+'>')
-	
-	print(entity.uuid, child)
+
 	if !child:
 		new_actor = Actor.new()
 		new_actor.name = 'Entity<'+str(entity.uuid)+'>'
@@ -55,13 +59,19 @@ func _init_actor(entity: Entity):
 
 
 func _render_fov() -> void:
-	var tiles = get_used_cells().filter(
-		func(tile):
-			return true # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
-	) # filter for visible area
+	# print('render fov')
 
 	for child in %Tiles.get_children():
 		child.free()
-		
+	
+	var tiles = get_used_cells().filter(
+		func(tile):
+			# TODO: filter for visible area
+			return Global.player.can_see(tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
+	)
+	
+	for actor in %Entities.get_children():
+		actor.visible = Global.player.can_see(actor.entity.location.position)
+	
 	for tile in tiles:
 		%Tiles.add_child(MapTile.generate_tile(tile, self))

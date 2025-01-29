@@ -13,9 +13,6 @@ var next_actor: Entity
 
 
 func _ready() -> void:
-	if !map:
-		%Map.map = map
-
 	if !Global.player:
 		Global.new_game()
 		# Global.autosave()
@@ -31,7 +28,6 @@ func _ready() -> void:
 
 	Global.ecs.entity_added.connect(
 		func(entity: Entity):
-			print(entity.uuid, entity.location)
 			if map and entity.location and entity.location.map == map:
 				actors[entity.uuid] = entity
 	)
@@ -45,8 +41,7 @@ func _ready() -> void:
 	)	
 	
 	_init_map(map)
-	
-	
+
 func _process(delta):
 	if player and player.location != null:
 		$Camera2D.position = lerp(
@@ -63,9 +58,10 @@ func _process(delta):
 	
 	var valid = actors.keys().filter(
 		func(uuid):
-			if !actors[uuid]:
+			if !actors[uuid] or !actors[uuid].location or actors[uuid].location.map != map:
 				actors.erase(uuid)
 				return false
+
 			var actor = actors[uuid]
 			if !Global.ecs.entity(uuid):
 				return false
@@ -101,6 +97,8 @@ func _on_ui_action(action):
 	action.perform(Global.player)
 
 func _init_map(_map):
+	print('Switched to map ', _map)
+
 	if map != _map:
 		map = _map
 
@@ -114,5 +112,4 @@ func _init_map(_map):
 	)
 	
 	for entity in entities:
-		print(entity.uuid, entity.location)
 		actors[entity.uuid] = entity

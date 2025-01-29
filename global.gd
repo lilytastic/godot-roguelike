@@ -70,7 +70,6 @@ func load_game(path: String):
 	ecs.clear()
 	var _entities: Array = data.entities
 	for _entity in _entities:
-		print(_entity)
 		ecs.load_from_save(_entity)
 	maps_loaded = data.maps_loaded if data.maps_loaded else {}
 	player = ecs.entity(data.player)
