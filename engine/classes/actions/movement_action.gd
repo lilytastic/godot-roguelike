@@ -12,7 +12,6 @@ func perform(entity: Entity) -> ActionResult:
 	
 	var cell_data = Global.map_view.get_cell_tile_data(new_position)
 	if cell_data:
-		print(cell_data.get_collision_polygons_count(0))
 		var is_solid = cell_data.get_collision_polygons_count(0) > 0
 		if is_solid:
 			return ActionResult.new(false)

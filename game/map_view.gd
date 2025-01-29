@@ -8,6 +8,7 @@ var actors := {}
 
 var scheduler = Scheduler.new()
 var next_actor: Entity
+var _fov_map := {}
 
 var _player: Entity
 var player: Entity:
@@ -44,12 +45,29 @@ func _ready():
 				next_actor.energy -= result.cost_energy
 				next_actor = null
 	)
+	
+	get_viewport().connect("size_changed", _render_fov)
+	_render_fov()
 
 func _perform_action(action: Action, _entity: Entity):
 	var result = action.perform(_entity)
 	if !result.success and result.alternate:
 		return _perform_action(result.alternate, _entity)
+	_render_fov()
 	return result
+
+func _render_fov() -> void:
+	var tiles = get_used_cells().filter(
+		func(tile):
+			return true # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
+	) # filter for visible area
+
+	for child in %Tiles.get_children():
+		child.free()
+		
+	for tile in tiles:
+		%Tiles.add_child(MapTile.generate_tile(tile, self))
+	visible = false
 
 func _process(delta):
 	scheduler.entities = actors.keys()
@@ -99,9 +117,9 @@ func _on_ui_action(action):
 func _init_actor(entity: Entity, new_actor := Actor.new()):
 	new_actor.entity = entity
 	if new_actor.get_parent():
-		new_actor.reparent(self)
+		new_actor.reparent(%Entities)
 	else:
-		add_child(new_actor)
+		%Entities.add_child(new_actor)
 	actors[entity.uuid] = new_actor
 	if entity.location:
 		new_actor.position = Coords.get_position(entity.location.position) + Vector2(8, 8)

@@ -19,3 +19,11 @@ static func get_coord(in_world_position: Vector2) -> Vector2i:
 	
 	return Vector2i(new_x, new_y)
 	
+
+static func get_range(this_coord: Vector2i, that_coord: Vector2i) -> int:
+	return abs(this_coord.x - that_coord.x) + abs(this_coord.y - that_coord.y)
+
+
+static func is_in_range(this_coord: Vector2i, that_coord: Vector2i,
+		max_range: int) -> bool:
+	return get_range(this_coord, that_coord) <= max_range
