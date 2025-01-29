@@ -32,6 +32,9 @@ func _process(delta):
 		last_position = Global.player.location.position
 		_render_fov()
 
+	for actor in %Entities.get_children():
+		actor.visible = Global.player.can_see(actor.entity.location.position)
+
 func _init_actor(entity: Entity):
 	var new_actor: Actor = null
 	var child = %Entities.find_child('Entity<'+str(entity.uuid)+'>')
@@ -69,9 +72,6 @@ func _render_fov() -> void:
 			# TODO: filter for visible area
 			return Global.player.can_see(tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
 	)
-	
-	for actor in %Entities.get_children():
-		actor.visible = Global.player.can_see(actor.entity.location.position)
-	
+
 	for tile in tiles:
 		%Tiles.add_child(MapTile.generate_tile(tile, self))

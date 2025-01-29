@@ -49,9 +49,8 @@ func _process(delta):
 			Coords.get_position(player.location.position),
 			delta * cameraSpeed
 		)
-	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 
-	scheduler.entities = actors.keys()
+	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 	
 	if next_actor != null or !Global.player:
 		return
@@ -63,19 +62,27 @@ func _process(delta):
 				return false
 
 			var actor = actors[uuid]
-			if !Global.ecs.entity(uuid):
+			if !Global.ecs.entity(uuid) or !actor.health:
 				return false
 			return actor.blueprint.speed >= 0 and actor.energy >= 0
 	)
+	scheduler.entities = valid
 	
 	var next = actors[valid[0]] if valid.size() else null
 	
 	if next != null:
 		next_actor = next
-		if Global.player and next_actor.uuid == Global.player.uuid:
-			pass
-		else:
-			next_actor.energy -= 10
+		if !Global.player or next_actor.uuid != Global.player.uuid:
+			# AI turn
+			var result = _perform_action(
+				MovementAction.new(
+					PlayerInput._input_to_direction(
+						InputTag.MOVE_ACTIONS.pick_random()
+					)
+				),
+				next_actor
+			)
+			next_actor.energy -= result.cost_energy
 			next_actor = null
 
 	if !next_actor:

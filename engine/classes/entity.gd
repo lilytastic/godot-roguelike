@@ -80,4 +80,4 @@ func load_from_save(data: Dictionary) -> void:
 	if data.has('health'): health.current = data.get('health', 1)
 
 func can_see(pos: Vector2):
-	return Coords.get_range(pos, location.position) < 5
+	return Coords.get_range(pos, location.position) < 7
