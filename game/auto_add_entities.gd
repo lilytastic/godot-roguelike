@@ -12,10 +12,11 @@ func _ready():
 		var opts = {
 			'blueprint': child.get_meta('blueprint') if child.has_meta('blueprint') else 'quadropus'
 		}
-		var new_entity = Global.ecs.create(opts)
+		var new_entity = Entity.new(opts)
 		var coords = Coords.get_coord(child.position)
 		if new_entity.location:
 			new_entity.location.position = coords
 		else: 
 			new_entity.location = Location.new(map, coords)
+		Global.ecs.add(new_entity)
 		child.queue_free()

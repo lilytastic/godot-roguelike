@@ -5,7 +5,17 @@ var player: Entity:
 	get: return Global.player
 var cameraSpeed := 6
 
+var scheduler = Scheduler.new()
+var actors := {} # All entities on the "scene"
+var next_actor: Entity
+
+@export var map = ''
+
+
 func _ready() -> void:
+	if !map:
+		%Map.map = map
+
 	if !Global.player:
 		Global.new_game()
 		# Global.autosave()
@@ -14,9 +24,30 @@ func _ready() -> void:
 		$Camera2D.position = Coords.get_position(
 			Global.player.location.position
 		)
-	
+		
+	if PlayerInput.ui_action_triggered.get_connections().size() > 0:
+		PlayerInput.ui_action_triggered.disconnect(_on_ui_action)
+	PlayerInput.ui_action_triggered.connect(_on_ui_action)
 
-func _process(delta: float) -> void:
+	Global.ecs.entity_added.connect(
+		func(entity: Entity):
+			print(entity.uuid, entity.location)
+			if map and entity.location and entity.location.map == map:
+				actors[entity.uuid] = entity
+	)
+	
+	PlayerInput.action_triggered.connect(func(action):
+		if next_actor and next_actor.uuid == Global.player.uuid:
+			var result = _perform_action(action, Global.player)
+			if result.success:
+				next_actor.energy -= result.cost_energy
+				next_actor = null
+	)	
+	
+	_init_map(map)
+	
+	
+func _process(delta):
 	if player and player.location != null:
 		$Camera2D.position = lerp(
 			$Camera2D.position,
@@ -24,3 +55,64 @@ func _process(delta: float) -> void:
 			delta * cameraSpeed
 		)
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
+
+	scheduler.entities = actors.keys()
+	
+	if next_actor != null or !Global.player:
+		return
+	
+	var valid = actors.keys().filter(
+		func(uuid):
+			if !actors[uuid]:
+				actors.erase(uuid)
+				return false
+			var actor = actors[uuid]
+			if !Global.ecs.entity(uuid):
+				return false
+			return actor.blueprint.speed >= 0 and actor.energy >= 0
+	)
+	
+	var next = actors[valid[0]] if valid.size() else null
+	
+	if next != null:
+		next_actor = next
+		if Global.player and next_actor.uuid == Global.player.uuid:
+			pass
+		else:
+			next_actor.energy -= 10
+			next_actor = null
+
+	if !next_actor:
+		for actor in actors:
+			if !actors[actor]:
+				continue
+			var entity = actors[actor]
+			if entity and entity.blueprint.speed:
+				entity.energy += entity.blueprint.speed * delta
+			
+			
+func _perform_action(action: Action, _entity: Entity):
+	var result = action.perform(_entity)
+	if !result.success and result.alternate:
+		return _perform_action(result.alternate, _entity)
+	return result
+
+func _on_ui_action(action):
+	action.perform(Global.player)
+
+func _init_map(_map):
+	if map != _map:
+		map = _map
+
+	Global.maps_loaded[_map] = true
+	actors = {}
+	
+	var entities = Global.ecs.entities.values().filter(
+		func(entity):
+			if !entity.location: return false
+			return entity.location.map == _map
+	)
+	
+	for entity in entities:
+		print(entity.uuid, entity.location)
+		actors[entity.uuid] = entity
