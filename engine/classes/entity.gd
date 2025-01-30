@@ -15,7 +15,7 @@ var glyph: Glyph:
 var location: Location
 var inventory: InventoryProps
 var equipment: EquipmentProps
-var health: Meter
+var health: Meter = null
 var energy := 0
 
 signal map_changed
@@ -25,13 +25,16 @@ signal on_death
 func _init(opts: Dictionary):
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
-	health = Meter.new(20)
-	health_changed.connect(
-		func(amount):
-			if !health or health.current <= 0:
-				on_death.emit()
-				Global.ecs.remove(uuid)
-	)
+
+	if blueprint.baseHP:
+		health = Meter.new(20)
+		health_changed.connect(
+			func(amount):
+				if !health or health.current <= 0:
+					on_death.emit()
+					Global.ecs.remove(uuid)
+		)
+
 	on_death.connect(
 		func():
 			# Drop a corpse, drop gear, trigger an event, etc.
@@ -79,5 +82,8 @@ func load_from_save(data: Dictionary) -> void:
 	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
 	if data.has('health'): health.current = data.get('health', 1)
 
-func can_see(pos: Vector2):
+func can_see(pos: Vector2) -> bool:
 	return Coords.get_range(pos, location.position) < 7
+
+func can_act() -> bool:
+	return blueprint.equipment != null

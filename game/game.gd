@@ -62,7 +62,7 @@ func _process(delta):
 				return false
 
 			var actor = actors[uuid]
-			if !Global.ecs.entity(uuid) or !actor.equipment:
+			if !Global.ecs.entity(uuid) or !actor.can_act():
 				return false
 			return actor.blueprint.speed >= 0 and actor.energy >= 0
 	)
@@ -73,7 +73,6 @@ func _process(delta):
 	
 	if next != null:
 		next_actor = next
-		print(next_actor.uuid)
 		if !Global.player or next_actor.uuid != Global.player.uuid:
 			# AI turn
 			var result = _perform_action(
