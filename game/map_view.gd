@@ -25,49 +25,51 @@ func _ready():
 			_init_actor(entity)
 			
 	Global.navigation_map.clear()
-	var cells := get_used_cells()
-	var rect := get_used_rect()
-	var width = rect.end.x
-	var height = rect.end.y
-	for x in range(width):
-		for y in range(height):
-			Global.navigation_map.add_point(
-				get_astar_pos(x, y),
-				Vector2(x, y)
-			)
-	for x in range(width):
-		for y in range(height):
-			var pos = get_astar_pos(x, y)
-			Global.navigation_map.connect_points(
-				pos,
-				get_astar_pos(x - 1, y)
-			)
-			Global.navigation_map.connect_points(
-				pos,
-				get_astar_pos(x + 1, y)
-			)
-			Global.navigation_map.connect_points(
-				pos,
-				get_astar_pos(x, y - 1)
-			)
-			Global.navigation_map.connect_points(
-				pos,
-				get_astar_pos(x, y + 1)
-			)
-	print(Global.navigation_map.get_point_count())
-	print(Global.navigation_map.get_point_path(
-		get_astar_pos(2, 2),
-		get_astar_pos(7, 9),
-		true
-	))
+	_init_navigation_map()
 	
 	get_viewport().connect("size_changed", _render_fov)
 	_render_fov()
 
 func get_astar_pos(x, y) -> int:
 	var rect := get_used_rect()
+	var width = rect.end.x
 	var height = rect.end.y
-	return x + height * y
+	return x + width * y
+
+func _init_navigation_map():
+	var cells := get_used_cells()
+	var rect := get_used_rect()
+	var width = rect.end.x
+	var height = rect.end.y
+	print(rect)
+
+	for x in range(width):
+		for y in range(height):
+			var tile_data = get_cell_tile_data(Vector2i(x, y))
+			if tile_data and !tile_data.get_collision_polygons_count(0) > 0:
+				Global.navigation_map.add_point(
+					get_astar_pos(x, y),
+					Vector2(x, y)
+				)
+
+	for x in range(width):
+		for y in range(height):
+			var pos = get_astar_pos(x, y)
+			if Global.navigation_map.has_point(pos):
+				for i: StringName in InputTag.MOVE_ACTIONS:
+					var offset = Vector2i(x, y) + PlayerInput._input_to_direction(i)
+					var point = get_astar_pos(offset.x, offset.y)
+					if Global.navigation_map.has_point(point):
+						Global.navigation_map.connect_points(
+							pos,
+							point
+						)
+	print(Global.navigation_map.get_point_count())
+	print(Global.navigation_map.get_point_path(
+		get_astar_pos(5, 2),
+		get_astar_pos(8, 2),
+		true
+	))
 
 func _process(delta):
 	if last_position != Global.player.location.position:

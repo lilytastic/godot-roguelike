@@ -7,7 +7,8 @@ var entity_dragging: Entity:
 			return Global.ecs.entity(PlayerInput.dragging.entity)
 		return null
 
-var mouse_position_in_world := Vector2(0,0)
+var cursor: Node2D = null
+var mouse_position_in_world := Vector2i(0,0)
 
 signal action_triggered
 signal ui_action_triggered
@@ -17,7 +18,24 @@ func _input(event: InputEvent) -> void:
 	var camera = get_viewport().get_camera_2d()
 	if event is InputEventMouseMotion:
 		if camera:
-			mouse_position_in_world = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
+			var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
+			if Global.player and new_position != mouse_position_in_world:
+				var player_position = Global.player.location.position
+				var coord = Coords.get_coord(new_position)
+				if cursor:
+					cursor.path = Global.navigation_map.get_point_path(
+						Global.map_view.get_astar_pos(player_position.x, player_position.y),
+						Global.map_view.get_astar_pos(coord.x, coord.y),
+						true
+					)
+				"""
+				print(coord, Global.navigation_map.get_point_path(
+					Global.map_view.get_astar_pos(player_position.x, player_position.y),
+					Global.map_view.get_astar_pos(coord.x, coord.y),
+					true
+				))
+				"""
+			mouse_position_in_world = new_position
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('quicksave'):
@@ -34,11 +52,12 @@ func _check_for_action(event: InputEvent) -> Action:
 			return MovementAction.new(_input_to_direction(i))
 
 	if event.is_action_pressed('use'):
-		var entities = Global.ecs.find_by_location(Global.player.location).filter(
-			func(entity): return entity.uuid != Global.player.uuid
-		)
-		if entities.size() > 0:
-			return UseAction.new(entities[0])
+		if !Global.player:
+			var entities = Global.ecs.find_by_location(Global.player.location).filter(
+				func(entity): return entity.uuid != Global.player.uuid
+			)
+			if entities.size() > 0:
+				return UseAction.new(entities[0])
 
 	return null
 

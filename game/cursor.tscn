@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://be05y3swrshiq"]
+
+[ext_resource type="Script" path="res://game/cursor.gd" id="1_55xu1"]
+[ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="2_2cdcw"]
+[ext_resource type="Script" path="res://game/path.gd" id="3_kw4fo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbahm"]
+atlas = ExtResource("2_2cdcw")
+region = Rect2(624, 224, 16, 16)
+
+[node name="Cursor" type="Node2D"]
+script = ExtResource("1_55xu1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_cbahm")
+
+[node name="Path" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_kw4fo")
