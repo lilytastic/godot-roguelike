@@ -17,6 +17,9 @@ func _ready() -> void:
 		Global.new_game()
 		# Global.autosave()
 
+	if $Camera2D:
+		Global.camera = $Camera2D
+
 	if !Global.player.location:
 		$Camera2D.position = Coords.get_position(
 			Global.player.location.position
@@ -93,8 +96,7 @@ func _process(delta):
 			var entity = actors[actor]
 			if entity and entity.blueprint.speed:
 				entity.energy += entity.blueprint.speed * delta
-			
-			
+
 func _perform_action(action: Action, _entity: Entity):
 	var result = action.perform(_entity)
 	if !result.success and result.alternate:

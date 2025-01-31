@@ -12,6 +12,12 @@ signal ui_action_triggered
 signal double_click
 
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		if Global.cursor:
+			Global.cursor.position = Coords.get_coord(Global.camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
+		return
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('quicksave'):
 		Global.quicksave()
