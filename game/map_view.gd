@@ -23,10 +23,52 @@ func _ready():
 	for entity in Global.ecs.entities.values():
 		if map and entity.location and entity.location.map == map:
 			_init_actor(entity)
+			
+	Global.navigation_map.clear()
+	var cells := get_used_cells()
+	var rect := get_used_rect()
+	var width = rect.end.x
+	var height = rect.end.y
+	for x in range(width):
+		for y in range(height):
+			Global.navigation_map.add_point(
+				get_astar_pos(x, y),
+				Vector2(x, y)
+			)
+	for x in range(width):
+		for y in range(height):
+			var pos = get_astar_pos(x, y)
+			Global.navigation_map.connect_points(
+				pos,
+				get_astar_pos(x - 1, y)
+			)
+			Global.navigation_map.connect_points(
+				pos,
+				get_astar_pos(x + 1, y)
+			)
+			Global.navigation_map.connect_points(
+				pos,
+				get_astar_pos(x, y - 1)
+			)
+			Global.navigation_map.connect_points(
+				pos,
+				get_astar_pos(x, y + 1)
+			)
+	print(Global.navigation_map.get_point_count())
+	print(Global.navigation_map.get_point_path(
+		get_astar_pos(2, 2),
+		get_astar_pos(7, 9),
+		true
+	))
 	
 	get_viewport().connect("size_changed", _render_fov)
 	_render_fov()
-	
+
+func get_astar_pos(x, y) -> int:
+	var rect := get_used_rect()
+	var height = rect.end.y
+	return x + height * y
+
 func _process(delta):
 	if last_position != Global.player.location.position:
 		last_position = Global.player.location.position

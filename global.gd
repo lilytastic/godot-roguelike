@@ -8,6 +8,8 @@ signal player_changed
 signal game_saved
 signal game_loaded
 
+var navigation_map = AStar2D.new()
+
 var is_game_started: bool:
 	get: return player != null
 	
