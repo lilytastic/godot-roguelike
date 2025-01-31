@@ -24,7 +24,7 @@ expand_margin_bottom = 3.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cbahm"]
 atlas = ExtResource("3_rekeo")
-region = Rect2(768, 288, 16, 16)
+region = Rect2(624, 224, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l4awr"]
 atlas = ExtResource("3_rekeo")

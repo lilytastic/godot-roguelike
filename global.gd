@@ -12,8 +12,6 @@ var is_game_started: bool:
 	get: return player != null
 	
 var map_view: MapView = null
-var cursor: Sprite2D = null
-var camera: Camera2D = null
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)

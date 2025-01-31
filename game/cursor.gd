@@ -1,4 +1,4 @@
 extends Sprite2D
 
 func _ready() -> void:
-	Global.cursor = self
+	PlayerInput.cursor = self
