@@ -51,6 +51,7 @@ func _process(delta):
 		)
 
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
+	PlayerInput._update_mouse_position()
 	
 	if next_actor != null or !Global.player:
 		return

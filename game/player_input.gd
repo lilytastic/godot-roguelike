@@ -15,24 +15,10 @@ signal ui_action_triggered
 signal double_click
 
 func _input(event: InputEvent) -> void:
-	var camera = get_viewport().get_camera_2d()
 	if event is InputEventMouseMotion:
-		if camera:
-			var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
-			if Global.player and new_position != mouse_position_in_world:
-				var player_position = Global.player.location.position
-				var coord = Coords.get_coord(new_position)
-				if cursor:
-					if Global.player.can_see(coord) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(coord.x, coord.y)):
-						var path = Global.navigation_map.get_point_path(
-							Global.map_view.get_astar_pos(player_position.x, player_position.y),
-							Global.map_view.get_astar_pos(coord.x, coord.y),
-							true
-						)
-						cursor.path = path
-					else:
-						cursor.path = []
-			mouse_position_in_world = new_position
+		if cursor:
+			cursor.show_path = true
+		_update_mouse_position()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('quicksave'):
@@ -41,7 +27,29 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	var action := _check_for_action(event)
 	if action:
+		if cursor:
+			cursor.show_path = false
 		action_triggered.emit(action)
+
+func _update_mouse_position() -> void:
+	var camera = get_viewport().get_camera_2d()
+	if !camera:
+		return
+	var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
+	if Global.player and new_position != mouse_position_in_world:
+		var player_position = Global.player.location.position
+		var coord = Coords.get_coord(new_position)
+		if cursor:
+			if Global.player.can_see(coord) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(coord.x, coord.y)):
+				var path = Global.navigation_map.get_point_path(
+					Global.map_view.get_astar_pos(player_position.x, player_position.y),
+					Global.map_view.get_astar_pos(coord.x, coord.y),
+					true
+				)
+				cursor.path = path
+			else:
+				cursor.path = []
+	mouse_position_in_world = new_position
 
 func _check_for_action(event: InputEvent) -> Action:
 	for i: StringName in InputTag.MOVE_ACTIONS:
