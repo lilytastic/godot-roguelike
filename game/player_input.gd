@@ -23,7 +23,7 @@ func _input(event: InputEvent) -> void:
 				var player_position = Global.player.location.position
 				var coord = Coords.get_coord(new_position)
 				if cursor:
-					if Global.navigation_map.has_point(Global.map_view.get_astar_pos(coord.x, coord.y)):
+					if Global.player.can_see(coord) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(coord.x, coord.y)):
 						var path = Global.navigation_map.get_point_path(
 							Global.map_view.get_astar_pos(player_position.x, player_position.y),
 							Global.map_view.get_astar_pos(coord.x, coord.y),

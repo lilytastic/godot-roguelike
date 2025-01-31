@@ -1,6 +1,6 @@
 extends Node2D
 
-func draw(path: Array) -> void:
+func draw(path: Array, color := Color.WHITE) -> void:
 	for child in get_children():
 		child.free()
 		
@@ -19,11 +19,12 @@ func draw(path: Array) -> void:
 		var next_point = path[index + 2]
 		if next_point.x != last_point.x and next_point.y != last_point.y:
 			coords = Vector2i(28, 13)
-
 		sprite.rotation_degrees = _get_degrees(last_point, point, next_point)
 		atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 		sprite.texture = atlas
+		sprite.modulate = color
 		
+
 
 func _get_degrees(last_point, point, next_point):
 	if next_point.x != last_point.x and next_point.y != last_point.y:

@@ -16,5 +16,5 @@ func _process(delta) -> void:
 
 func _set_path():
 	# Draw path
-	%Path.draw(path)
+	%Path.draw(path, $Sprite2D.modulate)
 	
