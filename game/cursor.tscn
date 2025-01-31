@@ -12,7 +12,7 @@ region = Rect2(624, 224, 16, 16)
 script = ExtResource("1_55xu1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.72, 0.68544, 0.3744, 1)
+modulate = Color(0, 0.883333, 1, 1)
 texture = SubResource("AtlasTexture_cbahm")
 
 [node name="Path" type="Node2D" parent="."]
