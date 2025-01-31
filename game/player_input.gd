@@ -7,19 +7,18 @@ var entity_dragging: Entity:
 			return Global.ecs.entity(PlayerInput.dragging.entity)
 		return null
 
-var cursor: Sprite2D = null
+var mouse_position_in_world := Vector2(0,0)
 
 signal action_triggered
 signal ui_action_triggered
 signal double_click
 
-
 func _input(event: InputEvent) -> void:
+	var camera = get_viewport().get_camera_2d()
 	if event is InputEventMouseMotion:
-		if cursor:
-			cursor.position = Coords.get_coord(get_viewport().get_camera_2d().get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
-		return
-	
+		if camera:
+			mouse_position_in_world = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('quicksave'):
 		Global.quicksave()
