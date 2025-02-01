@@ -41,6 +41,10 @@ func _ready() -> void:
 	)	
 	
 	_init_map(map)
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		pass # current_path = 
 
 func _process(delta):
 	if player and player.location != null:

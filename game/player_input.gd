@@ -31,6 +31,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			cursor.show_path = false
 		action_triggered.emit(action)
 
+func _get_path(start: Vector2, destination: Vector2) -> Array:
+	if Global.navigation_map.has_point(Global.map_view.get_astar_pos(start.x, start.y)) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(destination.x, destination.y)):
+		return Global.navigation_map.get_point_path(
+			Global.map_view.get_astar_pos(start.x, start.y),
+			Global.map_view.get_astar_pos(destination.x, destination.y),
+			true
+		)
+	return []
+
 func _update_mouse_position() -> void:
 	var camera = get_viewport().get_camera_2d()
 	if !camera:
@@ -41,12 +50,7 @@ func _update_mouse_position() -> void:
 		var coord = Coords.get_coord(new_position)
 		if cursor:
 			if Global.player.can_see(coord) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(coord.x, coord.y)):
-				var path = Global.navigation_map.get_point_path(
-					Global.map_view.get_astar_pos(player_position.x, player_position.y),
-					Global.navigation_map.get_closest_point(coord, true),
-					true
-				)
-				cursor.path = path
+				cursor.path = _get_path(player_position, coord)
 			else:
 				cursor.path = []
 	mouse_position_in_world = new_position

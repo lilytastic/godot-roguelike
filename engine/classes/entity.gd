@@ -18,6 +18,8 @@ var equipment: EquipmentProps
 var health: Meter = null
 var energy := 0
 
+var current_path := []
+
 signal map_changed
 signal health_changed
 signal on_death
