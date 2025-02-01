@@ -16,6 +16,14 @@ func _ready() -> void:
 	PlayerInput.cursor = self
 
 func _process(delta) -> void:
+	if Global.player.current_path:
+		$Sprite2D.modulate = Color($Sprite2D.modulate, 0.5)
+		$Sprite2D.visible = false
+		# show_path = true
+		# path = Global.player.current_path
+		return
+		
+	$Sprite2D.visible = true
 	$Sprite2D.position = $Sprite2D.position.lerp(PlayerInput.mouse_position_in_world, delta * 80)
 	if Global.player and Global.player.can_see(PlayerInput.mouse_position_in_world / 16):
 		$Sprite2D.modulate = Color($Sprite2D.modulate, 1)

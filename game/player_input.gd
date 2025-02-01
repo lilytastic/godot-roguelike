@@ -46,12 +46,22 @@ func _notification(event):
 	match event:
 		NOTIFICATION_WM_MOUSE_EXIT:
 			mouse_in_window = false
+			if cursor:
+				cursor.show_path = false
 		NOTIFICATION_WM_MOUSE_ENTER:
 			mouse_in_window = true
 			
 func _update_mouse_position() -> void:
 	var camera = get_viewport().get_camera_2d()
+
+	if Global.player and Global.player.current_path.size() > 0:
+		cursor.path = Global.player.current_path
+		cursor.show_path = true
+		return
+
 	if !camera or !mouse_in_window:
+		if cursor:
+			cursor.show_path = false
 		return
 	var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
 	if Global.player and new_position != mouse_position_in_world:
