@@ -15,8 +15,15 @@ func process(delta: float) -> Dictionary:
 	var min = floor(index)
 	var max = ceil(index)
 	var step = index - min
-	var starting_position = sequence[min].position
-	var next_position = sequence[max].position
+	var position = [
+		sequence[min].position if sequence[min].has('position') else 0,
+		sequence[max].position if sequence[max].has('position') else 0
+	]
+	var scale = [
+		sequence[min].scale if sequence[min].has('scale') else Vector2.ONE,
+		sequence[max].scale if sequence[max].has('scale') else Vector2.ONE,
+	]
 	return {
-		'position': starting_position.lerp(next_position, step)
+		'position': position[0].lerp(position[1], step),
+		'scale': scale[0].lerp(scale[1], step),
 	}

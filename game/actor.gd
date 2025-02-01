@@ -25,7 +25,7 @@ func _ready() -> void:
 	# snap to grid
 	position = Coords.get_position(
 		Coords.get_coord(position),
-		Vector2(0, 0)
+		-%Sprite2D.offset + Vector2(8, 8)
 	)
 	if blueprint and blueprint.equipment:
 		z_index = 1
@@ -39,25 +39,33 @@ func _process(delta: float) -> void:
 		else:
 			position = lerp(
 				position,
-				Coords.get_position(entity.location.position, Vector2(0, 0)),
-				delta * STEP_LENGTH * 100
+				Coords.get_position(
+					entity.location.position,
+					-%Sprite2D.offset + Vector2(8, 8)
+				),
+				delta * STEP_LENGTH * 100.0
 			)
 	if glyph:
 		modulate = modulate.lerp(glyph.fg, delta * STEP_LENGTH * 100)
+	if animation and animation.progress >= animation.length:
+		animation = null
 	if animation:
 		var state = animation.process(delta)
 		%Sprite2D.position = state.position
+		%Sprite2D.scale = state.scale
 	else:
 		%Sprite2D.position = Vector2.ZERO
+		%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * STEP_LENGTH * 100)
 
 
 func _on_action_performed(action: Action, result: ActionResult):
 	if action is MovementAction:
 		animation = AnimationSequence.new(
 			[
-				{ 'position': Vector2.ZERO * 0.0 },
-				{ 'position': Vector2.UP * 3.0 },
-				{ 'position': Vector2.ZERO * 0.0 },
+				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.UP * 5.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.2, 0.8) },
 			],
 			STEP_LENGTH
 		)
@@ -65,10 +73,10 @@ func _on_action_performed(action: Action, result: ActionResult):
 		animation = AnimationSequence.new(
 			[
 				{ 'position': Vector2.ZERO * 0.0 },
-				{ 'position': entity.location.position.direction_to(action.target.location.position) * 8.0 },
+				{ 'position': entity.location.position.direction_to(action.target.location.position) * 5.0 },
 				{ 'position': Vector2.ZERO * 0.0 },
 			],
-			STEP_LENGTH
+			STEP_LENGTH * 0.5
 		)
 	pass
 
@@ -77,7 +85,10 @@ func _load(id: int):
 	_entityId = id
 	name = 'Entity<' + str(entity.uuid) + '>'
 	if entity.location:
-		position = Coords.get_position(entity.location.position,  Vector2(0, 0))
+		position = Coords.get_position(
+			entity.location.position,
+			-%Sprite2D.offset + Vector2(8, 8)
+		)
 	if glyph:
 		if %Sprite2D:
 			%Sprite2D.set_texture(glyph.to_atlas_texture())
