@@ -12,13 +12,10 @@ var blueprint: Blueprint:
 
 var glyph: Glyph:
 	get: return blueprint.glyph if blueprint else null
-	
-var animation: AnimationSequence = null
 
 
 signal destroyed
 
-const STEP_LENGTH = 0.15
 
 
 func _ready() -> void:
@@ -43,52 +40,25 @@ func _process(delta: float) -> void:
 					entity.location.position,
 					-%Sprite2D.offset + Vector2(8, 8)
 				),
-				delta * STEP_LENGTH * 100.0
+				delta * Global.STEP_LENGTH * 100.0
 			)
 	if glyph:
-		modulate = modulate.lerp(glyph.fg, delta * STEP_LENGTH * 100)
-	if animation and animation.progress >= animation.length:
-		animation = null
-	if animation:
-		var state = animation.process(delta)
+		modulate = modulate.lerp(glyph.fg, delta * Global.STEP_LENGTH * 100.0)
+	if entity.animation and entity.animation.progress >= entity.animation.length:
+		entity.animation = null
+	if entity.animation:
+		var state = entity.animation.process(delta)
 		if state and %Sprite2D:
 			%Sprite2D.position = state.position
 			%Sprite2D.scale = state.scale
 	else:
 		%Sprite2D.position = Vector2.ZERO
-		%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * STEP_LENGTH * 100)
+		%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * Global.STEP_LENGTH * 100.0)
 
 
 func _on_action_performed(action: Action, result: ActionResult):
 	if !result.success:
 		return
-	if action is MovementAction:
-		animation = AnimationSequence.new(
-			[
-				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
-				{ 'position': Vector2.UP * 5.0, 'scale': Vector2(1, 1) },
-				{ 'position': Vector2.UP * 5.0, 'scale': Vector2(1, 1) },
-				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.2, 0.8) },
-			],
-			STEP_LENGTH
-		)
-	if action is UseAction:
-		animation = AnimationSequence.new(
-			[
-				{ 'scale': Vector2(1, 1) },
-				{ 'scale': Vector2(1.2, 0.8) },
-			],
-			STEP_LENGTH * 0.5
-		)
-	if action is UseAbilityAction:
-		animation = AnimationSequence.new(
-			[
-				{ 'position': Vector2.ZERO * 0.0 },
-				{ 'position': entity.location.position.direction_to(action.target.location.position) * 5.0 },
-				{ 'position': Vector2.ZERO * 0.0 },
-			],
-			STEP_LENGTH * 0.5
-		)
 	pass
 
 

@@ -9,6 +9,15 @@ func _init(_target: Entity):
 func perform(entity: Entity) -> ActionResult:
 	if !target:
 		return ActionResult.new(false)
+		
+	entity.animation = AnimationSequence.new(
+		[
+			{ 'scale': Vector2(1, 1) },
+			{ 'scale': Vector2(1.3, 0.7) },
+			{ 'scale': Vector2(1.3, 0.7) },
+		],
+		Global.STEP_LENGTH * 0.5
+	)
 
 	if target.location and target.blueprint.item:
 		if InventoryManager.give(entity, target):

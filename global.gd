@@ -5,6 +5,8 @@ var player: Entity
 var maps_loaded: Dictionary = {}
 var ui_visible := false
 
+const STEP_LENGTH = 0.15
+
 signal player_changed
 signal game_saved
 signal game_loaded

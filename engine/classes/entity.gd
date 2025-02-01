@@ -19,6 +19,7 @@ var health: Meter = null
 var energy := 0.00
 
 var current_path := []
+var animation: AnimationSequence = null
 
 signal map_changed
 signal health_changed

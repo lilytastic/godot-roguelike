@@ -9,7 +9,18 @@ func _init(_vector):
 
 func perform(entity: Entity) -> ActionResult:
 	var new_position = entity.location.position + vector
-	
+
+	entity.animation = AnimationSequence.new(
+		[
+			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
+			{ 'position': Vector2.UP * 5.0, 'scale': Vector2(1, 1) },
+			{ 'position': Vector2.UP * 5.0, 'scale': Vector2(1, 1) },
+			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
+			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.2, 0.8) },
+		],
+		Global.STEP_LENGTH
+	)
+
 	var rect = Global.map_view.get_used_rect()
 	if new_position.x < 0 or new_position.x >= rect.end.x or new_position.y < 0 or new_position.y >= rect.end.y:
 		return ActionResult.new(false)
