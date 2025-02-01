@@ -24,4 +24,4 @@ func perform(entity: Entity) -> ActionResult:
 				target.damage({ 'damage': damage, 'source': entity })
 				pass
 
-	return ActionResult.new(false)
+	return ActionResult.new(true)
