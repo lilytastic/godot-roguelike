@@ -42,9 +42,40 @@ func _ready() -> void:
 	
 	_init_map(map)
 	
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		pass # current_path = 
+func _input(event: InputEvent) -> void:
+	if Global.player and event.is_released() and event is InputEventMouseButton:
+		Global.player.current_path = PlayerInput._get_path(
+			Global.player.location.position,
+			Coords.get_coord(PlayerInput.mouse_position_in_world)
+		).slice(1)
+		if next_actor and next_actor.uuid == Global.player.uuid:
+			print(Global.player.current_path)
+			var result = check_path(Global.player)
+			PlayerInput.cursor.show_path = false
+			if result.success:
+				next_actor.energy -= result.cost_energy
+				next_actor = null
+		
+func _unhandled_input(event) -> void:
+	if event.is_released():
+		print('clear path')
+		Global.player.current_path = []
+
+func check_path(entity: Entity):
+	if entity.current_path.size() > 0:
+		var result = _perform_action(
+			MovementAction.new(
+				entity.current_path[0] - entity.location.position
+			),
+			entity
+		)
+		if result.success:
+			entity.current_path = entity.current_path.slice(1)
+		else:
+			print('clear path')
+			entity.current_path.clear()
+		return result
+	return null
 
 func _process(delta):
 	if player and player.location != null:
@@ -78,7 +109,14 @@ func _process(delta):
 	
 	if next != null:
 		next_actor = next
-		if !Global.player or next_actor.uuid != Global.player.uuid:
+		if Global.player and next_actor.uuid == Global.player.uuid:
+			print('player', next_actor.current_path)
+			# Player turn
+			var result = check_path(next_actor)
+			if result:
+				next_actor.energy -= result.cost_energy
+				next_actor = null
+		else:
 			# AI turn
 			var result = _perform_action(
 				MovementAction.new(
