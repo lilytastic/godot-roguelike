@@ -53,7 +53,7 @@ func _input(event: InputEvent) -> void:
 			print(Global.player.current_path)
 			var result = check_path(Global.player)
 			PlayerInput.cursor.show_path = false
-			if result.success:
+			if result and result.success:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
 		

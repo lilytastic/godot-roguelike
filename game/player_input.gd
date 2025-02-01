@@ -10,6 +10,8 @@ var entity_dragging: Entity:
 var cursor: Node2D = null
 var mouse_position_in_world := Vector2i(0,0)
 
+var mouse_in_window = true
+
 signal action_triggered
 signal ui_action_triggered
 signal double_click
@@ -40,9 +42,16 @@ func _get_path(start: Vector2, destination: Vector2) -> Array:
 		)
 	return []
 
+func _notification(event):
+	match event:
+		NOTIFICATION_WM_MOUSE_EXIT:
+			mouse_in_window = false
+		NOTIFICATION_WM_MOUSE_ENTER:
+			mouse_in_window = true
+			
 func _update_mouse_position() -> void:
 	var camera = get_viewport().get_camera_2d()
-	if !camera:
+	if !camera or !mouse_in_window:
 		return
 	var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
 	if Global.player and new_position != mouse_position_in_world:
