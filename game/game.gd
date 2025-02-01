@@ -107,6 +107,7 @@ func _process(delta):
 	var next = actors[valid[0]] if valid.size() else null
 	
 	if next != null:
+		# print('next! ', next)
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
 			# Player turn
@@ -133,7 +134,8 @@ func _process(delta):
 				continue
 			var entity = actors[actor]
 			if entity and entity.blueprint.speed:
-				entity.energy += entity.blueprint.speed * delta
+				entity.energy += (entity.blueprint.speed * 1.0) * delta
+				entity.energy = min(1, entity.energy)
 
 func _perform_action(action: Action, _entity: Entity):
 	var result = action.perform(_entity)

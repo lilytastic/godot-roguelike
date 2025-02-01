@@ -44,5 +44,4 @@ func perform(entity: Entity) -> ActionResult:
 		return ActionResult.new(false)
 	
 	entity.location.position = new_position
-	entity.energy -= 10
-	return ActionResult.new(true, { 'cost_energy': 10 })
+	return ActionResult.new(true, { 'cost_energy': 3 })

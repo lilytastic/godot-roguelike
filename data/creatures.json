@@ -6,7 +6,7 @@
 		"level": 1,
 		"experienceAwarded": 50,
 		"baseHP": "5*($body + $willpower)/2",
-		"speed": 100,
+		"speed": 50,
 		"hostile": true,
 		"attributes": {
 		  "body": 3,
@@ -63,7 +63,7 @@
 		"name": "humanoid",
 		"parent": "creature",
 		"baseHP": "5*($body + $willpower)/2",
-		"speed": 100,
+		"speed": 50,
 		"attributes": {
 		  "body": 3,
 		  "dexterity": 3,
@@ -153,6 +153,7 @@
 		"id": "hero",
 		"name": "hero",
 		"parent": "human",
+		"speed": 100,
 		"description": "Looking good, nerd.",
 		"baseHP": "10+5*($body + $willpower)/2",
 		"glyph": {
@@ -203,7 +204,7 @@
 		"experienceAwarded": 50,
 		"level": 1,
 		"baseHP": "15 + ($level * 2)",
-		"speed": 100,
+		"speed": 50,
 		"glyph": {
 		  "ch": "G_GOBLIN",
 		  "fg": [

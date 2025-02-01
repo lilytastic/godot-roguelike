@@ -16,7 +16,7 @@ var location: Location
 var inventory: InventoryProps
 var equipment: EquipmentProps
 var health: Meter = null
-var energy := 0
+var energy := 0.00
 
 var current_path := []
 
