@@ -43,10 +43,11 @@ func _ready() -> void:
 	_init_map(map)
 	
 func _input(event: InputEvent) -> void:
-	if Global.player and event.is_released() and event is InputEventMouseButton:
+	var coord = Coords.get_coord(PlayerInput.mouse_position_in_world)
+	if Global.player and Global.player.can_see(coord) and event.is_released() and event is InputEventMouseButton:
 		Global.player.current_path = PlayerInput._get_path(
 			Global.player.location.position,
-			Coords.get_coord(PlayerInput.mouse_position_in_world)
+			coord
 		).slice(1)
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			print(Global.player.current_path)
@@ -58,7 +59,6 @@ func _input(event: InputEvent) -> void:
 		
 func _unhandled_input(event) -> void:
 	if event.is_released():
-		print('clear path')
 		Global.player.current_path = []
 
 func check_path(entity: Entity):
