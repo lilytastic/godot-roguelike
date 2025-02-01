@@ -52,10 +52,19 @@ func _on_action_performed(action: Action, result: ActionResult):
 		animation = AnimationSequence.new(
 			[
 				{ 'position': Vector2.ZERO * 0.0 },
-				{ 'position': Vector2.UP * 5.0 },
+				{ 'position': Vector2.UP * 3.0 },
 				{ 'position': Vector2.ZERO * 0.0 },
 			],
 			0.125
+		)
+	if action is UseAbilityAction:
+		animation = AnimationSequence.new(
+			[
+				{ 'position': Vector2.ZERO * 0.0 },
+				{ 'position': entity.location.position.direction_to(action.target.location.position) * 5.0 },
+				{ 'position': Vector2.ZERO * 0.0 },
+			],
+			0.1
 		)
 	pass
 
