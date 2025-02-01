@@ -25,7 +25,7 @@ func _ready() -> void:
 	# snap to grid
 	position = Coords.get_position(
 		Coords.get_coord(position),
-		-%Sprite2D.offset + Vector2(8, 8)
+		-%Sprite2D.offset + Vector2(0, 8)
 	)
 	if blueprint and blueprint.equipment:
 		z_index = 1
