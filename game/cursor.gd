@@ -23,7 +23,7 @@ func _process(delta) -> void:
 		%Path.end = 0
 	else:
 		%Path.start = 1
-		%Path.end = -1
+		%Path.end = 0
 
 	$Sprite2D.visible = true
 	$Sprite2D.position = $Sprite2D.position.lerp(PlayerInput.mouse_position_in_world, delta * 80)

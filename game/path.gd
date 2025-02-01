@@ -59,7 +59,9 @@ func draw(path: Array, color := Color.WHITE) -> void:
 
 		atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 		sprite.texture = atlas
-		sprite.modulate = Color(color, (index * 1.0) / path.size())
+		
+		var alpha = 0.1 + min(1.0, (index * 1.0) / 4) * 0.5
+		sprite.modulate = Color(color, alpha)
 		
 
 

@@ -64,12 +64,6 @@ func _init_navigation_map():
 							pos,
 							point
 						)
-	print(Global.navigation_map.get_point_count())
-	print(Global.navigation_map.get_point_path(
-		get_astar_pos(5, 2),
-		get_astar_pos(8, 2),
-		true
-	))
 
 func _process(delta):
 	if last_position != Global.player.location.position:
