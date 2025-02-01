@@ -18,6 +18,8 @@ var animation: AnimationSequence = null
 
 signal destroyed
 
+const STEP_LENGTH = 0.15
+
 
 func _ready() -> void:
 	# snap to grid
@@ -38,13 +40,15 @@ func _process(delta: float) -> void:
 			position = lerp(
 				position,
 				Coords.get_position(entity.location.position, Vector2(0, 0)),
-				delta * 30
+				delta * STEP_LENGTH * 100
 			)
 	if glyph:
-		modulate = modulate.lerp(glyph.fg, delta * 15)
+		modulate = modulate.lerp(glyph.fg, delta * STEP_LENGTH * 100)
 	if animation:
 		var state = animation.process(delta)
 		%Sprite2D.position = state.position
+	else:
+		%Sprite2D.position = Vector2.ZERO
 
 
 func _on_action_performed(action: Action, result: ActionResult):
@@ -55,16 +59,16 @@ func _on_action_performed(action: Action, result: ActionResult):
 				{ 'position': Vector2.UP * 3.0 },
 				{ 'position': Vector2.ZERO * 0.0 },
 			],
-			0.125
+			STEP_LENGTH
 		)
 	if action is UseAbilityAction:
 		animation = AnimationSequence.new(
 			[
 				{ 'position': Vector2.ZERO * 0.0 },
-				{ 'position': entity.location.position.direction_to(action.target.location.position) * 5.0 },
+				{ 'position': entity.location.position.direction_to(action.target.location.position) * 8.0 },
 				{ 'position': Vector2.ZERO * 0.0 },
 			],
-			0.1
+			STEP_LENGTH
 		)
 	pass
 
