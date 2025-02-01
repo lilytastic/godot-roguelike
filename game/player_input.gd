@@ -18,7 +18,7 @@ signal double_click
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		if cursor:
+		if is_instance_valid(cursor):
 			cursor.show_path = true
 		_update_mouse_position()
 
@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	var action := _check_for_action(event)
 	if action:
-		if cursor:
+		if is_instance_valid(cursor):
 			cursor.show_path = false
 		action_triggered.emit(action)
 
@@ -46,7 +46,7 @@ func _notification(event):
 	match event:
 		NOTIFICATION_WM_MOUSE_EXIT:
 			mouse_in_window = false
-			if cursor:
+			if is_instance_valid(cursor):
 				cursor.show_path = false
 		NOTIFICATION_WM_MOUSE_ENTER:
 			mouse_in_window = true
@@ -60,7 +60,7 @@ func _update_mouse_position() -> void:
 		# return
 
 	if !camera or !mouse_in_window:
-		if cursor:
+		if is_instance_valid(cursor):
 			cursor.show_path = false
 		return
 	var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
