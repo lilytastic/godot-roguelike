@@ -80,7 +80,7 @@ func _init_actor(entity: Entity):
 	var child = %Entities.find_child('Entity<'+str(entity.uuid)+'>')
 
 	if !child:
-		new_actor = Actor.new()
+		new_actor = actor_prefab.instantiate()
 		new_actor.name = 'Entity<'+str(entity.uuid)+'>'
 	else:
 		new_actor = child
@@ -93,7 +93,7 @@ func _init_actor(entity: Entity):
 		%Entities.add_child(new_actor)
 		
 	if entity.location:
-		new_actor.position = Coords.get_position(entity.location.position) + Vector2(8, 8)
+		new_actor.position = Coords.get_position(entity.location.position)
 
 	if new_actor.has_method('load'):
 		new_actor.load(entity.uuid)

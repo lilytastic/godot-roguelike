@@ -1,5 +1,5 @@
 class_name Actor
-extends Sprite2D
+extends Node2D
 
 var entity: Entity:
 	get: return Global.ecs.entity(_entityId)
@@ -19,7 +19,7 @@ func _ready() -> void:
 	# snap to grid
 	position = Coords.get_position(
 		Coords.get_coord(position),
-		Vector2(8, 8)
+		Vector2(0, 0)
 	)
 	if blueprint and blueprint.equipment:
 		z_index = 1
@@ -32,7 +32,7 @@ func _process(delta: float) -> void:
 		else:
 			position = lerp(
 				position,
-				Coords.get_position(entity.location.position, Vector2(8, 8)),
+				Coords.get_position(entity.location.position, Vector2(0, 0)),
 				delta * 30
 			)
 	if glyph:
@@ -42,9 +42,10 @@ func _load(id: int):
 	_entityId = id
 	name = 'Entity<' + str(entity.uuid) + '>'
 	if entity.location:
-		position = Coords.get_position(entity.location.position,  Vector2(8, 8))
+		position = Coords.get_position(entity.location.position,  Vector2(0, 0))
 	if glyph:
-		set_texture(glyph.to_atlas_texture())
+		if %Sprite2D:
+			%Sprite2D.set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
 	if entity.health:
 		entity.health_changed.connect(

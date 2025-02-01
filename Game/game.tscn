@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=4 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=11 format=4 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="Script" path="res://game/auto_add_entities.gd" id="2_iebwc"]
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_ly086"]
 [ext_resource type="PackedScene" uid="uid://dabn80pt603jc" path="res://game/actor.tscn" id="3_h3nby"]
-[ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="3_rekeo"]
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://dqasfn61u6sl5" path="res://game/character_menu.tscn" id="6_8exhv"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
@@ -21,10 +20,6 @@ expand_margin_left = 6.0
 expand_margin_top = 4.0
 expand_margin_right = 6.0
 expand_margin_bottom = 3.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l4awr"]
-atlas = ExtResource("3_rekeo")
-region = Rect2(432, 0, 16, 16)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -99,10 +94,8 @@ map = "Test"
 
 [node name="Dagger" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
 position = Vector2(56, 60)
-texture = SubResource("AtlasTexture_l4awr")
 metadata/blueprint = "dagger"
 
 [node name="Actor" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
 position = Vector2(238, 76)
-texture = SubResource("AtlasTexture_l4awr")
 metadata/blueprint = "ghoul"

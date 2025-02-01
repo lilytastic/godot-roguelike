@@ -42,39 +42,6 @@ func _ready() -> void:
 	
 	_init_map(map)
 	
-func _input(event: InputEvent) -> void:
-	var coord = Coords.get_coord(PlayerInput.mouse_position_in_world)
-	if Global.player and Global.player.can_see(coord) and event.is_released() and event is InputEventMouseButton:
-		Global.player.current_path = PlayerInput._get_path(
-			Global.player.location.position,
-			coord
-		).slice(1)
-		if next_actor and next_actor.uuid == Global.player.uuid:
-			# print(Global.player.current_path)
-			var result = check_path(Global.player)
-			PlayerInput.cursor.show_path = false
-			if result and result.success:
-				next_actor.energy -= result.cost_energy
-				next_actor = null
-		
-func _unhandled_input(event) -> void:
-	if event.is_released():
-		Global.player.current_path = []
-
-func check_path(entity: Entity):
-	if entity.current_path.size() > 0:
-		var result = _perform_action(
-			MovementAction.new(
-				entity.current_path[0] - entity.location.position
-			),
-			entity
-		)
-		if result.success:
-			entity.current_path = entity.current_path.slice(1)
-		else:
-			entity.current_path.clear()
-		return result
-	return null
 
 func _process(delta):
 	if player and player.location != null:
@@ -111,7 +78,7 @@ func _process(delta):
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
 			# Player turn
-			var result = check_path(next_actor)
+			var result = _check_path(next_actor)
 			if result:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
@@ -140,6 +107,43 @@ func _process(delta):
 				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
 
+
+func _input(event: InputEvent) -> void:
+	var coord = Coords.get_coord(PlayerInput.mouse_position_in_world)
+	if Global.player and Global.player.can_see(coord) and event.is_released() and event is InputEventMouseButton:
+		Global.player.current_path = PlayerInput._get_path(
+			Global.player.location.position,
+			coord
+		).slice(1)
+		if next_actor and next_actor.uuid == Global.player.uuid:
+			# print(Global.player.current_path)
+			var result = _check_path(Global.player)
+			PlayerInput.cursor.show_path = false
+			if result and result.success:
+				next_actor.energy -= result.cost_energy
+				next_actor = null
+
+func _unhandled_input(event) -> void:
+	if event.is_released():
+		Global.player.current_path = []
+
+
+func _check_path(entity: Entity):
+	if entity.current_path.size() > 0:
+		var result = _perform_action(
+			MovementAction.new(
+				entity.current_path[0] - entity.location.position
+			),
+			entity
+		)
+		if result.success:
+			entity.current_path = entity.current_path.slice(1)
+		else:
+			entity.current_path.clear()
+		return result
+	return null
+	
+	
 func _perform_action(action: Action, _entity: Entity):
 	var result = action.perform(_entity)
 	if !result.success and result.alternate:
@@ -148,6 +152,7 @@ func _perform_action(action: Action, _entity: Entity):
 
 func _on_ui_action(action):
 	action.perform(Global.player)
+	
 
 func _init_map(_map):
 	print('Switched to map ', _map)
