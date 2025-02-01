@@ -46,7 +46,8 @@ func draw(path: Array, color := Color.WHITE) -> void:
 			pass
 		else:
 			if path.size() == next_index:
-				coords = Vector2i(24, 12)
+				coords = Vector2i(26, 13) # Vector2i(24, 12)
+				sprite.rotation_degrees += 180
 				if last_point.x > point.x:
 					sprite.rotation_degrees += 0
 				if last_point.x < point.x:

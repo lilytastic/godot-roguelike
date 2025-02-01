@@ -57,14 +57,14 @@ func _update_mouse_position() -> void:
 	if Global.player and Global.player.current_path.size() > 0:
 		cursor.path = Global.player.current_path
 		cursor.show_path = true
-		return
+		# return
 
 	if !camera or !mouse_in_window:
 		if cursor:
 			cursor.show_path = false
 		return
 	var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
-	if Global.player and new_position != mouse_position_in_world:
+	if Global.player and new_position != mouse_position_in_world and Global.player.current_path.size() == 0:
 		var player_position = Global.player.location.position
 		var coord = Coords.get_coord(new_position)
 		if cursor:
