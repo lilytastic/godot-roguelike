@@ -50,7 +50,7 @@ func _input(event: InputEvent) -> void:
 			coord
 		).slice(1)
 		if next_actor and next_actor.uuid == Global.player.uuid:
-			print(Global.player.current_path)
+			# print(Global.player.current_path)
 			var result = check_path(Global.player)
 			PlayerInput.cursor.show_path = false
 			if result and result.success:
@@ -134,7 +134,10 @@ func _process(delta):
 				continue
 			var entity = actors[actor]
 			if entity and entity.blueprint.speed:
-				entity.energy += (entity.blueprint.speed * 1.0) * delta
+				var mod = delta
+				if Global.player.current_path.size() > 0:
+					mod *= 0.2
+				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
 
 func _perform_action(action: Action, _entity: Entity):
