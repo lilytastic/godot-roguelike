@@ -3,6 +3,7 @@ extends Node
 var ecs = ECS.new()
 var player: Entity
 var maps_loaded: Dictionary = {}
+var ui_visible := false
 
 signal player_changed
 signal game_saved

@@ -11,9 +11,15 @@ var path: Array:
 var show_path: bool:
 	set(value):
 		%Path.visible = value
+		
+var _mouse_moved: bool
+
 	
 func _ready() -> void:
 	PlayerInput.cursor = self
+	PlayerInput.action_triggered.connect(func(action):
+		_mouse_moved = false
+	)
 
 func _process(delta) -> void:
 	if Global.player.current_path:
@@ -24,8 +30,10 @@ func _process(delta) -> void:
 	else:
 		%Path.start = 1
 		%Path.end = 0
+		
+	show_path = _check_path_visibility()
 
-	$Sprite2D.visible = true
+	$Sprite2D.visible = !Global.ui_visible
 	$Sprite2D.position = $Sprite2D.position.lerp(PlayerInput.mouse_position_in_world, delta * 80)
 
 	if Global.player and Global.player.can_see(PlayerInput.mouse_position_in_world / 16):
@@ -33,7 +41,23 @@ func _process(delta) -> void:
 	else:
 		$Sprite2D.modulate = Color($Sprite2D.modulate, 0.5)
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and !Global.player.current_path:
+		_mouse_moved = true
+
+
 func _set_path():
 	# Draw path
 	%Path.draw(path, $Sprite2D.modulate)
 	
+func _check_path_visibility():
+	if Global.player.current_path:
+		return true
+		
+	if !PlayerInput.mouse_in_window or Global.ui_visible:
+		return false
+
+	if _mouse_moved:
+		return true
+	
+	return false

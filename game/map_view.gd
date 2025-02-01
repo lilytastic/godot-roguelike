@@ -33,7 +33,6 @@ func _ready():
 func get_astar_pos(x, y) -> int:
 	var rect := get_used_rect()
 	var width = rect.end.x
-	var height = rect.end.y
 	return x + width * y
 
 func _init_navigation_map():
@@ -58,6 +57,8 @@ func _init_navigation_map():
 			if Global.navigation_map.has_point(pos):
 				for i: StringName in InputTag.MOVE_ACTIONS:
 					var offset = Vector2i(x, y) + PlayerInput._input_to_direction(i)
+					if offset.x < 0 or offset.x >= width:
+						continue
 					var point = get_astar_pos(offset.x, offset.y)
 					if Global.navigation_map.has_point(point):
 						Global.navigation_map.connect_points(

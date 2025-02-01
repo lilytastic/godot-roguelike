@@ -74,7 +74,6 @@ func _process(delta):
 	var next = actors[valid[0]] if valid.size() else null
 	
 	if next != null:
-		# print('next! ', next)
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
 			# Player turn
@@ -109,6 +108,11 @@ func _process(delta):
 
 
 func _input(event: InputEvent) -> void:
+	if %SystemMenu:
+		Global.ui_visible = %SystemMenu.isMenuOpen
+	else:
+		Global.ui_visible = false
+		
 	var coord = Coords.get_coord(PlayerInput.mouse_position_in_world)
 	if Global.player and Global.player.can_see(coord) and event.is_released() and event is InputEventMouseButton:
 		Global.player.current_path = PlayerInput._get_path(
@@ -118,7 +122,6 @@ func _input(event: InputEvent) -> void:
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			# print(Global.player.current_path)
 			var result = _check_path(Global.player)
-			PlayerInput.cursor.show_path = false
 			if result and result.success:
 				next_actor.energy -= result.cost_energy
 				next_actor = null

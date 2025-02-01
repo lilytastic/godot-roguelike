@@ -60,6 +60,8 @@ func _process(delta: float) -> void:
 
 
 func _on_action_performed(action: Action, result: ActionResult):
+	if !result.success:
+		return
 	if action is MovementAction:
 		animation = AnimationSequence.new(
 			[
