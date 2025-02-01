@@ -51,8 +51,9 @@ func _process(delta: float) -> void:
 		animation = null
 	if animation:
 		var state = animation.process(delta)
-		%Sprite2D.position = state.position
-		%Sprite2D.scale = state.scale
+		if state and %Sprite2D:
+			%Sprite2D.position = state.position
+			%Sprite2D.scale = state.scale
 	else:
 		%Sprite2D.position = Vector2.ZERO
 		%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * STEP_LENGTH * 100)
@@ -64,10 +65,18 @@ func _on_action_performed(action: Action, result: ActionResult):
 			[
 				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
 				{ 'position': Vector2.UP * 5.0, 'scale': Vector2(1, 1) },
-				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.UP * 5.0, 'scale': Vector2(1, 1) },
 				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.2, 0.8) },
 			],
 			STEP_LENGTH
+		)
+	if action is UseAction:
+		animation = AnimationSequence.new(
+			[
+				{ 'scale': Vector2(1, 1) },
+				{ 'scale': Vector2(1.2, 0.8) },
+			],
+			STEP_LENGTH * 0.5
 		)
 	if action is UseAbilityAction:
 		animation = AnimationSequence.new(

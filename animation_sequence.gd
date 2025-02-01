@@ -16,8 +16,8 @@ func process(delta: float) -> Dictionary:
 	var max = ceil(index)
 	var step = index - min
 	var position = [
-		sequence[min].position if sequence[min].has('position') else 0,
-		sequence[max].position if sequence[max].has('position') else 0
+		sequence[min].position if sequence[min].has('position') else Vector2.ZERO,
+		sequence[max].position if sequence[max].has('position') else Vector2.ZERO
 	]
 	var scale = [
 		sequence[min].scale if sequence[min].has('scale') else Vector2.ONE,

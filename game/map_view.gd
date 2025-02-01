@@ -71,7 +71,8 @@ func _process(delta):
 		_render_fov()
 
 	for actor in %Entities.get_children():
-		if !actor.entity:
+		if !actor.entity or !actor.entity.location:
+			actor.queue_free()
 			continue
 		actor.visible = Global.player.can_see(actor.entity.location.position)
 
