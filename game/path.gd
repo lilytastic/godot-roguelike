@@ -1,13 +1,13 @@
 extends Node2D
 
-var start = 1
+var start = 0
 var end = 0
 
 func draw(path: Array, color := Color.WHITE) -> void:
 	for child in get_children():
 		child.free()
 		
-	if path.size() <= 2:
+	if path.size() <= 1:
 		visible = false
 		return
 		

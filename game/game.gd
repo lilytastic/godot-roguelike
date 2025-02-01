@@ -72,7 +72,6 @@ func check_path(entity: Entity):
 		if result.success:
 			entity.current_path = entity.current_path.slice(1)
 		else:
-			print('clear path')
 			entity.current_path.clear()
 		return result
 	return null
@@ -110,7 +109,6 @@ func _process(delta):
 	if next != null:
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
-			print('player', next_actor.current_path)
 			# Player turn
 			var result = check_path(next_actor)
 			if result:
