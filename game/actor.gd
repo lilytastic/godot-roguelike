@@ -12,8 +12,12 @@ var blueprint: Blueprint:
 
 var glyph: Glyph:
 	get: return blueprint.glyph if blueprint else null
+	
+var animation: AnimationSequence = null
+
 
 signal destroyed
+
 
 func _ready() -> void:
 	# snap to grid
@@ -23,6 +27,7 @@ func _ready() -> void:
 	)
 	if blueprint and blueprint.equipment:
 		z_index = 1
+
 
 func _process(delta: float) -> void:
 	if entity:
@@ -37,6 +42,23 @@ func _process(delta: float) -> void:
 			)
 	if glyph:
 		modulate = modulate.lerp(glyph.fg, delta * 15)
+	if animation:
+		var state = animation.process(delta)
+		%Sprite2D.position = state.position
+
+
+func _on_action_performed(action: Action, result: ActionResult):
+	if action is MovementAction:
+		animation = AnimationSequence.new(
+			[
+				{ 'position': Vector2.ZERO * 0.0 },
+				{ 'position': Vector2.UP * 5.0 },
+				{ 'position': Vector2.ZERO * 0.0 },
+			],
+			0.125
+		)
+	pass
+
 
 func _load(id: int):
 	_entityId = id
@@ -47,6 +69,7 @@ func _load(id: int):
 		if %Sprite2D:
 			%Sprite2D.set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
+	entity.action_performed.connect(_on_action_performed)
 	if entity.health:
 		entity.health_changed.connect(
 			func(amount):

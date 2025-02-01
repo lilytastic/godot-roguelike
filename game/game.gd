@@ -148,6 +148,7 @@ func _perform_action(action: Action, _entity: Entity):
 	var result = action.perform(_entity)
 	if !result.success and result.alternate:
 		return _perform_action(result.alternate, _entity)
+	_entity.action_performed.emit(action, result)
 	return result
 
 func _on_ui_action(action):

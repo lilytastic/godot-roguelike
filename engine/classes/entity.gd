@@ -23,6 +23,7 @@ var current_path := []
 signal map_changed
 signal health_changed
 signal on_death
+signal action_performed
 
 func _init(opts: Dictionary):
 	_blueprint = opts.blueprint
