@@ -7,8 +7,12 @@ extends Control
 func add_text(text: String, position: Vector2):
 	var prefab = text_prefab.instantiate()
 	add_child(prefab)
-	var pos = position + -prefab.size / 2 + Vector2(0, -60)
+	var pos = position + -prefab.size / 2
 	prefab.position = pos
 	prefab.text = '[center]' + text + '[/center]'
+	queue_for_deletion(prefab)
+	return prefab
+	
+func queue_for_deletion(prefab):
 	await Global.sleep(1000)
 	prefab.queue_free()

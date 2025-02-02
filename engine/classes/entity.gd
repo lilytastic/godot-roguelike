@@ -24,6 +24,10 @@ var current_target: int = -1 # uuid
 var current_target_position: Vector2i = Vector2i(-1, -1)
 var animation: AnimationSequence = null
 
+var screen_position: Vector2:
+	get:
+		return actor.get_global_transform_with_canvas().origin
+
 signal map_changed
 signal health_changed
 signal on_death
