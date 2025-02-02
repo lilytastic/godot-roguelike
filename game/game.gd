@@ -178,6 +178,7 @@ func _check_path(entity: Entity):
 				entity.act_on(target),
 				entity
 			)
+			entity.current_path = []
 			entity.current_target = -1
 
 	return null
