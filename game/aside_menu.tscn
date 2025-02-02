@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://kv6mv8j4a7yc"]
+[gd_scene load_steps=8 format=3 uid="uid://kv6mv8j4a7yc"]
 
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="1_4cwgy"]
 [ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://display.tres" id="1_inosm"]
 [ext_resource type="Script" path="res://game/aside_menu.gd" id="1_x6mru"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="4_dypj6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvv64"]
+bg_color = Color(0.1066, 0.1183, 0.13, 1)
 
 [sub_resource type="Theme" id="Theme_drivx"]
 VBoxContainer/constants/separation = 0
@@ -28,8 +31,9 @@ anchor_right = 0.211
 anchor_bottom = 1.0
 offset_left = -88.04
 offset_top = 11.0
-offset_right = 71.96
+offset_right = 123.96
 offset_bottom = -11.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wvv64")
 
 [node name="Title" type="RichTextLabel" parent="Panel"]
 layout_mode = 1
@@ -53,13 +57,13 @@ fit_content = true
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.24
+anchor_top = 0.595
 anchor_right = 1.0
-anchor_bottom = 0.24
-offset_left = 8.0
-offset_top = 18.644
+anchor_bottom = 0.595
+offset_left = 8.00001
+offset_top = -112.11
 offset_right = -8.0
-offset_bottom = 194.644
+offset_bottom = 111.89
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
