@@ -46,11 +46,11 @@ func _ready() -> void:
 func _process(delta):
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
-		var _desired_camera_speed = 1.0
+		var _desired_camera_speed = 2.0
 		var _target = Global.ecs.entity(player.current_target)
 		var _target_position = player.target_position(false)
 		if player.current_path.size() > 0:
-			_desired_camera_speed = 2.0
+			_desired_camera_speed = 3.0
 			_camera_position = _camera_position.lerp(
 				Coords.get_position(
 					player.current_path[floor(player.current_path.size() / 2)]
@@ -58,12 +58,23 @@ func _process(delta):
 				0.5
 			)
 		else:
-			if false and _target_position.x != -1 and _target_position.y != -1:
+			pass
+			"""
+			if Global.ecs.entity(player.current_target):
 				_desired_camera_speed = 0.5
 				_camera_position = _camera_position.lerp(
 					Coords.get_position(_target_position),
 					0.5
 				)
+			"""
+			"""
+			if _target_position.x != -1 and _target_position.y != -1:
+				_desired_camera_speed = 0.5
+				_camera_position = _camera_position.lerp(
+					Coords.get_position(_target_position),
+					0.5
+				)
+			"""
 		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
 		$Camera2D.position = lerp(
 			$Camera2D.position,
@@ -144,6 +155,10 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var valid = Global.player and Global.player.can_see(coord)
 		if valid:
+			if event.button_index != 1:
+				Global.player.clear_path()
+				Global.player.clear_targeting()
+				return
 			# print(PlayerInput.entities_under_cursor)
 			if !event.double_click and event.pressed:
 				if PlayerInput.entities_under_cursor.size() > 0:
