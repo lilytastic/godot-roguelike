@@ -63,6 +63,9 @@ func _set_path():
 	%Path.draw(path, $Sprite2D.modulate)
 	
 func _check_path_visibility():
+	if Global.player.current_target != -1:
+		return false
+		
 	if Global.player.current_path:
 		return true
 		
