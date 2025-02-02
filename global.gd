@@ -104,3 +104,18 @@ func get_save_data() -> Dictionary:
 
 func sleep(ms: float) -> void:
 	await get_tree().create_timer(ms / 1000).timeout
+
+func update_tiles(actors):
+	for tile in navigation_map.get_point_ids():
+		navigation_map.set_point_disabled(
+			tile,
+			false
+		)
+	
+	for actor in actors.values():
+		if actor and actor.location and actor.blueprint.equipment:
+			var pos = actor.location.position
+			navigation_map.set_point_disabled(
+				Global.map_view.get_astar_pos(pos.x, pos.y),
+				true
+			)

@@ -44,19 +44,7 @@ func _ready() -> void:
 	
 
 func _process(delta):
-	for tile in Global.navigation_map.get_point_ids():
-		Global.navigation_map.set_point_disabled(
-			tile,
-			false
-		)
-	
-	for actor in actors.values():
-		if actor and actor.location and actor.blueprint.equipment:
-			var pos = actor.location.position
-			Global.navigation_map.set_point_disabled(
-				Global.map_view.get_astar_pos(pos.x, pos.y),
-				true
-			)
+	Global.update_tiles(actors)
 	
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
@@ -264,6 +252,7 @@ func _perform_action(action: Action, _entity: Entity, allow_recursion := true):
 			return await _perform_action(result.alternate, _entity)
 	_entity.action_performed.emit(action, result)
 
+	Global.update_tiles(actors)
 	return result
 
 func _on_ui_action(action):
