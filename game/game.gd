@@ -154,7 +154,16 @@ func _process(delta):
 				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
 
-	if player.current_target != -1:
+	var _reset_path = false
+	if player.has_target():
+		if Global.player.current_path.size() == 0:
+			_reset_path = true
+		else:
+			var _target_position = player.target_position(false)
+			var _last_position = Global.player.current_path[Global.player.current_path.size() - 1]
+			if _target_position.x != _last_position.x or _target_position.y != _last_position.y:
+				_reset_path = true
+	if _reset_path:
 		var path_result = PlayerInput.try_path_to(
 			player.location.position,
 			player.target_position()
@@ -211,7 +220,7 @@ func _act():
 			entity.target_position()
 		)
 		if path_result.success:
-			entity.current_path = path_result.path.slice(1)
+			entity.current_path = path_result.path
 			var target = Global.ecs.entity(entity.current_target)
 			var result = await _trigger_action(entity, target)
 			if result and result.success:
@@ -223,6 +232,8 @@ func _trigger_action(entity: Entity, target: Entity):
 	var act_range = 1 if (target and target.blocks_entities()) else 0
 	if entity.current_path.size() and entity.current_path[0] == entity.location.position:
 		entity.current_path = entity.current_path.slice(1)
+		
+	# TODO: Check actual distance in case the path is wrong
 	if entity.current_path.size() > act_range:
 		var result = await _perform_action(
 			MovementAction.new(

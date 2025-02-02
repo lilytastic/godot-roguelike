@@ -8,10 +8,6 @@ var path: Array:
 		_path = value
 		_set_path()
 		
-var show_path: bool:
-	set(value):
-		%Path.visible = value
-		
 var _mouse_moved: bool
 
 	
@@ -23,7 +19,6 @@ func _ready() -> void:
 
 func _process(delta) -> void:
 	if Global.player.current_path:
-		# show_path = true
 		# path = Global.player.current_path
 		%Path.start = 0
 		%Path.end = 0
@@ -31,7 +26,7 @@ func _process(delta) -> void:
 		%Path.start = 1
 		%Path.end = 0
 		
-	show_path = _check_path_visibility()
+	%Path.visible = _check_path_visibility()
 	
 	var current_modulate = %Tracker.modulate
 	
@@ -95,8 +90,7 @@ func _set_path():
 	%Path.draw(path, %Target.modulate)
 	
 func _check_path_visibility():
-	var target_position = Global.player.target_position(false)
-	if target_position.x == -1 and target_position.y == -1:
+	if !Global.player.has_target():
 		return false
 		
 	if Global.player.current_path:
@@ -108,4 +102,4 @@ func _check_path_visibility():
 	if _mouse_moved:
 		return true
 	
-	return false
+	return true
