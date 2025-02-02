@@ -6,7 +6,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cbahm"]
 atlas = ExtResource("2_2cdcw")
-region = Rect2(768, 288, 16, 16)
+region = Rect2(400, 224, 16, 16)
 
 [node name="Cursor" type="Node2D"]
 script = ExtResource("1_55xu1")

@@ -97,8 +97,8 @@ func _init_actor(entity: Entity):
 	if entity.location:
 		new_actor.position = Coords.get_position(entity.location.position)
 
-	if new_actor.has_method('load'):
-		new_actor.load(entity.uuid)
+	if new_actor.has_method('_load'):
+		new_actor._load(entity.uuid)
 
 	return new_actor
 

@@ -18,10 +18,10 @@ signal destroyed
 
 
 
-func _ready() -> void:
-	# snap to grid
+func _init() -> void:
 	position = Coords.get_position(
-		Coords.get_coord(position)
+		Coords.get_coord(position),
+		Vector2(8, 16)
 	)
 	if blueprint and blueprint.equipment:
 		z_index = 1
@@ -41,9 +41,10 @@ func _process(delta: float) -> void:
 				),
 				delta * Global.STEP_LENGTH * 100.0
 			)
-		
+
 	if entity and entity.animation and entity.animation.progress >= entity.animation.length:
 		entity.animation = null
+
 	if entity and entity.animation:
 		var state = entity.animation.process(entity, delta)
 		if state and %Sprite2D:
@@ -71,10 +72,17 @@ func _load(id: int):
 			entity.location.position,
 			-%Sprite2D.offset + Vector2(8, 8)
 		)
+	else:
+		position = Coords.get_position(
+			Coords.get_coord(position),
+			-%Sprite2D.offset + Vector2(8, 8)
+		)
 	if glyph:
 		if %Sprite2D:
 			%Sprite2D.set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
+	if entity.action_performed.get_connections().size() > 0:
+		entity.action_performed.disconnect(_on_action_performed)
 	entity.action_performed.connect(_on_action_performed)
 	if entity.health:
 		entity.health_changed.connect(

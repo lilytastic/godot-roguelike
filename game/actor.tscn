@@ -12,6 +12,5 @@ script = ExtResource("2_im4yg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(8, 16)
 texture = SubResource("AtlasTexture_l4awr")
 offset = Vector2(0, -8)
