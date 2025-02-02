@@ -1,17 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://be05y3swrshiq"]
+[gd_scene load_steps=6 format=3 uid="uid://be05y3swrshiq"]
 
 [ext_resource type="Script" path="res://game/cursor.gd" id="1_55xu1"]
 [ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="2_2cdcw"]
 [ext_resource type="Script" path="res://game/path.gd" id="3_kw4fo"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cbahm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0usa"]
 atlas = ExtResource("2_2cdcw")
 region = Rect2(400, 224, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbahm"]
+atlas = ExtResource("2_2cdcw")
+region = Rect2(432, 224, 16, 16)
 
 [node name="Cursor" type="Node2D"]
 script = ExtResource("1_55xu1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Tracker" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(0, 0.883333, 1, 1)
+texture = SubResource("AtlasTexture_n0usa")
+
+[node name="Target" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 modulate = Color(0, 0.883333, 1, 1)
 texture = SubResource("AtlasTexture_cbahm")
 

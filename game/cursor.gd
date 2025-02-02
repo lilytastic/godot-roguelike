@@ -33,26 +33,40 @@ func _process(delta) -> void:
 		
 	show_path = _check_path_visibility()
 	
-	var current_modulate = $Sprite2D.modulate
+	var current_modulate = %Tracker.modulate
 	
 	var target = Global.ecs.entity(Global.player.current_target)
-	if !target and PlayerInput.entities_under_cursor.size() > 0:
-		target = PlayerInput.entities_under_cursor[0]
-	$Sprite2D.modulate = _get_color(target)
+	%Target.modulate = _get_color(target)
+	
+	if PlayerInput.entities_under_cursor.size() > 0:
+		%Tracker.modulate = _get_color(PlayerInput.entities_under_cursor[0])
+		if !target:
+			target = PlayerInput.entities_under_cursor[0]
+			%Target.modulate = _get_color(target)
+	else:
+		%Tracker.modulate = _get_color(null)
 
-	$Sprite2D.visible = !Global.ui_visible
-	$Sprite2D.position = $Sprite2D.position.lerp(
+	%Tracker.visible = !Global.ui_visible
+	var tracker_position = PlayerInput.mouse_position_in_world
+	%Tracker.position = %Tracker.position.lerp(
+		tracker_position,
+		delta * 80
+	)
+	
+	%Target.visible = !Global.ui_visible and Global.player.current_target != -1
+	var target_position = PlayerInput.mouse_position_in_world if (!target or !target.location) else Coords.get_position(target.location.position) + Vector2(8, 8)
+	%Target.position = %Target.position.lerp(
 		PlayerInput.mouse_position_in_world if (!target or !target.location) else Coords.get_position(target.location.position) + Vector2(8, 8),
 		delta * 80
 	)
 	
-	if $Sprite2D.modulate != current_modulate:
+	if %Tracker.modulate != current_modulate:
 		_set_path()
 
 	if Global.player and Global.player.can_see(PlayerInput.mouse_position_in_world / 16):
-		$Sprite2D.modulate = Color($Sprite2D.modulate, 1)
+		%Tracker.modulate = Color(%Tracker.modulate, 1)
 	else:
-		$Sprite2D.modulate = Color($Sprite2D.modulate, 0.5)
+		%Tracker.modulate = Color(%Tracker.modulate, 0.5)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and !Global.player.current_path:
@@ -69,7 +83,7 @@ func _get_color(entity):
 
 func _set_path():
 	# Draw path
-	%Path.draw(path, $Sprite2D.modulate)
+	%Path.draw(path, %Tracker.modulate)
 	
 func _check_path_visibility():
 	if Global.player.current_target != -1:

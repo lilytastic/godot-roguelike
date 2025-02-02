@@ -152,7 +152,6 @@ func _check_path(entity: Entity):
 			entity.location.position,
 			target.location.position
 		).slice(1)
-		print(entity.current_path)
 	else:
 		entity.current_target = -1
 
@@ -186,7 +185,6 @@ func _check_path(entity: Entity):
 	
 func _perform_action(action: Action, _entity: Entity, allow_recursion := true):
 	var result = await action.perform(_entity)
-	print('action ', result.success)
 	if !result.success and result.alternate:
 		if allow_recursion:
 			return await _perform_action(result.alternate, _entity)
