@@ -54,6 +54,9 @@ func damage(opts: Dictionary):
 		health.deduct(damage)
 		health_changed.emit(-damage)
 
+func blocks_entities() -> bool:
+	return is_instance_valid(blueprint.equipment)
+
 func save() -> Dictionary:
 	var dict := {}
 	
@@ -92,6 +95,11 @@ func can_see(pos: Vector2) -> bool:
 	return true # Coords.get_range(pos, location.position) < 7
 
 func can_act() -> bool:
+	return blueprint.equipment != null
+
+func is_hostile(other: Entity) -> bool:
+	if other.uuid == uuid:
+		return false
 	return blueprint.equipment != null
 
 func act_on(target: Entity) -> Action:

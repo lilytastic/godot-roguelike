@@ -23,7 +23,7 @@ func _init() -> void:
 		Coords.get_coord(position),
 		Vector2(8, 16)
 	)
-	if blueprint and blueprint.equipment:
+	if entity and entity.blocks_entities():
 		z_index = 1
 
 

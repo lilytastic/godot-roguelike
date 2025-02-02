@@ -151,7 +151,12 @@ func _process(delta):
 				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
 
-	_check_path(Global.player)
+	var path_result = PlayerInput.try_path_to(
+		player.location.position,
+		player.target_position()
+	)
+	if path_result.success:
+		Global.player.current_path = path_result.path
 
 
 func _input(event: InputEvent) -> void:
@@ -197,22 +202,23 @@ func _act():
 	var entity = next_actor
 	# Is player...
 	if next_actor and next_actor.uuid == Global.player.uuid:
-		_check_path(entity)
-		var target = Global.ecs.entity(entity.current_target)
-		var result = await _trigger_action(entity, target)
-		if result and result.success:
-			next_actor.energy -= result.cost_energy
-			next_actor = null
+		var path_result = PlayerInput.try_path_to(
+			entity.location.position,
+			entity.target_position()
+		)
+		if path_result.success:
+			entity.current_path = path_result.path.slice(1)
+			var target = Global.ecs.entity(entity.current_target)
+			var result = await _trigger_action(entity, target)
+			if result and result.success:
+				next_actor.energy -= result.cost_energy
+				next_actor = null
 
 
-func _check_path(entity: Entity):
-	entity.current_path = PlayerInput._get_path(
-		entity.location.position,
-		entity.target_position()
-	).slice(1)
-		
 func _trigger_action(entity: Entity, target: Entity):
-	var act_range = 1 if (target and target.blueprint.equipment) else 0
+	var act_range = 1 if (target and target.blocks_entities()) else 0
+	if entity.current_path.size() and entity.current_path[0] == entity.location.position:
+		entity.current_path = entity.current_path.slice(1)
 	if entity.current_path.size() > act_range:
 		var result = await _perform_action(
 			MovementAction.new(

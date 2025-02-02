@@ -22,7 +22,7 @@ func perform(entity: Entity) -> ActionResult:
 	
 	var collisions = Global.ecs.entities.values().filter(
 		func(_entity):
-			return _entity.blueprint.equipment and _entity.location and _entity.location.map == entity.location.map
+			return _entity.blocks_entities() and _entity.location and _entity.location.map == entity.location.map
 	).filter(
 		func(_entity):
 			return _entity.location.position.x == new_position.x and _entity.location.position.y == new_position.y

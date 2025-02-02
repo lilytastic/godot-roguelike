@@ -84,7 +84,7 @@ func _input(event: InputEvent) -> void:
 
 func _get_color(entity):
 	if entity:
-		if entity.blueprint.equipment and entity.uuid != Global.player.uuid:
+		if entity.is_hostile(Global.player) and entity.uuid != Global.player.uuid:
 			return Color.RED
 		if entity.blueprint.item:
 			return Color.GREEN
@@ -92,7 +92,7 @@ func _get_color(entity):
 
 func _set_path():
 	# Draw path
-	%Path.draw(path, %Tracker.modulate)
+	%Path.draw(path, %Target.modulate)
 	
 func _check_path_visibility():
 	var target_position = Global.player.target_position(false)
