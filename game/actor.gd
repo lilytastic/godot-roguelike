@@ -42,18 +42,20 @@ func _process(delta: float) -> void:
 				),
 				delta * Global.STEP_LENGTH * 100.0
 			)
-	if glyph:
-		modulate = modulate.lerp(glyph.fg, delta * Global.STEP_LENGTH * 100.0)
-	if entity.animation and entity.animation.progress >= entity.animation.length:
+		
+	if entity and entity.animation and entity.animation.progress >= entity.animation.length:
 		entity.animation = null
-	if entity.animation:
-		var state = entity.animation.process(delta)
+	if entity and entity.animation:
+		var state = entity.animation.process(entity, delta)
 		if state and %Sprite2D:
 			%Sprite2D.position = state.position
 			%Sprite2D.scale = state.scale
+			modulate = state.color
 	else:
 		%Sprite2D.position = Vector2.ZERO
 		%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * Global.STEP_LENGTH * 100.0)
+		if glyph:
+			modulate = modulate.lerp(glyph.fg, delta * Global.STEP_LENGTH * 100.0)
 
 
 func _on_action_performed(action: Action, result: ActionResult):
@@ -78,7 +80,8 @@ func _load(id: int):
 	if entity.health:
 		entity.health_changed.connect(
 			func(amount):
-				modulate = Color(1,0,0)
+				if entity and !entity.animation:
+					modulate = Color(1,0,0)
 		)
 	entity.on_death.connect(
 		func():

@@ -101,3 +101,6 @@ func get_save_data() -> Dictionary:
 	data.player = player.uuid
 	data.date_modified = Time.get_datetime_string_from_system()
 	return data
+
+func sleep(ms: float) -> void:
+	await get_tree().create_timer(ms / 1000).timeout

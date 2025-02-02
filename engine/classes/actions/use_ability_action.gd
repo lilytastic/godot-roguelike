@@ -15,21 +15,34 @@ func perform(entity: Entity) -> ActionResult:
 	if !target:
 		return ActionResult.new(false)
 		
-		var vec = entity.location.position.direction_to(target.location.position)
+	var vec = entity.location.position.direction_to(target.location.position)
+	
+	entity.animation = AnimationSequence.new(
+		[
+			{ 'position': Vector2.ZERO * 0.0 },
+			{ 'position': vec * 6.0 },
+			{ 'position': vec * 7.0 },
+			{ 'position': vec * 6.0 },
+			{ 'position': Vector2.ZERO * 0.0 },
+			{ 'position': -vec * 2.0 },
+			{ 'position': Vector2.ZERO * 0.0 },
+		],
+		Global.STEP_LENGTH * 1.5
+	)
 		
-		entity.animation = AnimationSequence.new(
-			[
-				{ 'position': Vector2.ZERO * 0.0 },
-				{ 'position': vec * 6.0 },
-				{ 'position': vec * 7.0 },
-				{ 'position': vec * 6.0 },
-				{ 'position': Vector2.ZERO * 0.0 },
-				{ 'position': -vec * 2.0 },
-				{ 'position': Vector2.ZERO * 0.0 },
-			],
-			Global.STEP_LENGTH * 1.5
-		)
+	await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
 		
+	target.animation = AnimationSequence.new(
+		[
+			{ 'position': vec * 6.0, 'color': Color.RED },
+			{ 'position': -vec * 2.0 },
+			{ 'position': Vector2.ZERO * 0.0 },
+		],
+		Global.STEP_LENGTH * 1.5 / 2
+	)
+
+	await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
+	
 	for effect in ability.effects:
 		match effect.type:
 			'damage':

@@ -34,7 +34,7 @@ func _ready() -> void:
 	
 	PlayerInput.action_triggered.connect(func(action):
 		if next_actor and next_actor.uuid == Global.player.uuid:
-			var result = _perform_action(action, Global.player)
+			var result = await _perform_action(action, Global.player)
 			if result.success:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
@@ -77,13 +77,13 @@ func _process(delta):
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
 			# Player turn
-			var result = _check_path(next_actor)
+			var result = await _check_path(next_actor)
 			if result:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
 		else:
 			# AI turn
-			var result = _perform_action(
+			var result = await _perform_action(
 				MovementAction.new(
 					PlayerInput._input_to_direction(
 						InputTag.MOVE_ACTIONS.pick_random()
@@ -121,7 +121,7 @@ func _input(event: InputEvent) -> void:
 		).slice(1)
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			# print(Global.player.current_path)
-			var result = _check_path(Global.player)
+			var result = await _check_path(Global.player)
 			if result and result.success:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
@@ -133,7 +133,7 @@ func _unhandled_input(event) -> void:
 
 func _check_path(entity: Entity):
 	if entity.current_path.size() > 0:
-		var result = _perform_action(
+		var result = await _perform_action(
 			MovementAction.new(
 				entity.current_path[0] - entity.location.position
 			),
@@ -148,9 +148,9 @@ func _check_path(entity: Entity):
 	
 	
 func _perform_action(action: Action, _entity: Entity):
-	var result = action.perform(_entity)
+	var result = await action.perform(_entity)
 	if !result.success and result.alternate:
-		return _perform_action(result.alternate, _entity)
+		return await _perform_action(result.alternate, _entity)
 	_entity.action_performed.emit(action, result)
 	return result
 
