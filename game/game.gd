@@ -151,12 +151,13 @@ func _process(delta):
 				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
 
-	var path_result = PlayerInput.try_path_to(
-		player.location.position,
-		player.target_position()
-	)
-	if path_result.success:
-		Global.player.current_path = path_result.path
+	if player.has_target():
+		var path_result = PlayerInput.try_path_to(
+			player.location.position,
+			player.target_position()
+		)
+		if path_result.success:
+			Global.player.current_path = path_result.path
 
 
 func _input(event: InputEvent) -> void:
