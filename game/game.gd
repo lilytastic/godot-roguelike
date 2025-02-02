@@ -171,6 +171,9 @@ func _input(event: InputEvent) -> void:
 		Global.ui_visible = %SystemMenu.isMenuOpen
 	else:
 		Global.ui_visible = false
+		
+	if Global.ui_visible:
+		return
 	
 	var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
 

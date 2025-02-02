@@ -53,5 +53,5 @@ func perform(entity: Entity) -> ActionResult:
 				var damage = round(randf_range(damageRange[0], damageRange[1]) * effect.potency)
 				target.damage({ 'damage': damage, 'source': entity })
 				pass
-
-	return ActionResult.new(true)
+	
+	return ActionResult.new(true, { 'cost_energy': 3 })

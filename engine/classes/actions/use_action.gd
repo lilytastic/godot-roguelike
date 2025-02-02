@@ -21,7 +21,7 @@ func perform(entity: Entity) -> ActionResult:
 
 	if target.location and target.blueprint.item:
 		if InventoryManager.give(entity, target):
-			return ActionResult.new(true)
+			return ActionResult.new(true, { 'cost_energy': 3 })
 
 	if entity.equipment and entity.equipment.has(target.uuid):
 		if InventoryManager.unequip(entity, target):
