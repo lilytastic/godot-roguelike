@@ -3,7 +3,7 @@ extends Node
 const PC_TAG = 'PC'
 var player: Entity:
 	get: return Global.player
-var camera_speed := 4
+var camera_speed := 2.0
 
 var scheduler = Scheduler.new()
 var actors := {} # All entities on the "scene"
@@ -152,12 +152,9 @@ func _input(event: InputEvent) -> void:
 				_on_double_click_tile(coord)
 
 func _unhandled_input(event) -> void:
-	pass
-	"""
-	if event.is_released():
+	if event.is_pressed():
 		Global.player.clear_path()
 		Global.player.clear_targeting()
-	"""
 
 
 func _on_double_click_tile(coord: Vector2i):
