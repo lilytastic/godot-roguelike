@@ -99,6 +99,13 @@ func _process(delta):
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 	PlayerInput._update_mouse_position()
 	
+	if PlayerInput.cursor and Global.player:
+		var result = PlayerInput.try_path_to(
+			Global.player.location.position,
+			Global.player.target_position(true)
+		)
+		PlayerInput.cursor.path = result.path
+		
 	if next_actor != null or !Global.player:
 		return
 	

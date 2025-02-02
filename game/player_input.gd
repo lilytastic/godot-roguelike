@@ -60,7 +60,7 @@ func _notification(event):
 			mouse_in_window = false
 		NOTIFICATION_WM_MOUSE_ENTER:
 			mouse_in_window = true
-			
+
 func _update_mouse_position() -> void:
 	var camera = get_viewport().get_camera_2d()
 
@@ -76,12 +76,6 @@ func _update_mouse_position() -> void:
 	if player and new_position != mouse_position_in_world and player.current_path.size() == 0:
 		var player_position = player.location.position
 		var coord = Coords.get_coord(new_position)
-		if cursor:
-			if player.can_see(coord) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(coord.x, coord.y)):
-				var result = try_path_to(player_position, player.target_position())
-				cursor.path = result.path
-			else:
-				cursor.path = []
 	mouse_position_in_world = new_position
 
 func _check_for_action(event: InputEvent) -> Action:
