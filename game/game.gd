@@ -82,13 +82,14 @@ func _process(delta):
 			var result = await _take_turn(next_actor)
 			if result:
 				var child = next_actor.actor
-				"""
 				if child:
+					"""
+					print(child.get_global_transform_with_canvas().origin)
 					%FloatingText.add_text(
 						'+20',
-						child.get_global_transform_with_canvas()
+						child.get_global_transform_with_canvas().origin
 					)
-				"""
+					"""
 				next_actor = null
 			turn_in_progress = false
 			Global.update_tiles(actors)
