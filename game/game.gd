@@ -34,7 +34,7 @@ func _ready() -> void:
 	
 	PlayerInput.action_triggered.connect(func(action):
 		if next_actor and next_actor.uuid == Global.player.uuid:
-			var result = await _perform_action(action, Global.player)
+			var result = await Global.player.perform_action(action)
 			if result.success:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
@@ -95,7 +95,7 @@ func _process(delta):
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
 			# Player turn
-			var result = await _trigger_action(next_actor, Global.ecs.entity(next_actor.current_target))
+			var result = await next_actor.trigger_action(Global.ecs.entity(next_actor.current_target))
 			if result:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
@@ -105,16 +105,16 @@ func _process(delta):
 					player.clear_targeting()
 		else:
 			# AI turn
-			var result = await _perform_action(
+			var result = await next_actor.perform_action(
 				MovementAction.new(
 					PlayerInput._input_to_direction(
 						InputTag.MOVE_ACTIONS.pick_random()
 					)
-				),
-				next_actor
+				)
 			)
 			next_actor.energy -= result.cost_energy
 			next_actor = null
+		Global.update_tiles(actors)
 
 	if !next_actor:
 		for actor in actors:
@@ -148,12 +148,6 @@ func _process(delta):
 		if path_result.success:
 			Global.player.current_path = path_result.path
 
-	"""
-	var _target_position = player.target_position(false)
-	if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-		player.clear_targeting()
-	"""
-
 func _input(event: InputEvent) -> void:
 	if %SystemMenu:
 		Global.ui_visible = %SystemMenu.isMenuOpen
@@ -177,7 +171,6 @@ func _input(event: InputEvent) -> void:
 				Global.player.clear_path()
 				Global.player.clear_targeting()
 				return
-			# print(PlayerInput.entities_under_cursor)
 			if !event.double_click and event.pressed:
 				if PlayerInput.entities_under_cursor.size() > 0:
 					Global.player.current_target = PlayerInput.entities_under_cursor[0].uuid
@@ -207,53 +200,10 @@ func _act():
 		if path_result.success:
 			entity.current_path = path_result.path
 			var target = Global.ecs.entity(entity.current_target)
-			var result = await _trigger_action(entity, target)
+			var result = await next_actor.trigger_action(target)
 			if result and result.success:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
-
-
-func _trigger_action(entity: Entity, target: Entity):
-	var act_range = 1 if (target and target.blocks_entities()) else 0
-	if entity.current_path.size() and entity.current_path[0] == entity.location.position:
-		entity.current_path = entity.current_path.slice(1)
-		
-	# TODO: Check actual distance in case the path is wrong
-	if entity.current_path.size() > act_range:
-		var result = await _perform_action(
-			MovementAction.new(
-				entity.current_path[0] - entity.location.position
-			),
-			entity,
-			false
-		)
-		if result.success:
-			entity.current_path = entity.current_path.slice(1)
-		else:
-			entity.clear_path()
-			entity.clear_targeting()
-		return result
-	else:
-		if target:
-			var result = await _perform_action(
-				entity.act_on(target),
-				entity
-			)
-			entity.clear_path()
-			entity.clear_targeting()
-
-	return null
-	
-	
-func _perform_action(action: Action, _entity: Entity, allow_recursion := true):
-	var result = await action.perform(_entity)
-	if !result.success and result.alternate:
-		if allow_recursion:
-			return await _perform_action(result.alternate, _entity)
-	_entity.action_performed.emit(action, result)
-
-	Global.update_tiles(actors)
-	return result
 
 func _on_ui_action(action):
 	action.perform(Global.player)

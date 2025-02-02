@@ -151,3 +151,42 @@ func target_position(include_cursor := true):
 		return PlayerInput.entities_under_cursor[0].location.position
 
 	return Vector2(-1, -1)
+
+	
+func perform_action(action: Action, allow_recursion := true):
+	var result = await action.perform(self)
+	if !result.success and result.alternate:
+		if allow_recursion:
+			return await perform_action(result.alternate)
+	action_performed.emit(action, result)
+	return result
+
+
+func trigger_action(target: Entity):
+	var act_range = 1 if (target and target.blocks_entities()) else 0
+	if current_path.size() and current_path[0] == location.position:
+		current_path = current_path.slice(1)
+		
+	# TODO: Check actual distance in case the path is wrong
+	if current_path.size() > act_range:
+		var result = await perform_action(
+			MovementAction.new(
+				current_path[0] - location.position
+			),
+			false
+		)
+		if result.success:
+			current_path = current_path.slice(1)
+		else:
+			clear_path()
+			clear_targeting()
+		return result
+	else:
+		if target:
+			var result = await perform_action(
+				act_on(target)
+			)
+			clear_path()
+			clear_targeting()
+
+	return null
