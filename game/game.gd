@@ -44,6 +44,20 @@ func _ready() -> void:
 	
 
 func _process(delta):
+	for tile in Global.navigation_map.get_point_ids():
+		Global.navigation_map.set_point_disabled(
+			tile,
+			false
+		)
+	
+	for actor in actors.values():
+		if actor and actor.location and actor.blueprint.equipment:
+			var pos = actor.location.position
+			Global.navigation_map.set_point_disabled(
+				Global.map_view.get_astar_pos(pos.x, pos.y),
+				true
+			)
+	
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
 		var _desired_camera_speed = 2.0
@@ -107,7 +121,6 @@ func _process(delta):
 	if next != null:
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
-			_check_path(next_actor)
 			# Player turn
 			var result = await _trigger_action(next_actor, Global.ecs.entity(next_actor.current_target))
 			if result:
@@ -137,6 +150,8 @@ func _process(delta):
 					mod *= 0.2
 				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
+
+	_check_path(Global.player)
 
 
 func _input(event: InputEvent) -> void:

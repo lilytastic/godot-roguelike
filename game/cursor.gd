@@ -95,13 +95,14 @@ func _set_path():
 	%Path.draw(path, %Tracker.modulate)
 	
 func _check_path_visibility():
-	if Global.player.current_target != -1:
+	var target_position = Global.player.target_position(false)
+	if target_position.x == -1 and target_position.y == -1:
 		return false
 		
 	if Global.player.current_path:
 		return true
 		
-	if !PlayerInput.mouse_in_window or Global.ui_visible:
+	if Global.ui_visible: # or !PlayerInput.mouse_in_window 
 		return false
 
 	if _mouse_moved:
