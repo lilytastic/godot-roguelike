@@ -124,10 +124,11 @@ func _input(event: InputEvent) -> void:
 		var valid = Global.player and Global.player.can_see(coord)
 		if valid:
 			# print(PlayerInput.entities_under_cursor)
-			if PlayerInput.entities_under_cursor.size() > 0:
-				Global.player.current_target = PlayerInput.entities_under_cursor[0].uuid
-			else:
-				Global.player.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
+			if !event.double_click and event.is_released():
+				if PlayerInput.entities_under_cursor.size() > 0:
+					Global.player.current_target = PlayerInput.entities_under_cursor[0].uuid
+				else:
+					Global.player.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
 
 			if event.double_click:
 				Global.player.current_path = PlayerInput._get_path(
