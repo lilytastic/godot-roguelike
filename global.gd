@@ -107,10 +107,11 @@ func sleep(ms: float) -> void:
 
 func update_tiles(actors):
 	for tile in navigation_map.get_point_ids():
-		navigation_map.set_point_disabled(
-			tile,
-			false
-		)
+		if navigation_map.has_point(tile):
+			navigation_map.set_point_disabled(
+				tile,
+				false
+			)
 	
 	for actor in actors.values():
 		if actor and actor.location and actor.blueprint.equipment:

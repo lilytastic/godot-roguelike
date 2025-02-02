@@ -30,7 +30,7 @@ func perform(entity: Entity) -> ActionResult:
 
 	if collisions.size():
 		for collision in collisions:
-			var action = entity.act_on(collision)
+			var action = entity.get_default_action(collision)
 			if action:
 				return ActionResult.new(
 					false,
