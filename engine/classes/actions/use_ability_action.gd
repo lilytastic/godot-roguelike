@@ -35,10 +35,10 @@ func perform(entity: Entity) -> ActionResult:
 	target.animation = AnimationSequence.new(
 		[
 			{ 'position': vec * 6.0, 'color': Color.RED },
-			{ 'position': -vec * 2.0 },
+			{ 'position': -vec * 2.0, 'color': Color.DARK_RED },
 			{ 'position': Vector2.ZERO * 0.0 },
 		],
-		Global.STEP_LENGTH * 1.5 / 2
+		Global.STEP_LENGTH * 1.5
 	)
 
 	await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)

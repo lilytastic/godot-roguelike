@@ -21,8 +21,7 @@ signal destroyed
 func _ready() -> void:
 	# snap to grid
 	position = Coords.get_position(
-		Coords.get_coord(position),
-		-%Sprite2D.offset + Vector2(0, 8)
+		Coords.get_coord(position)
 	)
 	if blueprint and blueprint.equipment:
 		z_index = 1

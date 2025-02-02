@@ -94,7 +94,7 @@ script = ExtResource("2_iebwc")
 map = "Test"
 
 [node name="Dagger" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
-position = Vector2(48, 47)
+position = Vector2(48, 50)
 metadata/blueprint = "dagger"
 
 [node name="Actor" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
