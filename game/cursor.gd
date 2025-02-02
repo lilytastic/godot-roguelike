@@ -53,7 +53,7 @@ func _process(delta) -> void:
 		delta * 80
 	)
 	
-	%Target.visible = !Global.ui_visible and Global.player.current_target != -1
+	%Target.visible = !Global.ui_visible and target
 	var target_position = PlayerInput.mouse_position_in_world if (!target or !target.location) else Coords.get_position(target.location.position) + Vector2(8, 8)
 	%Target.position = %Target.position.lerp(
 		PlayerInput.mouse_position_in_world if (!target or !target.location) else Coords.get_position(target.location.position) + Vector2(8, 8),
