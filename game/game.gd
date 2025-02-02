@@ -63,6 +63,8 @@ func _process(delta):
 		var _desired_camera_speed = 2.0
 		var _target = Global.ecs.entity(player.current_target)
 		var _target_position = player.target_position(false)
+		if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
+			player.clear_targeting()
 		if player.current_path.size() > 0:
 			_desired_camera_speed = 3.0
 			_camera_position = _camera_position.lerp(
@@ -71,24 +73,6 @@ func _process(delta):
 				),
 				0.5
 			)
-		else:
-			pass
-			"""
-			if Global.ecs.entity(player.current_target):
-				_desired_camera_speed = 0.5
-				_camera_position = _camera_position.lerp(
-					Coords.get_position(_target_position),
-					0.5
-				)
-			"""
-			"""
-			if _target_position.x != -1 and _target_position.y != -1:
-				_desired_camera_speed = 0.5
-				_camera_position = _camera_position.lerp(
-					Coords.get_position(_target_position),
-					0.5
-				)
-			"""
 		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
 		$Camera2D.position = lerp(
 			$Camera2D.position,
