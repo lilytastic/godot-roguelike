@@ -30,6 +30,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		action_triggered.emit(action)
 
 func _get_path(start: Vector2, destination: Vector2) -> Array:
+	var rect = Global.map_view.get_used_rect()
+	if destination.x < 0 or destination.x > rect.end.x - 1:
+		return []
 	if Global.navigation_map.has_point(Global.map_view.get_astar_pos(start.x, start.y)) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(destination.x, destination.y)):
 		return Global.navigation_map.get_point_path(
 			Global.map_view.get_astar_pos(start.x, start.y),
