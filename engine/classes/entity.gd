@@ -28,6 +28,7 @@ signal health_changed
 signal on_death
 signal action_performed
 
+
 func _init(opts: Dictionary):
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
@@ -102,22 +103,6 @@ func is_hostile(other: Entity) -> bool:
 		return false
 	return blueprint.equipment != null
 
-func act_on(target: Entity) -> Action:
-	# TODO: If it's hostile, use this entity's first weaponskill on it.
-	if target.blueprint.equipment and equipment:
-		for uuid in equipment.slots.values():
-			var worn_item = Global.ecs.entity(uuid)
-			if worn_item.blueprint.weapon:
-				return UseAbilityAction.new(
-					target,
-					worn_item.blueprint.weapon.weaponskills[0],
-					{ 'conduit': worn_item }
-				)
-	# TODO: Otherwise, if it's usable, use it!
-	if target.blueprint.item:
-		return UseAction.new(target)
-		
-	return null
 
 func clear_path():
 	current_path = []
@@ -163,12 +148,15 @@ func perform_action(action: Action, allow_recursion := true):
 
 
 func trigger_action(target: Entity):
-	var act_range = 1 if (target and target.blocks_entities()) else 0
+	var act_range = 0
+	if target and target.blocks_entities():
+		act_range = 1
 	if current_path.size() and current_path[0] == location.position:
 		current_path = current_path.slice(1)
 		
 	# TODO: Check actual distance in case the path is wrong
-	if current_path.size() > act_range:
+	var distance = current_path.size()
+	if distance > act_range:
 		var result = await perform_action(
 			MovementAction.new(
 				current_path[0] - location.position
@@ -180,16 +168,35 @@ func trigger_action(target: Entity):
 		else:
 			clear_path()
 			clear_targeting()
+
 		return result
 	else:
 		if target:
 			var result = await perform_action(
-				act_on(target)
+				get_default_action(target)
 			)
 			clear_path()
 			clear_targeting()
 
 	return null
+
+func get_default_action(target: Entity) -> Action:
+	# TODO: If it's hostile, use this entity's first weaponskill on it.
+	if target.blueprint.equipment and equipment:
+		for uuid in equipment.slots.values():
+			var worn_item = Global.ecs.entity(uuid)
+			if worn_item.blueprint.weapon:
+				return UseAbilityAction.new(
+					target,
+					worn_item.blueprint.weapon.weaponskills[0],
+					{ 'conduit': worn_item }
+				)
+	# TODO: Otherwise, if it's usable, use it!
+	if target.blueprint.item:
+		return UseAction.new(target)
+		
+	return null
+
 
 func path_needs_updating() -> bool:
 	var _reset_path = false

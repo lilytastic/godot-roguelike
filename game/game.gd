@@ -21,7 +21,7 @@ func _ready() -> void:
 		$Camera2D.position = Coords.get_position(
 			Global.player.location.position
 		)
-		
+
 	if PlayerInput.ui_action_triggered.get_connections().size() > 0:
 		PlayerInput.ui_action_triggered.disconnect(_on_ui_action)
 	PlayerInput.ui_action_triggered.connect(_on_ui_action)
@@ -79,16 +79,7 @@ func _process(delta):
 		Global.update_tiles(actors)
 
 	if !next_actor:
-		for actor in actors:
-			if !actors[actor]:
-				continue
-			var entity = actors[actor]
-			if entity and entity.blueprint.speed:
-				var mod = delta
-				if Global.player.current_path.size() > 0:
-					mod *= 0.2
-				entity.energy += (entity.blueprint.speed * 1.0) * mod
-				entity.energy = min(1, entity.energy)
+		_update_energy(delta)
 
 	if player.path_needs_updating():
 		var path_result = PlayerInput.try_path_to(
@@ -97,31 +88,6 @@ func _process(delta):
 		)
 		if path_result.success:
 			Global.player.current_path = path_result.path
-
-
-func _take_turn(entity: Entity) -> bool:
-	if player and entity.uuid == player.uuid:
-		# Player turn
-		var result = await entity.trigger_action(Global.ecs.entity(entity.current_target))
-		if result:
-			entity.energy -= result.cost_energy
-			return true
-		else:
-			var _target_position = player.target_position(false)
-			if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-				player.clear_targeting()
-	else:
-		# AI turn
-		var result = await entity.perform_action(
-			MovementAction.new(
-				PlayerInput._input_to_direction(
-					InputTag.MOVE_ACTIONS.pick_random()
-				)
-			)
-		)
-		entity.energy -= result.cost_energy
-		return true
-	return false
 
 func _input(event: InputEvent) -> void:
 	if %SystemMenu:
@@ -161,24 +127,58 @@ func _unhandled_input(event) -> void:
 		Global.player.clear_targeting()
 
 
-func _on_double_click_tile(coord: Vector2i):
-	_act()
-
-func _act():
-	var entity = next_actor
-	# Is player...
-	if next_actor and next_actor.uuid == Global.player.uuid:
-		var path_result = PlayerInput.try_path_to(
-			entity.location.position,
-			entity.target_position()
+func _take_turn(entity: Entity) -> bool:
+	if player and entity.uuid == player.uuid:
+		# Player turn
+		var result = await entity.trigger_action(Global.ecs.entity(entity.current_target))
+		if result:
+			entity.energy -= result.cost_energy
+			return true
+		else:
+			var _target_position = player.target_position(false)
+			if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
+				player.clear_targeting()
+	else:
+		# AI turn
+		var result = await entity.perform_action(
+			MovementAction.new(
+				PlayerInput._input_to_direction(
+					InputTag.MOVE_ACTIONS.pick_random()
+				)
+			)
 		)
-		if path_result.success:
-			entity.current_path = path_result.path
-			var target = Global.ecs.entity(entity.current_target)
-			var result = await next_actor.trigger_action(target)
-			if result and result.success:
-				next_actor.energy -= result.cost_energy
-				next_actor = null
+		entity.energy -= result.cost_energy
+		return true
+	return false
+
+func _update_energy(delta):
+	for actor in actors:
+		if !actors[actor]:
+			continue
+		var entity = actors[actor]
+		if entity and entity.blueprint.speed:
+			var mod = delta
+			if Global.player.current_path.size() > 0:
+				mod *= 0.2
+			entity.energy += (entity.blueprint.speed * 1.0) * mod
+			entity.energy = min(1, entity.energy)
+
+func _on_double_click_tile(coord: Vector2i):
+	if next_actor and next_actor.uuid == Global.player.uuid:
+		_act(next_actor)
+
+func _act(entity: Entity):
+	var path_result = PlayerInput.try_path_to(
+		entity.location.position,
+		entity.target_position()
+	)
+	if path_result.success:
+		entity.current_path = path_result.path
+		var target = Global.ecs.entity(entity.current_target)
+		var result = await next_actor.trigger_action(target)
+		if result and result.success:
+			next_actor.energy -= result.cost_energy
+			next_actor = null
 
 func _on_ui_action(action):
 	action.perform(Global.player)
