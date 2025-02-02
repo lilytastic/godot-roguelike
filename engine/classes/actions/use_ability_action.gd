@@ -35,6 +35,7 @@ func perform(entity: Entity) -> ActionResult:
 	target.animation = AnimationSequence.new(
 		[
 			{ 'position': vec * 6.0, 'color': Color.RED },
+			{ 'position': vec * 6.0, 'color': Color.RED },
 			{ 'position': -vec * 2.0, 'color': Color.DARK_RED },
 			{ 'position': Vector2.ZERO * 0.0 },
 		],

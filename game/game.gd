@@ -137,20 +137,22 @@ func _check_path(entity: Entity):
 			MovementAction.new(
 				entity.current_path[0] - entity.location.position
 			),
-			entity
+			entity,
+			false
 		)
 		if result.success:
 			entity.current_path = entity.current_path.slice(1)
 		else:
-			entity.current_path.clear()
+			entity.current_path = []
 		return result
 	return null
 	
 	
-func _perform_action(action: Action, _entity: Entity):
+func _perform_action(action: Action, _entity: Entity, allow_recursion := true):
 	var result = await action.perform(_entity)
 	if !result.success and result.alternate:
-		return await _perform_action(result.alternate, _entity)
+		if allow_recursion:
+			return await _perform_action(result.alternate, _entity)
 	_entity.action_performed.emit(action, result)
 	return result
 
