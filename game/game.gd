@@ -81,13 +81,11 @@ func _process(delta):
 			next_actor = next
 			var result = await _take_turn(next_actor)
 			if result:
+				var child = next_actor.actor
 				"""
-				var child_name = 'Entity<'+str(next_actor.uuid)+'>'
-				var children = %Entities.get_children().filter(func(x): return x.name == child_name)
-				var child = children[0] if children.size() else null
 				if child:
 					%FloatingText.add_text(
-						'Yeet',
+						'+20',
 						child.get_global_transform_with_canvas()
 					)
 				"""

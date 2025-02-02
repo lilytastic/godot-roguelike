@@ -67,6 +67,7 @@ func _on_action_performed(action: Action, result: ActionResult):
 func _load(id: int):
 	_entityId = id
 	name = 'Entity<' + str(entity.uuid) + '>'
+	entity.actor = self
 	if entity.location:
 		position = Coords.get_position(
 			entity.location.position,

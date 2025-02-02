@@ -17,6 +17,7 @@ var inventory: InventoryProps
 var equipment: EquipmentProps
 var health: Meter = null
 var energy := 0.00
+var actor: Actor = null
 
 var current_path := []
 var current_target: int = -1 # uuid
