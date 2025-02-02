@@ -3,7 +3,7 @@ extends Node2D
 
 var entity: Entity:
 	get: return Global.ecs.entity(_entityId)
-	set(value): self._load(value.uuid)
+	set(value): _entityId = value.uuid
 
 var _entityId: int
 
@@ -81,15 +81,18 @@ func _load(id: int):
 		if %Sprite2D:
 			%Sprite2D.set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
+
 	if entity.action_performed.get_connections().size() > 0:
 		entity.action_performed.disconnect(_on_action_performed)
 	entity.action_performed.connect(_on_action_performed)
+
 	if entity.health:
 		entity.health_changed.connect(
 			func(amount):
 				if entity and !entity.animation:
 					modulate = Color(1,0,0)
 		)
+		
 	entity.on_death.connect(
 		func():
 			await get_tree().create_timer(0.1).timeout
