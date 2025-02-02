@@ -161,6 +161,9 @@ func _process(delta):
 		else:
 			var _target_position = player.target_position(false)
 			var _last_position = Global.player.current_path[Global.player.current_path.size() - 1]
+			for coord in Global.player.current_path.slice(1, -1):
+				if Global.navigation_map.is_point_disabled(Global.map_view.get_astar_pos(coord.x, coord.y)):
+					_reset_path = true
 			if _target_position.x != _last_position.x or _target_position.y != _last_position.y:
 				_reset_path = true
 	if _reset_path:
