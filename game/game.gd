@@ -63,8 +63,6 @@ func _process(delta):
 		var _desired_camera_speed = 2.0
 		var _target = Global.ecs.entity(player.current_target)
 		var _target_position = player.target_position(false)
-		if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-			player.clear_targeting()
 		if player.current_path.size() > 0:
 			_desired_camera_speed = 3.0
 			_camera_position = _camera_position.lerp(
@@ -158,6 +156,11 @@ func _process(delta):
 		if path_result.success:
 			Global.player.current_path = path_result.path
 
+	"""
+	var _target_position = player.target_position(false)
+	if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
+		player.clear_targeting()
+	"""
 
 func _input(event: InputEvent) -> void:
 	if %SystemMenu:
@@ -253,6 +256,7 @@ func _perform_action(action: Action, _entity: Entity, allow_recursion := true):
 		if allow_recursion:
 			return await _perform_action(result.alternate, _entity)
 	_entity.action_performed.emit(action, result)
+
 	return result
 
 func _on_ui_action(action):
