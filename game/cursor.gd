@@ -40,7 +40,7 @@ func _process(delta) -> void:
 	
 	if PlayerInput.entities_under_cursor.size() > 0:
 		%Tracker.modulate = _get_color(PlayerInput.entities_under_cursor[0])
-		if !target:
+		if !target and !Global.player.has_target():
 			target = PlayerInput.entities_under_cursor[0]
 			%Target.modulate = _get_color(target)
 	else:

@@ -122,6 +122,15 @@ func set_target_position(pos: Vector2):
 	current_target_position = pos
 	current_target = -1
 
+func has_target() -> bool:
+	if current_target != -1:
+		return true
+		
+	if current_target_position != Vector2i(-1, -1):
+		return true
+
+	return false
+
 func target_position():
 	if current_target != -1:
 		return Global.ecs.entity(current_target).location.position
