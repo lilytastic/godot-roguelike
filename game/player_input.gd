@@ -6,6 +6,7 @@ var entity_dragging: Entity:
 		if PlayerInput.dragging.has('entity') and Global.ecs.entities.has(PlayerInput.dragging.entity):
 			return Global.ecs.entity(PlayerInput.dragging.entity)
 		return null
+var entities_under_cursor := []
 
 var cursor: Node2D = null
 var mouse_position_in_world := Vector2i(0,0)
@@ -15,6 +16,7 @@ var mouse_in_window = true
 signal action_triggered
 signal ui_action_triggered
 signal double_click
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:

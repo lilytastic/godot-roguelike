@@ -19,6 +19,7 @@ var health: Meter = null
 var energy := 0.00
 
 var current_path := []
+var current_target: int = -1 # uuid
 var animation: AnimationSequence = null
 
 signal map_changed

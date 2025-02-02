@@ -32,9 +32,21 @@ func _process(delta) -> void:
 		%Path.end = 0
 		
 	show_path = _check_path_visibility()
+	
+	var current_modulate = $Sprite2D.modulate
+	
+	$Sprite2D.modulate = Color.AQUA
+	if PlayerInput.entities_under_cursor.size() > 0:
+		for entity in PlayerInput.entities_under_cursor:
+			if entity.blueprint.equipment:
+				$Sprite2D.modulate = Color.RED
+			break
 
 	$Sprite2D.visible = !Global.ui_visible
 	$Sprite2D.position = $Sprite2D.position.lerp(PlayerInput.mouse_position_in_world, delta * 80)
+	
+	if $Sprite2D.modulate != current_modulate:
+		_set_path()
 
 	if Global.player and Global.player.can_see(PlayerInput.mouse_position_in_world / 16):
 		$Sprite2D.modulate = Color($Sprite2D.modulate, 1)

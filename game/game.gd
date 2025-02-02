@@ -112,19 +112,32 @@ func _input(event: InputEvent) -> void:
 		Global.ui_visible = %SystemMenu.isMenuOpen
 	else:
 		Global.ui_visible = false
-		
-	var coord = Coords.get_coord(PlayerInput.mouse_position_in_world)
-	if Global.player and Global.player.can_see(coord) and event.is_released() and event is InputEventMouseButton:
-		Global.player.current_path = PlayerInput._get_path(
-			Global.player.location.position,
-			coord
-		).slice(1)
-		if next_actor and next_actor.uuid == Global.player.uuid:
-			# print(Global.player.current_path)
-			var result = await _check_path(Global.player)
-			if result and result.success:
-				next_actor.energy -= result.cost_energy
-				next_actor = null
+	
+	var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
+
+	if event is InputEventMouseMotion:
+		PlayerInput.entities_under_cursor = actors.values().filter(
+			func(entity): return entity.location and entity.location.position == coord
+		)
+
+	if event is InputEventMouseButton and event.double_click:
+		var valid = Global.player and Global.player.can_see(coord)
+		if valid:
+			# print(PlayerInput.entities_under_cursor)
+			if PlayerInput.entities_under_cursor.size() > 0:
+				Global.player.current_target = PlayerInput.entities_under_cursor[0].uuid
+				pass
+
+			Global.player.current_path = PlayerInput._get_path(
+				Global.player.location.position,
+				coord
+			).slice(1)
+			if next_actor and next_actor.uuid == Global.player.uuid:
+				# print(Global.player.current_path)
+				var result = await _check_path(Global.player)
+				if result and result.success:
+					next_actor.energy -= result.cost_energy
+					next_actor = null
 
 func _unhandled_input(event) -> void:
 	if event.is_released():
@@ -132,6 +145,16 @@ func _unhandled_input(event) -> void:
 
 
 func _check_path(entity: Entity):
+	var target = Global.ecs.entity(entity.current_target)
+	if target:
+		entity.current_path = PlayerInput._get_path(
+			entity.location.position,
+			target.location.position
+		).slice(1)
+		print(entity.current_path)
+	else:
+		entity.current_target = -1
+
 	if entity.current_path.size() > 0:
 		var result = await _perform_action(
 			MovementAction.new(
@@ -143,8 +166,18 @@ func _check_path(entity: Entity):
 		if result.success:
 			entity.current_path = entity.current_path.slice(1)
 		else:
+			entity.current_target = -1
 			entity.current_path = []
 		return result
+	else:
+		if target:
+			print ('yee', target)
+			var result = await _perform_action(
+				UseAction.new(target),
+				entity
+			)
+			entity.current_target = -1
+
 	return null
 	
 	
