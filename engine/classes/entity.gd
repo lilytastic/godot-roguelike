@@ -132,8 +132,9 @@ func has_target() -> bool:
 	return false
 
 func target_position():
-	if current_target != -1:
-		return Global.ecs.entity(current_target).location.position
+	var target = Global.ecs.entity(current_target)
+	if current_target != -1 and target.location:
+		return target.location.position
 		
 	if current_target_position != Vector2i(-1, -1):
 		return current_target_position

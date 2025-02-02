@@ -40,7 +40,7 @@ func perform(entity: Entity) -> ActionResult:
 			{ 'position': vec * 0.0, 'color': Color.RED },
 			{ 'position': Vector2.ZERO * 0.0 },
 		],
-		Global.STEP_LENGTH * 2
+		Global.STEP_LENGTH * 1.5
 	)
 
 	await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
