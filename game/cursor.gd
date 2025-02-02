@@ -35,15 +35,16 @@ func _process(delta) -> void:
 	
 	var current_modulate = $Sprite2D.modulate
 	
-	$Sprite2D.modulate = Color.AQUA
-	if PlayerInput.entities_under_cursor.size() > 0:
-		for entity in PlayerInput.entities_under_cursor:
-			if entity.blueprint.equipment:
-				$Sprite2D.modulate = Color.RED
-			break
+	var target = Global.ecs.entity(Global.player.current_target)
+	if !target and PlayerInput.entities_under_cursor.size() > 0:
+		target = PlayerInput.entities_under_cursor[0]
+	$Sprite2D.modulate = _get_color(target)
 
 	$Sprite2D.visible = !Global.ui_visible
-	$Sprite2D.position = $Sprite2D.position.lerp(PlayerInput.mouse_position_in_world, delta * 80)
+	$Sprite2D.position = $Sprite2D.position.lerp(
+		PlayerInput.mouse_position_in_world if !target else Coords.get_position(target.location.position) + Vector2(8, 8),
+		delta * 80
+	)
 	
 	if $Sprite2D.modulate != current_modulate:
 		_set_path()
@@ -57,6 +58,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and !Global.player.current_path:
 		_mouse_moved = true
 
+
+func _get_color(entity):
+	if entity:
+		if entity.blueprint.equipment and entity.uuid != Global.player.uuid:
+			return Color.RED
+		if entity.blueprint.item:
+			return Color.GREEN
+	return Color.AQUA
 
 func _set_path():
 	# Draw path
