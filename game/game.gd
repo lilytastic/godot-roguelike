@@ -111,6 +111,10 @@ func _process(delta):
 			if result:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
+			else:
+				var _target_position = player.target_position(false)
+				if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
+					player.clear_targeting()
 		else:
 			# AI turn
 			var result = await _perform_action(
