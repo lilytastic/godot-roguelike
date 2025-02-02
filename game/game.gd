@@ -17,7 +17,7 @@ func _ready() -> void:
 		Global.new_game()
 		# Global.autosave()
 
-	if !Global.player.location:
+	if Global.player.location:
 		$Camera2D.position = Coords.get_position(
 			Global.player.location.position
 		)
@@ -45,28 +45,9 @@ func _ready() -> void:
 
 func _process(delta):
 	Global.update_tiles(actors)
-	
-	if player and player.location != null:
-		var _camera_position = Coords.get_position(player.location.position)
-		var _desired_camera_speed = 2.0
-		var _target = Global.ecs.entity(player.current_target)
-		var _target_position = player.target_position(false)
-		if player.current_path.size() > 0:
-			_desired_camera_speed = 3.0
-			_camera_position = _camera_position.lerp(
-				Coords.get_position(
-					player.current_path[floor(player.current_path.size() / 2)]
-				),
-				0.5
-			)
-		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
-		$Camera2D.position = lerp(
-			$Camera2D.position,
-			_camera_position,
-			delta * camera_speed
-		)
 
-	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
+	_update_camera(delta)
+
 	PlayerInput._update_mouse_position()
 	
 	if PlayerInput.cursor and Global.player:
@@ -93,26 +74,7 @@ func _process(delta):
 	
 	if next != null:
 		next_actor = next
-		if Global.player and next_actor.uuid == Global.player.uuid:
-			# Player turn
-			var result = await next_actor.trigger_action(Global.ecs.entity(next_actor.current_target))
-			if result:
-				next_actor.energy -= result.cost_energy
-				next_actor = null
-			else:
-				var _target_position = player.target_position(false)
-				if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-					player.clear_targeting()
-		else:
-			# AI turn
-			var result = await next_actor.perform_action(
-				MovementAction.new(
-					PlayerInput._input_to_direction(
-						InputTag.MOVE_ACTIONS.pick_random()
-					)
-				)
-			)
-			next_actor.energy -= result.cost_energy
+		if await _take_turn(next_actor):
 			next_actor = null
 		Global.update_tiles(actors)
 
@@ -128,25 +90,38 @@ func _process(delta):
 				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
 
-	var _reset_path = false
-	if player.has_target():
-		if Global.player.current_path.size() == 0:
-			_reset_path = true
-		else:
-			var _target_position = player.target_position(false)
-			var _last_position = Global.player.current_path[Global.player.current_path.size() - 1]
-			for coord in Global.player.current_path.slice(1, -1):
-				if Global.navigation_map.is_point_disabled(Global.map_view.get_astar_pos(coord.x, coord.y)):
-					_reset_path = true
-			if _target_position.x != _last_position.x or _target_position.y != _last_position.y:
-				_reset_path = true
-	if _reset_path:
+	if player.path_needs_updating():
 		var path_result = PlayerInput.try_path_to(
 			player.location.position,
 			player.target_position()
 		)
 		if path_result.success:
 			Global.player.current_path = path_result.path
+
+
+func _take_turn(entity: Entity) -> bool:
+	if player and entity.uuid == player.uuid:
+		# Player turn
+		var result = await entity.trigger_action(Global.ecs.entity(entity.current_target))
+		if result:
+			entity.energy -= result.cost_energy
+			return true
+		else:
+			var _target_position = player.target_position(false)
+			if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
+				player.clear_targeting()
+	else:
+		# AI turn
+		var result = await entity.perform_action(
+			MovementAction.new(
+				PlayerInput._input_to_direction(
+					InputTag.MOVE_ACTIONS.pick_random()
+				)
+			)
+		)
+		entity.energy -= result.cost_energy
+		return true
+	return false
 
 func _input(event: InputEvent) -> void:
 	if %SystemMenu:
@@ -208,6 +183,28 @@ func _act():
 func _on_ui_action(action):
 	action.perform(Global.player)
 	
+func _update_camera(delta):
+	if player and player.location != null:
+		var _camera_position = Coords.get_position(player.location.position)
+		var _desired_camera_speed = 2.0
+		var _target = Global.ecs.entity(player.current_target)
+		var _target_position = player.target_position(false)
+		if player.current_path.size() > 0:
+			_desired_camera_speed = 3.0
+			_camera_position = _camera_position.lerp(
+				Coords.get_position(
+					player.current_path[floor(player.current_path.size() / 2)]
+				),
+				0.5
+			)
+		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
+		$Camera2D.position = lerp(
+			$Camera2D.position,
+			_camera_position,
+			delta * camera_speed
+		)
+
+	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 
 func _init_map(_map):
 	print('Switched to map ', _map)
