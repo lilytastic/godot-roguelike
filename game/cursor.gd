@@ -45,6 +45,7 @@ func _process(delta) -> void:
 			%Target.modulate = _get_color(target)
 	else:
 		%Tracker.modulate = _get_color(null)
+		
 
 	%Tracker.visible = !Global.ui_visible
 	var tracker_position = PlayerInput.mouse_position_in_world
@@ -53,13 +54,21 @@ func _process(delta) -> void:
 		delta * 80
 	)
 	
-	%Target.visible = !Global.ui_visible and target
-	var target_position = PlayerInput.mouse_position_in_world if (!target or !target.location) else Coords.get_position(target.location.position) + Vector2(8, 8)
-	%Target.position = %Target.position.lerp(
-		PlayerInput.mouse_position_in_world if (!target or !target.location) else Coords.get_position(target.location.position) + Vector2(8, 8),
-		delta * 80
-	)
+	var target_coords = Global.player.target_position()
+	var target_position = Coords.get_position(target_coords) + Vector2(8, 8)
+	%Target.visible = !Global.ui_visible and target_coords.x != -1 and target_coords.y != -1
 	
+	if target_position == Vector2(-1, -1):
+		pass
+
+	%Target.position = target_position
+	# Handles the flashing
+	# NOTE: Put thiis below the _set_path() call to stop path from flashing.
+	if target:
+		var sin = sin(Time.get_ticks_msec() / 70.0) * 0.25 + 0.25
+		%Tracker.modulate = %Tracker.modulate.lerp(Color.WHITE, sin)
+		%Target.modulate = %Target.modulate.lerp(Color.WHITE, sin)
+			
 	if %Tracker.modulate != current_modulate:
 		_set_path()
 

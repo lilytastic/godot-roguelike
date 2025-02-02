@@ -120,29 +120,31 @@ func _input(event: InputEvent) -> void:
 			func(entity): return entity.location and entity.location.position == coord
 		)
 
-	if event is InputEventMouseButton and event.double_click:
+	if event is InputEventMouseButton:
 		var valid = Global.player and Global.player.can_see(coord)
 		if valid:
 			# print(PlayerInput.entities_under_cursor)
 			if PlayerInput.entities_under_cursor.size() > 0:
 				Global.player.current_target = PlayerInput.entities_under_cursor[0].uuid
-				pass
+			else:
+				Global.player.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
 
-			Global.player.current_path = PlayerInput._get_path(
-				Global.player.location.position,
-				coord
-			).slice(1)
-			if next_actor and next_actor.uuid == Global.player.uuid:
-				# print(Global.player.current_path)
-				var result = await _check_path(Global.player)
-				if result and result.success:
-					next_actor.energy -= result.cost_energy
-					next_actor = null
+			if event.double_click:
+				Global.player.current_path = PlayerInput._get_path(
+					Global.player.location.position,
+					coord
+				).slice(1)
+				if next_actor and next_actor.uuid == Global.player.uuid:
+					# print(Global.player.current_path)
+					var result = await _check_path(Global.player)
+					if result and result.success:
+						next_actor.energy -= result.cost_energy
+						next_actor = null
 
 func _unhandled_input(event) -> void:
 	if event.is_released():
-		Global.player.current_path = []
-		Global.player.current_target = -1
+		Global.player.clear_path()
+		Global.player.clear_targeting()
 
 
 func _check_path(entity: Entity):
@@ -153,7 +155,7 @@ func _check_path(entity: Entity):
 			target.location.position
 		).slice(1)
 	else:
-		entity.current_target = -1
+		entity.clear_targeting()
 
 	var act_range = 1 if (target and target.blueprint.equipment) else 0
 	if entity.current_path.size() > act_range:
@@ -167,18 +169,17 @@ func _check_path(entity: Entity):
 		if result.success:
 			entity.current_path = entity.current_path.slice(1)
 		else:
-			entity.current_target = -1
-			entity.current_path = []
+			entity.clear_targeting()
+			entity.clear_path()
 		return result
 	else:
 		if target:
-			print ('yee', target)
 			var result = await _perform_action(
 				entity.act_on(target),
 				entity
 			)
-			entity.current_path = []
-			entity.current_target = -1
+			entity.clear_path()
+			entity.clear_targeting()
 
 	return null
 	

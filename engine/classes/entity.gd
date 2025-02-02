@@ -20,6 +20,7 @@ var energy := 0.00
 
 var current_path := []
 var current_target: int = -1 # uuid
+var current_target_position: Vector2i = Vector2i(-1, -1)
 var animation: AnimationSequence = null
 
 signal map_changed
@@ -109,3 +110,26 @@ func act_on(target: Entity) -> Action:
 		return UseAction.new(target)
 		
 	return null
+
+func clear_path():
+	current_path = []
+	
+func clear_targeting():
+	current_target_position = Vector2i(-1, -1)
+	current_target = -1
+
+func set_target_position(pos: Vector2):
+	current_target_position = pos
+	current_target = -1
+
+func target_position():
+	if current_target != -1:
+		return Global.ecs.entity(current_target).location.position
+		
+	if current_target_position != Vector2i(-1, -1):
+		return current_target_position
+
+	if PlayerInput.entities_under_cursor.size() > 0 and PlayerInput.entities_under_cursor[0].location:
+		return PlayerInput.entities_under_cursor[0].location.position
+
+	return Vector2(-1, -1)
