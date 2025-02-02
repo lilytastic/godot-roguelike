@@ -42,7 +42,7 @@ func _process(delta) -> void:
 
 	$Sprite2D.visible = !Global.ui_visible
 	$Sprite2D.position = $Sprite2D.position.lerp(
-		PlayerInput.mouse_position_in_world if !target else Coords.get_position(target.location.position) + Vector2(8, 8),
+		PlayerInput.mouse_position_in_world if (!target or !target.location) else Coords.get_position(target.location.position) + Vector2(8, 8),
 		delta * 80
 	)
 	
