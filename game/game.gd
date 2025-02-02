@@ -9,6 +9,8 @@ var scheduler = Scheduler.new()
 var actors := {} # All entities on the "scene"
 var next_actor: Entity
 
+var turn_in_progress = false
+
 @export var map = ''
 
 
@@ -56,27 +58,42 @@ func _process(delta):
 	if next_actor != null or !Global.player:
 		return
 	
-	var valid = actors.keys().filter(
-		func(uuid):
-			if !actors[uuid] or !actors[uuid].location or actors[uuid].location.map != map:
-				actors.erase(uuid)
-				return false
+	if !turn_in_progress:
+		var valid = actors.keys().filter(
+			func(uuid):
+				if !actors[uuid] or !actors[uuid].location or actors[uuid].location.map != map:
+					actors.erase(uuid)
+					return false
 
-			var actor = actors[uuid]
-			if !Global.ecs.entity(uuid) or !actor.can_act():
-				return false
-			return actor.blueprint.speed >= 0 and actor.energy >= 0
-	)
-	
-	scheduler.entities = valid
-	
-	var next = actors[valid[0]] if valid.size() else null
-	
-	if next != null:
-		next_actor = next
-		if await _take_turn(next_actor):
-			next_actor = null
-		Global.update_tiles(actors)
+				var actor = actors[uuid]
+				if !Global.ecs.entity(uuid) or !actor.can_act():
+					return false
+				return actor.blueprint.speed >= 0 and actor.energy >= 0
+		)
+		
+		scheduler.entities = valid
+		
+		var next = actors[valid[0]] if valid.size() else null
+		
+		if next != null:
+			var next_uuid = next.uuid
+			turn_in_progress = true
+			next_actor = next
+			var result = await _take_turn(next_actor)
+			if result:
+				"""
+				var child_name = 'Entity<'+str(next_actor.uuid)+'>'
+				var children = %Entities.get_children().filter(func(x): return x.name == child_name)
+				var child = children[0] if children.size() else null
+				if child:
+					%FloatingText.add_text(
+						'Yeet',
+						child.get_global_transform_with_canvas()
+					)
+				"""
+				next_actor = null
+			turn_in_progress = false
+			Global.update_tiles(actors)
 
 	if !next_actor:
 		_update_energy(delta)

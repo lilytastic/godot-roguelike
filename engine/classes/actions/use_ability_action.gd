@@ -43,8 +43,6 @@ func perform(entity: Entity) -> ActionResult:
 		Global.STEP_LENGTH * 1.5
 	)
 
-	await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
-	
 	for effect in ability.effects:
 		match effect.type:
 			'damage':
@@ -53,5 +51,7 @@ func perform(entity: Entity) -> ActionResult:
 				var damage = round(randf_range(damageRange[0], damageRange[1]) * effect.potency)
 				target.damage({ 'damage': damage, 'source': entity })
 				pass
-	
+
+	await Global.sleep(Global.STEP_LENGTH * 1.5)
+		
 	return ActionResult.new(true, { 'cost_energy': 3 })

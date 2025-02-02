@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=12 format=4 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="Script" path="res://game/auto_add_entities.gd" id="2_iebwc"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dabn80pt603jc" path="res://game/actor.tscn" id="3_h3nby"]
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://dqasfn61u6sl5" path="res://game/character_menu.tscn" id="6_8exhv"]
+[ext_resource type="Script" path="res://game/floating_text.gd" id="6_qudki"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
 [ext_resource type="PackedScene" uid="uid://be05y3swrshiq" path="res://game/cursor.tscn" id="7_2s5nd"]
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="9_o4gab"]
@@ -26,6 +27,7 @@ script = ExtResource("1_4nfvf")
 map = "Test"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 
 [node name="SystemMenu" type="Control" parent="CanvasLayer"]
 unique_name_in_owner = true
@@ -48,7 +50,7 @@ visible = false
 layout_mode = 1
 
 [node name="FloatingText" type="Control" parent="CanvasLayer"]
-visible = false
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,9 +59,12 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 2
 theme = ExtResource("9_o4gab")
+script = ExtResource("6_qudki")
 
 [node name="PopupText" type="Label" parent="CanvasLayer/FloatingText"]
+visible = false
 layout_mode = 0
 offset_left = 22.0
 offset_top = 30.0
