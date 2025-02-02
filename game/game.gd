@@ -76,8 +76,9 @@ func _process(delta):
 	if next != null:
 		next_actor = next
 		if Global.player and next_actor.uuid == Global.player.uuid:
+			_check_path(next_actor)
 			# Player turn
-			var result = await _check_path(next_actor)
+			var result = await _trigger_action(next_actor, Global.ecs.entity(next_actor.current_target))
 			if result:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
@@ -131,33 +132,39 @@ func _input(event: InputEvent) -> void:
 					Global.player.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
 
 			if event.double_click:
-				Global.player.current_path = PlayerInput._get_path(
-					Global.player.location.position,
-					coord
-				).slice(1)
-				if next_actor and next_actor.uuid == Global.player.uuid:
-					# print(Global.player.current_path)
-					var result = await _check_path(Global.player)
-					if result and result.success:
-						next_actor.energy -= result.cost_energy
-						next_actor = null
+				_on_double_click_tile(coord)
 
 func _unhandled_input(event) -> void:
+	pass
+	"""
 	if event.is_released():
 		Global.player.clear_path()
 		Global.player.clear_targeting()
+	"""
+
+
+func _on_double_click_tile(coord: Vector2i):
+	_act()
+
+func _act():
+	var entity = next_actor
+	# Is player...
+	if next_actor and next_actor.uuid == Global.player.uuid:
+		_check_path(entity)
+		var target = Global.ecs.entity(entity.current_target)
+		var result = await _trigger_action(entity, target)
+		if result and result.success:
+			next_actor.energy -= result.cost_energy
+			next_actor = null
 
 
 func _check_path(entity: Entity):
-	var target = Global.ecs.entity(entity.current_target)
-	if target:
-		entity.current_path = PlayerInput._get_path(
-			entity.location.position,
-			target.location.position
-		).slice(1)
-	else:
-		entity.clear_targeting()
-
+	entity.current_path = PlayerInput._get_path(
+		entity.location.position,
+		entity.target_position()
+	).slice(1)
+		
+func _trigger_action(entity: Entity, target: Entity):
 	var act_range = 1 if (target and target.blueprint.equipment) else 0
 	if entity.current_path.size() > act_range:
 		var result = await _perform_action(
@@ -170,8 +177,8 @@ func _check_path(entity: Entity):
 		if result.success:
 			entity.current_path = entity.current_path.slice(1)
 		else:
-			entity.clear_targeting()
 			entity.clear_path()
+			entity.clear_targeting()
 		return result
 	else:
 		if target:
