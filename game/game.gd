@@ -48,9 +48,10 @@ func _process(delta):
 		var _camera_position = Coords.get_position(player.location.position)
 		var _camera_speed = camera_speed
 		var _target = Global.ecs.entity(player.current_target)
-		if _target:
+		var _target_position = player.target_position(false)
+		if _target_position.x != -1 and _target_position.y != -1:
 			_camera_position = _camera_position.lerp(
-				Coords.get_position(_target.location.position),
+				Coords.get_position(_target_position),
 				0.5
 			)
 		else:
