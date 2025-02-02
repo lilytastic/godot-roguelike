@@ -100,11 +100,7 @@ func _process(delta):
 	PlayerInput._update_mouse_position()
 	
 	if PlayerInput.cursor and Global.player:
-		var result = PlayerInput.try_path_to(
-			Global.player.location.position,
-			Global.player.target_position(true)
-		)
-		PlayerInput.cursor.path = result.path
+		PlayerInput.cursor.path = Global.player.current_path
 		
 	if next_actor != null or !Global.player:
 		return
@@ -158,7 +154,7 @@ func _process(delta):
 				entity.energy += (entity.blueprint.speed * 1.0) * mod
 				entity.energy = min(1, entity.energy)
 
-	if player.has_target():
+	if player.current_target != -1:
 		var path_result = PlayerInput.try_path_to(
 			player.location.position,
 			player.target_position()
