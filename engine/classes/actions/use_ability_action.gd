@@ -13,6 +13,7 @@ func _init(_target: Entity, abilityId: String, opts := {}):
 
 func perform(entity: Entity) -> ActionResult:
 	if !target:
+		print('no target')
 		return ActionResult.new(false)
 		
 	var vec = entity.location.position.direction_to(target.location.position)

@@ -92,3 +92,22 @@ func can_see(pos: Vector2) -> bool:
 
 func can_act() -> bool:
 	return blueprint.equipment != null
+
+func act_on(target: Entity) -> Action:
+	# TODO: If it's hostile, use this entity's first weaponskill on it.
+	if target.blueprint.equipment and equipment:
+		for uuid in equipment.slots.values():
+			var worn_item = Global.ecs.entity(uuid)
+			print(worn_item.blueprint)
+			if worn_item.blueprint.weapon:
+				print('DO! ', worn_item.blueprint.weapon.weaponskills[0])
+				return UseAbilityAction.new(
+					target,
+					worn_item.blueprint.weapon.weaponskills[0],
+					{ 'conduit': worn_item }
+				)
+	# TODO: Otherwise, if it's usable, use it!
+	if target.blueprint.item:
+		return UseAction.new(target)
+		
+	return null

@@ -30,20 +30,12 @@ func perform(entity: Entity) -> ActionResult:
 
 	if collisions.size():
 		for collision in collisions:
-			# TODO: If it's hostile, use this entity's first weaponskill on it.
-			if collision.blueprint.equipment and entity.equipment:
-				for uuid in entity.equipment.slots.values():
-					var equipment = Global.ecs.entity(uuid)
-					if equipment.blueprint.weapon:
-						return ActionResult.new(
-							false,
-							{'alternate': UseAbilityAction.new(
-								collision,
-								equipment.blueprint.weapon.weaponskills[0],
-								{ 'conduit': equipment }
-							)}
-						)
-			# TODO: Otherwise, if it's usable, use it!
+			var action = entity.act_on(collision)
+			if action:
+				return ActionResult.new(
+					false,
+					{'alternate': action}
+				)
 			pass
 		return ActionResult.new(false)
 

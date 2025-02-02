@@ -142,6 +142,7 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event) -> void:
 	if event.is_released():
 		Global.player.current_path = []
+		Global.player.current_target = -1
 
 
 func _check_path(entity: Entity):
@@ -155,7 +156,8 @@ func _check_path(entity: Entity):
 	else:
 		entity.current_target = -1
 
-	if entity.current_path.size() > 0:
+	var act_range = 1 if (target and target.blueprint.equipment) else 0
+	if entity.current_path.size() > act_range:
 		var result = await _perform_action(
 			MovementAction.new(
 				entity.current_path[0] - entity.location.position
@@ -173,7 +175,7 @@ func _check_path(entity: Entity):
 		if target:
 			print ('yee', target)
 			var result = await _perform_action(
-				UseAction.new(target),
+				entity.act_on(target),
 				entity
 			)
 			entity.current_target = -1
@@ -183,6 +185,7 @@ func _check_path(entity: Entity):
 	
 func _perform_action(action: Action, _entity: Entity, allow_recursion := true):
 	var result = await action.perform(_entity)
+	print('action ', result.success)
 	if !result.success and result.alternate:
 		if allow_recursion:
 			return await _perform_action(result.alternate, _entity)
