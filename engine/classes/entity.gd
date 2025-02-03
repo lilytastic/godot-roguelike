@@ -152,10 +152,12 @@ func target_position(include_cursor := true):
 
 	
 func perform_action(action: Action, allow_recursion := true):
+	is_acting = true
 	var result = await action.perform(self)
 	if !result.success and result.alternate:
 		if allow_recursion:
 			return await perform_action(result.alternate)
+	is_acting = false
 	action_performed.emit(action, result)
 	return result
 
