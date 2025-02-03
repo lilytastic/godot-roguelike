@@ -64,6 +64,10 @@ func _process(delta):
 
 	PlayerInput.update_cursor(actors)
 	
+	for actor in actors:
+		if !Global.ecs.entity(actor):
+			actors.erase(actor)
+	
 	if !turn_in_progress:
 		var valid = actors.keys().filter(
 			func(uuid):

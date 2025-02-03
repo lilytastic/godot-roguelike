@@ -85,7 +85,7 @@ func _input(event: InputEvent) -> void:
 
 func _get_color(entity):
 	if entity:
-		if entity.is_hostile(Global.player) and entity.uuid != Global.player.uuid:
+		if entity.is_hostile(Global.player):
 			return Color.CRIMSON
 		if entity.blueprint.item:
 			return Color.GREEN
