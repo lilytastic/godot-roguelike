@@ -107,3 +107,9 @@ func _input_to_direction(direction: StringName):
 			coord += Vector2i.DOWN
 
 	return coord
+
+func update_cursor(actors: Dictionary) -> void:
+	var coord = Vector2(Coords.get_coord(mouse_position_in_world))
+	entities_under_cursor = actors.values().filter(
+		func(entity): return entity.location and entity.location.position == coord
+	)

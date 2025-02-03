@@ -61,6 +61,8 @@ func _process(delta):
 		
 	if next_actor != null or !Global.player:
 		return
+
+	PlayerInput.update_cursor(actors)
 	
 	if !turn_in_progress:
 		var valid = actors.keys().filter(
@@ -109,17 +111,13 @@ func _input(event: InputEvent) -> void:
 	if Global.ui_visible:
 		return
 	
-	var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
-	
 	if !player:
 		return
 
-	if event is InputEventMouseMotion:
-		PlayerInput.entities_under_cursor = actors.values().filter(
-			func(entity): return entity.location and entity.location.position == coord
-		)
+	PlayerInput.update_cursor(actors)
 
 	if event is InputEventMouseButton:
+		var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
 		var valid = Global.player and Global.player.can_see(coord)
 		if valid:
 			if event.button_index != 1:

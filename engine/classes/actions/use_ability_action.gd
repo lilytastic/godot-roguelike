@@ -31,7 +31,8 @@ func perform(entity: Entity) -> ActionResult:
 		Global.STEP_LENGTH * 1.5
 	)
 		
-	await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
+	# await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
+	await Global.sleep(150)
 	
 	target.actor.modulate = Color.CRIMSON
 
@@ -54,6 +55,7 @@ func perform(entity: Entity) -> ActionResult:
 		Global.STEP_LENGTH * 1.5
 	)
 
-	await Global.sleep(500)
+	await Global.sleep(150)
+	# await Global.sleep(500)
 
 	return ActionResult.new(true, { 'cost_energy': 3 })

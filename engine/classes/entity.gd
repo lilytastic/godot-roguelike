@@ -44,7 +44,7 @@ func _init(opts: Dictionary):
 		health_changed.connect(
 			func(amount):
 				if !health or health.current <= 0:
-					await Global.sleep(250)
+					# await Global.sleep(250)
 					on_death.emit()
 					Global.ecs.remove(uuid)
 		)

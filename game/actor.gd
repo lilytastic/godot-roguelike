@@ -7,6 +7,8 @@ var entity: Entity:
 
 var _entityId: int
 
+var is_dying = false
+
 var blueprint: Blueprint:
 	get: return entity.blueprint if entity else null
 
@@ -28,19 +30,22 @@ func _init() -> void:
 
 
 func _process(delta: float) -> void:
-	if entity:
-		if !entity.location:
-			destroyed.emit()
-			queue_free()
-		else:
-			position = lerp(
-				position,
-				Coords.get_position(
-					entity.location.position,
-					-%Sprite2D.offset + Vector2(8, 8)
-				),
-				delta * Global.STEP_LENGTH * 100.0
-			)
+	if !entity or is_dying:
+		return
+
+	if !entity.location:
+		print('destroy')
+		destroyed.emit()
+		queue_free()
+	else:
+		position = lerp(
+			position,
+			Coords.get_position(
+				entity.location.position,
+				-%Sprite2D.offset + Vector2(8, 8)
+			),
+			delta * Global.STEP_LENGTH * 100.0
+		)
 
 	if entity and entity.animation and entity.animation.progress >= entity.animation.length:
 		entity.animation = null
@@ -96,6 +101,14 @@ func _load(id: int):
 		
 	entity.on_death.connect(
 		func():
-			await get_tree().create_timer(0.1).timeout
-			queue_free()
+			die()
 	)
+
+func die():
+	if is_dying:
+		return
+	is_dying = true
+	print('die')
+	await Global.sleep(400)
+	destroyed.emit()
+	queue_free()
