@@ -191,10 +191,13 @@ func trigger_action(target: Entity):
 						InputTag.MOVE_ACTIONS.pick_random()
 					)
 				)
+			var result = null
 			if default_action:
-				var result = await perform_action(default_action)
+				result = await perform_action(default_action)
 			clear_path()
 			clear_targeting()
+			if result:
+				return result
 
 	return null
 

@@ -35,7 +35,7 @@ func _ready() -> void:
 	)
 	
 	PlayerInput.action_triggered.connect(func(action):
-		if next_actor and next_actor.uuid == Global.player.uuid:
+		if next_actor and next_actor.uuid == Global.player.uuid and !turn_in_progress:
 			var result = await Global.player.perform_action(action)
 			if result.success and next_actor:
 				next_actor.energy -= result.cost_energy
@@ -75,7 +75,7 @@ func _process(delta):
 		
 		var next = actors[valid[0]] if valid.size() else null
 		
-		if next != null:
+		if next != null and Global.ecs.entity(player.uuid):
 			var next_uuid = next.uuid
 			turn_in_progress = true
 			next_actor = next
@@ -85,7 +85,7 @@ func _process(delta):
 			turn_in_progress = false
 			Global.update_tiles(actors)
 
-	if !next_actor:
+	if !next_actor and Global.ecs.entity(player.uuid):
 		_update_energy(delta)
 
 	if player.path_needs_updating():
@@ -106,6 +106,9 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
+	
+	if !player:
+		return
 
 	if event is InputEventMouseMotion:
 		PlayerInput.entities_under_cursor = actors.values().filter(
@@ -147,14 +150,24 @@ func _take_turn(entity: Entity) -> bool:
 				player.clear_targeting()
 	else:
 		# AI turn
-		if player:
+		if player and Coords.get_range(entity.location.position, player.location.position) < 4:
 			entity.current_target = player.uuid
-		var path_result = PlayerInput.try_path_to(
-			entity.location.position,
-			entity.target_position()
-		)
-		entity.current_path = path_result.path
+
+		if entity.has_target():
+			var path_result = PlayerInput.try_path_to(
+				entity.location.position,
+				entity.target_position()
+			)
+			entity.current_path = path_result.path
+
 		var result = await entity.trigger_action(Global.ecs.entity(entity.current_target))
+		if !result:
+			result = await entity.perform_action(MovementAction.new(
+				PlayerInput._input_to_direction(
+					InputTag.MOVE_ACTIONS.pick_random()
+				)
+			), false)
+
 		if result:
 			entity.energy -= result.cost_energy
 		else:
@@ -175,7 +188,7 @@ func _update_energy(delta):
 			entity.energy = min(1, entity.energy)
 
 func _on_double_click_tile(coord: Vector2i):
-	if next_actor and next_actor.uuid == Global.player.uuid:
+	if next_actor and next_actor.uuid == Global.player.uuid and !turn_in_progress:
 		_act(next_actor)
 
 func _act(entity: Entity):
