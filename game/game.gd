@@ -114,11 +114,13 @@ func _input(event: InputEvent) -> void:
 	if !player:
 		return
 
-	PlayerInput.update_cursor(actors)
+	var player_is_valid = Global.player and Global.ecs.entities.has(Global.player.uuid)
+	if player_is_valid:
+		PlayerInput.update_cursor(actors)
 
 	if event is InputEventMouseButton:
 		var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
-		var valid = Global.player and Global.player.can_see(coord)
+		var valid = player_is_valid and Global.player.can_see(coord)
 		if valid:
 			if event.button_index != 1:
 				Global.player.clear_path()

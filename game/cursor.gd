@@ -18,6 +18,8 @@ func _ready() -> void:
 	)
 
 func _process(delta) -> void:
+	visible = Global.player and Global.ecs.entities.has(Global.player.uuid)
+
 	if Global.player.current_path:
 		# path = Global.player.current_path
 		%Path.start = 0
