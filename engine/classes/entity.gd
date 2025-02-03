@@ -60,9 +60,9 @@ func damage(opts: Dictionary):
 		health.deduct(damage)
 		if damage > 0:
 			Global.add_floating_text(
-				'-' + str(damage),
-				screen_position + Vector2(0, -48),
-				{ 'color': Color.TOMATO }
+				str(damage),
+				screen_position,
+				{ 'color': Color.CRIMSON }
 			)
 		health_changed.emit(-damage)
 

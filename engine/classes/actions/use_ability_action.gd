@@ -32,16 +32,8 @@ func perform(entity: Entity) -> ActionResult:
 	)
 		
 	await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
-		
-	target.animation = AnimationSequence.new(
-		[
-			{ 'position': vec * 6.0, 'color': Color.RED },
-			{ 'position': vec * 6.0, 'color': Color.RED },
-			{ 'position': vec * 0.0, 'color': Color.RED },
-			{ 'position': Vector2.ZERO * 0.0 },
-		],
-		Global.STEP_LENGTH * 1.5
-	)
+	
+	target.actor.modulate = Color.CRIMSON
 
 	for effect in ability.effects:
 		match effect.type:
@@ -51,7 +43,17 @@ func perform(entity: Entity) -> ActionResult:
 				var damage = round(randf_range(damageRange[0], damageRange[1]) * effect.potency)
 				target.damage({ 'damage': damage, 'source': entity })
 				pass
+	
+	target.animation = AnimationSequence.new(
+		[
+			{ 'position': vec * 6.0, 'color': Color.CRIMSON },
+			{ 'position': vec * 6.0, 'color': Color.CRIMSON },
+			{ 'position': vec * 0.0, 'color': Color.CRIMSON },
+			{ 'position': Vector2.ZERO * 0.0 },
+		],
+		Global.STEP_LENGTH * 1.5
+	)
 
-	await Global.sleep(Global.STEP_LENGTH * 1.5)
+	await Global.sleep(500)
 		
 	return ActionResult.new(true, { 'cost_energy': 3 })
