@@ -81,12 +81,6 @@ func _process(delta):
 			next_actor = next
 			var result = await _take_turn(next_actor)
 			if result:
-				"""
-				%FloatingText.add_text(
-					'+20',
-					next_actor.screen_position + Vector2(0, -48)
-				)
-				"""
 				next_actor = null
 			turn_in_progress = false
 			Global.update_tiles(actors)

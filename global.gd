@@ -10,6 +10,7 @@ const STEP_LENGTH = 0.15
 signal player_changed
 signal game_saved
 signal game_loaded
+signal floating_text_added
 
 var navigation_map = AStar2D.new()
 
@@ -104,6 +105,9 @@ func get_save_data() -> Dictionary:
 
 func sleep(ms: float) -> void:
 	await get_tree().create_timer(ms / 1000).timeout
+	
+func add_floating_text(text: String, position: Vector2, opts := {}):
+	floating_text_added.emit(text, position, opts)
 
 func update_tiles(actors):
 	for tile in navigation_map.get_point_ids():

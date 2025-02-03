@@ -58,6 +58,12 @@ func damage(opts: Dictionary):
 	var damage = opts.get('damage', 1)
 	if health:
 		health.deduct(damage)
+		if damage > 0:
+			Global.add_floating_text(
+				'-' + str(damage),
+				screen_position + Vector2(0, -48),
+				{ 'color': Color.RED }
+			)
 		health_changed.emit(-damage)
 
 func blocks_entities() -> bool:
