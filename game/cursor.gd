@@ -18,7 +18,7 @@ func _ready() -> void:
 	)
 
 func _process(delta) -> void:
-	visible = Global.player and Global.ecs.entities.has(Global.player.uuid)
+	visible = !Global.ui_visible and Global.player and Global.ecs.entities.has(Global.player.uuid)
 
 	if Global.player.current_path:
 		# path = Global.player.current_path
@@ -44,7 +44,6 @@ func _process(delta) -> void:
 		%Tracker.modulate = _get_color(null)
 		
 
-	%Tracker.visible = !Global.ui_visible
 	var tracker_position = PlayerInput.mouse_position_in_world
 	%Tracker.position = %Tracker.position.lerp(
 		tracker_position,
@@ -53,7 +52,7 @@ func _process(delta) -> void:
 	
 	var target_coords = Global.player.target_position()
 	var target_position = Coords.get_position(target_coords) + Vector2(8, 8)
-	%Target.visible = !Global.ui_visible and target_coords.x != -1 and target_coords.y != -1
+	%Target.visible = target_coords.x != -1 and target_coords.y != -1
 	
 	if target_position == Vector2(-1, -1):
 		pass
