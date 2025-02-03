@@ -9,15 +9,12 @@ func _ready() -> void:
 # Handle floating damage numbers, tooltips, etc.
 
 func add_text(text: String, position: Vector2, opts := {}):
-	var prefab = text_prefab.instantiate()
+	var prefab = opts.get('prefab', text_prefab).instantiate()
 	add_child(prefab)
 	var pos = position + -prefab.size / 2
 	prefab.position = pos
 	prefab.text = '[center]' + text + '[/center]'
 	prefab.modulate = opts.get('color', Color.WHITE)
-	queue_for_deletion(prefab)
+	prefab._ready()
 	return prefab
 	
-func queue_for_deletion(prefab):
-	await Global.sleep(1000)
-	prefab.queue_free()
