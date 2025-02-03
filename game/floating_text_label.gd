@@ -7,7 +7,6 @@ var initial_scale = scale
 var initial_position = position
 
 func _ready():
-	print(text, modulate)
 	initial_position = position
 	initial_scale = scale
 	initial_color = modulate

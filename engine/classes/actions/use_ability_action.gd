@@ -32,7 +32,7 @@ func perform(entity: Entity) -> ActionResult:
 	)
 		
 	# await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
-	await Global.sleep(150)
+	await Global.sleep(20)
 	
 	target.actor.modulate = Color.CRIMSON
 

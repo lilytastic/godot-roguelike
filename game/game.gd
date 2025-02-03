@@ -135,7 +135,7 @@ func _input(event: InputEvent) -> void:
 			if event.double_click:
 				_on_double_click_tile(coord)
 
-func _unhandled_input(event) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed():
 		Global.player.clear_path()
 		Global.player.clear_targeting()

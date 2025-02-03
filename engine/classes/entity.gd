@@ -206,7 +206,6 @@ func trigger_action(target: Entity):
 
 func get_default_action(target: Entity) -> Action:
 	# TODO: If it's hostile, use this entity's first weaponskill on it.
-	print('get_default_action ', target.uuid, equipment)
 	if target.blueprint.equipment:
 		if equipment:
 			for uuid in equipment.slots.values():
@@ -218,12 +217,10 @@ func get_default_action(target: Entity) -> Action:
 						ability,
 						{ 'conduit': worn_item } if worn_item else {}
 					)
-		print('attack!')
 		return UseAbilityAction.new(
 			target,
 			'slash'
 		)
-		print('get_default_action ', target.uuid)
 	# TODO: Otherwise, if it's usable, use it!
 	if target.blueprint.item:
 		return UseAction.new(target)

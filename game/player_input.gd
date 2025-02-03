@@ -80,10 +80,10 @@ func _update_mouse_position() -> void:
 
 func _check_for_action(event: InputEvent) -> Action:
 	for i: StringName in InputTag.MOVE_ACTIONS:
-		if event.is_action_pressed(i):
-			return MovementAction.new(_input_to_direction(i))
+		if event.is_action(i) and (event.is_pressed() or event.is_echo()):
+			return MovementAction.new(_input_to_direction(i), !event.is_echo())
 
-	if event.is_action_pressed('use'):
+	if event.is_action_released('use'):
 		if Global.player:
 			var entities = Global.ecs.find_by_location(Global.player.location).filter(
 				func(entity): return entity.uuid != Global.player.uuid

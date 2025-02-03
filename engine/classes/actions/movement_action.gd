@@ -2,10 +2,12 @@ class_name MovementAction
 extends Action
 
 var vector: Vector2
+var can_alternate = true
 
 
-func _init(_vector):
+func _init(_vector, _can_alternate = true):
 	vector = _vector
+	can_alternate = _can_alternate
 
 func perform(entity: Entity) -> ActionResult:
 	var new_position = entity.location.position + vector
@@ -30,12 +32,15 @@ func perform(entity: Entity) -> ActionResult:
 
 	if collisions.size():
 		for collision in collisions:
-			var action = entity.get_default_action(collision)
-			if action:
-				return ActionResult.new(
-					false,
-					{'alternate': action}
-				)
+			if can_alternate:
+				var action = entity.get_default_action(collision)
+				if action:
+					return ActionResult.new(
+						false,
+						{'alternate': action}
+					)
+			else:
+				return ActionResult.new(false)
 			pass
 		return ActionResult.new(false)
 
@@ -51,4 +56,8 @@ func perform(entity: Entity) -> ActionResult:
 	)
 	
 	entity.location.position = new_position
+	
+	if Global.player and entity.uuid == Global.player.uuid:
+		await Global.sleep(80)
+
 	return ActionResult.new(true, { 'cost_energy': 3 })
