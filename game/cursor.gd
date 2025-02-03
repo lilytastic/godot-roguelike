@@ -54,6 +54,11 @@ func _process(delta) -> void:
 	var target_position = Coords.get_position(target_coords) + Vector2(8, 8)
 	%Target.visible = target_coords.x != -1 and target_coords.y != -1
 	
+	if Global.player.has_target() and target_position != Vector2(tracker_position):
+		%Target.texture.set_region(Rect2(28 * 16, 14 * 16, 16, 16))
+	else:
+		%Target.texture.set_region(Rect2(31 * 16, 14 * 16, 16, 16))
+	
 	if target_position == Vector2(-1, -1):
 		pass
 
