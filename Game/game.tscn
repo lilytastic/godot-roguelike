@@ -105,3 +105,11 @@ metadata/blueprint = "dagger"
 [node name="Actor" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
 position = Vector2(241, 83)
 metadata/blueprint = "ghoul"
+
+[node name="Actor2" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
+position = Vector2(135, 46)
+metadata/blueprint = "ghoul"
+
+[node name="Actor3" parent="AutoAddEntities" instance=ExtResource("3_h3nby")]
+position = Vector2(106, 161)
+metadata/blueprint = "ghoul"

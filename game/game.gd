@@ -37,7 +37,7 @@ func _ready() -> void:
 	PlayerInput.action_triggered.connect(func(action):
 		if next_actor and next_actor.uuid == Global.player.uuid:
 			var result = await Global.player.perform_action(action)
-			if result.success:
+			if result.success and next_actor:
 				next_actor.energy -= result.cost_energy
 				next_actor = null
 	)	

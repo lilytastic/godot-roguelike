@@ -49,7 +49,7 @@ func perform(entity: Entity) -> ActionResult:
 			{ 'position': vec * 6.0, 'color': Color.CRIMSON },
 			{ 'position': vec * 6.0, 'color': Color.CRIMSON },
 			{ 'position': vec * 0.0, 'color': Color.CRIMSON },
-			{ 'position': Vector2.ZERO * 0.0 },
+			{ 'position': Vector2.ZERO * 0.0, 'color': Color.CRIMSON },
 		],
 		Global.STEP_LENGTH * 1.5
 	)
