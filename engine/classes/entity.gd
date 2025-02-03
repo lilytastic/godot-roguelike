@@ -165,7 +165,7 @@ func trigger_action(target: Entity):
 		act_range = 1
 	if current_path.size() and current_path[0] == location.position:
 		current_path = current_path.slice(1)
-		
+
 	# TODO: Check actual distance in case the path is wrong
 	var distance = current_path.size()
 	if distance > act_range:
@@ -184,9 +184,15 @@ func trigger_action(target: Entity):
 		return result
 	else:
 		if target:
-			var result = await perform_action(
-				get_default_action(target)
-			)
+			var default_action = get_default_action(target)
+			if !default_action:
+				default_action = MovementAction.new(
+					PlayerInput._input_to_direction(
+						InputTag.MOVE_ACTIONS.pick_random()
+					)
+				)
+			if default_action:
+				var result = await perform_action(default_action)
 			clear_path()
 			clear_targeting()
 
@@ -194,15 +200,24 @@ func trigger_action(target: Entity):
 
 func get_default_action(target: Entity) -> Action:
 	# TODO: If it's hostile, use this entity's first weaponskill on it.
-	if target.blueprint.equipment and equipment:
-		for uuid in equipment.slots.values():
-			var worn_item = Global.ecs.entity(uuid)
-			if worn_item.blueprint.weapon:
-				return UseAbilityAction.new(
-					target,
-					worn_item.blueprint.weapon.weaponskills[0],
-					{ 'conduit': worn_item }
-				)
+	print('get_default_action ', target.uuid, equipment)
+	if target.blueprint.equipment:
+		if equipment:
+			for uuid in equipment.slots.values():
+				var worn_item = Global.ecs.entity(uuid)
+				if worn_item.blueprint.weapon:
+					var ability = worn_item.blueprint.weapon.weaponskills[0]
+					return UseAbilityAction.new(
+						target,
+						ability,
+						{ 'conduit': worn_item } if worn_item else {}
+					)
+		print('attack!')
+		return UseAbilityAction.new(
+			target,
+			'slash'
+		)
+		print('get_default_action ', target.uuid)
 	# TODO: Otherwise, if it's usable, use it!
 	if target.blueprint.item:
 		return UseAction.new(target)
@@ -213,12 +228,12 @@ func get_default_action(target: Entity) -> Action:
 func path_needs_updating() -> bool:
 	var _reset_path = false
 	if has_target():
-		if Global.player.current_path.size() == 0:
+		if current_path.size() == 0:
 			_reset_path = true
 		else:
 			var _target_position = target_position(false)
-			var _last_position = Global.player.current_path[Global.player.current_path.size() - 1]
-			for coord in Global.player.current_path.slice(1, -1):
+			var _last_position = current_path[current_path.size() - 1]
+			for coord in current_path.slice(1, -1):
 				if Global.navigation_map.is_point_disabled(Global.map_view.get_astar_pos(coord.x, coord.y)):
 					_reset_path = true
 			if _target_position.x != _last_position.x or _target_position.y != _last_position.y:

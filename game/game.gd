@@ -147,14 +147,18 @@ func _take_turn(entity: Entity) -> bool:
 				player.clear_targeting()
 	else:
 		# AI turn
-		var result = await entity.perform_action(
-			MovementAction.new(
-				PlayerInput._input_to_direction(
-					InputTag.MOVE_ACTIONS.pick_random()
-				)
-			)
+		if player:
+			entity.current_target = player.uuid
+		var path_result = PlayerInput.try_path_to(
+			entity.location.position,
+			entity.target_position()
 		)
-		entity.energy -= result.cost_energy
+		entity.current_path = path_result.path
+		var result = await entity.trigger_action(Global.ecs.entity(entity.current_target))
+		if result:
+			entity.energy -= result.cost_energy
+		else:
+			entity.energy -= 3
 		return true
 	return false
 
