@@ -18,6 +18,7 @@ var equipment: EquipmentProps
 var health: Meter = null
 var energy := 0.00
 var actor: Actor = null
+var is_acting = false
 
 var current_path := []
 var current_target: int = -1 # uuid

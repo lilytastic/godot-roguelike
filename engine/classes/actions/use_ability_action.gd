@@ -16,6 +16,8 @@ func perform(entity: Entity) -> ActionResult:
 		print('no target')
 		return ActionResult.new(false)
 		
+	entity.is_acting = true
+		
 	var vec = entity.location.position.direction_to(target.location.position)
 	
 	entity.animation = AnimationSequence.new(
@@ -56,4 +58,5 @@ func perform(entity: Entity) -> ActionResult:
 
 	await Global.sleep(500)
 	
+	entity.is_acting = false
 	return ActionResult.new(true, { 'cost_energy': 3 })

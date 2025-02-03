@@ -13,6 +13,10 @@ var turn_in_progress = false
 
 @export var map = ''
 
+var player_can_act: bool:
+	get:
+		return next_actor and next_actor.uuid == Global.player.uuid and !Global.player.is_acting
+
 
 func _ready() -> void:
 	if !Global.player:
@@ -35,7 +39,7 @@ func _ready() -> void:
 	)
 	
 	PlayerInput.action_triggered.connect(func(action):
-		if next_actor and next_actor.uuid == Global.player.uuid and !turn_in_progress:
+		if player_can_act:
 			var result = await Global.player.perform_action(action)
 			if result.success and next_actor:
 				next_actor.energy -= result.cost_energy
@@ -188,7 +192,7 @@ func _update_energy(delta):
 			entity.energy = min(1, entity.energy)
 
 func _on_double_click_tile(coord: Vector2i):
-	if next_actor and next_actor.uuid == Global.player.uuid and !turn_in_progress:
+	if player_can_act:
 		_act(next_actor)
 
 func _act(entity: Entity):
