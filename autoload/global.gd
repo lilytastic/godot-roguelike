@@ -2,8 +2,6 @@ extends Node
 
 var player: Entity
 
-var maps_loaded: Dictionary = {}
-
 var ui_visible := false
 
 const STEP_LENGTH = 0.15
@@ -13,13 +11,10 @@ signal game_saved
 signal game_loaded
 signal floating_text_added
 
-var navigation_map = AStar2D.new()
-
 var has_game_started = false
 var is_game_started: bool:
 	get: return player != null
-	
-var map_view: MapView = null
+
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
@@ -28,10 +23,12 @@ func _ready() -> void:
 func new_game() -> Entity:
 	if has_game_started:
 		ECS.clear()
-	maps_loaded.clear()
+	MapManager.maps_loaded.clear()
 	var options = { 'blueprint': 'hero' }
 	player = Entity.new(options)
-	player.location = Location.new('Test', Vector2(0,0))
+	var starting_map = MapManager.add(Map.new('Test'))
+	player.location = Location.new(starting_map.id, Vector2(0,0))
+	print(player.location.map)
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
 		'entity': ECS.create({ 'blueprint': 'greatsword' }).uuid,
@@ -42,6 +39,7 @@ func new_game() -> Entity:
 	player_changed.emit(player)
 	ECS.add(player)
 	has_game_started = true
+	MapManager.switch_map(starting_map)
 	return player
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
@@ -82,9 +80,11 @@ func load_game(path: String):
 	var _entities: Array = data.entities
 	for _entity in _entities:
 		ECS.load_from_save(_entity)
-	maps_loaded = data.maps_loaded if data.maps_loaded else {}
+	MapManager.maps_loaded = data.maps.maps_loaded if data.maps and data.maps.maps_loaded else {}
 	player = ECS.entity(data.player)
-		
+	print(data.maps)
+	MapManager.switch_map(MapManager.maps[player.location.map])
+
 	player_changed.emit(player)
 	game_loaded.emit()
 
@@ -103,7 +103,7 @@ func get_save_data() -> Dictionary:
 	data.entities = ECS.entities.keys().map(
 		func(entity): return ECS.entity(entity).save()
 	)
-	data.maps_loaded = maps_loaded
+	data.maps = MapManager.get_save_data()
 	data.player = player.uuid
 	data.date_modified = Time.get_datetime_string_from_system()
 	return data
@@ -113,19 +113,3 @@ func sleep(ms: float) -> void:
 	
 func add_floating_text(text: String, position: Vector2, opts := {}):
 	floating_text_added.emit(text, position, opts)
-
-func update_tiles(actors):
-	for tile in navigation_map.get_point_ids():
-		if navigation_map.has_point(tile):
-			navigation_map.set_point_disabled(
-				tile,
-				false
-			)
-	
-	for actor in actors.values():
-		if actor and actor.location and actor.blueprint.equipment:
-			var pos = actor.location.position
-			navigation_map.set_point_disabled(
-				Global.map_view.get_astar_pos(pos.x, pos.y),
-				true
-			)

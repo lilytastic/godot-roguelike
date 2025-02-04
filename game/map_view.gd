@@ -1,7 +1,7 @@
 class_name MapView
 extends TileMapLayer
 
-@export var map := ''
+var map := -1
 var actor_prefab: PackedScene = preload('res://game/actor.tscn')
 
 var _fov_map := {}
@@ -9,14 +9,14 @@ var last_position: Vector2
 
 signal actor_added
 
-
-func _enter_tree():
-	Global.map_view = self
-
 func _ready():
+	MapManager.map_view = self
 	print('init map')
+
 	visible = false
-	Global.map_view = self
+	if map == -1 or !MapManager.maps.has(map):
+		map = MapManager.map
+		print('Map unset -- defaulting to ', MapManager.current_map.name)
 
 	ECS.entity_added.connect(
 		func(entity: Entity):
@@ -28,7 +28,7 @@ func _ready():
 		if map and entity.location and entity.location.map == map:
 			_init_actor(entity)
 			
-	Global.navigation_map.clear()
+	MapManager.navigation_map.clear()
 	_init_navigation_map()
 	
 	get_viewport().connect("size_changed", _render_fov)
@@ -49,7 +49,7 @@ func _init_navigation_map():
 		for y in range(height):
 			var tile_data = get_cell_tile_data(Vector2i(x, y))
 			if tile_data and !tile_data.get_collision_polygons_count(0) > 0:
-				Global.navigation_map.add_point(
+				MapManager.navigation_map.add_point(
 					get_astar_pos(x, y),
 					Vector2(x, y)
 				)
@@ -57,7 +57,7 @@ func _init_navigation_map():
 	for x in range(width):
 		for y in range(height):
 			var pos = get_astar_pos(x, y)
-			if Global.navigation_map.has_point(pos):
+			if MapManager.navigation_map.has_point(pos):
 				for i: StringName in InputTag.MOVE_ACTIONS:
 					var offset = Vector2i(x, y) + PlayerInput._input_to_direction(i)
 					var point = get_astar_pos(offset.x, offset.y)
@@ -65,8 +65,8 @@ func _init_navigation_map():
 						continue
 					if offset.y < 0 or offset.y > height - 1:
 						continue
-					if Global.navigation_map.has_point(point):
-						Global.navigation_map.connect_points(
+					if MapManager.navigation_map.has_point(point):
+						MapManager.navigation_map.connect_points(
 							pos,
 							point
 						)

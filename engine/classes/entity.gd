@@ -94,7 +94,7 @@ func load_from_save(data: Dictionary) -> void:
 	if data.has('position'):
 		var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
 		location = Location.new(
-			data.map,
+			int(data.map),
 			Vector2(int(_pos[0]), int(_pos[1]))
 		)
 		map_changed.emit(location.map)
@@ -237,7 +237,7 @@ func path_needs_updating() -> bool:
 			var _target_position = target_position(false)
 			var _last_position = current_path[current_path.size() - 1]
 			for coord in current_path.slice(1, -1):
-				if Global.navigation_map.is_point_disabled(Global.map_view.get_astar_pos(coord.x, coord.y)):
+				if MapManager.navigation_map.is_point_disabled(MapManager.map_view.get_astar_pos(coord.x, coord.y)):
 					_reset_path = true
 			if _target_position.x != _last_position.x or _target_position.y != _last_position.y:
 				_reset_path = true

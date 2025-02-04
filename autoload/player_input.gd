@@ -32,14 +32,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		action_triggered.emit(action)
 
 func try_path_to(start: Vector2, destination: Vector2) -> Dictionary:
-	var rect = Global.map_view.get_used_rect()
+	var rect = MapManager.map_view.get_used_rect()
 	if destination.x < 0 or destination.x > rect.end.x - 1:
 		return { 'success': false, 'path': [] }
 		
-	var navigation_map = Global.navigation_map
-	if navigation_map.has_point(Global.map_view.get_astar_pos(start.x, start.y)) and Global.navigation_map.has_point(Global.map_view.get_astar_pos(destination.x, destination.y)):
-		var start_point = Global.map_view.get_astar_pos(start.x, start.y)
-		var destination_point = Global.map_view.get_astar_pos(destination.x, destination.y)
+	var navigation_map = MapManager.navigation_map
+	var map_view = MapManager.map_view
+	if navigation_map.has_point(map_view.get_astar_pos(start.x, start.y)) and navigation_map.has_point(map_view.get_astar_pos(destination.x, destination.y)):
+		var start_point = MapManager.map_view.get_astar_pos(start.x, start.y)
+		var destination_point = MapManager.map_view.get_astar_pos(destination.x, destination.y)
 		var was_disabled = navigation_map.is_point_disabled(start_point)
 		navigation_map.set_point_disabled(start_point, false)
 		navigation_map.set_point_disabled(destination_point, false)

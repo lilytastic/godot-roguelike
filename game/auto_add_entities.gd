@@ -1,13 +1,20 @@
 extends Node2D
 
-@export var map := ''
+@export var map := -1
 
 func _ready():
-	if Global.maps_loaded.has(map):
+	if map == -1:
+		print('Default map to: ', MapManager.current_map.name)
+		map = MapManager.current_map.id
+
+	if MapManager.maps_loaded.has(map):
 		for child in get_children():
 			child.queue_free()
+		print('Map already loaded; not auto-initializing')
 		return;
+	MapManager.maps_loaded[map] = true
 
+	print('Auto-initializing children: ', get_children())
 	for child in get_children():
 		var opts = {
 			'blueprint': child.get_meta('blueprint') if child.has_meta('blueprint') else 'quadropus'
@@ -19,5 +26,5 @@ func _ready():
 		else: 
 			new_entity.location = Location.new(map, coords)
 		ECS.add(new_entity)
-		# print('auto-added: ', new_entity.blueprint.name, ' to map ', map)
+		print('auto-added: ', new_entity.blueprint.name, ' to map ', map)
 		child.queue_free()

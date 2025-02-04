@@ -6,12 +6,11 @@ var player: Entity:
 var camera_speed := 2.0
 
 var scheduler = Scheduler.new()
-var actors := {} # All entities on the "scene"
 var next_actor: Entity
 
 var turn_in_progress = false
 
-@export var map = ''
+@export var map_name = ''
 
 var player_can_act: bool:
 	get:
@@ -22,12 +21,6 @@ func _ready() -> void:
 	if !Global.player:
 		Global.new_game()
 		# Global.autosave()
-		
-	ECS.entity_added.connect(
-		func(entity: Entity):
-			if map and entity.location and entity.location.map == map:
-				actors[entity.uuid] = entity
-	)
 
 	if Global.player.location:
 		$Camera2D.position = Coords.get_position(
@@ -46,12 +39,13 @@ func _ready() -> void:
 				next_actor = null
 	)	
 	
-	_init_map(map)
+	# var map = Map.new(map_name)
+	# MapManager.switch_map(map)
 	%Map._render_fov()
 	
 
 func _process(delta):
-	Global.update_tiles(actors)
+	MapManager.update_tiles()
 
 	_update_camera(delta)
 
@@ -62,17 +56,12 @@ func _process(delta):
 		
 	if next_actor != null or !Global.player:
 		return
-
-	PlayerInput.update_cursor(actors)
 	
-	for actor in actors:
-		if !ECS.entity(actor):
-			actors.erase(actor)
-	
+	var actors = MapManager.actors
 	if !turn_in_progress:
 		var valid = actors.keys().filter(
 			func(uuid):
-				if !actors[uuid] or !actors[uuid].location or actors[uuid].location.map != map:
+				if !actors[uuid] or !actors[uuid].location or !MapManager.is_current_map(actors[uuid].location.map):
 					actors.erase(uuid)
 					return false
 
@@ -94,7 +83,7 @@ func _process(delta):
 			if result:
 				next_actor = null
 			turn_in_progress = false
-			Global.update_tiles(actors)
+			MapManager.update_tiles()
 
 	if !next_actor and ECS.entity(player.uuid):
 		_update_energy(delta)
@@ -121,7 +110,7 @@ func _input(event: InputEvent) -> void:
 
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
 	if player_is_valid:
-		PlayerInput.update_cursor(actors)
+		PlayerInput.update_cursor(MapManager.actors)
 
 	if event is InputEventMouseButton:
 		var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
@@ -185,10 +174,10 @@ func _take_turn(entity: Entity) -> bool:
 	return false
 
 func _update_energy(delta):
-	for actor in actors:
-		if !actors[actor]:
+	for actor in MapManager.actors:
+		if !MapManager.actors[actor]:
 			continue
-		var entity = actors[actor]
+		var entity = MapManager.actors[actor]
 		if entity and entity.blueprint.speed:
 			var mod = delta
 			if Global.player.current_path.size() > 0:
@@ -238,23 +227,3 @@ func _update_camera(delta):
 		)
 
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
-
-func _init_map(_map):
-	print('Switched to map ', _map)
-
-	if map != _map:
-		map = _map
-
-	Global.maps_loaded[_map] = true
-	actors = {}
-	# print('[ecs] entities: ', ECS.entities.keys())
-	
-	var entities = ECS.entities.values().filter(
-		func(entity):
-			# print(entity.blueprint.name, ': ', entity.location.map if entity.location else '')
-			if !entity.location: return false
-			return entity.location.map == _map
-	)
-	
-	for entity in entities:
-		actors[entity.uuid] = entity
