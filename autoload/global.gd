@@ -24,11 +24,12 @@ func new_game() -> Entity:
 	if has_game_started:
 		ECS.clear()
 	MapManager.maps_loaded.clear()
+	MapManager.maps.clear()
 	var options = { 'blueprint': 'hero' }
 	player = Entity.new(options)
 	var starting_map = MapManager.add(Map.new('Test'))
+	MapManager.switch_map(starting_map)
 	player.location = Location.new(starting_map.uuid, Vector2(0,0))
-	print(player.location.map)
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
 		'entity': ECS.create({ 'blueprint': 'greatsword' }).uuid,
@@ -39,7 +40,6 @@ func new_game() -> Entity:
 	player_changed.emit(player)
 	ECS.add(player)
 	has_game_started = true
-	MapManager.switch_map(starting_map)
 	return player
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
@@ -69,17 +69,25 @@ func save_game(path: String):
 	var data = get_save_data()
 	Files.save(data, path)
 	game_saved.emit()
+	
+func get_save_data() -> Dictionary:
+	var data = {}
+	data.entities = ECS.entities.keys().map(
+		func(entity): return ECS.entity(entity).save()
+	)
+	data.maps = MapManager.get_save_data()
+	data.player = player.uuid
+	data.date_modified = Time.get_datetime_string_from_system()
+	return data
 
 func load_game(path: String):
 	var data = load_from_save(path)
-	print(data)
 
 	if !data:
 		return
 
 	ECS.clear()
 	
-	print('maps loaded: ', data.maps)
 	if data.maps:
 		if data.maps.maps_loaded:
 			var _dict := {}
@@ -87,20 +95,16 @@ func load_game(path: String):
 				_dict[__id] = true
 			MapManager.maps_loaded = _dict
 		if data.maps.maps:
+			print(data.maps.maps)
 			var maps = data.maps.maps
-			print(maps)
 			for map_data in maps:
 				MapManager.add(Map.load_from_data(map_data))
-	print(MapManager.maps_loaded)
 	
 	var _entities: Array = data.entities
 	for _entity in _entities:
 		ECS.load_from_save(_entity)
-	var new_maps := {}
 
 	player = ECS.entity(data.player)
-	
-	print(player.location.map)
 
 	MapManager.switch_map(MapManager.maps[player.location.map])
 
@@ -114,19 +118,8 @@ func load_from_save(path: String):
 		file.close()
 		var json = JSON.new()
 		json.parse(text)
-		print(json.data)
 		return json.data
 	return null
-	
-func get_save_data() -> Dictionary:
-	var data = {}
-	data.entities = ECS.entities.keys().map(
-		func(entity): return ECS.entity(entity).save()
-	)
-	data.maps = MapManager.get_save_data()
-	data.player = player.uuid
-	data.date_modified = Time.get_datetime_string_from_system()
-	return data
 
 func sleep(ms: float) -> void:
 	await get_tree().create_timer(ms / 1000).timeout

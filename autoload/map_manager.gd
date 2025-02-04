@@ -3,7 +3,7 @@ extends Node
 var maps_loaded: Dictionary = {}
 
 var maps := {}
-var map := -1
+var map := ''
 var current_map: Map:
 	get:
 		return maps[map] if maps.has(map) else null
@@ -13,8 +13,9 @@ var current_map: Map:
 var actors := {}
 
 var map_view: MapView = null
-
 var navigation_map = AStar2D.new()
+
+signal map_changed
 
 
 func _ready() -> void:
@@ -44,8 +45,8 @@ func get_save_data() -> Dictionary:
 		'maps': _maps
 	}
 
-func is_current_map(_id: int) -> bool:
-	return map != -1 and _id == map
+func is_current_map(_id: String) -> bool:
+	return map != '' and _id == map
 	
 func add(_map: Map) -> Map:
 	if !maps.has(_map.uuid):
@@ -61,13 +62,13 @@ func switch_map(_map: Map, switch_to := true):
 		return
 
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
+	map_changed.emit(map)
 
 	actors = {}
 	# print('[ecs] entities: ', ECS.entities.keys())
 	
 	var entities = ECS.entities.values().filter(
 		func(entity):
-			# print(entity.blueprint.name, ': ', entity.location.map if entity.location else '')
 			if !entity.location: return false
 			return is_current_map(entity.location.map)
 	)

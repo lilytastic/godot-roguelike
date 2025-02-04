@@ -23,7 +23,7 @@ func add(stack: Dictionary) -> bool:
 		return true
 	return false
 	
-func remove(uuid: int) -> bool:
+func remove(uuid: String) -> bool:
 	var index = -1
 	for item in items:
 		index += 1
@@ -33,7 +33,7 @@ func remove(uuid: int) -> bool:
 			return true
 	return false
 
-func has(uuid: int) -> bool:
+func has(uuid: String) -> bool:
 	return items.any(
 		func(e): return uuid == e.entity
 	)

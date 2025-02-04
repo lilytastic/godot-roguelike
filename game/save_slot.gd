@@ -34,7 +34,8 @@ func _load():
 			func(entity):
 				return entity['uuid'] == data.player
 		)[0]
-		%TopLeft.text = ('%s - ' % player_entity.map) + slot_type
+		var current_map = data.maps.maps[data.maps.maps.find(func(x): x.uuid == player_entity.map)]
+		%TopLeft.text = ('%s - ' % current_map.name if current_map else '<Unknown Map>') + slot_type
 		if data.has('date_modified'):
 			var dict = Time.get_datetime_dict_from_datetime_string(data.date_modified, false)
 			var minute = str(dict.minute) if dict.minute >= 10 else ('0'+str(dict.minute))

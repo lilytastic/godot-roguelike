@@ -1,7 +1,7 @@
 class_name Entity
 
-var _uuid: int = 0
-var uuid: int:
+var _uuid: String = ''
+var uuid: String:
 	get: return _uuid
 	set(value):
 		ECS.entities.erase(_uuid)
@@ -21,7 +21,7 @@ var actor: Actor = null
 var is_acting = false
 
 var current_path := []
-var current_target: int = -1 # uuid
+var current_target := '' # uuid
 var current_target_position: Vector2i = Vector2i(-1, -1)
 var animation: AnimationSequence = null
 
@@ -34,10 +34,12 @@ signal health_changed
 signal on_death
 signal action_performed
 
+const uuid_util = preload('res://addons/uuid/uuid.gd')
+
 
 func _init(opts: Dictionary):
 	_blueprint = opts.blueprint
-	uuid = opts.uuid if opts.has('uuid') else ResourceUID.create_id()
+	uuid = opts.uuid if opts.has('uuid') else uuid_util.v4()
 
 	if blueprint.baseHP:
 		health = Meter.new(20)
@@ -94,7 +96,7 @@ func load_from_save(data: Dictionary) -> void:
 	if data.has('position'):
 		var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
 		location = Location.new(
-			int(data.map),
+			data.map,
 			Vector2(int(_pos[0]), int(_pos[1]))
 		)
 		map_changed.emit(location.map)
@@ -122,14 +124,14 @@ func clear_path():
 	
 func clear_targeting():
 	current_target_position = Vector2i(-1, -1)
-	current_target = -1
+	current_target = ''
 
 func set_target_position(pos: Vector2):
 	current_target_position = pos
-	current_target = -1
+	current_target = ''
 
 func has_target() -> bool:
-	if current_target != -1:
+	if current_target != '':
 		return true
 		
 	if current_target_position != Vector2i(-1, -1):

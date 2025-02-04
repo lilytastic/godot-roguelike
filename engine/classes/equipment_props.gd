@@ -36,7 +36,7 @@ func equip(entity: Entity, opts := {}) -> Dictionary:
 	for slotSet in item_slots:
 		for slot in slotSet:
 			var previously_equipped = unequip(slot)
-			if previously_equipped != -1:
+			if previously_equipped != '':
 				swapped.append(previously_equipped)
 			slots[slot] = entity.uuid
 
@@ -45,9 +45,9 @@ func equip(entity: Entity, opts := {}) -> Dictionary:
 
 	return { 'success': false }
 	
-func unequip(slot) -> int:
+func unequip(slot) -> String:
 	if !slots.has(slot):
-		return -1
+		return ''
 
 	var previously_equipped = slots[slot]
 	for _slot in slots.keys():
@@ -57,7 +57,7 @@ func unequip(slot) -> int:
 
 	return previously_equipped
 
-func has(uuid: int) -> bool:
+func has(uuid: String) -> bool:
 	return slots.values().any(
 		func(e): return uuid == e
 	)

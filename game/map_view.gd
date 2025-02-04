@@ -10,7 +10,7 @@ signal actor_added
 
 func _ready():
 	MapManager.map_view = self
-	print('init map')
+	print('init map ', MapManager.map)
 
 	visible = false
 

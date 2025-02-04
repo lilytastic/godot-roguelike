@@ -5,7 +5,7 @@ var entity: Entity:
 	get: return ECS.entity(_entityId)
 	set(value): _entityId = value.uuid
 
-var _entityId: int
+var _entityId: String
 
 var is_dying = false
 
@@ -34,7 +34,6 @@ func _process(delta: float) -> void:
 		return
 
 	if !entity.location:
-		print('destroy')
 		destroyed.emit()
 		queue_free()
 	else:
@@ -69,7 +68,7 @@ func _on_action_performed(action: Action, result: ActionResult):
 	pass
 
 
-func _load(id: int):
+func _load(id: String):
 	_entityId = id
 	name = 'Entity<' + str(entity.uuid) + '>'
 	entity.actor = self
@@ -108,7 +107,6 @@ func die():
 	if is_dying:
 		return
 	is_dying = true
-	print('die')
 	await Global.sleep(400)
 	destroyed.emit()
 	queue_free()

@@ -1,7 +1,16 @@
 extends Node2D
 
 func _ready():
-	if MapManager.maps_loaded.has(MapManager.map):
+	if MapManager.map == '':
+		MapManager.map_changed.connect(func(map): _ready())
+		return
+		
+		
+	var is_loaded = MapManager.maps_loaded.keys().any(
+		func(id):
+			return MapManager.map == id
+	)
+	if is_loaded:
 		for child in get_children():
 			child.queue_free()
 		print('Map already loaded; not auto-initializing')
@@ -21,5 +30,5 @@ func _ready():
 		else: 
 			new_entity.location = Location.new(MapManager.map, coords)
 		ECS.add(new_entity)
-		print('auto-added: ', new_entity.blueprint.name, ' to map ', MapManager.map)
+		# print('auto-added: ', new_entity.blueprint.name, ' to map ', MapManager.map)
 		child.queue_free()

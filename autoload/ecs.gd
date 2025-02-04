@@ -8,18 +8,18 @@ signal entity_added
 signal entity_removed
 
 
-func entity(id: int) -> Entity:
+func entity(id: String) -> Entity:
 	if (entities.has(id)):
 		return entities[id]
 	return null
 
-func add(_entity: Entity) -> int:
+func add(_entity: Entity) -> String:
 	entities[_entity.uuid] = _entity
 	print('[ecs] added: ', _entity.blueprint.name, ' (', _entity.uuid, ')')
 	entity_added.emit(_entity)
 	return _entity.uuid
 
-func remove(uuid: int) -> void:
+func remove(uuid: String) -> void:
 	entity_removed.emit(uuid)
 	print('[ecs] removed: ', uuid)
 	entities.erase(uuid)
