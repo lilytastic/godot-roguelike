@@ -33,15 +33,14 @@ func _process(delta) -> void:
 			actors.erase(actor)
 
 func get_save_data() -> Dictionary:
-	var _maps := {}
-	for _id in maps.keys():
-		var _map = maps[_id]
-		_maps[_id] = {
-			'uuid': _id,
+	var _maps := []
+	for _map in maps.values():
+		_maps.append({
+			'uuid': _map.uuid,
 			'name': _map.name
-		}
+		})
 	return {
-		'maps_loaded': maps_loaded,
+		'maps_loaded': maps_loaded.keys(),
 		'maps': _maps
 	}
 

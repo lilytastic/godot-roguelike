@@ -78,20 +78,26 @@ func load_game(path: String):
 		return
 
 	ECS.clear()
+	
+	print('maps loaded: ', data.maps)
+	if data.maps:
+		if data.maps.maps_loaded:
+			var _dict := {}
+			for __id in data.maps.maps_loaded:
+				_dict[__id] = true
+			MapManager.maps_loaded = _dict
+		if data.maps.maps:
+			var maps = data.maps.maps
+			print(maps)
+			for map_data in maps:
+				MapManager.add(Map.load_from_data(map_data))
+	print(MapManager.maps_loaded)
+	
 	var _entities: Array = data.entities
 	for _entity in _entities:
 		ECS.load_from_save(_entity)
 	var new_maps := {}
 
-	print('maps loaded: ', data.maps)
-	MapManager.maps_loaded = data.maps.maps_loaded if data.maps and data.maps.maps_loaded else {}
-	if data.maps and data.maps.maps:
-		var maps = data.maps.maps
-		print(maps)
-		for _id in maps.keys():
-			var __map = Map.load_from_data(maps[_id])
-			MapManager.add(__map)
-	print(MapManager.maps_loaded)
 	player = ECS.entity(data.player)
 	
 	print(player.location.map)
@@ -108,6 +114,7 @@ func load_from_save(path: String):
 		file.close()
 		var json = JSON.new()
 		json.parse(text)
+		print(json.data)
 		return json.data
 	return null
 	

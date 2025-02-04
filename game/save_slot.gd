@@ -32,7 +32,7 @@ func _load():
 	if data:
 		var player_entity = data.entities.filter(
 			func(entity):
-				return str(entity['uuid']) == str(data.player)
+				return entity['uuid'] == data.player
 		)[0]
 		%TopLeft.text = ('%s - ' % player_entity.map) + slot_type
 		if data.has('date_modified'):

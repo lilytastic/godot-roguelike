@@ -1,7 +1,6 @@
 class_name MapView
 extends TileMapLayer
 
-var map := -1
 var actor_prefab: PackedScene = preload('res://game/actor.tscn')
 
 var _fov_map := {}
@@ -14,18 +13,15 @@ func _ready():
 	print('init map')
 
 	visible = false
-	if map == -1 or !MapManager.maps.has(map):
-		map = MapManager.map
-		print('Map unset -- defaulting to ', MapManager.current_map.name)
 
 	ECS.entity_added.connect(
 		func(entity: Entity):
-			if map and entity.location and entity.location.map == map:
+			if MapManager.map and entity.location and entity.location.map == MapManager.map:
 				_init_actor(entity)
 	)
 	
 	for entity in ECS.entities.values():
-		if map and entity.location and entity.location.map == map:
+		if MapManager.map and entity.location and entity.location.map == MapManager.map:
 			_init_actor(entity)
 			
 	MapManager.navigation_map.clear()
