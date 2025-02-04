@@ -23,7 +23,7 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
 	Global.ecs.load_data()
 
-func new_game() -> void:
+func new_game() -> Entity:
 	ecs.clear()
 	maps_loaded.clear()
 	var options = { 'blueprint': 'hero' }
@@ -38,6 +38,7 @@ func new_game() -> void:
 	player.equipment.equip(Global.ecs.create({ 'blueprint': 'sword' }))
 	player_changed.emit(player)
 	Global.ecs.add(player)
+	return player
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
 func clear_game() -> void:

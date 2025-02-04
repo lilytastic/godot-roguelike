@@ -19,6 +19,13 @@ var player_can_act: bool:
 
 
 func _ready() -> void:
+	Global.ecs.entity_added.connect(
+		func(entity: Entity):
+			if map and entity.location and entity.location.map == map:
+				actors[entity.uuid] = entity
+	)
+	%Map.init()
+	
 	if !Global.player:
 		Global.new_game()
 		# Global.autosave()
@@ -31,12 +38,6 @@ func _ready() -> void:
 	if PlayerInput.ui_action_triggered.get_connections().size() > 0:
 		PlayerInput.ui_action_triggered.disconnect(_on_ui_action)
 	PlayerInput.ui_action_triggered.connect(_on_ui_action)
-
-	Global.ecs.entity_added.connect(
-		func(entity: Entity):
-			if map and entity.location and entity.location.map == map:
-				actors[entity.uuid] = entity
-	)
 	
 	PlayerInput.action_triggered.connect(func(action):
 		if player_can_act:
@@ -47,6 +48,7 @@ func _ready() -> void:
 	)	
 	
 	_init_map(map)
+	%Map._render_fov()
 	
 
 func _process(delta):
@@ -249,6 +251,7 @@ func _init_map(_map):
 	
 	var entities = Global.ecs.entities.values().filter(
 		func(entity):
+			print(entity.blueprint.name, ': ', entity.location.map if entity.location else '')
 			if !entity.location: return false
 			return entity.location.map == _map
 	)

@@ -7,10 +7,14 @@ var actor_prefab: PackedScene = preload('res://game/actor.tscn')
 var _fov_map := {}
 var last_position: Vector2
 
+signal actor_added
+
+
 func _enter_tree():
 	Global.map_view = self
 
-func _ready():
+func init():
+	print('init map')
 	visible = false
 	Global.map_view = self
 
@@ -99,6 +103,7 @@ func _init_actor(entity: Entity):
 	if new_actor.has_method('_load'):
 		new_actor._load(entity.uuid)
 
+	actor_added.emit(new_actor)
 	return new_actor
 
 
@@ -111,7 +116,7 @@ func _render_fov() -> void:
 	var tiles = get_used_cells().filter(
 		func(tile):
 			# TODO: filter for visible area
-			return Global.player.can_see(tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
+			return Global.player and Global.player.can_see(tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
 	)
 
 	for tile in tiles:

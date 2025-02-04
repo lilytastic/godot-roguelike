@@ -8,8 +8,9 @@ var entity: Entity:
 	set(value):
 		_entity = value
 
-		%InventoryDisplay.inventory = _entity.inventory
-		%EquipmentDisplay.equipment = _entity.equipment
+		if _entity:
+			%InventoryDisplay.inventory = _entity.inventory
+			%EquipmentDisplay.equipment = _entity.equipment
 		
 func _ready():
 	PlayerInput.double_click.connect(_on_double_click)
