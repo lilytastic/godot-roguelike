@@ -13,7 +13,7 @@ signal actor_added
 func _enter_tree():
 	Global.map_view = self
 
-func init():
+func _ready():
 	print('init map')
 	visible = false
 	Global.map_view = self

@@ -17,18 +17,17 @@ var player_can_act: bool:
 	get:
 		return next_actor and next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
-
+	
 func _ready() -> void:
+	if !Global.player:
+		Global.new_game()
+		# Global.autosave()
+		
 	Global.ecs.entity_added.connect(
 		func(entity: Entity):
 			if map and entity.location and entity.location.map == map:
 				actors[entity.uuid] = entity
 	)
-	%Map.init()
-	
-	if !Global.player:
-		Global.new_game()
-		# Global.autosave()
 
 	if Global.player.location:
 		$Camera2D.position = Coords.get_position(
@@ -248,10 +247,11 @@ func _init_map(_map):
 
 	Global.maps_loaded[_map] = true
 	actors = {}
+	# print('[ecs] entities: ', Global.ecs.entities.keys())
 	
 	var entities = Global.ecs.entities.values().filter(
 		func(entity):
-			print(entity.blueprint.name, ': ', entity.location.map if entity.location else '')
+			# print(entity.blueprint.name, ': ', entity.location.map if entity.location else '')
 			if !entity.location: return false
 			return entity.location.map == _map
 	)

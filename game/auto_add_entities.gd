@@ -19,4 +19,5 @@ func _ready():
 		else: 
 			new_entity.location = Location.new(map, coords)
 		Global.ecs.add(new_entity)
+		# print('auto-added: ', new_entity.blueprint.name, ' to map ', map)
 		child.queue_free()

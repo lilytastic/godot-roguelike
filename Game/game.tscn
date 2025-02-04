@@ -95,6 +95,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="AutoAddEntities" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("2_iebwc")
 map = "Test"
 

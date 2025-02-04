@@ -15,11 +15,13 @@ func entity(id: int) -> Entity:
 
 func add(_entity: Entity) -> int:
 	entities[_entity.uuid] = _entity
+	print('[ecs] added: ', _entity.blueprint.name, ' (', _entity.uuid, ')')
 	entity_added.emit(_entity)
 	return _entity.uuid
 
 func remove(uuid: int) -> void:
 	entity_removed.emit(uuid)
+	print('[ecs] removed: ', uuid)
 	entities.erase(uuid)
 	
 func load_from_save(data: Dictionary) -> void:
@@ -29,7 +31,7 @@ func load_from_save(data: Dictionary) -> void:
 	
 func clear() -> void:
 	entities.clear()
-
+	
 func create(opts: Dictionary) -> Entity:
 	var new_entity = Entity.new(opts)
 	var new_id = add(new_entity)

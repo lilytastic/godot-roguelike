@@ -14,6 +14,7 @@ signal floating_text_added
 
 var navigation_map = AStar2D.new()
 
+var has_game_started = false
 var is_game_started: bool:
 	get: return player != null
 	
@@ -24,7 +25,8 @@ func _ready() -> void:
 	Global.ecs.load_data()
 
 func new_game() -> Entity:
-	ecs.clear()
+	if has_game_started:
+		ecs.clear()
 	maps_loaded.clear()
 	var options = { 'blueprint': 'hero' }
 	player = Entity.new(options)
@@ -38,6 +40,7 @@ func new_game() -> Entity:
 	player.equipment.equip(Global.ecs.create({ 'blueprint': 'sword' }))
 	player_changed.emit(player)
 	Global.ecs.add(player)
+	has_game_started = true
 	return player
 	# player.position = Coords.get_position(Vector2i(0, 0))
 
