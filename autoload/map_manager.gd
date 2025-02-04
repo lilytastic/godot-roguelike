@@ -34,10 +34,11 @@ func _process(delta) -> void:
 
 func get_save_data() -> Dictionary:
 	var _maps := {}
-	for map in maps.values():
-		_maps[map.id] = {
-			'id': map.id,
-			'name': map.name
+	for _id in maps.keys():
+		var _map = maps[_id]
+		_maps[_id] = {
+			'uuid': _id,
+			'name': _map.name
 		}
 	return {
 		'maps_loaded': maps_loaded,
@@ -48,19 +49,19 @@ func is_current_map(_id: int) -> bool:
 	return map != -1 and _id == map
 	
 func add(_map: Map) -> Map:
-	if !maps.has(_map.id):
-		print('adding map: ', _map.name, ' (', _map.id, ')')
-		maps[_map.id] = _map
+	if !maps.has(_map.uuid):
+		print('adding map: ', _map.name, ' (', _map.uuid, ')')
+		maps[_map.uuid] = _map
 	return _map
 
 func switch_map(_map: Map, switch_to := true):
 	add(_map)
 
-	map = _map.id
+	map = _map.uuid
 	if !current_map:
 		return
 
-	print('Switched to map: ', current_map.name, ' (', current_map.id, ')')
+	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 
 	actors = {}
 	# print('[ecs] entities: ', ECS.entities.keys())

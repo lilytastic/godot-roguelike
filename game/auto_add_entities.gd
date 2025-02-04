@@ -5,13 +5,14 @@ extends Node2D
 func _ready():
 	if map == -1:
 		print('Default map to: ', MapManager.current_map.name)
-		map = MapManager.current_map.id
+		map = MapManager.current_map.uuid
 
 	if MapManager.maps_loaded.has(map):
 		for child in get_children():
 			child.queue_free()
 		print('Map already loaded; not auto-initializing')
 		return;
+
 	MapManager.maps_loaded[map] = true
 
 	print('Auto-initializing children: ', get_children())

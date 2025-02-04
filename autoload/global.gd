@@ -27,7 +27,7 @@ func new_game() -> Entity:
 	var options = { 'blueprint': 'hero' }
 	player = Entity.new(options)
 	var starting_map = MapManager.add(Map.new('Test'))
-	player.location = Location.new(starting_map.id, Vector2(0,0))
+	player.location = Location.new(starting_map.uuid, Vector2(0,0))
 	print(player.location.map)
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
@@ -72,6 +72,7 @@ func save_game(path: String):
 
 func load_game(path: String):
 	var data = load_from_save(path)
+	print(data)
 
 	if !data:
 		return
@@ -80,9 +81,21 @@ func load_game(path: String):
 	var _entities: Array = data.entities
 	for _entity in _entities:
 		ECS.load_from_save(_entity)
+	var new_maps := {}
+
+	print('maps loaded: ', data.maps)
 	MapManager.maps_loaded = data.maps.maps_loaded if data.maps and data.maps.maps_loaded else {}
+	if data.maps and data.maps.maps:
+		var maps = data.maps.maps
+		print(maps)
+		for _id in maps.keys():
+			var __map = Map.load_from_data(maps[_id])
+			MapManager.add(__map)
+	print(MapManager.maps_loaded)
 	player = ECS.entity(data.player)
-	print(data.maps)
+	
+	print(player.location.map)
+
 	MapManager.switch_map(MapManager.maps[player.location.map])
 
 	player_changed.emit(player)
