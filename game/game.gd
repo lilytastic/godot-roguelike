@@ -23,7 +23,7 @@ func _ready() -> void:
 		Global.new_game()
 		# Global.autosave()
 		
-	Global.ecs.entity_added.connect(
+	ECS.entity_added.connect(
 		func(entity: Entity):
 			if map and entity.location and entity.location.map == map:
 				actors[entity.uuid] = entity
@@ -66,7 +66,7 @@ func _process(delta):
 	PlayerInput.update_cursor(actors)
 	
 	for actor in actors:
-		if !Global.ecs.entity(actor):
+		if !ECS.entity(actor):
 			actors.erase(actor)
 	
 	if !turn_in_progress:
@@ -77,7 +77,7 @@ func _process(delta):
 					return false
 
 				var actor = actors[uuid]
-				if !Global.ecs.entity(uuid) or !actor.can_act():
+				if !ECS.entity(uuid) or !actor.can_act():
 					return false
 				return actor.blueprint.speed >= 0 and actor.energy >= 0
 		)
@@ -86,7 +86,7 @@ func _process(delta):
 		
 		var next = actors[valid[0]] if valid.size() else null
 		
-		if next != null and Global.ecs.entity(player.uuid):
+		if next != null and ECS.entity(player.uuid):
 			var next_uuid = next.uuid
 			turn_in_progress = true
 			next_actor = next
@@ -96,7 +96,7 @@ func _process(delta):
 			turn_in_progress = false
 			Global.update_tiles(actors)
 
-	if !next_actor and Global.ecs.entity(player.uuid):
+	if !next_actor and ECS.entity(player.uuid):
 		_update_energy(delta)
 
 	if player.path_needs_updating():
@@ -119,7 +119,7 @@ func _input(event: InputEvent) -> void:
 	if !player:
 		return
 
-	var player_is_valid = Global.player and Global.ecs.entities.has(Global.player.uuid)
+	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
 	if player_is_valid:
 		PlayerInput.update_cursor(actors)
 
@@ -149,7 +149,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _take_turn(entity: Entity) -> bool:
 	if player and entity.uuid == player.uuid:
 		# Player turn
-		var result = await entity.trigger_action(Global.ecs.entity(entity.current_target))
+		var result = await entity.trigger_action(ECS.entity(entity.current_target))
 		if result:
 			entity.energy -= result.cost_energy
 			return true
@@ -169,7 +169,7 @@ func _take_turn(entity: Entity) -> bool:
 			)
 			entity.current_path = path_result.path
 
-		var result = await entity.trigger_action(Global.ecs.entity(entity.current_target))
+		var result = await entity.trigger_action(ECS.entity(entity.current_target))
 		if !result:
 			result = await entity.perform_action(MovementAction.new(
 				PlayerInput._input_to_direction(
@@ -207,7 +207,7 @@ func _act(entity: Entity):
 	)
 	if path_result.success:
 		entity.current_path = path_result.path
-		var target = Global.ecs.entity(entity.current_target)
+		var target = ECS.entity(entity.current_target)
 		var result = await next_actor.trigger_action(target)
 		if result and result.success:
 			next_actor.energy -= result.cost_energy
@@ -220,7 +220,7 @@ func _update_camera(delta):
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
 		var _desired_camera_speed = 2.0
-		var _target = Global.ecs.entity(player.current_target)
+		var _target = ECS.entity(player.current_target)
 		var _target_position = player.target_position(false)
 		if player.current_path.size() > 0:
 			_desired_camera_speed = 3.0
@@ -247,9 +247,9 @@ func _init_map(_map):
 
 	Global.maps_loaded[_map] = true
 	actors = {}
-	# print('[ecs] entities: ', Global.ecs.entities.keys())
+	# print('[ecs] entities: ', ECS.entities.keys())
 	
-	var entities = Global.ecs.entities.values().filter(
+	var entities = ECS.entities.values().filter(
 		func(entity):
 			# print(entity.blueprint.name, ': ', entity.location.map if entity.location else '')
 			if !entity.location: return false

@@ -18,7 +18,7 @@ func _ready() -> void:
 	)
 
 func _process(delta) -> void:
-	visible = !Global.ui_visible and Global.player and Global.ecs.entities.has(Global.player.uuid)
+	visible = !Global.ui_visible and Global.player and ECS.entities.has(Global.player.uuid)
 
 	if Global.player.current_path:
 		# path = Global.player.current_path
@@ -32,7 +32,7 @@ func _process(delta) -> void:
 	
 	var current_modulate = %Tracker.modulate
 	
-	var target = Global.ecs.entity(Global.player.current_target)
+	var target = ECS.entity(Global.player.current_target)
 	%Target.modulate = _get_color(target)
 	
 	if PlayerInput.entities_under_cursor.size() > 0:

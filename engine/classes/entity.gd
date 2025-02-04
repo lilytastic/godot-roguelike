@@ -4,11 +4,11 @@ var _uuid: int = 0
 var uuid: int:
 	get: return _uuid
 	set(value):
-		Global.ecs.entities.erase(_uuid)
+		ECS.entities.erase(_uuid)
 		_uuid = value
 var _blueprint: String
 var blueprint: Blueprint:
-	get: return Global.ecs.blueprints.get(_blueprint, null)
+	get: return ECS.blueprints.get(_blueprint, null)
 	set(value): _blueprint = value.id
 var glyph: Glyph:
 	get: return blueprint.glyph if blueprint else null
@@ -46,7 +46,7 @@ func _init(opts: Dictionary):
 				if !health or health.current <= 0:
 					# await Global.sleep(250)
 					on_death.emit()
-					Global.ecs.remove(uuid)
+					ECS.remove(uuid)
 		)
 
 	on_death.connect(
@@ -88,7 +88,7 @@ func save() -> Dictionary:
 	return dict
 
 func load_from_save(data: Dictionary) -> void:
-	var new_id = Global.ecs.add(self)
+	var new_id = ECS.add(self)
 	var json = JSON.new()
 	
 	if data.has('position'):
@@ -138,7 +138,7 @@ func has_target() -> bool:
 	return false
 
 func target_position(include_cursor := true):
-	var target = Global.ecs.entity(current_target)
+	var target = ECS.entity(current_target)
 	if target and target.location:
 		return target.location.position
 		
@@ -209,7 +209,7 @@ func get_default_action(target: Entity) -> Action:
 	if target.blueprint.equipment:
 		if equipment:
 			for uuid in equipment.slots.values():
-				var worn_item = Global.ecs.entity(uuid)
+				var worn_item = ECS.entity(uuid)
 				if worn_item.blueprint.weapon:
 					var ability = worn_item.blueprint.weapon.weaponskills[0]
 					return UseAbilityAction.new(

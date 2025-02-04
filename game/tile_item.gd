@@ -6,7 +6,7 @@ extends Button
 var entity: Entity:
 	get:
 		if stack and stack.entity:
-			return Global.ecs.entity(stack.entity)
+			return ECS.entity(stack.entity)
 		return null
 
 var _stack: Dictionary

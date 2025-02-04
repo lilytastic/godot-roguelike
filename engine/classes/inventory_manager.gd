@@ -12,7 +12,7 @@ func equip(receiver: Entity, item: Entity):
 	if item.blueprint.item:
 		var result = receiver.equipment.equip(item)
 		for other_item in result.get('items_swapped', []):
-			give(receiver, Global.ecs.entity(other_item))
+			give(receiver, ECS.entity(other_item))
 		if result.success:
 			receiver.inventory.remove(item.uuid)
 			return true

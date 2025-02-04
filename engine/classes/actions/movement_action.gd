@@ -22,7 +22,7 @@ func perform(entity: Entity) -> ActionResult:
 		if is_solid:
 			return ActionResult.new(false)
 	
-	var collisions = Global.ecs.entities.values().filter(
+	var collisions = ECS.entities.values().filter(
 		func(_entity):
 			return _entity.blocks_entities() and _entity.location and _entity.location.map == entity.location.map
 	).filter(

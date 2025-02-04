@@ -7,7 +7,7 @@ var conduit: Entity
 
 func _init(_target: Entity, abilityId: String, opts := {}):
 	target = _target
-	ability = Global.ecs.abilities[abilityId]
+	ability = ECS.abilities[abilityId]
 	conduit = opts.get('conduit', null)
 	
 

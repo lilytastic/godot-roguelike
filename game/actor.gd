@@ -2,7 +2,7 @@ class_name Actor
 extends Node2D
 
 var entity: Entity:
-	get: return Global.ecs.entity(_entityId)
+	get: return ECS.entity(_entityId)
 	set(value): _entityId = value.uuid
 
 var _entityId: int

@@ -1,4 +1,4 @@
-class_name ECS
+extends Node
 
 var entities := {}
 var blueprints := {}

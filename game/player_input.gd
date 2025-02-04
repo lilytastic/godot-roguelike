@@ -3,8 +3,8 @@ extends Node
 var dragging := {}
 var entity_dragging: Entity:
 	get:
-		if PlayerInput.dragging.has('entity') and Global.ecs.entities.has(PlayerInput.dragging.entity):
-			return Global.ecs.entity(PlayerInput.dragging.entity)
+		if PlayerInput.dragging.has('entity') and ECS.entities.has(PlayerInput.dragging.entity):
+			return ECS.entity(PlayerInput.dragging.entity)
 		return null
 var entities_under_cursor := []
 
@@ -85,7 +85,7 @@ func _check_for_action(event: InputEvent) -> Action:
 
 	if event.is_action_released('use'):
 		if Global.player:
-			var entities = Global.ecs.find_by_location(Global.player.location).filter(
+			var entities = ECS.find_by_location(Global.player.location).filter(
 				func(entity): return entity.uuid != Global.player.uuid
 			)
 			if entities.size() > 0:

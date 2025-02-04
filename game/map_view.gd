@@ -18,13 +18,13 @@ func _ready():
 	visible = false
 	Global.map_view = self
 
-	Global.ecs.entity_added.connect(
+	ECS.entity_added.connect(
 		func(entity: Entity):
 			if map and entity.location and entity.location.map == map:
 				_init_actor(entity)
 	)
 	
-	for entity in Global.ecs.entities.values():
+	for entity in ECS.entities.values():
 		if map and entity.location and entity.location.map == map:
 			_init_actor(entity)
 			

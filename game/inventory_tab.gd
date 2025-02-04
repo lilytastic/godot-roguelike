@@ -19,5 +19,5 @@ func _on_double_click(stack):
 	if !visible:
 		return
 	if stack and stack.entity:
-		var action = UseAction.new(Global.ecs.entity(stack.entity))
+		var action = UseAction.new(ECS.entity(stack.entity))
 		PlayerInput.ui_action_triggered.emit(action)
