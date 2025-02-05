@@ -24,7 +24,7 @@ func unequip(receiver: Entity, item: Entity):
 		if receiver.equipment.slots[slot] == item.uuid:
 			var equipped = receiver.equipment.unequip(slot)
 			slots_taken += 1
-			if equipped != -1:
+			if equipped != '':
 				if !receiver.inventory.has(equipped):
 					give(receiver, item)
 	return slots_taken > 0
