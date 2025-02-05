@@ -42,11 +42,6 @@ func _input(event: InputEvent) -> void:
 	else:
 		Global.ui_visible = false
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_pressed():
-		Global.player.clear_path()
-		Global.player.clear_targeting()
-
 func _update_camera(delta):
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)

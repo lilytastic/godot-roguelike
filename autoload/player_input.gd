@@ -19,6 +19,9 @@ signal double_click
 
 
 func _input(event: InputEvent) -> void:
+	if Global.ui_visible:
+		return
+	
 	if event is InputEventMouseMotion:
 		_update_mouse_position()
 		
@@ -43,6 +46,10 @@ func _input(event: InputEvent) -> void:
 			_on_double_click_tile(coord)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_pressed() and Global.player:
+		Global.player.clear_path()
+		Global.player.clear_targeting()
+		
 	if event.is_action_pressed('quicksave'):
 		Global.quicksave()
 		return
