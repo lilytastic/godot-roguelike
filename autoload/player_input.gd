@@ -21,6 +21,10 @@ signal double_click
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		_update_mouse_position()
+		
+	var coord = Vector2(Coords.get_coord(mouse_position_in_world))
+	if event is InputEventMouseButton and event.double_click:
+		_on_double_click_tile(coord)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('quicksave'):
@@ -30,6 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var action := _check_for_action(event)
 	if action:
 		action_triggered.emit(action)
+
 
 func try_path_to(start: Vector2, destination: Vector2) -> Dictionary:
 	var rect = MapManager.map_view.get_used_rect()
@@ -114,3 +119,25 @@ func update_cursor(actors: Dictionary) -> void:
 	entities_under_cursor = actors.values().filter(
 		func(entity): return entity.location and entity.location.position == coord
 	)
+
+func _on_double_click_tile(coord: Vector2i):
+	if Scheduler.player_can_act:
+		_act(Scheduler.next_actor)
+
+func _act(entity: Entity):
+	var path_result = try_path_to(
+		entity.location.position,
+		entity.target_position()
+	)
+	if path_result.success:
+		entity.current_path = path_result.path
+
+	var target = ECS.entity(entity.current_target)
+	var result = await Scheduler.next_actor.trigger_action(target)
+	if result and result.success:
+		Scheduler.next_actor.energy -= result.cost_energy
+		Scheduler.next_actor = null
+
+func _on_ui_action(action):
+	action.perform(Global.player)
+	

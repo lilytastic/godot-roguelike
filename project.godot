@@ -21,6 +21,7 @@ PlayerInput="*res://autoload/player_input.gd"
 InventoryManager="*res://autoload/inventory_manager.gd"
 ECS="*res://autoload/ecs.gd"
 MapManager="*res://autoload/map_manager.gd"
+Scheduler="*res://autoload/scheduler.gd"
 
 [display]
 

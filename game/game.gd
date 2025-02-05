@@ -5,16 +5,7 @@ var player: Entity:
 	get: return Global.player
 var camera_speed := 2.0
 
-var scheduler = Scheduler.new()
-var next_actor: Entity
-
-var turn_in_progress = false
-
 @export var map_name = ''
-
-var player_can_act: bool:
-	get:
-		return next_actor and next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
 	
 func _ready() -> void:
@@ -26,18 +17,6 @@ func _ready() -> void:
 		$Camera2D.position = Coords.get_position(
 			Global.player.location.position
 		)
-
-	if PlayerInput.ui_action_triggered.get_connections().size() > 0:
-		PlayerInput.ui_action_triggered.disconnect(_on_ui_action)
-	PlayerInput.ui_action_triggered.connect(_on_ui_action)
-	
-	PlayerInput.action_triggered.connect(func(action):
-		if player_can_act:
-			var result = await Global.player.perform_action(action)
-			if result.success and next_actor:
-				next_actor.energy -= result.cost_energy
-				next_actor = null
-	)	
 	
 	# var map = Map.new(map_name)
 	# MapManager.switch_map(map)
@@ -53,40 +32,6 @@ func _process(delta):
 	if PlayerInput.cursor and Global.player:
 		PlayerInput.cursor.path = Global.player.current_path
 		
-	if next_actor != null or !Global.player:
-		return
-	
-	var actors = MapManager.actors
-	if !turn_in_progress:
-		var valid = actors.keys().filter(
-			func(uuid):
-				if !actors[uuid] or !actors[uuid].location or !MapManager.is_current_map(actors[uuid].location.map):
-					actors.erase(uuid)
-					return false
-
-				var actor = actors[uuid]
-				if !ECS.entity(uuid) or !actor.can_act():
-					return false
-				return actor.blueprint.speed >= 0 and actor.energy >= 0
-		)
-		
-		scheduler.entities = valid
-		
-		var next = actors[valid[0]] if valid.size() else null
-		
-		if next != null and ECS.entity(player.uuid):
-			var next_uuid = next.uuid
-			turn_in_progress = true
-			next_actor = next
-			var result = await _take_turn(next_actor)
-			if result:
-				next_actor = null
-			turn_in_progress = false
-			MapManager.update_tiles()
-
-	if !next_actor and ECS.entity(player.uuid):
-		_update_energy(delta)
-
 	if player.path_needs_updating():
 		var path_result = PlayerInput.try_path_to(
 			player.location.position,
@@ -125,85 +70,11 @@ func _input(event: InputEvent) -> void:
 				else:
 					Global.player.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
 
-			if event.double_click:
-				_on_double_click_tile(coord)
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed():
 		Global.player.clear_path()
 		Global.player.clear_targeting()
 
-
-func _take_turn(entity: Entity) -> bool:
-	if player and entity.uuid == player.uuid:
-		# Player turn
-		var result = await entity.trigger_action(ECS.entity(entity.current_target))
-		if result:
-			entity.energy -= result.cost_energy
-			return true
-		else:
-			var _target_position = player.target_position(false)
-			if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-				player.clear_targeting()
-	else:
-		# AI turn
-		if player and Coords.get_range(entity.location.position, player.location.position) < 4:
-			entity.current_target = player.uuid
-
-		if entity.has_target():
-			var path_result = PlayerInput.try_path_to(
-				entity.location.position,
-				entity.target_position()
-			)
-			entity.current_path = path_result.path
-
-		var result = await entity.trigger_action(ECS.entity(entity.current_target))
-		if !result:
-			result = await entity.perform_action(MovementAction.new(
-				PlayerInput._input_to_direction(
-					InputTag.MOVE_ACTIONS.pick_random()
-				)
-			), false)
-
-		if result:
-			entity.energy -= result.cost_energy
-		else:
-			entity.energy -= 3
-		return true
-	return false
-
-func _update_energy(delta):
-	for actor in MapManager.actors:
-		if !MapManager.actors[actor]:
-			continue
-		var entity = MapManager.actors[actor]
-		if entity and entity.blueprint.speed:
-			var mod = delta
-			if Global.player.current_path.size() > 0:
-				mod *= 0.2
-			entity.energy += (entity.blueprint.speed * 1.0) * mod
-			entity.energy = min(1, entity.energy)
-
-func _on_double_click_tile(coord: Vector2i):
-	if player_can_act:
-		_act(next_actor)
-
-func _act(entity: Entity):
-	var path_result = PlayerInput.try_path_to(
-		entity.location.position,
-		entity.target_position()
-	)
-	if path_result.success:
-		entity.current_path = path_result.path
-		var target = ECS.entity(entity.current_target)
-		var result = await next_actor.trigger_action(target)
-		if result and result.success:
-			next_actor.energy -= result.cost_energy
-			next_actor = null
-
-func _on_ui_action(action):
-	action.perform(Global.player)
-	
 func _update_camera(delta):
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
