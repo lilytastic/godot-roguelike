@@ -56,11 +56,11 @@ func _process(delta):
 
 # Return the next entity in sequence
 func next():
-	var entities = MapManager.actors
-	var next = MapManager.actors.values().find(func(entity): entity.energy >= 0)
+	var actors = MapManager.actors
+	var next = actors.values().filter(func(entity): entity.energy >= 0)
 	
-	if next != -1:
-		return entities[next]
+	if next.size():
+		return actors[next[0]]
 	else:
 		return null
 
