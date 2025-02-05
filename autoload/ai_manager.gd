@@ -9,46 +9,38 @@ func _process(delta):
 	if !player:
 		return
 	if next_actor != null and !next_actor.is_acting:
-		take_turn(next_actor)
-
+		var result = await take_turn(next_actor)
+		if !result:
+			if next_actor.uuid == player.uuid:
+				var _target_position = player.targeting.target_position(false)
+				if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
+					player.targeting.clear_targeting()
+			else:
+				result = await perform_action(
+					next_actor,
+					MovementAction.new(
+						PlayerInput._input_to_direction(
+							InputTag.MOVE_ACTIONS.pick_random()
+						)
+					),
+				false)
 
 func take_turn(entity: Entity) -> bool:
 	var player = Global.player
+	
 	if !entity:
 		return false
-	if player and entity.uuid == player.uuid:
-		# Player turn
-		var result = await trigger_action(
-			entity,
-			ECS.entity(entity.targeting.current_target)
-		)
-		if result:
-			return true
-		else:
-			var _target_position = player.targeting.target_position(false)
-			if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-				player.targeting.clear_targeting()
-	else:
-		# AI turn
-		if player and Coords.get_range(entity.location.position, player.location.position) < 4:
+		
+	if player and entity.uuid != player.uuid:
+		if Coords.get_range(entity.location.position, player.location.position) < 4:
 			entity.targeting.current_target = player.uuid
 
-		var result = await trigger_action(
-			entity,
-			ECS.entity(entity.targeting.current_target)
-		)
-		if !result:
-			result = await perform_action(
-				entity,
-				MovementAction.new(
-					PlayerInput._input_to_direction(
-						InputTag.MOVE_ACTIONS.pick_random()
-					)
-				),
-			false)
-			
-		if result:
-			return true
+	var result = await trigger_action(
+		entity,
+		ECS.entity(entity.targeting.current_target)
+	)
+
+	if result: return true
 	return false
 
 
@@ -66,7 +58,7 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 		return false
 	return can_act(entity)
 
-
+# TODO: Untangle this shit and stop PlayerInput from calling it
 func trigger_action(entity: Entity, target: Entity) -> ActionResult:
 	var target_position = entity.targeting.target_position(false)
 
@@ -77,7 +69,6 @@ func trigger_action(entity: Entity, target: Entity) -> ActionResult:
 	if target and AIManager.blocks_entities(target):
 		act_range = 1
 
-	# TODO: Check actual distance in case the path is wrong
 	var distance = Coords.get_range(entity.location.position, target_position)
 	if distance > act_range:
 		if !entity.targeting.current_path.size():
