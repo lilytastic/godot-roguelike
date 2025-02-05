@@ -17,10 +17,6 @@ func _ready() -> void:
 		$Camera2D.position = Coords.get_position(
 			Global.player.location.position
 		)
-	
-	# var map = Map.new(map_name)
-	# MapManager.switch_map(map)
-	
 
 func _process(delta):
 	MapManager.update_tiles()
@@ -45,30 +41,6 @@ func _input(event: InputEvent) -> void:
 		Global.ui_visible = %SystemMenu.isMenuOpen
 	else:
 		Global.ui_visible = false
-		
-	if Global.ui_visible:
-		return
-	
-	if !player:
-		return
-
-	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
-	if player_is_valid:
-		PlayerInput.update_cursor(MapManager.actors)
-
-	if event is InputEventMouseButton:
-		var coord = Vector2(Coords.get_coord(PlayerInput.mouse_position_in_world))
-		var valid = player_is_valid and Global.player.can_see(coord)
-		if valid:
-			if event.button_index != 1:
-				Global.player.clear_path()
-				Global.player.clear_targeting()
-				return
-			if !event.double_click and event.pressed:
-				if PlayerInput.entities_under_cursor.size() > 0:
-					Global.player.current_target = PlayerInput.entities_under_cursor[0].uuid
-				else:
-					Global.player.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed():
