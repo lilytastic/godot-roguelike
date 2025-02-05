@@ -156,6 +156,7 @@ func target_position(include_cursor := true):
 func perform_action(action: Action, allow_recursion := true):
 	is_acting = true
 	var result = await action.perform(self)
+	energy -= result.cost_energy
 	if !result.success and result.alternate:
 		if allow_recursion:
 			return await perform_action(result.alternate)

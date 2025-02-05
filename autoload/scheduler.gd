@@ -6,26 +6,27 @@ var next_actor: Entity
 var turn_in_progress = false
 var player_can_act: bool:
 	get:
-		return next_actor and next_actor.uuid == Global.player.uuid and !Global.player.is_acting
+		if !next_actor or !Global.player:
+			return false
+		return next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
 func _ready():
 	PlayerInput.action_triggered.connect(
 		func(action):
-			if Scheduler.player_can_act:
+			if player_can_act:
 				var result = await Global.player.perform_action(action)
-				if result.success and Scheduler.next_actor:
-					Scheduler.next_actor.energy -= result.cost_energy
-					Scheduler.next_actor = null
+				if result.success and next_actor:
+					Scheduler.finish_turn()
 	)
 	
 func _process(delta):
 	var player = Global.player
 
-	if Scheduler.next_actor != null or !player:
+	if next_actor != null or !player:
 		return
 	
 	var actors = MapManager.actors
-	if !Scheduler.turn_in_progress:
+	if !turn_in_progress:
 		var valid = actors.keys().filter(
 			func(uuid):
 				if !actors[uuid] or !actors[uuid].location or !MapManager.is_current_map(actors[uuid].location.map):
@@ -42,15 +43,15 @@ func _process(delta):
 		
 		if next != null and ECS.entity(player.uuid):
 			var next_uuid = next.uuid
-			Scheduler.turn_in_progress = true
-			Scheduler.next_actor = next
-			var result = await _take_turn(Scheduler.next_actor)
+			turn_in_progress = true
+			next_actor = next
+			var result = await _take_turn(next_actor)
 			if result:
-				Scheduler.next_actor = null
-			Scheduler.turn_in_progress = false
+				next_actor = null
+			turn_in_progress = false
 			MapManager.update_tiles()
 
-	if !Scheduler.next_actor and ECS.entity(player.uuid):
+	if !next_actor and ECS.entity(player.uuid):
 		_update_energy(delta)
 
 
@@ -71,7 +72,6 @@ func _take_turn(entity: Entity) -> bool:
 		# Player turn
 		var result = await entity.trigger_action(ECS.entity(entity.current_target))
 		if result:
-			entity.energy -= result.cost_energy
 			return true
 		else:
 			var _target_position = player.target_position(false)
@@ -97,12 +97,11 @@ func _take_turn(entity: Entity) -> bool:
 				)
 			), false)
 
-		if result:
-			entity.energy -= result.cost_energy
-		else:
-			entity.energy -= 3
 		return true
 	return false
+
+func finish_turn():
+	next_actor = null
 
 func _update_energy(delta):
 	for actor in MapManager.actors:

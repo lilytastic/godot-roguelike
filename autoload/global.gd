@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func new_game() -> Entity:
 	if has_game_started:
-		ECS.clear()
+		clear_game()
 	MapManager.maps_loaded.clear()
 	MapManager.maps.clear()
 	var options = { 'blueprint': 'hero' }
@@ -45,6 +45,7 @@ func new_game() -> Entity:
 
 func clear_game() -> void:
 	ECS.clear()
+	Scheduler.finish_turn()
 	player = null
 
 func autosave():
@@ -88,7 +89,7 @@ func load_game(path: String):
 	if !data:
 		return
 
-	ECS.clear()
+	clear_game()
 	
 	if data.maps:
 		if data.maps.maps_loaded:

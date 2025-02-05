@@ -158,8 +158,7 @@ func _act(entity: Entity):
 	var target = ECS.entity(entity.current_target)
 	var result = await Scheduler.next_actor.trigger_action(target)
 	if result and result.success:
-		Scheduler.next_actor.energy -= result.cost_energy
-		Scheduler.next_actor = null
+		Scheduler.finish_turn()
 
 func _on_ui_action(action):
 	action.perform(Global.player)
