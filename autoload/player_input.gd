@@ -157,8 +157,6 @@ func _act(entity: Entity):
 
 	var target = ECS.entity(entity.targeting.current_target)
 	var result = await AIManager.trigger_action(Scheduler.next_actor, target)
-	if result and result.success:
-		Scheduler.finish_turn()
 
 func _on_ui_action(action):
 	action.perform(Global.player)

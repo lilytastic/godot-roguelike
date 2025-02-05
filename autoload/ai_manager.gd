@@ -9,9 +9,7 @@ func _process(delta):
 	if !player:
 		return
 	if next_actor != null and !next_actor.is_acting:
-		if await take_turn(next_actor):
-			Scheduler.finish_turn()
-		return
+		take_turn(next_actor)
 
 
 func take_turn(entity: Entity) -> bool:
@@ -20,7 +18,7 @@ func take_turn(entity: Entity) -> bool:
 		return false
 	if player and entity.uuid == player.uuid:
 		# Player turn
-		var result = await AIManager.trigger_action(
+		var result = await trigger_action(
 			entity,
 			ECS.entity(entity.targeting.current_target)
 		)
@@ -42,12 +40,12 @@ func take_turn(entity: Entity) -> bool:
 			)
 			entity.targeting.current_path = path_result.path
 
-		var result = await AIManager.trigger_action(
+		var result = await trigger_action(
 			entity,
 			ECS.entity(entity.targeting.current_target)
 		)
 		if !result:
-			result = await AIManager.perform_action(
+			result = await perform_action(
 				entity,
 				MovementAction.new(
 					PlayerInput._input_to_direction(
@@ -152,5 +150,6 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true):
 		if allow_recursion:
 			return await perform_action(entity, result.alternate)
 	entity.is_acting = false
+	Scheduler.finish_turn()
 	entity.action_performed.emit(action, result)
 	return result

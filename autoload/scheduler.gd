@@ -16,8 +16,6 @@ func _ready():
 		func(action):
 			if player_can_act:
 				var result = await AIManager.perform_action(Global.player, action)
-				if result.success:
-					finish_turn()
 	)
 	
 	PlayerInput.ui_action_triggered.connect(
