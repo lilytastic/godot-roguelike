@@ -33,13 +33,6 @@ func take_turn(entity: Entity) -> bool:
 		if player and Coords.get_range(entity.location.position, player.location.position) < 4:
 			entity.targeting.current_target = player.uuid
 
-		if entity.targeting.has_target():
-			var path_result = PlayerInput.try_path_to(
-				entity.location.position,
-				entity.targeting.target_position()
-			)
-			entity.targeting.current_path = path_result.path
-
 		var result = await trigger_action(
 			entity,
 			ECS.entity(entity.targeting.current_target)

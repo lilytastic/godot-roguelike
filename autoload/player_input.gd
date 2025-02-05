@@ -38,7 +38,7 @@ func _input(event: InputEvent) -> void:
 				Global.player.targeting.clear_targeting()
 				return
 			if !event.double_click and event.pressed:
-				if PlayerInput.entities_under_cursor.size() > 0:
+				if PlayerInput.entities_under_cursor.size() > 0 and PlayerInput.entities_under_cursor[0].uuid != Global.player.uuid:
 					Global.player.targeting.current_target = PlayerInput.entities_under_cursor[0].uuid
 				else:
 					Global.player.targeting.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
