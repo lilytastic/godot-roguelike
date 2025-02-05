@@ -84,6 +84,9 @@ func update_tiles():
 				false
 			)
 	
+	if !MapManager.map_view:
+		return
+
 	for actor in actors.values():
 		if actor and actor.location and actor.blueprint.equipment:
 			var pos = actor.location.position

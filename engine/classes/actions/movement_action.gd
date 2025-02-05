@@ -12,6 +12,9 @@ func _init(_vector, _can_alternate = true):
 func perform(entity: Entity) -> ActionResult:
 	var new_position = entity.location.position + vector
 
+	if !MapManager.map_view:
+		return ActionResult.new(false)
+
 	var rect = MapManager.map_view.get_used_rect()
 	if new_position.x < 0 or new_position.x >= rect.end.x or new_position.y < 0 or new_position.y >= rect.end.y:
 		return ActionResult.new(false)

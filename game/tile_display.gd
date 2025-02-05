@@ -5,21 +5,22 @@ var last_position: Vector2
 
 
 func _ready() -> void:
-	get_viewport().connect("size_changed", _render_fov)
-	_render_fov()
+	get_viewport().connect("size_changed", render)
+	render()
 	
 func _process(delta):
 	if last_position != Global.player.location.position:
 		last_position = Global.player.location.position
-		_render_fov()
+		render()
 
 
-func _render_fov() -> void:
-	# print('render fov')
-
+func render() -> void:
 	for child in get_children():
 		child.free()
 	
+	if !MapManager.map_view:
+		return
+
 	var tiles = MapManager.map_view.get_used_cells().filter(
 		func(tile):
 			# TODO: filter for visible area
