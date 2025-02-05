@@ -74,30 +74,45 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 	return can_act(entity)
 
 
-func trigger_action(entity: Entity, target: Entity):
-	var targeting = entity.targeting
+func trigger_action(entity: Entity, target: Entity) -> ActionResult:
+	var target_position = entity.targeting.target_position(false)
 
 	var act_range = 0
+	if !entity.targeting.has_target():
+		return
+
 	if target and AIManager.blocks_entities(target):
 		act_range = 1
-	if targeting.current_path.size() and targeting.current_path[0] == entity.location.position:
-		targeting.current_path = targeting.current_path.slice(1)
 
 	# TODO: Check actual distance in case the path is wrong
-	var distance = targeting.current_path.size()
+	var distance = Coords.get_range(entity.location.position, target_position)
 	if distance > act_range:
+		if !entity.targeting.current_path.size():
+			var path_result = PlayerInput.try_path_to(
+				entity.location.position,
+				target_position
+			)
+			if path_result.success:
+				entity.targeting.current_path = path_result.path
+
+		if entity.targeting.current_path.size() and entity.targeting.current_path[0] == entity.location.position:
+			entity.targeting.current_path = entity.targeting.current_path.slice(1)
+
+		if !entity.targeting.current_path.size():
+			return null
+			
 		var result = await perform_action(
 			entity,
 			MovementAction.new(
-				targeting.current_path[0] - entity.location.position
+				entity.targeting.current_path[0] - entity.location.position
 			),
 			false
 		)
 		if result.success:
-			targeting.current_path = targeting.current_path.slice(1)
+			entity.targeting.current_path = entity.targeting.current_path.slice(1)
 		else:
-			targeting.clear_path()
-			targeting.clear_targeting()
+			entity.targeting.clear_path()
+			entity.targeting.clear_targeting()
 
 		return result
 	else:
@@ -112,8 +127,8 @@ func trigger_action(entity: Entity, target: Entity):
 			var result = null
 			if default_action:
 				result = await perform_action(entity, default_action)
-			targeting.clear_path()
-			targeting.clear_targeting()
+			entity.targeting.clear_path()
+			entity.targeting.clear_targeting()
 			if result:
 				return result
 
@@ -142,7 +157,7 @@ func get_default_action(entity: Entity, target: Entity) -> Action:
 		
 	return null
 
-func perform_action(entity: Entity, action: Action, allow_recursion := true):
+func perform_action(entity: Entity, action: Action, allow_recursion := true) -> ActionResult:
 	entity.is_acting = true
 	var result = await action.perform(entity)
 	entity.energy -= result.cost_energy
