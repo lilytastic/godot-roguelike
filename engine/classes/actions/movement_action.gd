@@ -27,7 +27,7 @@ func perform(entity: Entity) -> ActionResult:
 	
 	var collisions = ECS.entities.values().filter(
 		func(_entity):
-			return _entity.blocks_entities() and _entity.location and _entity.location.map == entity.location.map
+			return AIManager.blocks_entities(_entity) and _entity.location and _entity.location.map == entity.location.map
 	).filter(
 		func(_entity):
 			return _entity.location.position.x == new_position.x and _entity.location.position.y == new_position.y
@@ -36,7 +36,7 @@ func perform(entity: Entity) -> ActionResult:
 	if collisions.size():
 		for collision in collisions:
 			if can_alternate:
-				var action = entity.get_default_action(collision)
+				var action = AIManager.get_default_action(entity, collision)
 				if action:
 					return ActionResult.new(
 						false,

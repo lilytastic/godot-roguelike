@@ -31,7 +31,7 @@ func _input(event: InputEvent) -> void:
 
 	var coord = Vector2(Coords.get_coord(mouse_position_in_world))
 	if event is InputEventMouseButton:
-		var valid = player_is_valid and Global.player.can_see(coord)
+		var valid = player_is_valid and AIManager.can_see(Global.player, coord)
 		if valid:
 			if event.button_index != 1:
 				Global.player.targeting.clear_path()
@@ -156,7 +156,7 @@ func _act(entity: Entity):
 		entity.targeting.current_path = path_result.path
 
 	var target = ECS.entity(entity.targeting.current_target)
-	var result = await Scheduler.next_actor.trigger_action(target)
+	var result = await AIManager.trigger_action(Scheduler.next_actor, target)
 	if result and result.success:
 		Scheduler.finish_turn()
 

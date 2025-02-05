@@ -73,7 +73,7 @@ func _process(delta) -> void:
 	if %Tracker.modulate != current_modulate:
 		_set_path()
 
-	if Global.player and Global.player.can_see(PlayerInput.mouse_position_in_world / 16):
+	if Global.player and AIManager.can_see(Global.player, PlayerInput.mouse_position_in_world / 16):
 		%Tracker.modulate = Color(%Tracker.modulate, 1)
 	else:
 		%Tracker.modulate = Color(%Tracker.modulate, 0.5)
@@ -85,7 +85,7 @@ func _input(event: InputEvent) -> void:
 
 func _get_color(entity):
 	if entity:
-		if entity.is_hostile(Global.player):
+		if AIManager.is_hostile(entity, Global.player):
 			return Color.CRIMSON
 		if entity.blueprint.item:
 			return Color.GREEN

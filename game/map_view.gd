@@ -39,7 +39,7 @@ func _ready():
 func _process(delta):
 	for actor in %Entities.get_children():
 		if actor and actor.entity and actor.entity.location:
-			actor.visible = Global.player.can_see(actor.entity.location.position)
+			actor.visible = AIManager.can_see(Global.player, actor.entity.location.position)
 
 
 func get_astar_pos(x, y) -> int:

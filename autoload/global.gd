@@ -98,7 +98,6 @@ func load_game(path: String):
 				_dict[__id] = true
 			MapManager.maps_loaded = _dict
 		if data.maps.maps:
-			print(data.maps.maps)
 			var maps = data.maps.maps
 			for map_data in maps:
 				MapManager.add(Map.load_from_data(map_data))

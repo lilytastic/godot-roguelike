@@ -22,6 +22,7 @@ InventoryManager="*res://autoload/inventory_manager.gd"
 ECS="*res://autoload/ecs.gd"
 MapManager="*res://autoload/map_manager.gd"
 Scheduler="*res://autoload/scheduler.gd"
+AIManager="*res://autoload/ai_manager.gd"
 
 [display]
 

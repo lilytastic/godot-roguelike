@@ -24,7 +24,7 @@ func render() -> void:
 	var tiles = MapManager.map_view.get_used_cells().filter(
 		func(tile):
 			# TODO: filter for visible area
-			return Global.player and Global.player.can_see(tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
+			return Global.player and AIManager.can_see(Global.player, tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
 	)
 
 	for tile in tiles:

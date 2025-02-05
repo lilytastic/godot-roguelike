@@ -65,7 +65,6 @@ func _process(delta: float) -> void:
 func _on_action_performed(action: Action, result: ActionResult):
 	if !result.success:
 		return
-	pass
 
 
 func _load(id: String):
