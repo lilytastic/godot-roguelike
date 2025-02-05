@@ -20,4 +20,5 @@ func _on_double_click(stack):
 		return
 	if stack and stack.entity:
 		var action = UseAction.new(ECS.entity(stack.entity))
+		print(action)
 		PlayerInput.ui_action_triggered.emit(action)

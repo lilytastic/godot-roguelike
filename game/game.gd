@@ -26,15 +26,15 @@ func _process(delta):
 	PlayerInput._update_mouse_position()
 	
 	if PlayerInput.cursor and Global.player:
-		PlayerInput.cursor.path = Global.player.current_path
+		PlayerInput.cursor.path = Global.player.targeting.current_path
 		
-	if player.path_needs_updating():
+	if player.targeting.path_needs_updating():
 		var path_result = PlayerInput.try_path_to(
 			player.location.position,
-			player.target_position()
+			player.targeting.target_position()
 		)
 		if path_result.success:
-			Global.player.current_path = path_result.path
+			Global.player.targeting.current_path = path_result.path
 
 func _input(event: InputEvent) -> void:
 	if %SystemMenu:
@@ -46,13 +46,13 @@ func _update_camera(delta):
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
 		var _desired_camera_speed = 2.0
-		var _target = ECS.entity(player.current_target)
-		var _target_position = player.target_position(false)
-		if player.current_path.size() > 0:
+		var _target = ECS.entity(player.targeting.current_target)
+		var _target_position = player.targeting.target_position(false)
+		if player.targeting.current_path.size() > 0:
 			_desired_camera_speed = 3.0
 			_camera_position = _camera_position.lerp(
 				Coords.get_position(
-					player.current_path[floor(player.current_path.size() / 2)]
+					player.targeting.current_path[floor(player.targeting.current_path.size() / 2)]
 				),
 				0.5
 			)

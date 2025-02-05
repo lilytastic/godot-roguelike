@@ -6,23 +6,26 @@ var uuid: String:
 	set(value):
 		ECS.entities.erase(_uuid)
 		_uuid = value
+
 var _blueprint: String
 var blueprint: Blueprint:
 	get: return ECS.blueprints.get(_blueprint, null)
 	set(value): _blueprint = value.id
+
 var glyph: Glyph:
 	get: return blueprint.glyph if blueprint else null
-var location: Location
-var inventory: InventoryProps
-var equipment: EquipmentProps
-var health: Meter = null
-var energy := 0.00
+
+var location: Location = null
+var inventory: InventoryProps = null
+var equipment: EquipmentProps = null
+var targeting: Targeting = null
 var actor: Actor = null
+
+var health: Meter = null
+
+var energy := 0.00
 var is_acting = false
 
-var current_path := []
-var current_target := '' # uuid
-var current_target_position: Vector2i = Vector2i(-1, -1)
 var animation: AnimationSequence = null
 
 var screen_position: Vector2:
@@ -40,6 +43,7 @@ const uuid_util = preload('res://addons/uuid/uuid.gd')
 func _init(opts: Dictionary):
 	_blueprint = opts.blueprint
 	uuid = opts.uuid if opts.has('uuid') else uuid_util.v4()
+	targeting = Targeting.new()
 
 	if blueprint.baseHP:
 		health = Meter.new(20)
@@ -51,27 +55,6 @@ func _init(opts: Dictionary):
 					ECS.remove(uuid)
 		)
 
-	on_death.connect(
-		func():
-			# Drop a corpse, drop gear, trigger an event, etc.
-			pass
-	)
-	return
-	
-func damage(opts: Dictionary):
-	var damage = opts.get('damage', 1)
-	if health:
-		health.deduct(damage)
-		if damage > 0:
-			Global.add_floating_text(
-				str(damage),
-				screen_position,
-				{ 'color': Color.CRIMSON }
-			)
-		health_changed.emit(-damage)
-
-func blocks_entities() -> bool:
-	return is_instance_valid(blueprint.equipment)
 
 func save() -> Dictionary:
 	var dict := {}
@@ -79,7 +62,6 @@ func save() -> Dictionary:
 	dict.uuid = uuid
 	dict.blueprint = _blueprint
 	dict.energy = energy
-
 	if location:
 		dict.map = location.map
 		dict.position = location.position
@@ -105,7 +87,21 @@ func load_from_save(data: Dictionary) -> void:
 	
 	if data.has('inventory'): inventory = InventoryProps.new(data.inventory)
 	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
-	if data.has('health'): health.current = data.get('health', 1)
+	if data.has('health'): health.current = data.health
+
+
+func damage(opts: Dictionary):
+	var damage = opts.get('damage', 1)
+	if health:
+		health.deduct(damage)
+		if damage > 0:
+			Global.add_floating_text(
+				str(damage),
+				screen_position,
+				{ 'color': Color.CRIMSON }
+			)
+		health_changed.emit(-damage)
+
 
 func can_see(pos: Vector2) -> bool:
 	return true # Coords.get_range(pos, location.position) < 7
@@ -113,79 +109,36 @@ func can_see(pos: Vector2) -> bool:
 func can_act() -> bool:
 	return blueprint.equipment != null
 
+func blocks_entities() -> bool:
+	return is_instance_valid(blueprint.equipment)
+
 func is_hostile(other: Entity) -> bool:
 	if other.uuid == uuid:
 		return false
 	return blueprint.equipment != null
 
 
-func clear_path():
-	current_path = []
-	
-func clear_targeting():
-	current_target_position = Vector2i(-1, -1)
-	current_target = ''
-
-func set_target_position(pos: Vector2):
-	current_target_position = pos
-	current_target = ''
-
-func has_target() -> bool:
-	if current_target != '':
-		return true
-		
-	if current_target_position != Vector2i(-1, -1):
-		return true
-
-	return false
-
-func target_position(include_cursor := true):
-	var target = ECS.entity(current_target)
-	if target and target.location:
-		return target.location.position
-		
-	if current_target_position != Vector2i(-1, -1):
-		return current_target_position
-
-	if include_cursor and PlayerInput.entities_under_cursor.size() > 0 and PlayerInput.entities_under_cursor[0].location:
-		return PlayerInput.entities_under_cursor[0].location.position
-
-	return Vector2(-1, -1)
-
-	
-func perform_action(action: Action, allow_recursion := true):
-	is_acting = true
-	var result = await action.perform(self)
-	energy -= result.cost_energy
-	if !result.success and result.alternate:
-		if allow_recursion:
-			return await perform_action(result.alternate)
-	is_acting = false
-	action_performed.emit(action, result)
-	return result
-
-
 func trigger_action(target: Entity):
 	var act_range = 0
 	if target and target.blocks_entities():
 		act_range = 1
-	if current_path.size() and current_path[0] == location.position:
-		current_path = current_path.slice(1)
+	if targeting.current_path.size() and targeting.current_path[0] == location.position:
+		targeting.current_path = targeting.current_path.slice(1)
 
 	# TODO: Check actual distance in case the path is wrong
-	var distance = current_path.size()
+	var distance = targeting.current_path.size()
 	if distance > act_range:
 		var result = await perform_action(
 			MovementAction.new(
-				current_path[0] - location.position
+				targeting.current_path[0] - location.position
 			),
 			false
 		)
 		if result.success:
-			current_path = current_path.slice(1)
+			targeting.current_path = targeting.current_path.slice(1)
 		else:
-			clear_path()
-			clear_targeting()
+			targeting.clear_path()
+			targeting.clear_targeting()
 
 		return result
 	else:
@@ -200,8 +153,8 @@ func trigger_action(target: Entity):
 			var result = null
 			if default_action:
 				result = await perform_action(default_action)
-			clear_path()
-			clear_targeting()
+			targeting.clear_path()
+			targeting.clear_targeting()
 			if result:
 				return result
 
@@ -230,18 +183,13 @@ func get_default_action(target: Entity) -> Action:
 		
 	return null
 
-
-func path_needs_updating() -> bool:
-	var _reset_path = false
-	if has_target():
-		if current_path.size() == 0:
-			_reset_path = true
-		else:
-			var _target_position = target_position(false)
-			var _last_position = current_path[current_path.size() - 1]
-			for coord in current_path.slice(1, -1):
-				if MapManager.navigation_map.is_point_disabled(MapManager.map_view.get_astar_pos(coord.x, coord.y)):
-					_reset_path = true
-			if _target_position.x != _last_position.x or _target_position.y != _last_position.y:
-				_reset_path = true
-	return _reset_path
+func perform_action(action: Action, allow_recursion := true):
+	is_acting = true
+	var result = await action.perform(self)
+	energy -= result.cost_energy
+	if !result.success and result.alternate:
+		if allow_recursion:
+			return await perform_action(result.alternate)
+	is_acting = false
+	action_performed.emit(action, result)
+	return result

@@ -19,6 +19,11 @@ func _ready():
 					Scheduler.finish_turn()
 	)
 	
+	PlayerInput.ui_action_triggered.connect(
+		func(action):
+			action.perform(Global.player)
+	)
+	
 func _process(delta):
 	var player = Global.player
 
@@ -70,26 +75,26 @@ func _take_turn(entity: Entity) -> bool:
 	var player = Global.player
 	if player and entity.uuid == player.uuid:
 		# Player turn
-		var result = await entity.trigger_action(ECS.entity(entity.current_target))
+		var result = await entity.trigger_action(ECS.entity(entity.targeting.current_target))
 		if result:
 			return true
 		else:
-			var _target_position = player.target_position(false)
+			var _target_position = player.targeting.target_position(false)
 			if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-				player.clear_targeting()
+				player.targeting.clear_targeting()
 	else:
 		# AI turn
 		if player and Coords.get_range(entity.location.position, player.location.position) < 4:
-			entity.current_target = player.uuid
+			entity.targeting.current_target = player.uuid
 
-		if entity.has_target():
+		if entity.targeting.has_target():
 			var path_result = PlayerInput.try_path_to(
 				entity.location.position,
-				entity.target_position()
+				entity.targeting.target_position()
 			)
-			entity.current_path = path_result.path
+			entity.targeting.current_path = path_result.path
 
-		var result = await entity.trigger_action(ECS.entity(entity.current_target))
+		var result = await entity.trigger_action(ECS.entity(entity.targeting.current_target))
 		if !result:
 			result = await entity.perform_action(MovementAction.new(
 				PlayerInput._input_to_direction(
@@ -110,7 +115,7 @@ func _update_energy(delta):
 		var entity = MapManager.actors[actor]
 		if entity and entity.blueprint.speed:
 			var mod = delta
-			if Global.player.current_path.size() > 0:
+			if Global.player.targeting.current_path.size() > 0:
 				mod *= 0.2
 			entity.energy += (entity.blueprint.speed * 1.0) * mod
 			entity.energy = min(1, entity.energy)

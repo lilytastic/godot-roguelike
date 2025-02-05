@@ -20,7 +20,7 @@ func _ready() -> void:
 func _process(delta) -> void:
 	visible = !Global.ui_visible and Global.player and ECS.entities.has(Global.player.uuid)
 
-	if Global.player.current_path:
+	if Global.player.targeting.current_path:
 		# path = Global.player.current_path
 		%Path.start = 0
 		%Path.end = 0
@@ -32,12 +32,12 @@ func _process(delta) -> void:
 	
 	var current_modulate = %Tracker.modulate
 	
-	var target = ECS.entity(Global.player.current_target)
+	var target = ECS.entity(Global.player.targeting.current_target)
 	%Target.modulate = _get_color(target)
 	
 	if PlayerInput.entities_under_cursor.size() > 0:
 		%Tracker.modulate = _get_color(PlayerInput.entities_under_cursor[0])
-		if !target and !Global.player.has_target():
+		if !target and !Global.player.targeting.has_target():
 			target = PlayerInput.entities_under_cursor[0]
 			%Target.modulate = _get_color(target)
 	else:
@@ -50,11 +50,11 @@ func _process(delta) -> void:
 		delta * 80
 	)
 	
-	var target_coords = Global.player.target_position()
+	var target_coords = Global.player.targeting.target_position()
 	var target_position = Coords.get_position(target_coords) + Vector2(8, 8)
 	%Target.visible = target_coords.x != -1 and target_coords.y != -1
 	
-	if Global.player.has_target() and target_position != Vector2(tracker_position):
+	if Global.player.targeting.has_target() and target_position != Vector2(tracker_position):
 		%Target.texture.set_region(Rect2(28 * 16, 14 * 16, 16, 16))
 	else:
 		%Target.texture.set_region(Rect2(31 * 16, 14 * 16, 16, 16))
@@ -79,7 +79,7 @@ func _process(delta) -> void:
 		%Tracker.modulate = Color(%Tracker.modulate, 0.5)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and !Global.player.current_path:
+	if event is InputEventMouseMotion and !Global.player.targeting.current_path:
 		_mouse_moved = true
 
 
@@ -96,10 +96,10 @@ func _set_path():
 	%Path.draw(path, %Target.modulate)
 	
 func _check_path_visibility():
-	if !Global.player.has_target():
+	if !Global.player.targeting.has_target():
 		return false
 		
-	if Global.player.current_path:
+	if Global.player.targeting.current_path:
 		return true
 		
 	if Global.ui_visible: # or !PlayerInput.mouse_in_window 
