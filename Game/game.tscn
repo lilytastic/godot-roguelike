@@ -78,7 +78,9 @@ vertical_alignment = 1
 unique_name_in_owner = true
 zoom = Vector2(2, 2)
 
-[node name="Scene" parent="." instance=ExtResource("7_rclio")]
+[node name="Scene" type="Node2D" parent="."]
+
+[node name="Test" parent="Scene" instance=ExtResource("7_rclio")]
 
 [node name="Cursor" parent="." instance=ExtResource("7_2s5nd")]
 unique_name_in_owner = true
