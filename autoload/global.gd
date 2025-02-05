@@ -18,7 +18,7 @@ var is_game_started: bool:
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
-	ECS.load_data()
+	
 
 func new_game() -> Entity:
 	if has_game_started:
@@ -55,6 +55,7 @@ func quicksave():
 	save_game('user://quicksave.save')
 	return
 	
+	
 func get_save_slots() -> Array[Dictionary]:
 	var arr: Array[Dictionary] = [
 		{'path': 'user://%s.save' % 'quicksave', 'type': 'quicksave'},
@@ -64,6 +65,7 @@ func get_save_slots() -> Array[Dictionary]:
 		var num = str(n+1)
 		arr.append({'path': 'user://%s.save' % ('save' + num), 'type': 'manual'})
 	return arr
+	
 	
 func save_game(path: String):
 	var data = get_save_data()
@@ -120,9 +122,11 @@ func load_from_save(path: String):
 		json.parse(text)
 		return json.data
 	return null
+	
 
 func sleep(ms: float) -> void:
 	await get_tree().create_timer(ms / 1000).timeout
-	
+
+
 func add_floating_text(text: String, position: Vector2, opts := {}):
 	floating_text_added.emit(text, position, opts)

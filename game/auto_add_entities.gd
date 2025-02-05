@@ -6,10 +6,7 @@ func _ready():
 		return
 		
 		
-	var is_loaded = MapManager.maps_loaded.keys().any(
-		func(id):
-			return MapManager.map == id
-	)
+	var is_loaded = MapManager.maps_loaded.keys().has(MapManager.map)
 	if is_loaded:
 		for child in get_children():
 			child.queue_free()

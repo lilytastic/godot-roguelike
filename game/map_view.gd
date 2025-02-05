@@ -3,13 +3,15 @@ extends TileMapLayer
 
 var actor_prefab: PackedScene = preload('res://game/actor.tscn')
 
-var _fov_map := {}
-var last_position: Vector2
-
 signal actor_added
 
 func _ready():
+	if MapManager.map == '':
+		MapManager.map_changed.connect(func(map): _ready())
+		return
+		
 	MapManager.map_view = self
+	
 	print('init map ', MapManager.map)
 
 	visible = false
@@ -26,9 +28,19 @@ func _ready():
 			
 	MapManager.navigation_map.clear()
 	_init_navigation_map()
-	
-	get_viewport().connect("size_changed", _render_fov)
-	_render_fov()
+
+	"""
+	var is_loaded = MapManager.maps_loaded.keys().has(MapManager.map)
+	if is_loaded:
+		print('Map already loaded; not auto-initializing')
+		return;
+	"""
+
+func _process(delta):
+	for actor in %Entities.get_children():
+		if actor and actor.entity and actor.entity.location:
+			actor.visible = Global.player.can_see(actor.entity.location.position)
+
 
 func get_astar_pos(x, y) -> int:
 	var rect := get_used_rect()
@@ -66,16 +78,7 @@ func _init_navigation_map():
 							pos,
 							point
 						)
-
-func _process(delta):
-	if last_position != Global.player.location.position:
-		last_position = Global.player.location.position
-		_render_fov()
-
-	for actor in %Entities.get_children():
-		if actor and actor.entity and actor.entity.location:
-			actor.visible = Global.player.can_see(actor.entity.location.position)
-
+						
 func _init_actor(entity: Entity):
 	var new_actor: Actor = null
 	var child = %Entities.find_child('Entity<'+str(entity.uuid)+'>')
@@ -101,19 +104,3 @@ func _init_actor(entity: Entity):
 
 	actor_added.emit(new_actor)
 	return new_actor
-
-
-func _render_fov() -> void:
-	# print('render fov')
-
-	for child in %Tiles.get_children():
-		child.free()
-	
-	var tiles = get_used_cells().filter(
-		func(tile):
-			# TODO: filter for visible area
-			return Global.player and Global.player.can_see(tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
-	)
-
-	for tile in tiles:
-		%Tiles.add_child(MapTile.generate_tile(tile, self))

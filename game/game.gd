@@ -41,7 +41,6 @@ func _ready() -> void:
 	
 	# var map = Map.new(map_name)
 	# MapManager.switch_map(map)
-	%Map._render_fov()
 	
 
 func _process(delta):

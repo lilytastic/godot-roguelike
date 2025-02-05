@@ -8,6 +8,10 @@ signal entity_added
 signal entity_removed
 
 
+func _ready() -> void:
+	ECS.load_data()
+
+
 func entity(id: String) -> Entity:
 	if (entities.has(id)):
 		return entities[id]
