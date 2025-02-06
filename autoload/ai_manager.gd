@@ -95,24 +95,25 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 		used_path = true
 		next_in_path = entity.targeting.current_path[0]
 
-	if next_in_path or next_position:
-		if next_in_path and Coords.get_range(next_in_path, entity.location.position) < 2:
-			var result = await perform_action(
-				entity,
-				MovementAction.new(next_in_path - entity.location.position),
-				false
-			)
-			if result.success:
-				entity.targeting.current_path = entity.targeting.current_path.slice(1)
-				return true
+	if next_in_path and Coords.get_range(next_in_path, entity.location.position) < 2:
 		var result = await perform_action(
 			entity,
-			MovementAction.new(next_position - entity.location.position),
+			MovementAction.new(next_in_path - entity.location.position),
 			false
 		)
-		return result.success
+		if result.success:
+			entity.targeting.current_path = entity.targeting.current_path.slice(1)
+			return true
+	
+	if !next_position:
+		return false
 
-	return false
+	var result = await perform_action(
+		entity,
+		MovementAction.new(next_position - entity.location.position),
+		false
+	)
+	return result.success
 
 
 func can_see(entity: Entity, pos: Vector2) -> bool:

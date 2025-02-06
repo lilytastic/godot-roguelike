@@ -37,17 +37,6 @@ func _process(delta):
 			next_actor = next
 
 
-# Return the next entity in sequence
-func next():
-	var actors = MapManager.actors
-	var next = actors.values().filter(func(entity): entity.energy >= 0)
-	
-	if next.size():
-		return actors[next[0]]
-	else:
-		return null
-
-
 func finish_turn():
 	if next_actor:
 		next_actor.is_acting = false
