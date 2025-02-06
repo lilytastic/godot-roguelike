@@ -19,6 +19,13 @@ func perform(entity: Entity) -> ActionResult:
 		Global.STEP_LENGTH * 0.5
 	)
 
+	if target.blueprint.use:
+		print(target.blueprint.use)
+		match target.blueprint.use:
+			'teleport':
+				print(target.destination)
+		pass
+
 	if target.location and target.blueprint.item:
 		if InventoryManager.give(entity, target):
 			return ActionResult.new(true, { 'cost_energy': 3 })

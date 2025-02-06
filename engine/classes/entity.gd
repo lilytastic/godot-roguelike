@@ -20,6 +20,7 @@ var inventory: InventoryProps = null
 var equipment: EquipmentProps = null
 var targeting: Targeting = null
 var actor: Actor = null
+var destination: Dictionary = {}
 
 var health: Meter = null
 

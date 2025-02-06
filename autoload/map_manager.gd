@@ -31,6 +31,7 @@ func _process(delta) -> void:
 		if !ECS.entity(actor):
 			actors.erase(actor)
 
+
 func get_save_data() -> Dictionary:
 	var _maps := []
 	for _map in maps.values():

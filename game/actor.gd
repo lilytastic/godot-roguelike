@@ -25,13 +25,15 @@ func _init() -> void:
 		Coords.get_coord(position),
 		Vector2(8, 16)
 	)
-	if entity and entity.blocks_entities():
-		z_index = 1
-
 
 func _process(delta: float) -> void:
 	if !entity or is_dying:
 		return
+
+	if AIManager.blocks_entities(entity):
+		z_index = 1
+	if AIManager.can_act(entity):
+		z_index = 2
 
 	if !entity.location:
 		destroyed.emit()

@@ -9,6 +9,7 @@ var glyph: Glyph
 var item: ItemProps
 var equipment: EquipmentProps
 var weapon: WeaponProps
+var use: String
 var speed := 0
 var baseHP: String
 
@@ -18,6 +19,7 @@ func _init(props: Dictionary):
 	name = props.get('name', id)
 	parent = props.get('parent', '')
 	description = props.get('description', '')
+	use = props.get('use', {}).get('type', '')
 	var _hp = props.get('baseHP', 0)
 	baseHP = str(_hp) if !(_hp is String) else _hp
 	type = props.get('type', 'unknown')
@@ -41,6 +43,7 @@ func concat(parent: Blueprint):
 	equipment = equipment if equipment else parent.equipment
 	speed = speed if speed != 0 else parent.speed
 	weapon = weapon if weapon else parent.weapon
+	use = use if use else parent.use
 	
 	return
 
