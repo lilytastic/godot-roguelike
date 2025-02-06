@@ -66,6 +66,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if action:
 		targeting.clear()
 		action_triggered.emit(action)
+		if Scheduler.player_can_act:
+			await AIManager.perform_action(Global.player, action)
 
 
 func try_path_to(start: Vector2, destination: Vector2) -> Dictionary:

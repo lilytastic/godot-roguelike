@@ -11,18 +11,6 @@ var player_can_act: bool:
 		return next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
 
-func _ready():
-	PlayerInput.action_triggered.connect(
-		func(action):
-			if player_can_act:
-				var result = await AIManager.perform_action(Global.player, action)
-	)
-	
-	PlayerInput.ui_action_triggered.connect(
-		func(action):
-			action.perform(Global.player)
-	)
-
 func _process(delta):
 	var player = Global.player
 
