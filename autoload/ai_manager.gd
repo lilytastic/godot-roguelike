@@ -36,20 +36,17 @@ func take_turn(entity: Entity) -> bool:
 			entity.targeting.current_target = player.uuid
 
 	var target = ECS.entity(entity.targeting.current_target)
-	var has_moved = await try_close_distance(
-		entity,
-		target
-	)
-	if has_moved:
-		return true
-	else:
+	if target:
 		var default_action = get_default_action(entity, target)
-		if default_action:
+		if default_action and is_within_range(entity, target, default_action):
 			var result = await perform_action(entity, default_action)
 			entity.targeting.clear()
 			if result: return true
 
-	return false
+	return await try_close_distance(
+		entity,
+		entity.targeting.target_position()
+	)
 
 
 func can_see(entity: Entity, pos: Vector2) -> bool:
@@ -66,26 +63,29 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 		return false
 	return can_act(entity)
 
-# TODO: Untangle this shit and stop PlayerInput from calling it
-func try_close_distance(entity: Entity, target: Entity) -> bool:
+func is_within_range(entity: Entity, target: Entity, action: Action) -> bool:
 	var act_range = 0
 	if target and AIManager.blocks_entities(target):
 		act_range = 1
 
 	var distance = Coords.get_range(entity.location.position, entity.targeting.target_position())
 	if distance > act_range:
-		var next_position = Pathfinding.move_towards(entity, entity.targeting.target_position())
-		if next_position:
-			var result = await perform_action(
-				entity,
-				MovementAction.new(next_position - entity.location.position),
-				false
-			)
-			if result.success:
-				entity.targeting.current_path = entity.targeting.current_path.slice(1)
-				return true
-		entity.targeting.clear()
+		return false
 
+	return true
+
+func try_close_distance(entity: Entity, position: Vector2) -> bool:
+	var next_position = Pathfinding.move_towards(entity, position)
+	if next_position:
+		var result = await perform_action(
+			entity,
+			MovementAction.new(next_position - entity.location.position),
+			false
+		)
+		if result.success:
+			entity.targeting.current_path = entity.targeting.current_path.slice(1)
+			return true
+	entity.targeting.clear()
 	return false
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
