@@ -70,32 +70,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			await AIManager.perform_action(Global.player, action)
 
 
-func try_path_to(start: Vector2, destination: Vector2) -> Dictionary:
-	if !MapManager.map_view:
-		return { 'success': false, 'path': [] }
-	var rect = MapManager.map_view.get_used_rect()
-	if destination.x < 0 or destination.x > rect.end.x - 1:
-		return { 'success': false, 'path': [] }
-		
-	var navigation_map = MapManager.navigation_map
-	var map_view = MapManager.map_view
-	if navigation_map.has_point(map_view.get_astar_pos(start.x, start.y)) and navigation_map.has_point(map_view.get_astar_pos(destination.x, destination.y)):
-		var start_point = MapManager.map_view.get_astar_pos(start.x, start.y)
-		var destination_point = MapManager.map_view.get_astar_pos(destination.x, destination.y)
-
-		var was_disabled = navigation_map.is_point_disabled(start_point)
-		navigation_map.set_point_disabled(start_point, false)
-		navigation_map.set_point_disabled(destination_point, false)
-
-		var path = navigation_map.get_point_path(
-			start_point,
-			destination_point,
-			true
-		)
-		navigation_map.set_point_disabled(start_point, was_disabled)
-		return { 'success': true, 'path': path.slice(1) }
-	return { 'success': false, 'path': [] }
-
 func _notification(event):
 	match event:
 		NOTIFICATION_WM_MOUSE_EXIT:
@@ -161,7 +135,7 @@ func _on_double_click_tile(coord: Vector2i):
 		_act(Scheduler.next_actor)
 
 func _act(entity: Entity):
-	var path_result = try_path_to(
+	var path_result = Pathfinding.try_path_to(
 		entity.location.position,
 		entity.targeting.target_position()
 	)

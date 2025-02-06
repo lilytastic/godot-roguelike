@@ -29,7 +29,7 @@ func _process(delta):
 		PlayerInput.cursor.path = Global.player.targeting.current_path
 		
 	if player.targeting.path_needs_updating():
-		var path_result = PlayerInput.try_path_to(
+		var path_result = Pathfinding.try_path_to(
 			player.location.position,
 			player.targeting.target_position()
 		)

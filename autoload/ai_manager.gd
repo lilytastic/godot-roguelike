@@ -63,6 +63,7 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 		return false
 	return can_act(entity)
 
+# TODO: Move within Action class?
 func is_within_range(entity: Entity, target: Entity, action: Action) -> bool:
 	var act_range = 0
 	if target and AIManager.blocks_entities(target):
@@ -76,16 +77,21 @@ func is_within_range(entity: Entity, target: Entity, action: Action) -> bool:
 
 func try_close_distance(entity: Entity, position: Vector2) -> bool:
 	var next_position = Pathfinding.move_towards(entity, position)
+	
+	var used_path = false
+	if entity.targeting.current_path.size():
+		used_path = true
+		next_position = entity.targeting.current_path[0]
+
 	if next_position:
 		var result = await perform_action(
 			entity,
 			MovementAction.new(next_position - entity.location.position),
 			false
 		)
-		if result.success:
+		if result.success and used_path:
 			entity.targeting.current_path = entity.targeting.current_path.slice(1)
-			return true
-	entity.targeting.clear()
+		return result.success
 	return false
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
