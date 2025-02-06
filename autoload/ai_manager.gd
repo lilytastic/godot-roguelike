@@ -92,6 +92,7 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 		if result.success and used_path:
 			entity.targeting.current_path = entity.targeting.current_path.slice(1)
 		return result.success
+
 	return false
 
 func get_default_action(entity: Entity, target: Entity) -> Action:

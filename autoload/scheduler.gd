@@ -24,10 +24,6 @@ func _process(delta):
 	if !turn_in_progress:
 		var valid = actors.keys().filter(
 			func(uuid):
-				if !actors[uuid] or !actors[uuid].location or !MapManager.is_current_map(actors[uuid].location.map):
-					actors.erase(uuid)
-					return false
-
 				var actor = actors[uuid]
 				if !ECS.entity(uuid) or !AIManager.can_act(actor):
 					return false
@@ -35,7 +31,6 @@ func _process(delta):
 		)
 		
 		var next = actors[valid[0]] if valid.size() else null
-		
 		if next != null:
 			var next_uuid = next.uuid
 			turn_in_progress = true
