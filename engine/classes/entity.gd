@@ -56,6 +56,9 @@ func _init(opts: Dictionary):
 					ECS.remove(uuid)
 		)
 
+func change_location(_location: Location):
+	location = _location
+	map_changed.emit(location.map)
 
 func save() -> Dictionary:
 	var dict := {}
@@ -78,11 +81,10 @@ func load_from_save(data: Dictionary) -> void:
 	
 	if data.has('position'):
 		var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
-		location = Location.new(
+		change_location(Location.new(
 			data.map,
 			Vector2(int(_pos[0]), int(_pos[1]))
-		)
-		map_changed.emit(location.map)
+		))
 
 	energy = data.energy if data.has('energy') else 0
 	

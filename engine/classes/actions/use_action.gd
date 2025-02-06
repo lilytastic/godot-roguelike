@@ -24,6 +24,14 @@ func perform(entity: Entity) -> ActionResult:
 		match target.blueprint.use:
 			'teleport':
 				print(target.destination)
+				var _map_name = target.destination.map
+				print('teleported to: ', entity.location.map)
+				var _map = MapManager.switch_and_create_map(_map_name)
+				entity.location.map = _map.uuid
+				entity.location.position = target.destination.position
+				MapManager.init_actors()
+				return ActionResult.new(true, { 'cost_energy': 3 })
+				
 		pass
 
 	if target.location and target.blueprint.item:

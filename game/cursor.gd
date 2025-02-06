@@ -88,7 +88,7 @@ func _get_color(entity):
 	if entity:
 		if AIManager.is_hostile(entity, Global.player):
 			return Color.CRIMSON
-		if entity.blueprint.item:
+		if entity.blueprint.item or entity.blueprint.use:
 			return Color.GREEN
 	return Color.AQUA
 

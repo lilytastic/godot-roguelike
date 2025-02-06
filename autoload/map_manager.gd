@@ -53,6 +53,11 @@ func add(_map: Map) -> Map:
 		maps[_map.uuid] = _map
 	return _map
 
+func switch_and_create_map(_map_name: String, data := {}):
+	var _map = Map.new(_map_name, data)
+	switch_map(_map)
+	return _map
+	
 func switch_map(_map: Map, switch_to := true):
 	add(_map)
 
@@ -63,6 +68,9 @@ func switch_map(_map: Map, switch_to := true):
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 	map_changed.emit(map)
 
+	init_actors()
+
+func init_actors():
 	actors = {}
 	# print('[ecs] entities: ', ECS.entities.keys())
 	
@@ -74,6 +82,7 @@ func switch_map(_map: Map, switch_to := true):
 	
 	for entity in entities:
 		actors[entity.uuid] = entity
+	print(actors)
 
 func update_tiles():
 	for tile in navigation_map.get_point_ids():

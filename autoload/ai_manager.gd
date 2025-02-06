@@ -80,7 +80,7 @@ func get_default_action(entity: Entity, target: Entity) -> Action:
 			'slash'
 		)
 	# TODO: Otherwise, if it's usable, use it!
-	if target and target.blueprint.item:
+	if target and (target.blueprint.item or target.blueprint.use):
 		return UseAction.new(target)
 		
 	return null
