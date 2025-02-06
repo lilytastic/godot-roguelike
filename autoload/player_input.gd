@@ -167,7 +167,11 @@ func _act(entity: Entity):
 		entity.targeting.current_path = path_result.path
 
 	var target = ECS.entity(entity.targeting.current_target)
-	var result = await AIManager.trigger_action(Scheduler.next_actor, target)
+	var has_moved = await AIManager.try_close_distance(Scheduler.next_actor, target)
+	if !has_moved and target:
+		var default_action = AIManager.get_default_action(entity, target)
+		if default_action:
+			await AIManager.perform_action(entity, default_action)
 
 func _on_ui_action(action):
 	action.perform(Global.player)

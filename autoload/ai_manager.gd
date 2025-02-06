@@ -35,12 +35,20 @@ func take_turn(entity: Entity) -> bool:
 		if Coords.get_range(entity.location.position, player.location.position) < 4:
 			entity.targeting.current_target = player.uuid
 
-	var result = await trigger_action(
+	var target = ECS.entity(entity.targeting.current_target)
+	var has_moved = await try_close_distance(
 		entity,
-		ECS.entity(entity.targeting.current_target)
+		target
 	)
+	if has_moved:
+		return true
+	else:
+		var default_action = get_default_action(entity, target)
+		if default_action:
+			var result = await perform_action(entity, default_action)
+			entity.targeting.clear()
+			if result: return true
 
-	if result: return true
 	return false
 
 
@@ -59,49 +67,30 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 	return can_act(entity)
 
 # TODO: Untangle this shit and stop PlayerInput from calling it
-func trigger_action(entity: Entity, target: Entity) -> ActionResult:
-	var target_position = entity.targeting.target_position()
-
+func try_close_distance(entity: Entity, target: Entity) -> bool:
 	var act_range = 0
-	if !entity.targeting.has_target():
-		return
-
 	if target and AIManager.blocks_entities(target):
 		act_range = 1
 
-	var distance = Coords.get_range(entity.location.position, target_position)
+	var distance = Coords.get_range(entity.location.position, entity.targeting.target_position())
 	if distance > act_range:
 		var next_position = Pathfinding.move_towards(entity, entity.targeting.target_position())
-		var result = await perform_action(
-			entity,
-			MovementAction.new(next_position - entity.location.position),
-			false
-		)
-		if result.success:
-			entity.targeting.current_path = entity.targeting.current_path.slice(1)
-		else:
-			entity.targeting.clear()
+		if next_position:
+			var result = await perform_action(
+				entity,
+				MovementAction.new(next_position - entity.location.position),
+				false
+			)
+			if result.success:
+				entity.targeting.current_path = entity.targeting.current_path.slice(1)
+				return true
+		entity.targeting.clear()
 
-		return result
-	else:
-		if target:
-			var default_action = get_default_action(entity, target)
-			if !default_action:
-				default_action = MovementAction.new(
-					PlayerInput._input_to_direction(
-						InputTag.MOVE_ACTIONS.pick_random()
-					)
-				)
-			var result = await perform_action(entity, default_action)
-			entity.targeting.clear()
-			if result:
-				return result
-
-	return null
+	return false
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
 	# TODO: If it's hostile, use this entity's first weaponskill on it.
-	if target.blueprint.equipment:
+	if target and target.blueprint.equipment:
 		if entity.equipment:
 			for uuid in entity.equipment.slots.values():
 				var worn_item = ECS.entity(uuid)
@@ -117,7 +106,7 @@ func get_default_action(entity: Entity, target: Entity) -> Action:
 			'slash'
 		)
 	# TODO: Otherwise, if it's usable, use it!
-	if target.blueprint.item:
+	if target and target.blueprint.item:
 		return UseAction.new(target)
 		
 	return null

@@ -63,8 +63,9 @@ func _process(delta) -> void:
 		pass
 
 	%Target.position = target_position
+
 	# Handles the flashing
-	# NOTE: Put thiis below the _set_path() call to stop path from flashing.
+	# NOTE: If desired, put this below the _set_path() call to stop the path from flashing.
 	if target:
 		var sin = sin(Time.get_ticks_msec() / 70.0) * 0.25 + 0.25
 		%Tracker.modulate = %Tracker.modulate.lerp(Color.WHITE, sin)
