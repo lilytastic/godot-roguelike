@@ -32,14 +32,12 @@ func _process(delta) -> void:
 	
 	var current_modulate = %Tracker.modulate
 	
-	var target = ECS.entity(Global.player.targeting.current_target)
+	var _current_target = Global.player.targeting.current_target if Global.player.targeting.current_target else PlayerInput.targeting.current_target
+	var target = ECS.entity(_current_target)
 	%Target.modulate = _get_color(target)
 	
 	if PlayerInput.entities_under_cursor.size() > 0:
 		%Tracker.modulate = _get_color(PlayerInput.entities_under_cursor[0])
-		if !target and !Global.player.targeting.has_target():
-			target = PlayerInput.entities_under_cursor[0]
-			%Target.modulate = _get_color(target)
 	else:
 		%Tracker.modulate = _get_color(null)
 		
@@ -51,10 +49,12 @@ func _process(delta) -> void:
 	)
 	
 	var target_coords = Global.player.targeting.target_position()
+	if target_coords.x == -1 and target_coords.y == -1:
+		target_coords = PlayerInput.targeting.target_position()
 	var target_position = Coords.get_position(target_coords) + Vector2(8, 8)
 	%Target.visible = target_coords.x != -1 and target_coords.y != -1
 	
-	if Global.player.targeting.has_target() and target_position != Vector2(tracker_position):
+	if target_position != Vector2(tracker_position):
 		%Target.texture.set_region(Rect2(28 * 16, 14 * 16, 16, 16))
 	else:
 		%Target.texture.set_region(Rect2(31 * 16, 14 * 16, 16, 16))

@@ -6,6 +6,9 @@ var current_path := []
 var current_target := '' # uuid
 var current_target_position: Vector2i = Vector2i(-1, -1)
 
+func clear():
+	clear_path()
+	clear_targeting()
 
 func clear_path():
 	current_path = []
@@ -16,7 +19,7 @@ func path_needs_updating() -> bool:
 		if current_path.size() == 0:
 			_reset_path = true
 		else:
-			var _target_position = target_position(false)
+			var _target_position = target_position()
 			var _last_position = current_path[current_path.size() - 1]
 			for coord in current_path.slice(1, -1):
 				if MapManager.navigation_map.is_point_disabled(MapManager.map_view.get_astar_pos(coord.x, coord.y)):
@@ -43,15 +46,12 @@ func has_target() -> bool:
 
 	return false
 
-func target_position(include_cursor := true):
+func target_position():
 	var target = ECS.entity(current_target)
 	if target and target.location:
 		return target.location.position
 		
 	if current_target_position != Vector2i(-1, -1):
 		return current_target_position
-
-	if include_cursor and PlayerInput.entities_under_cursor.size() > 0 and PlayerInput.entities_under_cursor[0].location:
-		return PlayerInput.entities_under_cursor[0].location.position
 
 	return Vector2(-1, -1)

@@ -12,11 +12,18 @@ var cursor: Node2D = null
 var mouse_position_in_world := Vector2i(0,0)
 
 var mouse_in_window = true
+var targeting = Targeting.new()
 
 signal action_triggered
 signal ui_action_triggered
 signal double_click
 
+func _process(delta) -> void:
+	_update_cursor()
+	if Global.player:
+		var _target_position = targeting.target_position()
+		if Global.player.location.position.x == _target_position.x and Global.player.location.position.y == _target_position.y:
+			targeting.clear_targeting()
 
 func _input(event: InputEvent) -> void:
 	if Global.ui_visible:
@@ -26,29 +33,30 @@ func _input(event: InputEvent) -> void:
 		_update_mouse_position()
 		
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
-	if player_is_valid:
-		update_cursor(MapManager.actors)
+	if !player_is_valid:
+		return
 
 	var coord = Vector2(Coords.get_coord(mouse_position_in_world))
 	if event is InputEventMouseButton:
 		var valid = player_is_valid and AIManager.can_see(Global.player, coord)
 		if valid:
 			if event.button_index != 1:
-				Global.player.targeting.clear_path()
-				Global.player.targeting.clear_targeting()
+				targeting.clear()
+				Global.player.targeting.clear()
 				return
-			if !event.double_click and event.pressed:
-				if PlayerInput.entities_under_cursor.size() > 0 and PlayerInput.entities_under_cursor[0].uuid != Global.player.uuid:
-					Global.player.targeting.current_target = PlayerInput.entities_under_cursor[0].uuid
-				else:
-					Global.player.targeting.set_target_position(Coords.get_coord(PlayerInput.mouse_position_in_world))
+		var _targeting = targeting
 		if event.double_click:
-			_on_double_click_tile(coord)
+			_targeting = Global.player.targeting
+		
+		if event.is_pressed():
+			_targeting.set_target_position(Coords.get_coord(mouse_position_in_world))
+			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
+				_targeting.current_target = entities_under_cursor[0].uuid
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed() and Global.player:
-		Global.player.targeting.clear_path()
-		Global.player.targeting.clear_targeting()
+		targeting.clear()
+		Global.player.targeting.clear()
 		
 	if event.is_action_pressed('quicksave'):
 		Global.quicksave()
@@ -56,6 +64,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	var action := _check_for_action(event)
 	if action:
+		targeting.clear()
 		action_triggered.emit(action)
 
 
@@ -82,7 +91,7 @@ func try_path_to(start: Vector2, destination: Vector2) -> Dictionary:
 			true
 		)
 		navigation_map.set_point_disabled(start_point, was_disabled)
-		return { 'success': true, 'path': path }
+		return { 'success': true, 'path': path.slice(1) }
 	return { 'success': false, 'path': [] }
 
 func _notification(event):
@@ -139,9 +148,9 @@ func _input_to_direction(direction: StringName):
 
 	return coord
 
-func update_cursor(actors: Dictionary) -> void:
+func _update_cursor() -> void:
 	var coord = Vector2(Coords.get_coord(mouse_position_in_world))
-	entities_under_cursor = actors.values().filter(
+	entities_under_cursor = MapManager.actors.values().filter(
 		func(entity): return entity.location and entity.location.position == coord
 	)
 

@@ -12,7 +12,7 @@ func _process(delta):
 		var result = await take_turn(next_actor)
 		if !result:
 			if next_actor.uuid == player.uuid:
-				var _target_position = player.targeting.target_position(false)
+				var _target_position = player.targeting.target_position()
 				if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
 					player.targeting.clear_targeting()
 			else:
@@ -60,7 +60,7 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 
 # TODO: Untangle this shit and stop PlayerInput from calling it
 func trigger_action(entity: Entity, target: Entity) -> ActionResult:
-	var target_position = entity.targeting.target_position(false)
+	var target_position = entity.targeting.target_position()
 
 	var act_range = 0
 	if !entity.targeting.has_target():
@@ -71,32 +71,16 @@ func trigger_action(entity: Entity, target: Entity) -> ActionResult:
 
 	var distance = Coords.get_range(entity.location.position, target_position)
 	if distance > act_range:
-		if !entity.targeting.current_path.size():
-			var path_result = PlayerInput.try_path_to(
-				entity.location.position,
-				target_position
-			)
-			if path_result.success:
-				entity.targeting.current_path = path_result.path
-
-		if entity.targeting.current_path.size() and entity.targeting.current_path[0] == entity.location.position:
-			entity.targeting.current_path = entity.targeting.current_path.slice(1)
-
-		if !entity.targeting.current_path.size():
-			return null
-			
+		var next_position = Pathfinding.move_towards(entity, entity.targeting.target_position())
 		var result = await perform_action(
 			entity,
-			MovementAction.new(
-				entity.targeting.current_path[0] - entity.location.position
-			),
+			MovementAction.new(next_position - entity.location.position),
 			false
 		)
 		if result.success:
 			entity.targeting.current_path = entity.targeting.current_path.slice(1)
 		else:
-			entity.targeting.clear_path()
-			entity.targeting.clear_targeting()
+			entity.targeting.clear()
 
 		return result
 	else:
@@ -108,11 +92,8 @@ func trigger_action(entity: Entity, target: Entity) -> ActionResult:
 						InputTag.MOVE_ACTIONS.pick_random()
 					)
 				)
-			var result = null
-			if default_action:
-				result = await perform_action(entity, default_action)
-			entity.targeting.clear_path()
-			entity.targeting.clear_targeting()
+			var result = await perform_action(entity, default_action)
+			entity.targeting.clear()
 			if result:
 				return result
 

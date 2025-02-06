@@ -27,8 +27,6 @@ func _ready() -> void:
 	pass
 
 func _process(delta) -> void:
-	PlayerInput.update_cursor(actors)
-	
 	for actor in actors:
 		if !ECS.entity(actor):
 			actors.erase(actor)

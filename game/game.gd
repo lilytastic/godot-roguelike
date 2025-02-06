@@ -47,7 +47,7 @@ func _update_camera(delta):
 		var _camera_position = Coords.get_position(player.location.position)
 		var _desired_camera_speed = 2.0
 		var _target = ECS.entity(player.targeting.current_target)
-		var _target_position = player.targeting.target_position(false)
+		var _target_position = player.targeting.target_position()
 		if player.targeting.current_path.size() > 0:
 			_desired_camera_speed = 3.0
 			_camera_position = _camera_position.lerp(
