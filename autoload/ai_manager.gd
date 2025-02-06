@@ -25,6 +25,19 @@ func _process(delta):
 					),
 				false)
 
+
+func perform_action(entity: Entity, action: Action, allow_recursion := true) -> ActionResult:
+	entity.is_acting = true
+	var result = await action.perform(entity)
+	entity.energy -= result.cost_energy
+	if !result.success and result.alternate:
+		if allow_recursion:
+			return await perform_action(entity, result.alternate)
+	entity.is_acting = false
+	Scheduler.finish_turn()
+	entity.action_performed.emit(action, result)
+	return result
+
 func take_turn(entity: Entity) -> bool:
 	var player = Global.player
 	
@@ -47,6 +60,59 @@ func take_turn(entity: Entity) -> bool:
 		entity,
 		entity.targeting.target_position()
 	)
+
+
+func get_default_action(entity: Entity, target: Entity) -> Action:
+	# TODO: If it's hostile, use this entity's first weaponskill on it.
+	if target and target.blueprint.equipment:
+		if entity.equipment:
+			for uuid in entity.equipment.slots.values():
+				var worn_item = ECS.entity(uuid)
+				if worn_item.blueprint.weapon:
+					var ability = worn_item.blueprint.weapon.weaponskills[0]
+					return UseAbilityAction.new(
+						target,
+						ability,
+						{ 'conduit': worn_item } if worn_item else {}
+					)
+		return UseAbilityAction.new(
+			target,
+			'slash'
+		)
+	# TODO: Otherwise, if it's usable, use it!
+	if target and target.blueprint.item:
+		return UseAction.new(target)
+		
+	return null
+
+
+func try_close_distance(entity: Entity, position: Vector2) -> bool:
+	var next_position = Pathfinding.move_towards(entity, position)
+	var next_in_path = null
+
+	var used_path = false
+	if entity.targeting.current_path.size():
+		used_path = true
+		next_in_path = entity.targeting.current_path[0]
+
+	if next_in_path or next_position:
+		if next_in_path and Coords.get_range(next_in_path, entity.location.position) < 2:
+			var result = await perform_action(
+				entity,
+				MovementAction.new(next_in_path - entity.location.position),
+				false
+			)
+			if result.success:
+				entity.targeting.current_path = entity.targeting.current_path.slice(1)
+				return true
+		var result = await perform_action(
+			entity,
+			MovementAction.new(next_position - entity.location.position),
+			false
+		)
+		return result.success
+
+	return false
 
 
 func can_see(entity: Entity, pos: Vector2) -> bool:
@@ -74,58 +140,3 @@ func is_within_range(entity: Entity, target: Entity, action: Action) -> bool:
 		return false
 
 	return true
-
-func try_close_distance(entity: Entity, position: Vector2) -> bool:
-	var next_position = Pathfinding.move_towards(entity, position)
-	
-	var used_path = false
-	if entity.targeting.current_path.size():
-		used_path = true
-		next_position = entity.targeting.current_path[0]
-
-	if next_position:
-		var result = await perform_action(
-			entity,
-			MovementAction.new(next_position - entity.location.position),
-			false
-		)
-		if result.success and used_path:
-			entity.targeting.current_path = entity.targeting.current_path.slice(1)
-		return result.success
-
-	return false
-
-func get_default_action(entity: Entity, target: Entity) -> Action:
-	# TODO: If it's hostile, use this entity's first weaponskill on it.
-	if target and target.blueprint.equipment:
-		if entity.equipment:
-			for uuid in entity.equipment.slots.values():
-				var worn_item = ECS.entity(uuid)
-				if worn_item.blueprint.weapon:
-					var ability = worn_item.blueprint.weapon.weaponskills[0]
-					return UseAbilityAction.new(
-						target,
-						ability,
-						{ 'conduit': worn_item } if worn_item else {}
-					)
-		return UseAbilityAction.new(
-			target,
-			'slash'
-		)
-	# TODO: Otherwise, if it's usable, use it!
-	if target and target.blueprint.item:
-		return UseAction.new(target)
-		
-	return null
-
-func perform_action(entity: Entity, action: Action, allow_recursion := true) -> ActionResult:
-	entity.is_acting = true
-	var result = await action.perform(entity)
-	entity.energy -= result.cost_energy
-	if !result.success and result.alternate:
-		if allow_recursion:
-			return await perform_action(entity, result.alternate)
-	entity.is_acting = false
-	Scheduler.finish_turn()
-	entity.action_performed.emit(action, result)
-	return result

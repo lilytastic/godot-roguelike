@@ -134,7 +134,7 @@ func _on_double_click_tile(coord: Vector2i):
 	if Scheduler.player_can_act:
 		_act(Scheduler.next_actor)
 
-func _act(entity: Entity):
+func _act(entity: Entity) -> void:
 	var path_result = Pathfinding.try_path_to(
 		entity.location.position,
 		entity.targeting.target_position()
@@ -146,7 +146,8 @@ func _act(entity: Entity):
 	if target:
 		var default_action = AIManager.get_default_action(entity, target)
 		if AIManager.is_within_range(entity, target, default_action):
-			return await AIManager.perform_action(entity, default_action)
+			await AIManager.perform_action(entity, default_action)
+			return
 
 	await AIManager.try_close_distance(Scheduler.next_actor, entity.targeting.target_position())
 

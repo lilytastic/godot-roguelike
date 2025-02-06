@@ -7,7 +7,7 @@ var camera_speed := 2.0
 
 @export var map_name = ''
 
-	
+
 func _ready() -> void:
 	if !Global.player:
 		Global.new_game()
