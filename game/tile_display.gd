@@ -19,7 +19,7 @@ func _process(delta):
 func render() -> void:
 	for child in get_children():
 		child.free()
-		
+
 	for tile in MapManager.get_tiles():
 		add_child(generate_tile(tile))
 

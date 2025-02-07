@@ -13,15 +13,22 @@ func _ready():
 	)
 
 	MapManager.actors_changed.connect(
-		func(uuid: String):
-			var entity = ECS.entity(uuid)
-			if MapManager.map and entity.location and entity.location.map == MapManager.map:
-				_init_actor(entity)
+		func():
+			_check_entities()
 	)
 	
+	_check_entities()
+	
+
+func _check_entities():
+	for actor in %Entities.get_children():
+		actor.queue_free()
+		continue
+
 	for entity in ECS.entities.values():
 		if MapManager.map and entity.location and entity.location.map == MapManager.map:
 			_init_actor(entity)
+
 
 func _process(delta):
 	for actor in %Entities.get_children():
@@ -31,7 +38,7 @@ func _process(delta):
 
 		if actor.entity.location:
 			actor.visible = AIManager.can_see(Global.player, actor.entity.location.position)
-	
+
 func _init_actor(entity: Entity):
 	var new_actor: Actor = null
 	var child = %Entities.find_child('Entity<'+str(entity.uuid)+'>')
