@@ -16,6 +16,8 @@ var map_view: MapView = null
 var navigation_map = AStar2D.new()
 
 signal map_changed
+signal entity_moved
+signal actors_changed
 
 
 func _ready() -> void:
@@ -23,6 +25,14 @@ func _ready() -> void:
 		func(entity: Entity):
 			if map and entity.location and entity.location.map == map:
 				actors[entity.uuid] = entity
+				actors_changed.emit()
+	)
+	entity_moved.connect(
+		func(uuid: String):
+			var entity = ECS.entity(uuid)
+			if map and entity.location and entity.location.map == map:
+				actors[uuid] = entity
+				actors_changed.emit()
 	)
 	pass
 
@@ -82,7 +92,7 @@ func init_actors():
 	
 	for entity in entities:
 		actors[entity.uuid] = entity
-	print(actors)
+	actors_changed.emit()
 
 func update_tiles():
 	for tile in navigation_map.get_point_ids():

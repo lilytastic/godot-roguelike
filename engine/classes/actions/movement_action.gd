@@ -12,19 +12,17 @@ func _init(_vector, _can_alternate = true):
 func perform(entity: Entity) -> ActionResult:
 	var new_position = entity.location.position + vector
 
-	if !MapManager.map_view:
-		return ActionResult.new(false)
-
-	var rect = MapManager.map_view.get_used_rect()
-	if new_position.x < 0 or new_position.x >= rect.end.x or new_position.y < 0 or new_position.y >= rect.end.y:
-		return ActionResult.new(false)
-	
-	var cell_data = MapManager.map_view.get_cell_tile_data(new_position)
-	if cell_data:
-		var is_solid = cell_data.get_collision_polygons_count(0) > 0
-		if is_solid:
+	if MapManager.map_view:
+		var rect = MapManager.map_view.get_used_rect()
+		if new_position.x < 0 or new_position.x >= rect.end.x or new_position.y < 0 or new_position.y >= rect.end.y:
 			return ActionResult.new(false)
 	
+		var cell_data = MapManager.map_view.get_cell_tile_data(new_position)
+		if cell_data:
+			var is_solid = cell_data.get_collision_polygons_count(0) > 0
+			if is_solid:
+				return ActionResult.new(false)
+		
 	var collisions = ECS.entities.values().filter(
 		func(_entity):
 			return AIManager.blocks_entities(_entity) and _entity.location and _entity.location.map == entity.location.map

@@ -59,6 +59,7 @@ func _init(opts: Dictionary):
 func change_location(_location: Location):
 	location = _location
 	map_changed.emit(location.map)
+	MapManager.entity_moved.emit(uuid)
 
 func save() -> Dictionary:
 	var dict := {}
