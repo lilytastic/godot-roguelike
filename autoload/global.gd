@@ -25,10 +25,11 @@ func new_game() -> Entity:
 		clear_game()
 	MapManager.maps_loaded.clear()
 	MapManager.maps.clear()
-	var options = { 'blueprint': 'hero' }
-	player = Entity.new(options)
-	var starting_map = MapManager.add(Map.new('Test'))
+
+	var starting_map = Map.new('Test')
 	MapManager.switch_map(starting_map)
+
+	player = Entity.new({ 'blueprint': 'hero' })
 	player.location = Location.new(starting_map.uuid, Vector2(0,0))
 	player.inventory = InventoryProps.new()
 	player.inventory.add({

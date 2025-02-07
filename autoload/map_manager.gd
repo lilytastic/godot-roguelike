@@ -40,6 +40,7 @@ func _process(delta) -> void:
 	for actor in actors:
 		if !ECS.entity(actor):
 			actors.erase(actor)
+	update_navigation()
 
 
 func get_save_data() -> Dictionary:
@@ -82,6 +83,9 @@ func switch_map(_map: Map, switch_to := true):
 	
 func get_tiles():
 	var arr := []
+
+	# So fuck all this below I guess
+
 	if !map_view:
 		return arr
 
@@ -114,7 +118,7 @@ func init_actors():
 		actors[entity.uuid] = entity
 	actors_changed.emit()
 
-func update_tiles():
+func update_navigation():
 	for tile in navigation_map.get_point_ids():
 		if navigation_map.has_point(tile):
 			navigation_map.set_point_disabled(

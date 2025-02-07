@@ -19,8 +19,6 @@ func _ready() -> void:
 		)
 
 func _process(delta):
-	MapManager.update_tiles()
-
 	_update_camera(delta)
 
 	PlayerInput._update_mouse_position()
