@@ -29,13 +29,6 @@ func _ready():
 	MapManager.navigation_map.clear()
 	_init_navigation_map()
 
-	"""
-	var is_loaded = MapManager.maps_loaded.keys().has(MapManager.map)
-	if is_loaded:
-		print('Map already loaded; not auto-initializing')
-		return;
-	"""
-
 func _process(delta):
 	for actor in %Entities.get_children():
 		if actor and actor.entity and actor.entity.location:

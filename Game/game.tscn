@@ -61,12 +61,12 @@ script = ExtResource("7_mvjgg")
 
 [node name="Test" parent="Scene" instance=ExtResource("7_rclio")]
 
+[node name="TileDisplay" type="Node2D" parent="Scene"]
+unique_name_in_owner = true
+script = ExtResource("9_ytsw5")
+
 [node name="Entities" type="Node2D" parent="Scene"]
 unique_name_in_owner = true
 
 [node name="Cursor" parent="." instance=ExtResource("7_2s5nd")]
 unique_name_in_owner = true
-
-[node name="TileDisplay" type="Node2D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("9_ytsw5")

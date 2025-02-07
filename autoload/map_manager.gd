@@ -79,6 +79,26 @@ func switch_map(_map: Map, switch_to := true):
 	map_changed.emit(map)
 
 	init_actors()
+	
+func get_tiles():
+	var arr := []
+	if !map_view:
+		return arr
+
+	var tiles = map_view.get_used_cells().filter(
+		func(tile):
+			# TODO: filter for visible area
+			return Global.player and AIManager.can_see(Global.player, tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
+	)
+
+	for tile in tiles:
+		arr.append({
+			'position': tile,
+			'atlas_coords': map_view.get_cell_atlas_coords(tile),
+			'color': map_view.get_cell_tile_data(tile).modulate
+		})
+		
+	return arr
 
 func init_actors():
 	actors = {}

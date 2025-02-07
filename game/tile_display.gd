@@ -1,5 +1,7 @@
 extends Node2D
 
+static var fast_noise_lite = FastNoiseLite.new();
+
 var _fov_map := {}
 var last_position: Vector2
 
@@ -17,15 +19,23 @@ func _process(delta):
 func render() -> void:
 	for child in get_children():
 		child.free()
-	
-	if !MapManager.map_view:
-		return
+		
+	for tile in MapManager.get_tiles():
+		add_child(generate_tile(tile))
 
-	var tiles = MapManager.map_view.get_used_cells().filter(
-		func(tile):
-			# TODO: filter for visible area
-			return Global.player and AIManager.can_see(Global.player, tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
-	)
 
-	for tile in tiles:
-		add_child(MapTile.generate_tile(tile, MapManager.map_view))
+func generate_tile(tile: Dictionary) -> Sprite2D:
+	var spr = Sprite2D.new()
+	var position = tile.get('position', Vector2(0,0))
+	spr.position = Coords.get_position(position) + Vector2(8, 8)
+	var atlas = AtlasTexture.new()
+	atlas.set_atlas(Glyph.tileset)
+	var coords = tile.get('atlas_coords', Vector2(0, 0))
+	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
+	spr.texture = atlas
+	spr.z_index = -1
+	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
+	var col = Color(_noise, _noise, _noise) / 8
+	spr.modulate = tile.get('color', Color.WHITE) + col
+	spr.name = str(tile)
+	return spr
