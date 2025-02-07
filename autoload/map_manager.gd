@@ -112,3 +112,28 @@ func update_tiles():
 				MapManager.map_view.get_astar_pos(pos.x, pos.y),
 				true
 			)
+			
+func get_collisions(position: Vector2):
+	return actors.values().filter(
+		func(_entity):
+			return AIManager.blocks_entities(_entity)
+	).filter(
+		func(_entity):
+			return _entity.location.position.x == position.x and _entity.location.position.y == position.y
+	)
+
+func can_walk(position: Vector2):
+	if !map_view:
+		return true
+
+	var rect = map_view.get_used_rect()
+	if position.x < 0 or position.x >= rect.end.x or position.y < 0 or position.y >= rect.end.y:
+		return false
+
+	var cell_data = map_view.get_cell_tile_data(position)
+	if cell_data:
+		var is_solid = cell_data.get_collision_polygons_count(0) > 0
+		if is_solid:
+			return false
+
+	return true

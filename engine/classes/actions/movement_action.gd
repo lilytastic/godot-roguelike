@@ -12,7 +12,18 @@ func _init(_vector, _can_alternate = true):
 func perform(entity: Entity) -> ActionResult:
 	var new_position = entity.location.position + vector
 
-	if MapManager.map_view:
+	if !MapManager.can_walk(new_position):
+		var collisions = MapManager.get_collisions(new_position)
+		if can_alternate and collisions.size():
+			var action = AIManager.get_default_action(entity, collisions[0])
+			if action:
+				return ActionResult.new(
+					false,
+					{'alternate': action}
+				)
+		return ActionResult.new(false)
+	
+		
 		var rect = MapManager.map_view.get_used_rect()
 		if new_position.x < 0 or new_position.x >= rect.end.x or new_position.y < 0 or new_position.y >= rect.end.y:
 			return ActionResult.new(false)

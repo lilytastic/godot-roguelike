@@ -88,8 +88,6 @@ func _load(id: String):
 			%Sprite2D.set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
 
-	if entity.action_performed.get_connections().size() > 0:
-		entity.action_performed.disconnect(_on_action_performed)
 	entity.action_performed.connect(_on_action_performed)
 
 	if entity.health:
