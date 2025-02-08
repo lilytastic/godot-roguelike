@@ -199,13 +199,18 @@ func get_astar_pos(x, y) -> int:
 	var width = size.x
 	return x + width * y
 
-func can_walk(position: Vector2):
+func can_walk(position: Vector2i):
 	var size = current_map.size
 	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
 		return false
 
-	var cell_data = current_map.tiles
+	var cell_data = current_map.tiles.keys().filter(
+		func(key):
+			return current_map.tiles[key].any(func(pos): return pos == position)
+	)
 	# TODO: Check if solid
+	if cell_data.find('tree') != -1:
+		return false
 
 	return true
 
