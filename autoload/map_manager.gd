@@ -110,10 +110,12 @@ var tiles = {
 		'atlas_coords': Vector2(0, 0)
 	},
 	'tree': {
-		'atlas_coords': Vector2(4, 2)
+		'atlas_coords': Vector2(4, 2),
+		'color': Color('387a17')
 	},
 	'wildgrass': {
-		'atlas_coords': Vector2(0, 2)
+		'atlas_coords': Vector2(0, 2),
+		'color': Color('697a17')
 	}
 }
 func get_tile_id_from_atlas_coords(coords: Vector2):
@@ -121,6 +123,9 @@ func get_tile_id_from_atlas_coords(coords: Vector2):
 	if valid.size() > 0:
 		return valid[0]
 	return 'void'
+
+func get_tile_data(id: String):
+	return tiles[id]
 
 func get_atlas_coords_for_id(id: String):
 	return tiles[id].get('atlas_coords', Vector2(0, 0))

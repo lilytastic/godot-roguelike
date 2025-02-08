@@ -33,29 +33,12 @@ func generate_tile(id: String, position: Vector2) -> Sprite2D:
 	spr.position = Coords.get_position(position) + Vector2(8, 8)
 	var atlas = AtlasTexture.new()
 	atlas.set_atlas(Glyph.tileset)
+	var data = MapManager.get_tile_data(id)
 	var coords = MapManager.get_atlas_coords_for_id(id)
 	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 	spr.texture = atlas
 	spr.z_index = -1
 	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
 	var col = Color(_noise, _noise, _noise) / 8
+	spr.modulate = data.get('color', Color.WHITE) + col
 	return spr
-
-
-"""
-func generate_tile(tile: Dictionary) -> Sprite2D:
-	var spr = Sprite2D.new()
-	var position = tile.get('position', Vector2(0,0))
-	spr.position = Coords.get_position(position) + Vector2(8, 8)
-	var atlas = AtlasTexture.new()
-	atlas.set_atlas(Glyph.tileset)
-	var coords = tile.get('atlas_coords', Vector2(0, 0))
-	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
-	spr.texture = atlas
-	spr.z_index = -1
-	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
-	var col = Color(_noise, _noise, _noise) / 8
-	spr.modulate = tile.get('color', Color.WHITE) + col
-	spr.name = str(tile)
-	return spr
-"""
