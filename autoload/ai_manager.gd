@@ -34,7 +34,8 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 		if allow_recursion:
 			return await perform_action(entity, result.alternate)
 	entity.is_acting = false
-	Scheduler.finish_turn()
+	if result.success:
+		Scheduler.finish_turn()
 	entity.action_performed.emit(action, result)
 	return result
 

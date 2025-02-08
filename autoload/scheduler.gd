@@ -13,11 +13,12 @@ var player_can_act: bool:
 
 func _process(delta):
 	var player = Global.player
+	var player_is_valid = player and ECS.entity(player.uuid)
 
-	if !next_actor and player and ECS.entity(player.uuid):
+	if !next_actor and player_is_valid:
 		_update_energy(delta)
 
-	if next_actor != null or !player:
+	if next_actor != null or !player_is_valid:
 		return
 	
 	var actors = MapManager.actors
