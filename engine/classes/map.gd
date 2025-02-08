@@ -75,20 +75,31 @@ func _init_prefab(prefab: String, include_entities = false):
 func get_astar_pos(x, y) -> int:
 	var width = size.x
 	return x + width * y
+	
+func tiles_at(position: Vector2i):
+	var arr = []
+	for id in tiles.keys():
+		if tiles[id].find(position) != -1:
+			arr.append(id)
+	return arr
+
+func can_walk(position: Vector2i):
+	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
+		return false
+	
+	return tiles_at(position).find('tree') == -1
 
 func _init_navigation_map():
+	navigation_map.clear()
 	var width = size.x
 	var height = size.y
 	for x in range(width):
 		for y in range(height):
 			var pos = get_astar_pos(x, y)
 			var vec = Vector2(x, y)
-			
-			var can_walk = true
 
-			if can_walk:
+			if can_walk(vec):
 				navigation_map.add_point(pos, vec)
-			if navigation_map.has_point(pos):
 				for i: StringName in InputTag.MOVE_ACTIONS:
 					var offset = Vector2i(x, y) + PlayerInput._input_to_direction(i)
 					var point = get_astar_pos(offset.x, offset.y)

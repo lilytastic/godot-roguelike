@@ -39,6 +39,7 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 	entity.action_performed.emit(action, result)
 	return result
 
+
 func take_turn(entity: Entity) -> bool:
 	var player = Global.player
 	

@@ -138,11 +138,11 @@ func update_navigation():
 	if !navigation_map:
 		return
 
-	for tile in navigation_map.get_point_ids():
-		if navigation_map.has_point(tile):
+	for point in navigation_map.get_point_ids():
+		if navigation_map.has_point(point):
 			navigation_map.set_point_disabled(
-				tile,
-				false
+				point,
+				!can_walk(navigation_map.get_point_position(point))
 			)
 
 	for actor in actors.values():
@@ -167,16 +167,6 @@ func get_astar_pos(x, y) -> int:
 	return current_map.get_astar_pos(x, y)
 
 func can_walk(position: Vector2i):
-	var size = current_map.size
-	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
-		return false
-
-	var cell_data = current_map.tiles.keys().filter(
-		func(key):
-			return current_map.tiles[key].any(func(pos): return pos == position)
-	)
-	# TODO: Check if solid
-	if cell_data.find('tree') != -1:
-		return false
-
+	if current_map:
+		return current_map.can_walk(position)
 	return true
