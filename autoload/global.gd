@@ -131,3 +131,11 @@ func sleep(ms: float) -> void:
 
 func add_floating_text(text: String, position: Vector2, opts := {}):
 	floating_text_added.emit(text, position, opts)
+
+func string_to_vector(str) -> Vector2i:
+	if str is Vector2i:
+		return str
+	var coords = str.substr(1, str.length() - 2).split(',')
+	if coords.size() < 2:
+		return Vector2i(0,0)
+	return Vector2i(int(coords[0]), int(coords[1]))

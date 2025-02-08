@@ -23,6 +23,8 @@ func perform(entity: Entity) -> ActionResult:
 		print(target.blueprint.use)
 		match target.blueprint.use:
 			'teleport':
+				if !target.destination:
+					return ActionResult.new(false)
 				print(target.destination)
 				var _map_name = target.destination.map
 				print('teleported to: ', entity.location.map)

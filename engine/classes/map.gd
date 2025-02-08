@@ -5,6 +5,7 @@ const uuid_util = preload('res://addons/uuid/uuid.gd')
 var uuid := ''
 var name := ''
 var tiles := {}
+var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
 var _default_tile = null
 var default_tile:
@@ -19,6 +20,7 @@ func _init(_map_name: String, data := {}) -> void:
 	uuid = data.get('uuid',  uuid_util.v4())
 	name = _map_name
 	tiles = data.get('tiles', {})
+	size = Global.string_to_vector(data.get('size', Vector2(0,0)))
 	for key in tiles.keys():
 		tiles[key] = tiles[key].reduce(
 			func(accum, str):
@@ -33,7 +35,8 @@ func _init(_map_name: String, data := {}) -> void:
 				return accum + [vec],
 				[]
 			)
-	print(tiles)
+	print('tiles: ', tiles)
+	print('size: ', size)
 	# TODO: Set default tile to the most frequent tile in the array
 	_default_tile = data.get('default_tile', 'void')
 

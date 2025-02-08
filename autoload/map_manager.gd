@@ -49,7 +49,8 @@ func get_save_data() -> Dictionary:
 		_maps.append({
 			'uuid': _map.uuid,
 			'name': _map.name,
-			'tiles': _map.tiles
+			'tiles': _map.tiles,
+			'size': _map.size
 		})
 	return {
 		'maps_loaded': maps_loaded.keys(),
@@ -95,7 +96,11 @@ func create_map(_map_name: String, data := {}):
 			tiles[_id] = []
 		tiles[_id].append(tile)
 
-	var _map = Map.new(_map_name, { 'tiles': tiles, 'default_tile': 'soil' })
+	var _map = Map.new(_map_name, {
+		'tiles': tiles,
+		'size': tile_pattern.get_size(),
+		'default_tile': 'soil'
+	})
 	
 	tiles.erase('void')
 	print(tiles)
