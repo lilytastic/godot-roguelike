@@ -63,12 +63,14 @@ func add(_map: Map) -> Map:
 
 func create_map(_map_name: String, data := {}):
 	var prefab = data.get('prefab', 'test')
+
 	if !prefab:
 		print('no prefab found; not creating map')
 		return null
 
 	var _map = Map.new(_map_name, {
 		'tiles': tiles,
+		'prefab': prefab,
 		'include_entities': true,
 		'default_tile': 'soil'
 	})

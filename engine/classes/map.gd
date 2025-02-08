@@ -64,24 +64,20 @@ func _init_prefab(prefab: String, include_entities = false):
 	for tile in tile_pattern.get_used_cells():
 		var atlas_coords = tile_pattern.get_cell_atlas_coords(tile)
 		var _id = MapManager.get_tile_id_from_atlas_coords(atlas_coords)
-		if !tiles.has(_id):
-			tiles[_id] = []
-		tiles[_id].append(tile)
-
+		if _id != 'void':
+			if !tiles.has(_id):
+				tiles[tile] = []
+			tiles[tile].append(_id)
+		
+	print(tiles)
 	_init_navigation_map()
-
-	tiles.erase('void')
 
 func get_astar_pos(x, y) -> int:
 	var width = size.x
 	return x + width * y
 	
 func tiles_at(position: Vector2i):
-	var arr = []
-	for id in tiles.keys():
-		if tiles[id].find(position) != -1:
-			arr.append(id)
-	return arr
+	return tiles.get(position, [])
 
 func can_walk(position: Vector2i):
 	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:

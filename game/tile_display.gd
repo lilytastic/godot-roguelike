@@ -23,9 +23,9 @@ func render() -> void:
 	if !MapManager.current_map:
 		return
 
-	for key in MapManager.current_map.tiles.keys():
-		for position in MapManager.current_map.tiles[key]:
-			add_child(generate_tile(key, position))
+	for position in MapManager.current_map.tiles.keys():
+		for _id in MapManager.current_map.tiles[position]:
+			add_child(generate_tile(_id, Global.string_to_vector(position)))
 
 
 func generate_tile(id: String, position: Vector2) -> Sprite2D:
