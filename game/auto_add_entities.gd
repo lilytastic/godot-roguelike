@@ -1,20 +1,6 @@
 extends Node2D
 
-func _ready():
-	if MapManager.map == '':
-		MapManager.map_changed.connect(func(map): _ready())
-		return
-		
-		
-	var is_loaded = MapManager.maps_loaded.keys().has(MapManager.map)
-	if is_loaded:
-		for child in get_children():
-			child.queue_free()
-		print('Map already loaded; not auto-initializing')
-		return;
-
-	MapManager.maps_loaded[MapManager.map] = true
-
+func init_entities(map_name: String):
 	print('Auto-initializing children: ', get_children())
 	for child in get_children():
 		var opts = {

@@ -21,7 +21,7 @@ func render() -> void:
 		child.free()
 
 	for tile in MapManager.get_tiles():
-		add_child(generate_tile(tile))
+		pass # add_child(generate_tile(tile))
 
 
 func generate_tile(tile: Dictionary) -> Sprite2D:

@@ -105,3 +105,18 @@ func damage(opts: Dictionary):
 				{ 'color': Color.CRIMSON }
 			)
 		health_changed.emit(-damage)
+
+static func init_from_node(node: Node2D):
+	var opts = {
+		'blueprint': node.get_meta('blueprint', 'quadropus')
+	}
+	var props = node.get_meta('props', {})
+	var new_entity = Entity.new(opts)
+	var coords = Coords.get_coord(node.position)
+	if new_entity.location:
+		new_entity.location.position = coords
+	else: 
+		new_entity.location = Location.new('', coords)
+	for prop in props:
+		new_entity[prop] = props[prop]
+	return new_entity

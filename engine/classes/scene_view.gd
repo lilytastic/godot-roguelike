@@ -1,6 +1,7 @@
 extends Node
 
 var actor_prefab: PackedScene = preload('res://game/actor.tscn')
+var current_pattern: TileMapPattern
 
 signal actor_added
 
@@ -38,6 +39,7 @@ func _process(delta):
 
 		if actor.entity.location:
 			actor.visible = AIManager.can_see(Global.player, actor.entity.location.position)
+
 
 func _init_actor(entity: Entity):
 	var new_actor: Actor = null

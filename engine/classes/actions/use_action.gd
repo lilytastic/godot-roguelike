@@ -26,7 +26,9 @@ func perform(entity: Entity) -> ActionResult:
 				print(target.destination)
 				var _map_name = target.destination.map
 				print('teleported to: ', entity.location.map)
-				var _map = MapManager.switch_and_create_map(_map_name)
+				var _map = MapManager.switch_map(MapManager.create_map(_map_name))
+				if !_map:
+					return ActionResult.new(false)
 				entity.location.map = _map.uuid
 				entity.location.position = target.destination.position
 				MapManager.init_actors()

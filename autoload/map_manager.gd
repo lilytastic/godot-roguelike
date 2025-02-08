@@ -48,7 +48,8 @@ func get_save_data() -> Dictionary:
 	for _map in maps.values():
 		_maps.append({
 			'uuid': _map.uuid,
-			'name': _map.name
+			'name': _map.name,
+			'tiles': _map.tiles
 		})
 	return {
 		'maps_loaded': maps_loaded.keys(),
@@ -64,11 +65,52 @@ func add(_map: Map) -> Map:
 		maps[_map.uuid] = _map
 	return _map
 
-func switch_and_create_map(_map_name: String, data := {}):
-	var _map = Map.new(_map_name, data)
-	switch_map(_map)
-	return _map
+func create_map(_map_name: String, data := {}):
+	var cell = load('res://cells/test.tscn')
+	var packed_scene = cell.instantiate()
+	var tile_pattern = null
+	var actors := []
+	for child in packed_scene.get_children():
+		if child is TileMapLayer:
+			tile_pattern = child.get_pattern(child.get_used_cells())
+		for _child in child.get_children():
+			if _child is Actor:
+				actors.append(_child)
+
+	var entities := []
+	for actor in actors:
+		var entity = Entity.init_from_node(actor)
+		if entity:
+			ECS.add(entity)
+			entities.append(entity)
+
+	packed_scene.queue_free()
 	
+	var tiles := {}
+	
+	for tile in tile_pattern.get_used_cells():
+		var atlas_coords = tile_pattern.get_cell_atlas_coords(tile)
+		var _id = get_tile_id_from_atlas_coords(atlas_coords)
+		if !tiles.has(_id):
+			tiles[_id] = []
+		tiles[_id].append(tile)
+
+	var _map = Map.new(_map_name, { 'tiles': tiles, 'default_tile': 'soil' })
+	
+	print(tiles)
+
+	for entity in entities:
+		entity.location.map = _map.uuid
+
+	return _map
+
+func get_tile_id_from_atlas_coords(coords: Vector2):
+	if coords == Vector2(4, 2):
+		return 'tree'
+	if coords == Vector2(0, 2):
+		return 'wildgrass'
+	return 'void'
+
 func switch_map(_map: Map, switch_to := true):
 	add(_map)
 
@@ -83,26 +125,11 @@ func switch_map(_map: Map, switch_to := true):
 	
 func get_tiles():
 	var arr := []
-
-	# So fuck all this below I guess
-
-	if !map_view:
+	
+	if !current_map:
 		return arr
-
-	var tiles = map_view.get_used_cells().filter(
-		func(tile):
-			# TODO: filter for visible area
-			return Global.player and AIManager.can_see(Global.player, tile) # tile.y == Global.player.location.position.y or tile.x == Global.player.location.position.x
-	)
-
-	for tile in tiles:
-		arr.append({
-			'position': tile,
-			'atlas_coords': map_view.get_cell_atlas_coords(tile),
-			'color': map_view.get_cell_tile_data(tile).modulate
-		})
-		
-	return arr
+	
+	return current_map.tiles
 
 func init_actors():
 	actors = {}

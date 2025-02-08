@@ -4,7 +4,7 @@ const uuid_util = preload('res://addons/uuid/uuid.gd')
 
 var uuid := ''
 var name := ''
-var tile_pattern := []
+var tiles := {}
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
 var _default_tile = null
 var default_tile:
@@ -18,7 +18,9 @@ var default_tile:
 func _init(_map_name: String, data := {}) -> void:
 	uuid = data.get('uuid',  uuid_util.v4())
 	name = _map_name
-	tile_pattern = data.get('tile_pattern', [])
+	tiles = data.get('tiles', {})
+	# TODO: Set default tile to the most frequent tile in the array
+	_default_tile = data.get('default_tile', 'void')
 
 
 static func load_from_data(data: Dictionary) -> Map:
