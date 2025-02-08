@@ -26,6 +26,28 @@ func perform(entity: Entity) -> ActionResult:
 		
 	if !MapManager.can_walk(new_position):
 		return ActionResult.new(false)
+		
+	var collisions = ECS.entities.values().filter(
+		func(_entity):
+			return AIManager.blocks_entities(_entity) and _entity.location and _entity.location.map == entity.location.map
+	).filter(
+		func(_entity):
+			return _entity.location.position.x == new_position.x and _entity.location.position.y == new_position.y
+	)
+
+	if collisions.size():
+		for collision in collisions:
+			if can_alternate:
+				var action = AIManager.get_default_action(entity, collision)
+				if action:
+					return ActionResult.new(
+						false,
+						{'alternate': action}
+					)
+			else:
+				return ActionResult.new(false)
+			pass
+		return ActionResult.new(false)
 
 	entity.animation = AnimationSequence.new(
 		[

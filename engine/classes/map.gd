@@ -25,7 +25,7 @@ func _init(_map_name: String, data := {}) -> void:
 	name = _map_name
 	prefab = data.get('prefab', 'test')
 	
-	_init_prefab(prefab)
+	_init_prefab(prefab, data.get('include_entities', false))
 
 	seed = data.get('seed', randi())
 
@@ -35,7 +35,7 @@ func _init(_map_name: String, data := {}) -> void:
 	_default_tile = data.get('default_tile', 'void')
 
 
-func _init_prefab(prefab: String):
+func _init_prefab(prefab: String, include_entities = false):
 	var cell = load('res://cells/' + prefab + '.tscn')
 	var packed_scene = cell.instantiate()
 	var tile_pattern = null
@@ -47,16 +47,17 @@ func _init_prefab(prefab: String):
 			if _child is Actor:
 				actors.append(_child)
 
-	var entities := []
-	for actor in actors:
-		var entity = Entity.init_from_node(actor)
-		if entity:
-			ECS.add(entity)
-			entities.append(entity)
+	if include_entities:
+		var entities := []
+		for actor in actors:
+			var entity = Entity.init_from_node(actor)
+			if entity:
+				ECS.add(entity)
+				entities.append(entity)
+		for entity in entities:
+			entity.location.map = uuid
 
 	packed_scene.queue_free()
-	
-	_init_navigation_map()
 	
 	size = tile_pattern.get_size()
 	
@@ -67,12 +68,9 @@ func _init_prefab(prefab: String):
 			tiles[_id] = []
 		tiles[_id].append(tile)
 
+	_init_navigation_map()
+
 	tiles.erase('void')
-
-	for entity in entities:
-		entity.location.map = uuid
-
-	print(tiles)
 
 func get_astar_pos(x, y) -> int:
 	var width = size.x

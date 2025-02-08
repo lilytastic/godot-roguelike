@@ -12,7 +12,8 @@ var current_map: Map:
 		
 var actors := {}
 
-var navigation_map = AStar2D.new()
+var navigation_map:
+	get: return current_map.navigation_map if current_map else null
 
 signal map_changed
 signal entity_moved
@@ -68,6 +69,7 @@ func create_map(_map_name: String, data := {}):
 
 	var _map = Map.new(_map_name, {
 		'tiles': tiles,
+		'include_entities': true,
 		'default_tile': 'soil'
 	})
 
@@ -133,6 +135,9 @@ func init_actors():
 	actors_changed.emit()
 
 func update_navigation():
+	if !navigation_map:
+		return
+
 	for tile in navigation_map.get_point_ids():
 		if navigation_map.has_point(tile):
 			navigation_map.set_point_disabled(
@@ -141,7 +146,7 @@ func update_navigation():
 			)
 
 	for actor in actors.values():
-		if actor and actor.location and actor.blueprint.equipment:
+		if actor and actor.location and AIManager.blocks_entities(actor):
 			var pos = get_astar_pos(actor.location.position.x, actor.location.position.y)
 			if navigation_map.has_point(pos):
 				navigation_map.set_point_disabled(
