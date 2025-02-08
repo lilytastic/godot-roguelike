@@ -12,7 +12,6 @@ var current_map: Map:
 		
 var actors := {}
 
-var map_view: MapView = null
 var navigation_map = AStar2D.new()
 
 signal map_changed
@@ -103,7 +102,6 @@ func create_map(_map_name: String, data := {}):
 	})
 	
 	tiles.erase('void')
-	print(tiles)
 
 	for entity in entities:
 		entity.location.map = _map.uuid
@@ -142,7 +140,9 @@ func switch_map(_map: Map, switch_to := true):
 	if !current_map:
 		return
 
+	_init_navigation_map()
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
+	print('size: ', current_map.size)
 	map_changed.emit(map)
 
 	init_actors()
@@ -176,15 +176,12 @@ func update_navigation():
 				tile,
 				false
 			)
-	
-	if !MapManager.map_view:
-		return
 
 	for actor in actors.values():
 		if actor and actor.location and actor.blueprint.equipment:
 			var pos = actor.location.position
 			navigation_map.set_point_disabled(
-				MapManager.map_view.get_astar_pos(pos.x, pos.y),
+				get_astar_pos(pos.x, pos.y),
 				true
 			)
 			
@@ -197,18 +194,43 @@ func get_collisions(position: Vector2):
 			return _entity.location.position.x == position.x and _entity.location.position.y == position.y
 	)
 
-func can_walk(position: Vector2):
-	if !map_view:
-		return true
+func get_astar_pos(x, y) -> int:
+	var size = current_map.size
+	var width = size.x
+	return x + width * y
 
-	var rect = map_view.get_used_rect()
-	if position.x < 0 or position.x >= rect.end.x or position.y < 0 or position.y >= rect.end.y:
+func can_walk(position: Vector2):
+	var size = current_map.size
+	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
 		return false
 
-	var cell_data = map_view.get_cell_tile_data(position)
-	if cell_data:
-		var is_solid = cell_data.get_collision_polygons_count(0) > 0
-		if is_solid:
-			return false
+	var cell_data = current_map.tiles
+	# TODO: Check if solid
 
 	return true
+
+
+func _init_navigation_map():
+	var width = current_map.size.x
+	var height = current_map.size.y
+	for x in range(width):
+		for y in range(height):
+			var pos = get_astar_pos(x, y)
+			var vec = Vector2(x, y)
+			
+			if MapManager.can_walk(vec):
+				MapManager.navigation_map.add_point(pos, vec)
+			if MapManager.navigation_map.has_point(pos):
+				for i: StringName in InputTag.MOVE_ACTIONS:
+					var offset = Vector2i(x, y) + PlayerInput._input_to_direction(i)
+					var point = get_astar_pos(offset.x, offset.y)
+					if offset.x < 0 or offset.x > width - 1:
+						continue
+					if offset.y < 0 or offset.y > height - 1:
+						continue
+					if MapManager.navigation_map.has_point(point):
+						MapManager.navigation_map.connect_points(
+							pos,
+							point
+						)
+						

@@ -13,17 +13,16 @@ static func move_towards(entity: Entity, target_position: Vector2):
 		return null
 
 static func try_path_to(start: Vector2, destination: Vector2) -> Dictionary:
-	if !MapManager.map_view:
+	if !MapManager.current_map:
 		return { 'success': false, 'path': [] }
-	var rect = MapManager.map_view.get_used_rect()
-	if destination.x < 0 or destination.x > rect.end.x - 1:
+	var rect = MapManager.current_map.size
+	if destination.x < 0 or destination.x > rect.x - 1:
 		return { 'success': false, 'path': [] }
 		
 	var navigation_map = MapManager.navigation_map
-	var map_view = MapManager.map_view
-	if navigation_map.has_point(map_view.get_astar_pos(start.x, start.y)) and navigation_map.has_point(map_view.get_astar_pos(destination.x, destination.y)):
-		var start_point = MapManager.map_view.get_astar_pos(start.x, start.y)
-		var destination_point = MapManager.map_view.get_astar_pos(destination.x, destination.y)
+	if navigation_map.has_point(MapManager.get_astar_pos(start.x, start.y)) and navigation_map.has_point(MapManager.get_astar_pos(destination.x, destination.y)):
+		var start_point = MapManager.get_astar_pos(start.x, start.y)
+		var destination_point = MapManager.get_astar_pos(destination.x, destination.y)
 
 		var was_disabled = navigation_map.is_point_disabled(start_point)
 		navigation_map.set_point_disabled(start_point, false)

@@ -28,7 +28,6 @@ func _init(_map_name: String, data := {}) -> void:
 					return accum + [str]
 				var vec = Vector2i(0,0)
 				var coords = str.substr(1, str.length() - 2).split(',')
-				print(coords)
 				if coords.size() < 2:
 					return accum
 				vec = Vector2i(int(coords[0]), int(coords[1]))
