@@ -34,7 +34,7 @@ func perform(entity: Entity) -> ActionResult:
 	# await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
 	await Global.sleep(20)
 	
-	if !target.actor:
+	if target.actor:
 		target.actor.modulate = Color.CRIMSON
 
 	for effect in ability.effects:

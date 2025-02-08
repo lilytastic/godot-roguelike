@@ -34,7 +34,8 @@ func _check_entities():
 func _process(delta):
 	for actor in %Entities.get_children():
 		if !actor or !actor.entity or !ECS.entity(actor.entity.uuid):
-			actor.queue_free()
+			if !actor.is_dying:
+				actor.queue_free()
 			continue
 
 		if actor.entity.location:
