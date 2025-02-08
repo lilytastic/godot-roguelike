@@ -19,6 +19,21 @@ func _init(_map_name: String, data := {}) -> void:
 	uuid = data.get('uuid',  uuid_util.v4())
 	name = _map_name
 	tiles = data.get('tiles', {})
+	for key in tiles.keys():
+		tiles[key] = tiles[key].reduce(
+			func(accum, str):
+				if str is Vector2i:
+					return accum + [str]
+				var vec = Vector2i(0,0)
+				var coords = str.substr(1, str.length() - 2).split(',')
+				print(coords)
+				if coords.size() < 2:
+					return accum
+				vec = Vector2i(int(coords[0]), int(coords[1]))
+				return accum + [vec],
+				[]
+			)
+	print(tiles)
 	# TODO: Set default tile to the most frequent tile in the array
 	_default_tile = data.get('default_tile', 'void')
 
