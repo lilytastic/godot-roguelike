@@ -9,13 +9,7 @@ var seed = 0
 var prefab = ''
 var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
-var _default_tile = null
-var default_tile:
-	get:
-		if _default_tile:
-			return _default_tile
-		# TODO: If exterior, return soil. If interior, return void.
-		return null
+var default_tile = 'void'
 
 var navigation_map = AStar2D.new()
 
@@ -32,7 +26,7 @@ func _init(_map_name: String, data := {}) -> void:
 	print('tiles: ', tiles)
 	print('size: ', size)
 	# TODO: Set default tile to the most frequent tile in the array
-	_default_tile = data.get('default_tile', 'void')
+	default_tile = data.get('default_tile', 'void')
 
 
 func _init_prefab(prefab: String, include_entities = false):
@@ -63,15 +57,24 @@ func _init_prefab(prefab: String, include_entities = false):
 	
 	for tile in tile_pattern.get_used_cells():
 		var atlas_coords = tile_pattern.get_cell_atlas_coords(tile)
-		var _id = MapManager.get_tile_id_from_atlas_coords(atlas_coords)
-		if _id != 'void':
+		var _id = get_tile_id_from_atlas_coords(atlas_coords)
+		if _id != default_tile:
 			if !tiles.has(_id):
 				tiles[tile] = []
 			tiles[tile].append(_id)
-		
+	
 	print(tiles)
 	_init_navigation_map()
 
+func get_tile_id_from_atlas_coords(coords: Vector2):
+	var valid = MapManager.tile_data.keys().filter(
+		func(id):
+			return MapManager.tile_data[id].get('atlas_coords', Vector2(0,0)) == coords
+	)
+	if valid.size() > 0:
+		return valid[0]
+	return default_tile
+	
 func get_astar_pos(x, y) -> int:
 	var width = size.x
 	return x + width * y
@@ -116,6 +119,7 @@ func get_save_data():
 		'name': name,
 		'prefab': prefab,
 		'seed': seed,
+		'default_tile': default_tile,
 		'size': size
 	}
 

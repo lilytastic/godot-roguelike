@@ -26,7 +26,7 @@ func new_game() -> Entity:
 	MapManager.maps_loaded.clear()
 	MapManager.maps.clear()
 
-	var starting_map = MapManager.create_map('Test', { 'prefab': 'test2' })
+	var starting_map = MapManager.create_map('Test', { 'prefab': 'test' })
 	MapManager.switch_map(starting_map)
 
 	player = Entity.new({ 'blueprint': 'hero' })

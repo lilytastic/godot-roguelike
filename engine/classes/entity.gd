@@ -31,6 +31,8 @@ var animation: AnimationSequence = null
 
 var screen_position: Vector2:
 	get:
+		if !actor:
+			return Vector2(0,0)
 		return actor.get_global_transform_with_canvas().origin
 
 signal map_changed
@@ -72,6 +74,7 @@ func save() -> Dictionary:
 		dict.position = location.position
 	if inventory: dict.inventory = inventory.save()
 	if equipment: dict.equipment = equipment.save()
+	if destination: dict.destination = destination
 	if health: dict.health = health.current
 
 	return dict
@@ -91,6 +94,7 @@ func load_from_save(data: Dictionary) -> void:
 	
 	if data.has('inventory'): inventory = InventoryProps.new(data.inventory)
 	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
+	if data.has('destination'): destination = data.get('destination', {})
 	if data.has('health'): health.current = data.health
 
 
@@ -111,6 +115,7 @@ static func init_from_node(node: Node2D):
 		'blueprint': node.get_meta('blueprint', 'quadropus')
 	}
 	var props = node.get_meta('props', {})
+
 	var new_entity = Entity.new(opts)
 	var coords = Coords.get_coord(node.position)
 	if new_entity.location:
@@ -119,4 +124,5 @@ static func init_from_node(node: Node2D):
 		new_entity.location = Location.new('', coords)
 	for prop in props:
 		new_entity[prop] = props[prop]
+
 	return new_entity

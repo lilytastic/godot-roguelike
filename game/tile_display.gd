@@ -23,9 +23,22 @@ func render() -> void:
 	if !MapManager.current_map:
 		return
 
-	for position in MapManager.current_map.tiles.keys():
-		for _id in MapManager.current_map.tiles[position]:
-			add_child(generate_tile(_id, Global.string_to_vector(position)))
+	var current_map = MapManager.current_map
+	print(current_map.tiles)
+	print(current_map.default_tile)
+	for x in range(current_map.size.x):
+		for y in range(current_map.size.y):
+			var position = Vector2i(x, y)
+			# var position_str = str(position)
+			if !current_map.tiles.has(position) or !current_map.tiles[position].size():
+				var tile = generate_tile(current_map.default_tile, position)
+				if tile:
+					add_child(tile)
+			else:
+				for _id in MapManager.current_map.tiles[position]:
+					var tile = generate_tile(_id, position)
+					if tile:
+						add_child(tile)
 
 
 func generate_tile(id: String, position: Vector2) -> Sprite2D:
@@ -35,6 +48,8 @@ func generate_tile(id: String, position: Vector2) -> Sprite2D:
 	atlas.set_atlas(Glyph.tileset)
 	var data = MapManager.get_tile_data(id)
 	var coords = MapManager.get_atlas_coords_for_id(id)
+	if coords == Vector2.ZERO:
+		return null
 	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 	spr.texture = atlas
 	spr.z_index = -1

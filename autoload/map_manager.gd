@@ -69,7 +69,6 @@ func create_map(_map_name: String, data := {}):
 		return null
 
 	var _map = Map.new(_map_name, {
-		'tiles': tiles,
 		'prefab': prefab,
 		'include_entities': true,
 		'default_tile': 'soil'
@@ -77,7 +76,7 @@ func create_map(_map_name: String, data := {}):
 
 	return _map
 
-var tiles = {
+var tile_data = {
 	'void': {
 		'atlas_coords': Vector2(0, 0)
 	},
@@ -85,25 +84,26 @@ var tiles = {
 		'atlas_coords': Vector2(4, 2),
 		'color': Color('387a17')
 	},
+	'soil': {
+		'atlas_coords': Vector2(0, 0),
+		'color': Color('5b3c24')
+	},
 	'wildgrass': {
 		'atlas_coords': Vector2(0, 2),
 		'color': Color('697a17')
 	}
 }
-func get_tile_id_from_atlas_coords(coords: Vector2):
-	var valid = tiles.keys().filter(func(id): return tiles[id].get('atlas_coords', Vector2(0,0)) == coords)
-	if valid.size() > 0:
-		return valid[0]
-	return 'void'
 
 func get_tile_data(id: String):
-	return tiles[id]
+	return tile_data[id]
 
 func get_atlas_coords_for_id(id: String):
-	return tiles[id].get('atlas_coords', Vector2(0, 0))
+	return tile_data[id].get('atlas_coords', Vector2(0, 0))
 
-func switch_map(_map: Map, switch_to := true):
+func switch_map(_map: Map):
 	add(_map)
+	
+	print(_map)
 
 	map = _map.uuid
 	if !current_map:
