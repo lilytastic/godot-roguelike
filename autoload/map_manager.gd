@@ -97,6 +97,7 @@ func create_map(_map_name: String, data := {}):
 
 	var _map = Map.new(_map_name, { 'tiles': tiles, 'default_tile': 'soil' })
 	
+	tiles.erase('void')
 	print(tiles)
 
 	for entity in entities:
@@ -104,12 +105,25 @@ func create_map(_map_name: String, data := {}):
 
 	return _map
 
+var tiles = {
+	'void': {
+		'atlas_coords': Vector2(0, 0)
+	},
+	'tree': {
+		'atlas_coords': Vector2(4, 2)
+	},
+	'wildgrass': {
+		'atlas_coords': Vector2(0, 2)
+	}
+}
 func get_tile_id_from_atlas_coords(coords: Vector2):
-	if coords == Vector2(4, 2):
-		return 'tree'
-	if coords == Vector2(0, 2):
-		return 'wildgrass'
+	var valid = tiles.keys().filter(func(id): return tiles[id].get('atlas_coords', Vector2(0,0)) == coords)
+	if valid.size() > 0:
+		return valid[0]
 	return 'void'
+
+func get_atlas_coords_for_id(id: String):
+	return tiles[id].get('atlas_coords', Vector2(0, 0))
 
 func switch_map(_map: Map, switch_to := true):
 	add(_map)

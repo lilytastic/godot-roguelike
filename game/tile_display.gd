@@ -19,11 +19,30 @@ func _process(delta):
 func render() -> void:
 	for child in get_children():
 		child.free()
+		
+	if !MapManager.current_map:
+		return
 
-	for tile in MapManager.get_tiles():
-		pass # add_child(generate_tile(tile))
+	for key in MapManager.current_map.tiles.keys():
+		for position in MapManager.current_map.tiles[key]:
+			add_child(generate_tile(key, position))
 
 
+func generate_tile(id: String, position: Vector2) -> Sprite2D:
+	var spr = Sprite2D.new()
+	spr.position = Coords.get_position(position) + Vector2(8, 8)
+	var atlas = AtlasTexture.new()
+	atlas.set_atlas(Glyph.tileset)
+	var coords = MapManager.get_atlas_coords_for_id(id)
+	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
+	spr.texture = atlas
+	spr.z_index = -1
+	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
+	var col = Color(_noise, _noise, _noise) / 8
+	return spr
+
+
+"""
 func generate_tile(tile: Dictionary) -> Sprite2D:
 	var spr = Sprite2D.new()
 	var position = tile.get('position', Vector2(0,0))
@@ -39,3 +58,4 @@ func generate_tile(tile: Dictionary) -> Sprite2D:
 	spr.modulate = tile.get('color', Color.WHITE) + col
 	spr.name = str(tile)
 	return spr
+"""
