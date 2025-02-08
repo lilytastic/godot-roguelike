@@ -5,6 +5,8 @@ const uuid_util = preload('res://addons/uuid/uuid.gd')
 var uuid := ''
 var name := ''
 var tiles := {}
+var seed = 0
+var prefab = ''
 var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
 var _default_tile = null
@@ -15,30 +17,102 @@ var default_tile:
 		# TODO: If exterior, return soil. If interior, return void.
 		return null
 
+var navigation_map = AStar2D.new()
+
 
 func _init(_map_name: String, data := {}) -> void:
 	uuid = data.get('uuid',  uuid_util.v4())
 	name = _map_name
-	tiles = data.get('tiles', {})
-	size = Global.string_to_vector(data.get('size', Vector2(0,0)))
-	for key in tiles.keys():
-		tiles[key] = tiles[key].reduce(
-			func(accum, str):
-				if str is Vector2i:
-					return accum + [str]
-				var vec = Vector2i(0,0)
-				var coords = str.substr(1, str.length() - 2).split(',')
-				if coords.size() < 2:
-					return accum
-				vec = Vector2i(int(coords[0]), int(coords[1]))
-				return accum + [vec],
-				[]
-			)
+	prefab = data.get('prefab', 'test')
+	
+	_init_prefab(prefab)
+
+	seed = data.get('seed', randi())
+
 	print('tiles: ', tiles)
 	print('size: ', size)
 	# TODO: Set default tile to the most frequent tile in the array
 	_default_tile = data.get('default_tile', 'void')
 
+
+func _init_prefab(prefab: String):
+	var cell = load('res://cells/' + prefab + '.tscn')
+	var packed_scene = cell.instantiate()
+	var tile_pattern = null
+	var actors := []
+	for child in packed_scene.get_children():
+		if child is TileMapLayer:
+			tile_pattern = child.get_pattern(child.get_used_cells())
+		for _child in child.get_children():
+			if _child is Actor:
+				actors.append(_child)
+
+	var entities := []
+	for actor in actors:
+		var entity = Entity.init_from_node(actor)
+		if entity:
+			ECS.add(entity)
+			entities.append(entity)
+
+	packed_scene.queue_free()
+	
+	_init_navigation_map()
+	
+	size = tile_pattern.get_size()
+	
+	for tile in tile_pattern.get_used_cells():
+		var atlas_coords = tile_pattern.get_cell_atlas_coords(tile)
+		var _id = MapManager.get_tile_id_from_atlas_coords(atlas_coords)
+		if !tiles.has(_id):
+			tiles[_id] = []
+		tiles[_id].append(tile)
+
+	tiles.erase('void')
+
+	for entity in entities:
+		entity.location.map = uuid
+
+	print(tiles)
+
+func get_astar_pos(x, y) -> int:
+	var width = size.x
+	return x + width * y
+
+func _init_navigation_map():
+	var width = size.x
+	var height = size.y
+	for x in range(width):
+		for y in range(height):
+			var pos = get_astar_pos(x, y)
+			var vec = Vector2(x, y)
+			
+			var can_walk = true
+
+			if can_walk:
+				navigation_map.add_point(pos, vec)
+			if navigation_map.has_point(pos):
+				for i: StringName in InputTag.MOVE_ACTIONS:
+					var offset = Vector2i(x, y) + PlayerInput._input_to_direction(i)
+					var point = get_astar_pos(offset.x, offset.y)
+					if offset.x < 0 or offset.x > width - 1:
+						continue
+					if offset.y < 0 or offset.y > height - 1:
+						continue
+					if navigation_map.has_point(point):
+						navigation_map.connect_points(
+							pos,
+							point
+						)
+						
+
+func get_save_data():
+	return {
+		'uuid': uuid,
+		'name': name,
+		'prefab': prefab,
+		'seed': seed,
+		'size': size
+	}
 
 static func load_from_data(data: Dictionary) -> Map:
 	print('load map from data: ', data)

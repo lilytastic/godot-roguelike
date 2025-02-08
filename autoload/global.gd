@@ -135,6 +135,8 @@ func add_floating_text(text: String, position: Vector2, opts := {}):
 func string_to_vector(str) -> Vector2i:
 	if str is Vector2i:
 		return str
+	if str is Vector2:
+		return Vector2(str)
 	var coords = str.substr(1, str.length() - 2).split(',')
 	if coords.size() < 2:
 		return Vector2i(0,0)

@@ -45,12 +45,7 @@ func _process(delta) -> void:
 func get_save_data() -> Dictionary:
 	var _maps := []
 	for _map in maps.values():
-		_maps.append({
-			'uuid': _map.uuid,
-			'name': _map.name,
-			'tiles': _map.tiles,
-			'size': _map.size
-		})
+		_maps.append(_map.get_save_data())
 	return {
 		'maps_loaded': maps_loaded.keys(),
 		'maps': _maps
@@ -66,45 +61,15 @@ func add(_map: Map) -> Map:
 	return _map
 
 func create_map(_map_name: String, data := {}):
-	var cell = load('res://cells/test.tscn')
-	var packed_scene = cell.instantiate()
-	var tile_pattern = null
-	var actors := []
-	for child in packed_scene.get_children():
-		if child is TileMapLayer:
-			tile_pattern = child.get_pattern(child.get_used_cells())
-		for _child in child.get_children():
-			if _child is Actor:
-				actors.append(_child)
-
-	var entities := []
-	for actor in actors:
-		var entity = Entity.init_from_node(actor)
-		if entity:
-			ECS.add(entity)
-			entities.append(entity)
-
-	packed_scene.queue_free()
-	
-	var tiles := {}
-	
-	for tile in tile_pattern.get_used_cells():
-		var atlas_coords = tile_pattern.get_cell_atlas_coords(tile)
-		var _id = get_tile_id_from_atlas_coords(atlas_coords)
-		if !tiles.has(_id):
-			tiles[_id] = []
-		tiles[_id].append(tile)
+	var prefab = data.get('prefab', 'test')
+	if !prefab:
+		print('no prefab found; not creating map')
+		return null
 
 	var _map = Map.new(_map_name, {
 		'tiles': tiles,
-		'size': tile_pattern.get_size(),
 		'default_tile': 'soil'
 	})
-	
-	tiles.erase('void')
-
-	for entity in entities:
-		entity.location.map = _map.uuid
 
 	return _map
 
@@ -139,8 +104,6 @@ func switch_map(_map: Map, switch_to := true):
 	map = _map.uuid
 	if !current_map:
 		return
-
-	_init_navigation_map()
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 	print('size: ', current_map.size)
 	map_changed.emit(map)
@@ -179,11 +142,12 @@ func update_navigation():
 
 	for actor in actors.values():
 		if actor and actor.location and actor.blueprint.equipment:
-			var pos = actor.location.position
-			navigation_map.set_point_disabled(
-				get_astar_pos(pos.x, pos.y),
-				true
-			)
+			var pos = get_astar_pos(actor.location.position.x, actor.location.position.y)
+			if navigation_map.has_point(pos):
+				navigation_map.set_point_disabled(
+					pos,
+					true
+				)
 			
 func get_collisions(position: Vector2):
 	return actors.values().filter(
@@ -195,9 +159,7 @@ func get_collisions(position: Vector2):
 	)
 
 func get_astar_pos(x, y) -> int:
-	var size = current_map.size
-	var width = size.x
-	return x + width * y
+	return current_map.get_astar_pos(x, y)
 
 func can_walk(position: Vector2i):
 	var size = current_map.size
@@ -213,29 +175,3 @@ func can_walk(position: Vector2i):
 		return false
 
 	return true
-
-
-func _init_navigation_map():
-	var width = current_map.size.x
-	var height = current_map.size.y
-	for x in range(width):
-		for y in range(height):
-			var pos = get_astar_pos(x, y)
-			var vec = Vector2(x, y)
-			
-			if MapManager.can_walk(vec):
-				MapManager.navigation_map.add_point(pos, vec)
-			if MapManager.navigation_map.has_point(pos):
-				for i: StringName in InputTag.MOVE_ACTIONS:
-					var offset = Vector2i(x, y) + PlayerInput._input_to_direction(i)
-					var point = get_astar_pos(offset.x, offset.y)
-					if offset.x < 0 or offset.x > width - 1:
-						continue
-					if offset.y < 0 or offset.y > height - 1:
-						continue
-					if MapManager.navigation_map.has_point(point):
-						MapManager.navigation_map.connect_points(
-							pos,
-							point
-						)
-						
