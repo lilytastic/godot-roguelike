@@ -6,7 +6,7 @@
 
 [node name="Test" type="Node2D"]
 script = ExtResource("1_rta77")
-default_tile = "void"
+default_tile = "rough stone"
 
 [node name="TileMapLayer" parent="." instance=ExtResource("2_csb8k")]
 unique_name_in_owner = true
