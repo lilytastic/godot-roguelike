@@ -75,7 +75,12 @@ func _check_overlap(arr1: Array, arr2: Array):
 			if item1 == item2:
 				return true
 	return false
-
+	
+func _check_overlap_rect(arr1: Array, rect: Rect2):
+	for item1 in arr1:
+		if rect.has_point(item1):
+			return true
+	return false
 
 func _place_room(room: Room, _accrete: Room = null) -> Room:
 	var workspace_cells = workspace.get_used_cells()
@@ -105,15 +110,35 @@ func _place_room(room: Room, _accrete: Room = null) -> Room:
 					func(_cell):
 						return _cell - exit + face_cell
 				)
+				
+				var padding = 1
+				
 				if relative_cells.any(
-					func(_cell): return _cell.x < 0 or _cell.x > template_rect.end.x or _cell.y < 0 or _cell.y > template_rect.end.y
+					func(_cell):
+						return _cell.x < padding or _cell.x > template_rect.end.x - padding or _cell.y < padding or _cell.y > template_rect.end.y - padding
 				):
 					continue;
 				print('cursor at ', face_cell)
+				
+				var min_x = relative_cells.map(func(c): return c.x).min()
+				var max_x = relative_cells.map(func(c): return c.x).max()
+				var min_y = relative_cells.map(func(c): return c.y).min()
+				var max_y = relative_cells.map(func(c): return c.y).max()
+				
 				cursor.position = face_cell * 16 + Vector2i(8, 8)
-				await Global.sleep(100)
-				var overlapped = _check_overlap(used_cells, relative_cells)
+				
+				var bounds = Rect2(
+					min_x - padding,
+					min_y - padding,
+					(max_x - min_x) + 1 + padding * 2,
+					(max_y - min_y) + 1 + padding * 2
+				)
+				var overlapped = _check_overlap_rect(used_cells, bounds) # _check_overlap(used_cells, relative_cells)
+
+				# TODO: Add padding, or walls around rooms, so they don't wind up side-by-side
 				if !overlapped:
+					cursor.position = face_cell * 16 + Vector2i(8, 8)
+					await Global.sleep(30)
 					if !valid_positions.has(face_direction):
 						valid_positions[face_direction] = []
 					valid_positions[face_direction].append({
@@ -145,7 +170,7 @@ func _make_room() -> Room:
 	var new_room = Room.new()
 	
 	var _cells := []
-	var size = Vector2i(5, 5)
+	var size = Vector2i(3, 3)
 	
 	for x in range(size.x):
 		for y in range(size.y):
