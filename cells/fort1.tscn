@@ -4,19 +4,24 @@
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/tile_map_layer.tscn" id="2_csb8k"]
 [ext_resource type="Script" path="res://game/map_generator.gd" id="3_wx617"]
 
-[node name="Test" type="Node2D"]
+[node name="DungeonGenerator" type="Node2D"]
 script = ExtResource("1_rta77")
 default_tile = "rough stone"
-
-[node name="Hyperspace" parent="." node_paths=PackedStringArray("target_layer") instance=ExtResource("2_csb8k")]
-unique_name_in_owner = true
-tile_map_data = PackedByteArray("AAAAAAAAAAAIAAUAAAAAABYAAAAIAAUAAAAaABYAAAAIAAUAAAAVAAoAAAANAAIAAFAVAAwAAAANAAIAAFAWAAoAAAANAAIAAFAWAAsAAAANAAIAAFAWAAwAAAANAAIAAFAXAAoAAAANAAIAAFAXAAsAAAANAAIAAFAXAAwAAAANAAIAAFAVAAsAAAANAAIAAFADAAoAAAANAAIAAGADAAsAAAANAAIAAGADAAwAAAANAAIAAGAEAAwAAAANAAIAAGAFAAwAAAANAAIAAGAFAAsAAAANAAIAAGAFAAoAAAANAAIAAGAEAAoAAAANAAIAAGAEAAsAAAANAAIAAGA=")
-script = ExtResource("3_wx617")
-target_layer = NodePath("../Dungeon")
 
 [node name="Dungeon" parent="." instance=ExtResource("2_csb8k")]
 unique_name_in_owner = true
 tile_map_data = PackedByteArray()
+
+[node name="Workspace" parent="." instance=ExtResource("2_csb8k")]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray()
+
+[node name="Template" parent="." node_paths=PackedStringArray("workspace", "target_layer") instance=ExtResource("2_csb8k")]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray("AAAAAAAAAAAIAAUAAAAAABYAAAAIAAUAAAAaABYAAAAIAAUAAAAVAAoAAAANAAIAAFAVAAwAAAANAAIAAFAWAAoAAAANAAIAAFAWAAsAAAANAAIAAFAWAAwAAAANAAIAAFAXAAoAAAANAAIAAFAXAAsAAAANAAIAAFAXAAwAAAANAAIAAFAVAAsAAAANAAIAAFADAAoAAAANAAIAAGADAAsAAAANAAIAAGADAAwAAAANAAIAAGAEAAwAAAANAAIAAGAFAAwAAAANAAIAAGAFAAsAAAANAAIAAGAFAAoAAAANAAIAAGAEAAoAAAANAAIAAGAEAAsAAAANAAIAAGA=")
+script = ExtResource("3_wx617")
+workspace = NodePath("../Workspace")
+target_layer = NodePath("../Dungeon")
 
 [node name="AutoAddEntities" type="Node2D" parent="."]
 unique_name_in_owner = true
