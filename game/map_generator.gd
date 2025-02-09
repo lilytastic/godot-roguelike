@@ -4,6 +4,9 @@ const DIGGER_COORDS := Vector2i(13, 4)
 const ROOM_COORDS := Vector2i(13, 3)
 const EXIT_COORDS := Vector2i(13, 2)
 
+var exits := []
+var rooms := []
+
 @export var workspace: TileMapLayer
 @export var target_layer: TileMapLayer
 
@@ -16,28 +19,16 @@ func _ready():
 
 	for coord in get_used_cells():
 		var atlas_coords = get_cell_atlas_coords(coord)
+		var direction = _get_tile_direction(coord)
+		var size = _get_area(coord)
 		if atlas_coords == EXIT_COORDS:
-			var size = _get_area(coord)
-			var direction = _get_tile_direction(coord)
-			_add_room(coord)
-			
-			if direction == Vector2i.LEFT:
-				_add_digger(
-					Vector2i(coord.x - 1, coord.y + randi_range(0, 2)),
-					direction,
-					1
-				)
-			else:
-				_add_digger(
-					Vector2i(coord.x + 3, coord.y + randi_range(0, 2)),
-					direction,
-					1
-				)
-			_clear(coord, size)
+			var _coord = coord + Vector2i(randi_range(0, size.x - 1), randi_range(0, size.x - 1))
+			var new_room = _add_room(_coord, direction, Vector2i(3, 3))
+			rooms.append(new_room)
+			exits.append(coord)
+			_clear(coord, size) # clear template for the area used
 		if atlas_coords == DIGGER_COORDS:
-			var digger_direction = _get_tile_direction(coord)
-			var digger_size = _get_area(coord)
-			_add_digger(coord, digger_direction, digger_size)
+			_add_digger(coord, direction, size)
 			
 	workspace.queue_free()
 	queue_free()
@@ -49,29 +40,36 @@ func _clear(_coord: Vector2i, _size: Vector2i):
 			set_cell(_coord + Vector2i(x, y), -1)
 
 
-func _add_room(_coord: Vector2i):
+func _add_room(_coord: Vector2i, direction: Vector2i, size: Vector2i):
 	print('room at ', _coord)
 	
-	var coord = _coord
-	var direction = _get_tile_direction(coord)
-	var size = _get_area(coord)
-	print(size)
+	var dug := []
 	
-	# _add_digger(Vector2i(_coord.x + size.x + 1, randi_range(0, size.y)))
-
 	for x in range(size.x):
 		for y in range(size.y):
-			target_layer.set_cell(coord + Vector2i(x, y), 0, MapManager.tile_data['soil'].atlas_coords)
+			var coord = _coord + Vector2i(x, y)
+			dug.append(coord)
+			_dig(coord)
+			
+	return {
+		'cells': dug,
+		'size': size
+	}
 
+func _dig(coord: Vector2i):
+	target_layer.set_cell(coord, 0, MapManager.tile_data['soil'].atlas_coords)
 
 func _add_digger(coord: Vector2i, direction: Vector2i, size: int):
 	var digger_coord = coord
 	
+	_dig(coord)
+	"""
 	var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+
 	var time_since_direction_change = 0
 	var time_since_size_change = 0
 
-	for i in range(7):
+	for i in range(12):
 		for x in range(size):
 			for y in range(size):
 				target_layer.set_cell(
@@ -99,13 +97,12 @@ func _add_digger(coord: Vector2i, direction: Vector2i, size: int):
 			time_since_direction_change = 0
 		else:
 			time_since_direction_change += 1
-
+	"""
 
 func _get_area(coord: Vector2i) -> Vector2i:
 	var size = Vector2i(1, 1)
 	
 	if !get_used_cells().any(func(cell): return coord == cell):
-		print('not used', coord, get_used_cells())
 		return size
 
 	var _check_for_atlas = get_cell_atlas_coords(coord)
