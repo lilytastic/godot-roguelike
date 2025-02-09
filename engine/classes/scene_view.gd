@@ -12,10 +12,13 @@ func _ready():
 			if MapManager.map and entity.location and entity.location.map == MapManager.map:
 				_init_actor(entity)
 	)
+	
+	MapManager.map_changed.connect(
+		func(map): _check_entities()
+	)
 
 	MapManager.actors_changed.connect(
-		func():
-			_check_entities()
+		func(): _check_entities()
 	)
 	
 	_check_entities()

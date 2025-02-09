@@ -8,6 +8,12 @@ var last_position: Vector2
 
 func _ready() -> void:
 	get_viewport().connect("size_changed", render)
+	
+	MapManager.map_changed.connect(
+		func(map):
+			print('map changed!')
+			render()
+	)
 	render()
 	
 func _process(delta):
@@ -24,8 +30,6 @@ func render() -> void:
 		return
 
 	var current_map = MapManager.current_map
-	print(current_map.tiles)
-	print(current_map.default_tile)
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)
