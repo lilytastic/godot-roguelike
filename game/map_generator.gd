@@ -50,12 +50,12 @@ func _ready():
 	var dug_percentage = tiles_dug / total_cells * 100.0
 	var iterations = 0
 	while true:
-		if iterations > 999:
+		if iterations > 9999:
 			break
 		iterations += 1
 		total_cells = rect.end.x * rect.end.y * 1.0
 		dug_percentage = tiles_dug / total_cells * 100.0
-		if dug_percentage > 40:
+		if dug_percentage > 50:
 			break
 		
 		var new_room = await _place_room(_make_room())
@@ -75,19 +75,13 @@ func _check_overlap(arr1: Array, arr2: Array):
 			if item1 == item2:
 				return true
 	return false
-	
-func _check_overlap_rect(arr1: Array, rect: Rect2):
-	for item1 in arr1:
-		if rect.has_point(item1):
-			return true
-	return false
+
 
 func _place_room(room: Room, _accrete: Room = null) -> Room:
 	var workspace_cells = workspace.get_used_cells()
 	if rooms.size() == 0:
 		return null
 	var accrete = _accrete if _accrete != null else rooms.pick_random()
-	var valid_positions := {}
 	if !accrete:
 		return null
 		
@@ -96,73 +90,19 @@ func _place_room(room: Room, _accrete: Room = null) -> Room:
 	var used_cells = target_layer.get_used_cells().filter(
 		func(cell): return target_layer.get_cell_atlas_coords(cell) != Vector2i(default_wall)
 	)
-	
-	var template_rect = template.get_used_rect()
 
 	# For each direction this room has exits...
-	for face_direction in room.exits.keys():
-		# For each exit in that direction...
-		for exit in room.exits[face_direction]:
-			for face_cell in accrete.faces[-face_direction]:
-				# Exit would be something like (3, -1) or (4, 3) for a 3x3 room -- it's relative to 0,0
-				# Get all cells for our workspace, where the chosen exit is relative to the current face cell
-				var relative_cells = workspace_cells.map(
-					func(_cell):
-						return _cell - exit + face_cell
-				)
-				
-				var padding = 1
-				
-				if relative_cells.any(
-					func(_cell):
-						return _cell.x < padding or _cell.x > template_rect.end.x - padding or _cell.y < padding or _cell.y > template_rect.end.y - padding
-				):
-					continue;
-				print('cursor at ', face_cell)
-				
-				var min_x = relative_cells.map(func(c): return c.x).min()
-				var max_x = relative_cells.map(func(c): return c.x).max()
-				var min_y = relative_cells.map(func(c): return c.y).min()
-				var max_y = relative_cells.map(func(c): return c.y).max()
-				
-				cursor.position = face_cell * 16 + Vector2i(8, 8)
-				
-				var bounds = Rect2(
-					min_x - padding,
-					min_y - padding,
-					(max_x - min_x) + 1 + padding * 2,
-					(max_y - min_y) + 1 + padding * 2
-				)
-				var overlapped = _check_overlap_rect(used_cells, bounds) # _check_overlap(used_cells, relative_cells)
+	var valid_location = await MapGen.accrete(accrete, room, used_cells, template.get_used_rect())
+	if valid_location:
+		_dig(target_layer, valid_location.exit)
+		room.cells = room.cells.map(func(_cell): return _cell + valid_location.offset)
+		room.update_faces()
+		print('digging a new room with ', workspace_cells.size(), ' cells')
+		for cell in room.cells:
+			_dig(target_layer, cell)
 
-				# TODO: Add padding, or walls around rooms, so they don't wind up side-by-side
-				if !overlapped:
-					cursor.position = face_cell * 16 + Vector2i(8, 8)
-					await Global.sleep(30)
-					if !valid_positions.has(face_direction):
-						valid_positions[face_direction] = []
-					valid_positions[face_direction].append({
-						'exit': (-exit + face_cell) + exit,
-						'offset': -exit + face_cell
-					})
-	
-	if !valid_positions.keys().size():
-		return null
-	var chosen_direction = valid_positions.keys().pick_random()
-	var position = valid_positions[chosen_direction].pick_random()
-	if !position:
-		return null
-		
-	cursor.position = position.exit * 16 + Vector2i(8, 8)
-
-	_dig(target_layer, position.exit)
-	room.cells = room.cells.map(func(_cell): return _cell + position.offset)
-	room.update_faces()
-	print('digging a new room with ', workspace_cells.size(), ' cells')
-	for cell in room.cells:
-		_dig(target_layer, cell)
-
-	return room
+		return room
+	return null
 
 
 func _make_room() -> Room:
@@ -170,7 +110,7 @@ func _make_room() -> Room:
 	var new_room = Room.new()
 	
 	var _cells := []
-	var size = Vector2i(3, 3)
+	var size = Vector2i(randi_range(2, 8), randi_range(2, 8))
 	
 	for x in range(size.x):
 		for y in range(size.y):
