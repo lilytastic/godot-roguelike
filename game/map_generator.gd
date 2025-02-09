@@ -8,12 +8,14 @@ var exits := []
 var rooms := []
 
 var default_ground = MapManager.tile_data['soil'].atlas_coords
+var default_wall = null
 
 @export var template: TileMapLayer
 @export var workspace: TileMapLayer
 @export var target_layer: TileMapLayer
 
 func _ready():
+	default_wall = MapManager.tile_data[default_tile].atlas_coords
 	var rect = template.get_used_rect()
 	
 	# Clear the map with with the default tile
@@ -55,7 +57,11 @@ func _ready():
 			break
 		
 		var new_room = _place_room(_make_room())
-		tiles_dug += 10 + new_room.cells.size()
+		if new_room:
+			tiles_dug += new_room.cells.size()
+		else:
+			tiles_dug += 10
+
 		rooms.append(new_room)
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	workspace.queue_free()
@@ -63,13 +69,45 @@ func _ready():
 	print('==== Map generation complete ====')
 
 
+func _check_overlap(arr1: Array, arr2: Array):
+	for item1 in arr1:
+		for item2 in arr2:
+			if item1 == item2:
+				return true
+	return false
+
+
 func _place_room(room: Room, _accrete: Room = null) -> Room:
-	var used_cells = workspace.get_used_cells()
-	var accrete = _accrete if _accrete else rooms.pick_random()
-	# Find a valid place to put the new one in workspace
-	# Return null if there's no valid place
-	print('digging a new room with ', used_cells.size(), ' cells')
+	var workspace_cells = workspace.get_used_cells()
+	if rooms.size() == 0:
+		return null
+	var accrete = _accrete if _accrete != null else rooms.pick_random()
+	var valid_positions := []
+	if !accrete:
+		return null
+	# Find a valid place to put the room in our workspace
+	print('attempt to connect ', room, ' to ', accrete)
+	var used_cells = target_layer.get_used_cells().filter(func(cell): return target_layer.get_cell_atlas_coords(cell) != Vector2i(default_wall))
+	for face in accrete.faces.keys():
+		for cell in accrete.faces[face]:
+			for exit in room.exits[-face]:
+				var offset = (cell - exit + face)
+				var relative_cells = workspace_cells.map(func(_cell): return _cell + offset)
+				print('new room at: ', offset)
+				var overlapped = _check_overlap(used_cells, relative_cells)
+				if !overlapped:
+					valid_positions.append(cell)
+				pass
+	print(valid_positions.size(), ' valid places to put it')
+	if valid_positions.size() == 0:
+		return null
+	var position = valid_positions.pick_random()
+	room.cells = room.cells.map(func(cell): return cell + position)
+	print('digging a new room with ', workspace_cells.size(), ' cells')
+	for cell in room.cells:
+		target_layer.set_cell(cell, 0, default_ground)
 	return room
+
 
 func _make_room() -> Room:
 	workspace.clear()
@@ -77,6 +115,7 @@ func _make_room() -> Room:
 	
 	var cells := []
 	var size = Vector2i(5, 5)
+	
 	for x in range(size.x):
 		for y in range(size.y):
 			var coord = Vector2i(x, y)
@@ -85,21 +124,13 @@ func _make_room() -> Room:
 	new_room.cells = cells
 
 	for direction in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
-		new_room.faces[direction] = _get_faces(workspace, direction)
-		new_room.exits[direction] = new_room.faces[direction].pick_random()
+		new_room.update_faces()
+		new_room.exits[direction] = [ new_room.faces[direction].pick_random() ]
 		pass
 	
-	print(new_room.exits)
-
+	# print('made a new room with ', new_room.exits.values().size(), ' exits')
 	return new_room
 
-func _get_faces(tile_map_layer: TileMapLayer, direction: Vector2i):
-	var faces := []
-	var used_cells = tile_map_layer.get_used_cells()
-	for cell in used_cells:
-		if used_cells.find(cell + direction) == -1:
-			faces.append(cell + direction)
-	return faces
 
 func _clear(_coord: Vector2i, _size: Vector2i):
 	for x in range(_size.x):
@@ -120,6 +151,7 @@ func _add_room(_coord: Vector2i, direction: Vector2i, size: Vector2i) -> Room:
 	
 	var new_room = Room.new()
 	new_room.cells = dug
+	new_room.update_faces()
 	return new_room
 
 func _dig(layer: TileMapLayer, coord: Vector2i):
