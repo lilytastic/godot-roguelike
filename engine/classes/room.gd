@@ -20,9 +20,9 @@ func update_faces():
 		faces[direction] = _get_faces(direction)
 
 func _get_faces(direction: Vector2i):
-	var faces := []
+	var _faces := []
 	for cell in cells:
 		# TODO: Ensure there's no tiles between this cell and the edge
 		if cells.find(cell + direction) == -1:
-			faces.append(cell + direction)
-	return faces
+			_faces.append(cell + direction)
+	return _faces

@@ -20,6 +20,11 @@ func _ready() -> void:
 func _process(delta) -> void:
 	visible = !Global.ui_visible and Global.player and ECS.entities.has(Global.player.uuid)
 
+	if !Global.player:
+		visible = true
+		%Path.visible = false
+		return
+	
 	if Global.player.targeting.current_path:
 		# path = Global.player.current_path
 		%Path.start = 0
@@ -80,7 +85,7 @@ func _process(delta) -> void:
 		%Tracker.modulate = Color(%Tracker.modulate, 0.5)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and !Global.player.targeting.current_path:
+	if event is InputEventMouseMotion and Global.player and !Global.player.targeting.current_path:
 		_mouse_moved = true
 
 
