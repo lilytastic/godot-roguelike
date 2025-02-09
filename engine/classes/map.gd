@@ -18,6 +18,7 @@ func _init(_map_name: String, data := {}) -> void:
 	uuid = data.get('uuid',  uuid_util.v4())
 	name = _map_name
 	prefab = data.get('prefab', 'test')
+	default_tile = data.get('default_tile', 'void')
 	
 	_init_prefab(prefab, data.get('include_entities', false))
 
@@ -26,7 +27,6 @@ func _init(_map_name: String, data := {}) -> void:
 	print('tiles: ', tiles)
 	print('size: ', size)
 	# TODO: Set default tile to the most frequent tile in the array
-	default_tile = data.get('default_tile', 'void')
 
 
 func _init_prefab(prefab: String, include_entities = false):
@@ -34,6 +34,10 @@ func _init_prefab(prefab: String, include_entities = false):
 	var packed_scene = cell.instantiate()
 	var tile_pattern = null
 	var actors := []
+	
+	if packed_scene is MapPrefab:
+		default_tile = packed_scene.default_tile
+	
 	for child in packed_scene.get_children():
 		if child is TileMapLayer:
 			tile_pattern = child.get_pattern(child.get_used_cells())
@@ -86,7 +90,10 @@ func can_walk(position: Vector2i):
 	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
 		return false
 	
-	return tiles_at(position).find('tree') == -1
+	return !tiles_at(position).any(
+		func(id):
+			return MapManager.tile_data[id].get('is_solid', false)
+	)
 
 func _init_navigation_map():
 	navigation_map.clear()

@@ -80,9 +80,15 @@ var tile_data = {
 	'void': {
 		'atlas_coords': Vector2(0, 0)
 	},
+	'rough stone': {
+		'atlas_coords': Vector2(2, 0),
+		'color': Color.DIM_GRAY,
+		'is_solid': true
+	},
 	'tree': {
 		'atlas_coords': Vector2(4, 2),
-		'color': Color('387a17')
+		'color': Color('387a17'),
+		'is_solid': true
 	},
 	'soil': {
 		'atlas_coords': Vector2(5, 0),

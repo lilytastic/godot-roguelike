@@ -30,7 +30,7 @@ func new_game() -> Entity:
 	MapManager.switch_map(starting_map)
 
 	player = Entity.new({ 'blueprint': 'hero' })
-	player.location = Location.new(starting_map.uuid, Vector2(0,0))
+	player.location = Location.new(starting_map.uuid, Vector2(2,2))
 	player.inventory = InventoryProps.new()
 	player.inventory.add({
 		'entity': ECS.create({ 'blueprint': 'greatsword' }).uuid,
