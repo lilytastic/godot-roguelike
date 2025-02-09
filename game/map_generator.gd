@@ -91,6 +91,8 @@ func _place_room(room: Room, _accrete: Room = null) -> Room:
 	var used_cells = target_layer.get_used_cells().filter(
 		func(cell): return target_layer.get_cell_atlas_coords(cell) != Vector2i(default_wall)
 	)
+	
+	var template_rect = template.get_used_rect()
 
 	# For each direction this room has exits...
 	for face_direction in room.exits.keys():
@@ -103,6 +105,10 @@ func _place_room(room: Room, _accrete: Room = null) -> Room:
 					func(_cell):
 						return _cell - exit + face_cell
 				)
+				if relative_cells.any(
+					func(_cell): return _cell.x < 0 or _cell.x > template_rect.end.x or _cell.y < 0 or _cell.y > template_rect.end.y
+				):
+					continue;
 				print('cursor at ', face_cell)
 				cursor.position = face_cell * 16 + Vector2i(8, 8)
 				await Global.sleep(100)
