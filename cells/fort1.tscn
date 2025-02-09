@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=4 uid="uid://8pninf6hgitr"]
+
+[ext_resource type="Script" path="res://engine/classes/map_prefab.gd" id="1_rta77"]
+[ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/map_view.tscn" id="2_csb8k"]
+[ext_resource type="Script" path="res://game/map_generator.gd" id="3_wx617"]
+
+[node name="Test" type="Node2D"]
+script = ExtResource("1_rta77")
+default_tile = "void"
+
+[node name="TileMapLayer" parent="." instance=ExtResource("2_csb8k")]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray("AAADAAoAAAANAAIAAGADAAsAAAANAAIAAGADAAwAAAANAAIAAGAEAAwAAAANAAIAAGAFAAwAAAANAAIAAGAFAAsAAAANAAIAAGAFAAoAAAANAAIAAGAEAAoAAAANAAIAAGAEAAsAAAANAAIAAGAVAAoAAAANAAIAAFAVAAwAAAANAAIAAFAWAAoAAAANAAIAAFAWAAsAAAANAAIAAFAWAAwAAAANAAIAAFAAAAAAAAAIAAUAAAAAABYAAAAIAAUAAAAMAAoAAAALAAEAAAAMAAsAAAALAAEAAAAMAAwAAAALAAEAAAANAAoAAAALAAEAAAANAAsAAAALAAEAAAANAAwAAAALAAEAAAAOAAoAAAALAAEAAAAOAAsAAAALAAEAAAAOAAwAAAALAAEAAAAXAAoAAAANAAIAAFAXAAsAAAANAAIAAFAXAAwAAAANAAIAAFAaABYAAAAIAAUAAAAVAAsAAAANAAIAAFA=")
+script = ExtResource("3_wx617")
+
+[node name="AutoAddEntities" type="Node2D" parent="."]
+unique_name_in_owner = true
