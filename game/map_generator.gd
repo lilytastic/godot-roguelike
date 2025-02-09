@@ -1,4 +1,4 @@
-extends TileMapLayer
+extends MapPrefab
 
 const DIGGER_COORDS := Vector2i(13, 4)
 const ROOM_COORDS := Vector2i(13, 3)
@@ -7,18 +7,19 @@ const EXIT_COORDS := Vector2i(13, 2)
 var exits := []
 var rooms := []
 
+@export var template: TileMapLayer
 @export var workspace: TileMapLayer
 @export var target_layer: TileMapLayer
 
 func _ready():
-	var rect = get_used_rect()
+	var rect = template.get_used_rect()
 	
 	for x in range(rect.end.x):
 		for y in range(rect.end.y):
 			target_layer.set_cell(Vector2i(x, y), 0, MapManager.tile_data['rough stone'].atlas_coords)
 
-	for coord in get_used_cells():
-		var atlas_coords = get_cell_atlas_coords(coord)
+	for coord in template.get_used_cells():
+		var atlas_coords = template.get_cell_atlas_coords(coord)
 		var direction = _get_tile_direction(coord)
 		var size = _get_area(coord)
 		if atlas_coords == EXIT_COORDS:
@@ -31,13 +32,13 @@ func _ready():
 			_add_digger(coord, direction, size)
 			
 	workspace.queue_free()
-	queue_free()
+	template.queue_free()
 
 
 func _clear(_coord: Vector2i, _size: Vector2i):
 	for x in range(_size.x):
 		for y in range(_size.y):
-			set_cell(_coord + Vector2i(x, y), -1)
+			template.set_cell(_coord + Vector2i(x, y), -1)
 
 
 func _add_room(_coord: Vector2i, direction: Vector2i, size: Vector2i):
@@ -102,21 +103,21 @@ func _add_digger(coord: Vector2i, direction: Vector2i, size: int):
 func _get_area(coord: Vector2i) -> Vector2i:
 	var size = Vector2i(1, 1)
 	
-	if !get_used_cells().any(func(cell): return coord == cell):
+	if !template.get_used_cells().any(func(cell): return coord == cell):
 		return size
 
-	var _check_for_atlas = get_cell_atlas_coords(coord)
+	var _check_for_atlas = template.get_cell_atlas_coords(coord)
 	
 	if _check_for_atlas == Vector2i(0,0):
 		return size
 
 	var _check_coord = coord
-	while get_cell_atlas_coords(_check_coord + Vector2i(1, 0)) == _check_for_atlas:
+	while template.get_cell_atlas_coords(_check_coord + Vector2i(1, 0)) == _check_for_atlas:
 		size.x += 1
 		_check_coord += Vector2i(1, 0)
 	
 	_check_coord = coord
-	while get_cell_atlas_coords(_check_coord + Vector2i(0, 1)) == _check_for_atlas:
+	while template.get_cell_atlas_coords(_check_coord + Vector2i(0, 1)) == _check_for_atlas:
 		size.y += 1
 		_check_coord += Vector2i(0, 1)
 	
@@ -125,7 +126,7 @@ func _get_area(coord: Vector2i) -> Vector2i:
 
 func _get_tile_direction(coord: Vector2i):
 	var vec = Vector2i.RIGHT
-	var alt = get_cell_alternative_tile(coord)
+	var alt = template.get_cell_alternative_tile(coord)
 	if alt & TileSetAtlasSource.TRANSFORM_TRANSPOSE:
 		vec = Vector2i(vec.y, vec.x)
 	if alt & TileSetAtlasSource.TRANSFORM_FLIP_H:
