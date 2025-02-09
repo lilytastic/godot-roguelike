@@ -36,11 +36,19 @@ func _add_digger(coord: Vector2i):
 
 	set_cell(coord, -1)
 	
-	for i in range(10):
+	var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+	var time_since_direction_change = 0
+	for i in range(20):
 		for x in range(digger_size.x):
 			for y in range(digger_size.y):
 				set_cell(digger_coord + Vector2i(x, y), 0, MapManager.tile_data['soil'].atlas_coords)
 		digger_coord += digger_direction
+		if time_since_direction_change > 4 and randi_range(0, 100) < 20:
+			digger_direction = directions.filter(
+				func(vec): return vec != digger_direction and vec != -digger_direction
+			).pick_random()
+		else:
+			time_since_direction_change += 1
 
 
 func _get_tile_direction(coord: Vector2i):
