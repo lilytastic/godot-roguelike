@@ -33,7 +33,7 @@ func perform(entity: Entity) -> ActionResult:
 				MapManager.switch_map(_map)
 				print('teleported to: ', entity.location.map)
 				entity.location.map = _map.uuid
-				entity.location.position = target.destination.position
+				entity.location.position = Global.string_to_vector(target.destination.position)
 				MapManager.init_actors()
 				return ActionResult.new(true, { 'cost_energy': 3 })
 				
