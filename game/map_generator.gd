@@ -40,11 +40,12 @@ func _ready():
 		var size = _get_area(coord)
 		if atlas_coords == EXIT_COORDS:
 			var _coord = coord + Vector2i(randi_range(0, size.x - 1), randi_range(0, size.x - 1))
-			var new_room = _add_room(_coord, direction, Vector2i(3, 3))
+			var new_room = _make_room() # _add_room(_coord, direction, Vector2i(3, 3))
+			new_room.reposition(_coord)
+			for _cell in new_room.cells:
+				_dig(target_layer, _cell)
 			rooms.append(new_room)
 			_clear(coord, size) # clear template for the area used
-		if atlas_coords == DIGGER_COORDS:
-			_add_digger(coord, direction, size)
 	
 	var total_cells = rect.end.x * rect.end.y * 1.0
 	var dug_percentage = tiles_dug / total_cells * 100.0
@@ -117,8 +118,7 @@ func _make_room() -> Room:
 			var coord = Vector2i(x, y)
 			workspace.set_cell(coord, 0, default_ground)
 			_cells.append(coord)
-	new_room.cells = _cells
-	new_room.update_faces()
+	new_room.set_cells(_cells)
 
 	for direction in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
 		new_room.exits[direction] = [ new_room.faces[direction].pick_random() ]
@@ -155,46 +155,6 @@ func _add_room(_coord: Vector2i, direction: Vector2i, size: Vector2i) -> Room:
 
 func _dig(layer: TileMapLayer, coord: Vector2i):
 	layer.set_cell(coord, 0, default_ground)
-
-func _add_digger(coord: Vector2i, direction: Vector2i, size: int):
-	var digger_coord = coord
-	
-	_dig(target_layer, coord)
-	"""
-	var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
-
-	var time_since_direction_change = 0
-	var time_since_size_change = 0
-
-	for i in range(12):
-		for x in range(size):
-			for y in range(size):
-				target_layer.set_cell(
-					digger_coord + Vector2i(x, y),
-					0,
-					MapManager.tile_data['soil'].atlas_coords
-				)
-		digger_coord += direction
-		
-		if time_since_size_change > 4 and randi_range(0, 100) < 20:
-			var mod = [-1, 1].pick_random()
-			var new_size = max(1, size + mod)
-			size = new_size
-			
-			time_since_size_change = 0
-		else:
-			time_since_size_change += 1
-			
-		if time_since_direction_change > (5 + size) and randi_range(0, 100) < 50:
-			print('change direction')
-			direction = directions.filter(
-				func(vec):
-					return vec != direction and vec != -direction
-			).pick_random()
-			time_since_direction_change = 0
-		else:
-			time_since_direction_change += 1
-	"""
 
 func _get_area(coord: Vector2i) -> Vector2i:
 	var size = Vector2i(1, 1)
