@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=4 uid="uid://c85krcwtqo3rc"]
 
-[ext_resource type="TileSet" uid="uid://20orwfw58n08" path="res://game/Test.tres" id="1_o4w0b"]
+[ext_resource type="TileSet" uid="uid://20orwfw58n08" path="res://game/kenney_roguelike.tres" id="1_o4w0b"]
 
 [node name="TileMapLayer" type="TileMapLayer"]
 tile_map_data = PackedByteArray("AAD+/wEAAQAFAAAAAAD7//7/AQAFAAAAAAAEAPz/AQAFAAAAAAD5//3/AQAFAAAAAAD5////AQAFAAAAAAD7/wYAAQAFAAAAAAD8//r/AQAFAAAAAAAEAAEAAQAFAAAAAAAEAAIAAQAFAAAAAAAHAAEAAQAFAAAAAAA=")
