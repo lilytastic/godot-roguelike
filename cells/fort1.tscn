@@ -8,6 +8,7 @@ script = ExtResource("3_wx617")
 template = NodePath("Template")
 workspace = NodePath("Workspace")
 target_layer = NodePath("Dungeon")
+default_tile = "rough stone"
 
 [node name="Dungeon" parent="." instance=ExtResource("2_csb8k")]
 unique_name_in_owner = true
