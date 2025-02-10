@@ -104,3 +104,15 @@ static func flood_fill(tile_map_layer: TileMapLayer, coord: Vector2i) -> Array:
 			queue.append(next + Vector2i.RIGHT)
 			queue.append(next + Vector2i.DOWN)
 	return coords
+
+static func get_tile_direction(layer: TileMapLayer, coord: Vector2i):
+	var vec = Vector2i.RIGHT
+	var alt = layer.get_cell_alternative_tile(coord)
+	if alt & TileSetAtlasSource.TRANSFORM_TRANSPOSE:
+		vec = Vector2i(vec.y, vec.x)
+	if alt & TileSetAtlasSource.TRANSFORM_FLIP_H:
+		vec.x *= -1
+	if alt & TileSetAtlasSource.TRANSFORM_FLIP_V:
+		vec.y *= -1
+	vec = Vector2i(-vec.y, vec.x)
+	return vec
