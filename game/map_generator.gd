@@ -65,17 +65,14 @@ func _ready():
 			rooms.append(new_room)
 			await Global.sleep(500)
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
+	
+	var flood_filled = MapGen.flood_fill(target_layer, rooms[0].cells[0])
+	for cell in flood_filled:
+		target_layer.set_cell(cell, 0, Vector2i(1, 0))
+	print(flood_filled)
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')
-
-
-func _check_overlap(arr1: Array, arr2: Array):
-	for item1 in arr1:
-		for item2 in arr2:
-			if item1 == item2:
-				return true
-	return false
 
 
 func _place_room(room: Room, _accrete: Room = null) -> Room:
@@ -133,25 +130,6 @@ func _clear(_coord: Vector2i, _size: Vector2i):
 		for y in range(_size.y):
 			template.set_cell(_coord + Vector2i(x, y), -1)
 
-
-func _add_room(_coord: Vector2i, direction: Vector2i, size: Vector2i) -> Room:
-	print('room at ', _coord)
-	
-	var dug := []
-	
-	for x in range(size.x):
-		for y in range(size.y):
-			var coord = _coord + Vector2i(x, y)
-			print(coord)
-			_dig(target_layer, coord)
-			dug.append(coord)
-	
-	var new_room = Room.new()
-	new_room.cells = dug
-	print('cells: ', new_room.cells)
-	new_room.update_faces()
-	print('faces: ', new_room.faces)
-	return new_room
 
 func _dig(layer: TileMapLayer, coord: Vector2i):
 	layer.set_cell(coord, 0, default_ground)
