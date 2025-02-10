@@ -16,6 +16,8 @@ var cursor = null
 @export var workspace: TileMapLayer
 @export var target_layer: TileMapLayer
 
+var directions = [Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN, Vector2i.RIGHT]
+
 func _ready():
 	default_wall = MapManager.tile_data[default_tile].atlas_coords
 	var rect = template.get_used_rect()
@@ -63,7 +65,7 @@ func _ready():
 		if new_room:
 			tiles_dug += new_room.cells.size()
 			rooms.append(new_room)
-			# await Global.sleep(500)
+			await Global.sleep(150)
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
 	"""
@@ -73,16 +75,42 @@ func _ready():
 	print(flood_filled)
 	"""
 	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
+	
+	var astar = AStar2D.new()
+	var target_rect = target_layer.get_used_rect()
+	for cell in target_layer.get_used_cells():
+		if target_layer.get_cell_atlas_coords(cell) != wall_atlas_coords:
+			astar.add_point(Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x), cell)
+			
+	for cell in target_layer.get_used_cells():
+		if target_layer.get_cell_atlas_coords(cell) != wall_atlas_coords:
+			for dir in directions:
+				var offset = cell + dir
+				var _ac = target_layer.get_cell_atlas_coords(offset)
+				if _ac != wall_atlas_coords and _ac != Vector2i(-1, -1):
+					astar.connect_points(Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x), Coords.get_astar_pos(offset.x, offset.y, target_rect.end.x))
+				pass
+
 	var walls = target_layer.get_used_cells().filter(func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
 	var connecting_walls = []
 	for cell in walls:
 		if target_layer.get_used_rect().has_point(cell + Vector2i.LEFT) and target_layer.get_used_rect().has_point(cell + Vector2i.RIGHT) and target_layer.get_cell_atlas_coords(cell + Vector2i.LEFT) != wall_atlas_coords and target_layer.get_cell_atlas_coords(cell + Vector2i.RIGHT) != wall_atlas_coords:
-			connecting_walls.append(cell)
+			connecting_walls.append({'cell': cell, 'direction': 'HORIZONTAL', 'adjoining': [cell + Vector2i.LEFT, cell + Vector2i.RIGHT]})
 		if target_layer.get_used_rect().has_point(cell + Vector2i.UP) and target_layer.get_used_rect().has_point(cell + Vector2i.DOWN) and target_layer.get_cell_atlas_coords(cell + Vector2i.UP) != wall_atlas_coords and target_layer.get_cell_atlas_coords(cell + Vector2i.DOWN) != wall_atlas_coords:
-			connecting_walls.append(cell)
+			connecting_walls.append({'cell': cell, 'direction': 'VERTICAL', 'adjoining': [cell + Vector2i.UP, cell + Vector2i.DOWN]})
 
-	for cell in connecting_walls:
-		target_layer.set_cell(cell, 0, Vector2i(0, 0))
+	connecting_walls.shuffle()
+	for wall in connecting_walls:
+		var point1 = Coords.get_astar_pos(wall.adjoining[0].x, wall.adjoining[0].y, target_rect.end.x)
+		var point2 = Coords.get_astar_pos(wall.adjoining[1].x, wall.adjoining[1].y, target_rect.end.x)
+		var path = astar.get_point_path(point1, point2)
+		if path.size() == 0 or path.size() > 20:
+			var wall_point = Coords.get_astar_pos(wall.cell.x, wall.cell.y, target_rect.end.x)
+			astar.add_point(wall_point, wall.cell)
+			astar.connect_points(wall_point, point1)
+			astar.connect_points(wall_point, point2)
+			target_layer.set_cell(wall.cell, 0, default_ground)
+	
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')

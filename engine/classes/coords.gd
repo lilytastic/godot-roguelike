@@ -27,3 +27,6 @@ static func get_range(this_coord: Vector2i, that_coord: Vector2i) -> int:
 static func is_in_range(this_coord: Vector2i, that_coord: Vector2i,
 		max_range: int) -> bool:
 	return get_range(this_coord, that_coord) <= max_range
+
+static func get_astar_pos(x, y, width) -> int:
+	return x + width * y
