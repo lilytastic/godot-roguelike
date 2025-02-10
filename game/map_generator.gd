@@ -112,7 +112,7 @@ func _ready():
 	
 	var astar = _get_navigation_map(func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
 
-	MapGen.connect_features(target_layer, astar, _is_solid, func(cell): _dig(target_layer, cell))
+	MapGen.connect_features(target_layer, astar, _is_solid, func(cell): _open_exit(cell))
 	
 	workspace.queue_free()
 	template.queue_free()
@@ -122,6 +122,11 @@ func _ready():
 func _can_dig(cell: Vector2i):
 	return _is_solid(cell) and target_layer.get_used_rect().has_point(cell)
 
+func _get_feature_at(cell: Vector2i):
+	return features.filter(
+		func(feature: Feature):
+			return feature.cells.find(cell) != -1
+	).front()
 
 func _get_navigation_map(is_solid: Callable):
 	var astar = AStar2D.new()
@@ -139,6 +144,18 @@ func _get_navigation_map(is_solid: Callable):
 				pass
 	return astar
 
+
+func _open_exit(cell: Vector2i):
+	var arr = []
+	arr.append(_get_feature_at(cell + Vector2i.UP))
+	arr.append(_get_feature_at(cell + Vector2i.LEFT))
+	arr.append(_get_feature_at(cell + Vector2i.RIGHT))
+	arr.append(_get_feature_at(cell + Vector2i.DOWN))
+	arr = arr.filter(func(x): return x != null)
+	for feature in arr:
+		feature.exits.append(cell)
+
+	_dig(target_layer, cell)
 
 func _is_solid(cell: Vector2i):
 	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
@@ -195,10 +212,10 @@ func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	new_room.set_cells(_cells)
 
 	for direction in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
-		new_room.exits[direction] = [ new_room.faces[direction].pick_random() ]
+		new_room.exits.append(new_room.faces[direction].pick_random())
 		pass
 	
-	# print('made a new room with ', new_room.exits.values().size(), ' exits')
+	# print('made a new room with ', new_room.exits.size(), ' exits')
 	return new_room
 
 

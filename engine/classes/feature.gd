@@ -1,12 +1,7 @@
 class_name Feature
 
 var cells := []
-var exits = {
-	Vector2i.RIGHT: [],
-	Vector2i.DOWN: [],
-	Vector2i.LEFT: [],
-	Vector2i.UP: [],
-}
+var exits := []
 
 var rect: Rect2i
 

@@ -2,11 +2,11 @@ class_name MapGen
 
 static func accrete(room: Feature, new_room: Feature, used_cells: Array, bounds: Rect2i, padding := 1):
 	var valid_positions = {}
-	var directions = new_room.exits.keys()
+	var directions = new_room.faces.keys()
 	directions.shuffle()
 	for face_direction in directions:
 		# For each exit in that direction...
-		for exit in new_room.exits[face_direction]:
+		for exit in new_room.exits.filter(func(exit): return new_room.faces[face_direction].find(exit) != -1):
 			var faces = room.faces[-face_direction]
 			faces.shuffle()
 			for face_cell in faces:

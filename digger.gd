@@ -20,23 +20,28 @@ func _init(coord: Vector2i, _direction: Vector2i, _corridor_width: int, _can_dig
 	dig = _dig
 	can_dig = _can_dig
 	position = coord
+	
+func _lookahead(distance: int, _direction := Vector2i(0,0)):
+	if _direction == Vector2i(0,0):
+		_direction = direction
+	for i in distance:
+		for ii in range(3):
+			var to_check = position + _direction * (i + 1)
+			if ii == 0:
+				to_check += Vector2i.UP if _direction.x != 0 else Vector2i.LEFT
+			if ii == 2:
+				to_check += Vector2i.DOWN if _direction.x != 0 else Vector2i.RIGHT
+			if can_dig.call(to_check) == false or cells.has(to_check):
+				return i
+	return distance
 
 func step():
 	var tiles_dug = 0
 
-	var lookahead = 2
-	for i in lookahead:
-		for ii in range(3):
-			var to_check = position + direction * (i + 1)
-			if ii == 0:
-				to_check += Vector2i.UP if direction.x != 0 else Vector2i.LEFT
-			if ii == 2:
-				to_check += Vector2i.DOWN if direction.x != 0 else Vector2i.RIGHT
-			if can_dig.call(to_check) == false or cells.has(to_check):
-				print('no dig ', position + direction * (i + 1))
-				_change_direction()
-				life -= 1
-				return tiles_dug
+	if _lookahead(2) < 2:
+		_change_direction()
+		life -= 1
+		return tiles_dug
 
 	dig.call(position)
 	cells.append(position)
@@ -55,19 +60,29 @@ func step():
 	time_since_direction_change += 1
 	time_since_size_change += 1
 	
-	var change_direction = time_since_direction_change > 9 and randi_range(0, 100) < 50
+	var change_direction = time_since_direction_change > 4 and randi_range(0, 100) < 30
 
 	if change_direction:
 		_change_direction()
 
 	return tiles_dug
 
+
 func _change_direction():
 	print('change direction')
-	direction = directions.filter(
+	var valid_directions = directions.filter(
 		func(vec):
 			return vec != direction and vec != -direction
-	).pick_random()
+	)
+	valid_directions.sort_custom(
+		func(a,b):
+			var distance_a = _lookahead(100, a)
+			var distance_b = _lookahead(100, b)
+			if distance_a > distance_b:
+				return true
+			return false
+	)
+	direction = valid_directions.front()
 	time_since_direction_change = 0
 	if time_since_size_change > 4 and randi_range(0, 100) < 40:
 		var mod = [-1, 1].pick_random()
