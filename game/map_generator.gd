@@ -96,23 +96,15 @@ func _ready():
 					astar.connect_points(Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x), Coords.get_astar_pos(offset.x, offset.y, target_rect.end.x))
 				pass
 
-	var connecting_walls = MapGen.get_connecting_walls(target_layer, func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
-	connecting_walls.shuffle()
-	for wall in connecting_walls:
-		var point1 = Coords.get_astar_pos(wall.adjoining[0].x, wall.adjoining[0].y, target_rect.end.x)
-		var point2 = Coords.get_astar_pos(wall.adjoining[1].x, wall.adjoining[1].y, target_rect.end.x)
-		var path = astar.get_point_path(point1, point2)
-		if path.size() == 0 or path.size() > 20:
-			var wall_point = Coords.get_astar_pos(wall.cell.x, wall.cell.y, target_rect.end.x)
-			astar.add_point(wall_point, wall.cell)
-			astar.connect_points(wall_point, point1)
-			astar.connect_points(wall_point, point2)
-			target_layer.set_cell(wall.cell, 0, default_ground)
+	MapGen.connect_rooms(target_layer, astar, _is_solid, func(cell): _dig(target_layer, cell))
 	
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')
 
+func _is_solid(cell: Vector2i):
+	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
+	return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
 
 func _place_room(room: Room, _accrete: Room = null) -> Room:
 	var workspace_cells = workspace.get_used_cells()
