@@ -50,6 +50,15 @@ static func accrete(room: Room, new_room: Room, used_cells: Array, bounds: Rect2
 	var chosen_direction = valid_positions.keys().pick_random()
 	return valid_positions[chosen_direction].pick_random()
 
+static func get_connecting_walls(target_layer: TileMapLayer, is_solid: Callable):
+	var connecting_walls = []
+	var walls = target_layer.get_used_cells().filter(func(cell): return is_solid.call(cell))
+	for cell in walls:
+		if target_layer.get_used_rect().has_point(cell + Vector2i.LEFT) and target_layer.get_used_rect().has_point(cell + Vector2i.RIGHT) and !is_solid.call(cell + Vector2i.LEFT) and !is_solid.call(cell + Vector2i.RIGHT):
+			connecting_walls.append({'cell': cell, 'direction': 'HORIZONTAL', 'adjoining': [cell + Vector2i.LEFT, cell + Vector2i.RIGHT]})
+		if target_layer.get_used_rect().has_point(cell + Vector2i.UP) and target_layer.get_used_rect().has_point(cell + Vector2i.DOWN) and !is_solid.call(cell + Vector2i.UP) and !is_solid.call(cell + Vector2i.DOWN):
+			connecting_walls.append({'cell': cell, 'direction': 'VERTICAL', 'adjoining': [cell + Vector2i.UP, cell + Vector2i.DOWN]})
+	return connecting_walls
 
 static func check_overlap(arr1: Array, arr2: Array):
 	for item1 in arr1:

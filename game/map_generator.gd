@@ -96,14 +96,7 @@ func _ready():
 					astar.connect_points(Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x), Coords.get_astar_pos(offset.x, offset.y, target_rect.end.x))
 				pass
 
-	var walls = target_layer.get_used_cells().filter(func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
-	var connecting_walls = []
-	for cell in walls:
-		if target_layer.get_used_rect().has_point(cell + Vector2i.LEFT) and target_layer.get_used_rect().has_point(cell + Vector2i.RIGHT) and target_layer.get_cell_atlas_coords(cell + Vector2i.LEFT) != wall_atlas_coords and target_layer.get_cell_atlas_coords(cell + Vector2i.RIGHT) != wall_atlas_coords:
-			connecting_walls.append({'cell': cell, 'direction': 'HORIZONTAL', 'adjoining': [cell + Vector2i.LEFT, cell + Vector2i.RIGHT]})
-		if target_layer.get_used_rect().has_point(cell + Vector2i.UP) and target_layer.get_used_rect().has_point(cell + Vector2i.DOWN) and target_layer.get_cell_atlas_coords(cell + Vector2i.UP) != wall_atlas_coords and target_layer.get_cell_atlas_coords(cell + Vector2i.DOWN) != wall_atlas_coords:
-			connecting_walls.append({'cell': cell, 'direction': 'VERTICAL', 'adjoining': [cell + Vector2i.UP, cell + Vector2i.DOWN]})
-
+	var connecting_walls = MapGen.get_connecting_walls(target_layer, func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
 	connecting_walls.shuffle()
 	for wall in connecting_walls:
 		var point1 = Coords.get_astar_pos(wall.adjoining[0].x, wall.adjoining[0].y, target_rect.end.x)
