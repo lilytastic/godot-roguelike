@@ -56,20 +56,33 @@ func _ready():
 		iterations += 1
 		total_cells = rect.end.x * rect.end.y * 1.0
 		dug_percentage = tiles_dug / total_cells * 100.0
-		if dug_percentage > 50:
+		if dug_percentage > 40:
 			break
 		
 		var new_room = await _place_room(_make_room())
 		if new_room:
 			tiles_dug += new_room.cells.size()
 			rooms.append(new_room)
-			await Global.sleep(500)
+			# await Global.sleep(500)
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
+	"""
 	var flood_filled = MapGen.flood_fill(target_layer, rooms[0].cells[0])
 	for cell in flood_filled:
 		target_layer.set_cell(cell, 0, Vector2i(1, 0))
 	print(flood_filled)
+	"""
+	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
+	var walls = target_layer.get_used_cells().filter(func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
+	var connecting_walls = []
+	for cell in walls:
+		if target_layer.get_used_rect().has_point(cell + Vector2i.LEFT) and target_layer.get_used_rect().has_point(cell + Vector2i.RIGHT) and target_layer.get_cell_atlas_coords(cell + Vector2i.LEFT) != wall_atlas_coords and target_layer.get_cell_atlas_coords(cell + Vector2i.RIGHT) != wall_atlas_coords:
+			connecting_walls.append(cell)
+		if target_layer.get_used_rect().has_point(cell + Vector2i.UP) and target_layer.get_used_rect().has_point(cell + Vector2i.DOWN) and target_layer.get_cell_atlas_coords(cell + Vector2i.UP) != wall_atlas_coords and target_layer.get_cell_atlas_coords(cell + Vector2i.DOWN) != wall_atlas_coords:
+			connecting_walls.append(cell)
+
+	for cell in connecting_walls:
+		target_layer.set_cell(cell, 0, Vector2i(0, 0))
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')

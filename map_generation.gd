@@ -38,7 +38,7 @@ static func accrete(room: Room, new_room: Room, used_cells: Array, bounds: Rect2
 
 				# TODO: Add padding, or walls around rooms, so they don't wind up side-by-side
 				if !overlapped:
-					await Global.sleep(30)
+					# await Global.sleep(30)
 					if !valid_positions.has(face_direction):
 						valid_positions[face_direction] = []
 					valid_positions[face_direction].append({
