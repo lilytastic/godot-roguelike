@@ -1,6 +1,6 @@
 class_name MapGen
 
-static func accrete(room: Room, new_room: Room, used_cells: Array, bounds: Rect2i, padding := 1):
+static func accrete(room: Feature, new_room: Feature, used_cells: Array, bounds: Rect2i, padding := 1):
 	var valid_positions = {}
 	var directions = new_room.exits.keys()
 	directions.shuffle()
@@ -35,7 +35,7 @@ static func accrete(room: Room, new_room: Room, used_cells: Array, bounds: Rect2
 				)
 				var overlapped = check_overlap_rect(used_cells, new_bounds) # _check_overlap(used_cells, relative_cells)
 
-				# TODO: Add padding, or walls around rooms, so they don't wind up side-by-side
+				# TODO: Add padding, or walls around features, so they don't wind up side-by-side
 				if !overlapped:
 					# await Global.sleep(30)
 					if !valid_positions.has(face_direction):
@@ -50,7 +50,7 @@ static func accrete(room: Room, new_room: Room, used_cells: Array, bounds: Rect2
 	var chosen_direction = valid_positions.keys().pick_random()
 	return valid_positions[chosen_direction].pick_random()
 
-static func connect_rooms(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
+static func connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
 	var target_rect = target_layer.get_used_rect()
 	var connecting_walls = get_connecting_walls(target_layer, is_solid)
 	connecting_walls.shuffle()

@@ -5,12 +5,14 @@ const ROOM_COORDS := Vector2i(13, 3)
 const EXIT_COORDS := Vector2i(13, 2)
 
 var exits := []
-var rooms := []
+var features := []
 
 var default_ground = MapManager.tile_data['soil'].atlas_coords
 var default_wall = null
 var cursor_prefab = preload('res://game/cursor.tscn')
 var cursor = null
+
+var diggers: Array[Digger] = []
 
 @export var template: TileMapLayer
 @export var workspace: TileMapLayer
@@ -22,7 +24,7 @@ var tiles_dug = 0
 
 func _ready():
 	tiles_dug = 0
-	rooms.clear()
+	features.clear()
 	default_wall = MapManager.tile_data[default_tile].atlas_coords
 	var rect = template.get_used_rect()
 	cursor = cursor_prefab.instantiate()
@@ -52,10 +54,19 @@ func _ready():
 				for _cell in new_room.cells:
 					_dig(target_layer, _cell)
 				tiles_dug += new_room.cells.size()
-				rooms.append(new_room)
+				features.append(new_room)
+				diggers.append(
+					Digger.new(
+						new_room.get_random_face(direction),
+						direction,
+						1,
+						_can_dig,
+						func(__cell): _dig(target_layer, __cell)
+					)
+				)
 			_clear(coord, size) # clear template for the area used
 	
-	print(tiles_dug, ' tiles dug for initial rooms')
+	print(tiles_dug, ' tiles dug for initial features')
 	
 	var total_cells = rect.end.x * rect.end.y * 1.0
 	var dug_percentage = tiles_dug / total_cells * 100.0
@@ -63,50 +74,53 @@ func _ready():
 	while true:
 		if iterations > 1999:
 			break
+
 		iterations += 1
+		
+		if diggers.size() > 0:
+			if diggers[0].life > 0:
+				tiles_dug += diggers[0].step()
+				if diggers[0].life <= 0:
+					var new_corridor = Feature.new()
+					new_corridor.set_cells(diggers[0].cells)
+					_dig_feature(new_corridor)
+					features.append(new_corridor)
+					diggers.pop_front()
+
+			await Global.sleep(50)
+			continue
+
 		total_cells = rect.end.x * rect.end.y * 1.0
 		dug_percentage = tiles_dug / total_cells * 100.0
-		if dug_percentage > 45:
+		if dug_percentage > 40:
 			break
 		
-		var new_room = await _place_room(_make_room())
-		if new_room:
-			tiles_dug += new_room.cells.size()
-			rooms.append(new_room)
+		var new_feature = await _make_room()
+		
+		if randi_range(0, 100) < 50:
+			pass
+		
+		new_feature = await _place_feature(new_feature)
+		if new_feature:
+			tiles_dug += new_feature.cells.size()
+			features.append(new_feature)
 			await Global.sleep(150)
+
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
 	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
 	
 	var astar = _get_navigation_map(func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
 
-	MapGen.connect_rooms(target_layer, astar, _is_solid, func(cell): _dig(target_layer, cell))
+	MapGen.connect_features(target_layer, astar, _is_solid, func(cell): _dig(target_layer, cell))
 	
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')
 
 
-func _iterate(get_room: Callable):
-	var rect = template.get_used_rect()
-	var total_cells = rect.end.x * rect.end.y * 1.0
-	var dug_percentage = tiles_dug / total_cells * 100.0
-	var iterations = 0
-	while true:
-		if iterations > 1999:
-			break
-		iterations += 1
-		total_cells = rect.end.x * rect.end.y * 1.0
-		dug_percentage = tiles_dug / total_cells * 100.0
-		if dug_percentage > 45:
-			break
-		
-		var new_room = await get_room.call()
-		if new_room:
-			tiles_dug += new_room.cells.size()
-			rooms.append(new_room)
-			await Global.sleep(150)
-	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
+func _can_dig(cell: Vector2i):
+	return _is_solid(cell) and target_layer.get_used_rect().has_point(cell)
 
 
 func _get_navigation_map(is_solid: Callable):
@@ -130,12 +144,13 @@ func _is_solid(cell: Vector2i):
 	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
 	return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
 
-func _place_room(room: Room, _accrete: Room = null) -> Room:
+
+func _place_feature(room: Feature, _accrete: Feature = null) -> Feature:
 	var workspace_cells = workspace.get_used_cells()
-	if rooms.size() == 0:
+	if features.size() == 0:
 		return null
 
-	var accrete = _accrete if _accrete != null else rooms.pick_random()
+	var accrete = _accrete if _accrete != null else features.pick_random()
 	if !accrete:
 		return null
 		
@@ -151,17 +166,20 @@ func _place_room(room: Room, _accrete: Room = null) -> Room:
 		_dig(target_layer, valid_location.exit)
 		room.cells = room.cells.map(func(_cell): return _cell + valid_location.offset)
 		room.update_faces()
-		print('digging a new room with ', workspace_cells.size(), ' cells')
-		for cell in room.cells:
-			_dig(target_layer, cell)
+		_dig_feature(room)
 
 		return room
 	return null
 
+func _dig_feature(feature: Feature):
+	var workspace_cells = workspace.get_used_cells()
+	print('digging a new room with ', workspace_cells.size(), ' cells')
+	for cell in feature.cells:
+		_dig(target_layer, cell)
 
-func _make_room(bounds := Vector2i(10, 10)) -> Room:
+func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	workspace.clear()
-	var new_room = Room.new()
+	var new_room = Feature.new()
 	
 	var _cells := []
 	var size = Vector2i(

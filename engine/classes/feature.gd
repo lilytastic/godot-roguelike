@@ -1,4 +1,4 @@
-class_name Room
+class_name Feature
 
 var cells := []
 var exits = {
@@ -21,8 +21,17 @@ func update_faces():
 	for direction in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
 		faces[direction] = get_faces(direction)
 
+func get_random_face(_direction := Vector2i(0,0)):
+	if _direction == Vector2i(0,0):
+		_direction = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT].pick_random()
+	return faces[_direction].pick_random()
+
 func set_cells(_cells: Array):
 	cells = _cells
+	
+	if cells.size() == 0:
+		update_faces()
+		return
 	
 	var min_x = cells.map(func(c): return c.x).min()
 	var max_x = cells.map(func(c): return c.x).max()
