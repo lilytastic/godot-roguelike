@@ -42,11 +42,12 @@ func _ready():
 		var size = _get_area(coord)
 		if atlas_coords == EXIT_COORDS:
 			var _coord = coord + Vector2i(randi_range(0, size.x - 1), randi_range(0, size.x - 1))
-			var new_room = _make_room() # _add_room(_coord, direction, Vector2i(3, 3))
+			var new_room = _make_room(Vector2i(rect.end.x - _coord.x - 1, rect.end.y - _coord.y - 1))
 			new_room.reposition(_coord)
-			for _cell in new_room.cells:
-				_dig(target_layer, _cell)
-			rooms.append(new_room)
+			if rect.encloses(new_room.rect):
+				for _cell in new_room.cells:
+					_dig(target_layer, _cell)
+				rooms.append(new_room)
 			_clear(coord, size) # clear template for the area used
 	
 	var total_cells = rect.end.x * rect.end.y * 1.0
@@ -144,12 +145,15 @@ func _place_room(room: Room, _accrete: Room = null) -> Room:
 	return null
 
 
-func _make_room() -> Room:
+func _make_room(bounds := Vector2i(10, 10)) -> Room:
 	workspace.clear()
 	var new_room = Room.new()
 	
 	var _cells := []
-	var size = Vector2i(randi_range(2, 8), randi_range(2, 8))
+	var size = Vector2i(
+		randi_range(2, min(8, bounds.x)),
+		randi_range(2, max(8, bounds.y))
+	)
 	
 	for x in range(size.x):
 		for y in range(size.y):

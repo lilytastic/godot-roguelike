@@ -17,10 +17,9 @@ static func accrete(room: Room, new_room: Room, used_cells: Array, bounds: Rect2
 						return _cell - exit + face_cell
 				)
 				
-				if relative_cells.any(
-					func(_cell):
-						return _cell.x < padding or _cell.x > bounds.end.x - padding * 2 or _cell.y < padding or _cell.y > bounds.end.y - padding * 2
-				):
+				var padded_bounds = Rect2(padding, padding, bounds.size.x - padding * 2, bounds.size.y - padding * 2)
+				
+				if relative_cells.any(func(_cell): return !padded_bounds.has_point(_cell)):
 					continue
 				
 				var min_x = relative_cells.map(func(c): return c.x).min()

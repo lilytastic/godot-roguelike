@@ -8,6 +8,8 @@ var exits = {
 	Vector2i.UP: [],
 }
 
+var rect: Rect2i
+
 var faces = {
 	Vector2i.RIGHT: [],
 	Vector2i.DOWN: [],
@@ -21,6 +23,18 @@ func update_faces():
 
 func set_cells(_cells: Array):
 	cells = _cells
+	
+	var min_x = cells.map(func(c): return c.x).min()
+	var max_x = cells.map(func(c): return c.x).max()
+	var min_y = cells.map(func(c): return c.y).min()
+	var max_y = cells.map(func(c): return c.y).max()
+	rect = Rect2(
+		min_x,
+		min_y,
+		(max_x - min_x) + 1,
+		(max_y - min_y) + 1
+	)
+	
 	update_faces()
 
 func reposition(position: Vector2i):
