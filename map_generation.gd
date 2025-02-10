@@ -17,7 +17,7 @@ static func accrete(room: Room, new_room: Room, used_cells: Array, bounds: Rect2
 						return _cell - exit + face_cell
 				)
 				
-				var padded_bounds = Rect2(padding, padding, bounds.size.x - padding * 2, bounds.size.y - padding * 2)
+				var padded_bounds = Rect2(padding, padding, max(0, bounds.size.x - padding * 2), max(0, bounds.size.y - padding * 2))
 				
 				if relative_cells.any(func(_cell): return !padded_bounds.has_point(_cell)):
 					continue
@@ -79,19 +79,3 @@ static func flood_fill(tile_map_layer: TileMapLayer, coord: Vector2i) -> Array:
 			queue.append(next + Vector2i.RIGHT)
 			queue.append(next + Vector2i.DOWN)
 	return coords
-	
-"""
-  1. Set Q to the empty queue or stack.
-  2. Add node to the end of Q.
-  3. While Q is not empty:
-  4.   Set n equal to the first element of Q.
-  5.   Remove first element from Q.
-  6.   If n is Inside:
-		 Set the n
-		 Add the node to the west of n to the end of Q.
-		 Add the node to the east of n to the end of Q.
-		 Add the node to the north of n to the end of Q.
-		 Add the node to the south of n to the end of Q.
-  7. Continue looping until Q is exhausted.
-  8. Return.
-"""

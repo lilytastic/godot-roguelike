@@ -40,6 +40,7 @@ func _ready():
 		var atlas_coords = template.get_cell_atlas_coords(coord)
 		var direction = _get_tile_direction(coord)
 		var size = _get_area(coord)
+
 		if atlas_coords == EXIT_COORDS:
 			var _coord = coord + Vector2i(randi_range(0, size.x - 1), randi_range(0, size.x - 1))
 			var new_room = _make_room(Vector2i(rect.end.x - _coord.x - 1, rect.end.y - _coord.y - 1))
@@ -47,19 +48,22 @@ func _ready():
 			if rect.encloses(new_room.rect):
 				for _cell in new_room.cells:
 					_dig(target_layer, _cell)
+				tiles_dug += new_room.cells.size()
 				rooms.append(new_room)
 			_clear(coord, size) # clear template for the area used
+	
+	print(tiles_dug, ' tiles dug for initial rooms')
 	
 	var total_cells = rect.end.x * rect.end.y * 1.0
 	var dug_percentage = tiles_dug / total_cells * 100.0
 	var iterations = 0
 	while true:
-		if iterations > 9999:
+		if iterations > 1999:
 			break
 		iterations += 1
 		total_cells = rect.end.x * rect.end.y * 1.0
 		dug_percentage = tiles_dug / total_cells * 100.0
-		if dug_percentage > 40:
+		if dug_percentage > 45:
 			break
 		
 		var new_room = await _place_room(_make_room())
