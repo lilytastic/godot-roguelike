@@ -14,10 +14,11 @@ var cells := []
 var time_since_direction_change = 0
 var time_since_size_change = 0
 
-func _init(coord: Vector2i, _direction: Vector2i, _corridor_width: int, _can_dig: Callable, _dig: Callable):
+func _init(coord: Vector2i, _direction: Vector2i, _corridor_width: int, _life: int, _can_dig: Callable, _dig: Callable):
 	direction = _direction
 	corridor_width = _corridor_width
 	dig = _dig
+	life = _life
 	can_dig = _can_dig
 	position = coord
 	
@@ -60,7 +61,7 @@ func step():
 	time_since_direction_change += 1
 	time_since_size_change += 1
 	
-	var change_direction = time_since_direction_change > 4 and randi_range(0, 100) < 30
+	var change_direction = time_since_direction_change > 4 and randi_range(0, 100) < 10
 
 	if change_direction:
 		_change_direction()

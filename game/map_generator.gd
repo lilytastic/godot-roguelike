@@ -56,12 +56,10 @@ func _ready():
 				tiles_dug += new_room.cells.size()
 				features.append(new_room)
 				diggers.append(
-					Digger.new(
+					_make_digger(
 						new_room.get_random_face(direction),
 						direction,
-						1,
-						_can_dig,
-						func(__cell): _dig(target_layer, __cell)
+						randi_range(10, 23)
 					)
 				)
 			_clear(coord, size) # clear template for the area used
@@ -81,11 +79,7 @@ func _ready():
 			if diggers[0].life > 0:
 				tiles_dug += diggers[0].step()
 				if diggers[0].life <= 0:
-					var new_corridor = Feature.new()
-					new_corridor.set_cells(diggers[0].cells)
-					_dig_feature(new_corridor)
-					features.append(new_corridor)
-					diggers.pop_front()
+					_digger_finished(diggers.pop_front())
 
 			await Global.sleep(50)
 			continue
@@ -118,6 +112,33 @@ func _ready():
 	template.queue_free()
 	print('==== Map generation complete ====')
 
+func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
+	return Digger.new(
+		coord,
+		direction,
+		1,
+		life,
+		_can_dig,
+		func(__cell): _dig(target_layer, __cell)
+	)
+
+func _digger_finished(digger: Digger):
+	var new_corridor = Feature.new()
+	new_corridor.set_cells(digger.cells)
+	_dig_feature(new_corridor)
+	if features.size() < 10:
+		for i in range(randi_range(0, 2)):
+			var random_face = new_corridor.get_random_face()
+			var _direction = new_corridor.faces.keys().filter(func(dir): return new_corridor.faces[dir].find(random_face) != -1).front()
+			if random_face and _direction:
+				diggers.append(
+					_make_digger(
+						random_face,
+						_direction,
+						randi_range(6, 12)
+					)
+				)
+	features.append(new_corridor)
 
 func _can_dig(cell: Vector2i):
 	return _is_solid(cell) and target_layer.get_used_rect().has_point(cell)
