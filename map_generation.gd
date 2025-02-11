@@ -1,13 +1,13 @@
 class_name MapGen
 
-static func accrete(room: Feature, new_room: Feature, used_cells: Array, bounds: Rect2i, padding := 1):
+static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bounds: Rect2i, padding := 1):
 	var valid_positions = {}
 	var directions = new_room.faces.keys()
 	directions.shuffle()
 	for face_direction in directions:
 		# For each exit in that direction...
 		for exit in new_room.exits.filter(func(exit): return new_room.faces[face_direction].find(exit) != -1):
-			var faces = room.faces[-face_direction]
+			var faces = attach_to.faces[-face_direction]
 			faces.shuffle()
 			for face_cell in faces:
 				# Exit would be something like (3, -1) or (4, 3) for a 3x3 room -- it's relative to 0,0
@@ -33,7 +33,7 @@ static func accrete(room: Feature, new_room: Feature, used_cells: Array, bounds:
 					(max_x - min_x) + 1 + padding * 2,
 					(max_y - min_y) + 1 + padding * 2
 				)
-				var overlapped = check_overlap_rect(used_cells, new_bounds) # _check_overlap(used_cells, relative_cells)
+				var overlapped = check_overlap_rect(used_cells, new_bounds)
 
 				# TODO: Add padding, or walls around features, so they don't wind up side-by-side
 				if !overlapped:
@@ -45,9 +45,9 @@ static func accrete(room: Feature, new_room: Feature, used_cells: Array, bounds:
 						'offset': -exit + face_cell
 					})
 	
-	if !valid_positions.keys().size():
-		return null
-	var chosen_direction = valid_positions.keys().pick_random()
+	if valid_positions.keys().size() == 0:
+		return {}
+	var chosen_direction = valid_positions.keys().filter(func(key): return valid_positions[key].size() > 0).pick_random()
 	return valid_positions[chosen_direction].pick_random()
 
 static func get_connecting_walls(target_layer: TileMapLayer, is_solid: Callable):

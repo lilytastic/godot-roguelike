@@ -2,6 +2,10 @@ class_name Feature
 
 var cells := []
 var exits := []
+var _num_connections = 0
+var num_connections: int:
+	get: return _num_connections
+	set(value): _num_connections = value
 
 var rect: Rect2i
 

@@ -4,6 +4,7 @@ const DIGGER_COORDS := Vector2i(13, 4)
 const ROOM_COORDS := Vector2i(13, 3)
 const EXIT_COORDS := Vector2i(13, 2)
 const WALL_COORDS := Vector2i(8, 5)
+const CELLULAR_COORDS := Vector2i(1, 17)
 
 var exits := []
 var features := []
@@ -48,16 +49,12 @@ func _ready():
 		var direction = MapGen.get_tile_direction(template, coord)
 		var size = _get_area(coord)
 
-		if atlas_coords == WALL_COORDS:
-			target_layer.set_cell(coord, 0, WALL_COORDS)
 		if atlas_coords == EXIT_COORDS:
 			var _coord = coord + Vector2i(randi_range(0, size.x - 1), randi_range(0, size.x - 1))
 			var new_room = _make_room(Vector2i(rect.end.x - _coord.x - 1, rect.end.y - _coord.y - 1))
 			new_room.reposition(_coord)
 			if rect.encloses(new_room.rect):
 				_dig_feature(new_room)
-				tiles_dug += new_room.cells.size()
-				features.append(new_room)
 				print('new exit at ', _coord, ' with ', new_room.cells.size(), ' cells')
 				diggers.append(
 					_make_digger(
@@ -68,41 +65,88 @@ func _ready():
 				)
 			print('clearing template at ', coord, ' with size ', size)
 			_clear(coord) # clear template for the area used
+
+		if atlas_coords == CELLULAR_COORDS:
+			continue
+			var cells = MapGen.flood_fill(template, coord)
+			print('cellular ', size, ' with ', cells.size(), ' cells')
+			var new_cells := {}
+			
+			for cell in cells:
+				new_cells[cell] = 0 if randi_range(0, 100) < 65 else 1
+				
+			for i in range(5):
+				await Global.sleep(100)
+				for cell in cells:
+					var neighbours = [
+						cell + Vector2i.UP,
+						cell + Vector2i.UP + Vector2i.LEFT,
+						cell + Vector2i.LEFT,
+						cell + Vector2i.UP + Vector2i.RIGHT,
+						cell + Vector2i.RIGHT,
+						cell + Vector2i.DOWN,
+						cell + Vector2i.DOWN + Vector2i.LEFT,
+						cell + Vector2i.DOWN + Vector2i.RIGHT,
+					]
+					var living_neighbours = neighbours.filter(func(n): return cells.find(n) != -1 and new_cells[n] == 1)
+					var outside_edges = neighbours.filter(func(n): return cells.find(n) == -1)
+					# var dead_neighbours = neighbours.filter(func(n): return cells.find(n) == -1 or new_cells[n] == 0)
+					if new_cells[cell] == 1:
+						if living_neighbours.size() < 2 or outside_edges.size() > 0:
+							new_cells[cell] = 0
+					else:
+						if living_neighbours.size() >= 5:
+							new_cells[cell] = 1
+						
+				for cell in new_cells.keys():
+					target_layer.set_cell(cell, 0, default_ground if new_cells[cell] == 1 else default_wall)
+				
+			var feature = Feature.new()
+			feature.set_cells(cells.filter(func(cell): new_cells[cell] == 1))
+			_dig_feature(feature)
+				
+			_clear(coord)
+
+		if atlas_coords == WALL_COORDS:
+			target_layer.set_cell(coord, 0, WALL_COORDS)
+
 	
-	print(tiles_dug, ' tiles dug for initial features')
+	print(tiles_dug, ' tiles dug for initial features, of which there are ', features.size())
 	
 	var total_cells = rect.end.x * rect.end.y * 1.0
 	var dug_percentage = tiles_dug / total_cells * 100.0
 	var iterations = 0
 	while true:
-		if iterations > 1999:
+		if iterations > 900:
+			print('breaking loop; iterations > 900')
 			break
 
 		iterations += 1
+
+		total_cells = rect.end.x * rect.end.y * 1.0
+		dug_percentage = tiles_dug / total_cells * 100.0
+		if dug_percentage > 40:
+			print('breaking loop; dug_percentage > 40')
+			break
 		
 		diggers = diggers.filter(func(digger): return digger.life > 0)
 		if diggers.size() > 0:
 			for digger in diggers:
 				tiles_dug += digger.step()
 				if digger.life <= 0:
-					_digger_finished(digger)
+					var result = _digger_finished(digger)
 			await Global.sleep(10)
 			continue
-
-		total_cells = rect.end.x * rect.end.y * 1.0
-		dug_percentage = tiles_dug / total_cells * 100.0
-		if dug_percentage > 40:
-			break
 		
+		if randi_range(0, 100) < 50 and features.size() > 0:
+			_dig_off_of(features.pick_random())
+			continue
+			
 		var new_feature = await _make_room()
-		
-		if randi_range(0, 100) < 50:
-			pass
-		
 		new_feature = await _place_feature(new_feature)
 		if new_feature:
-			tiles_dug += new_feature.cells.size()
-			features.append(new_feature)
+			# print('placed ', new_feature)
+			_dig_feature(new_feature)
 			await Global.sleep(30)
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
@@ -121,20 +165,20 @@ func _ready():
 	template.queue_free()
 	print('==== Map generation complete ====')
 
+
 func _remove_walls(layer: TileMapLayer):
 	for cell in layer.get_used_cells():
 		if layer.get_cell_atlas_coords(cell) == WALL_COORDS:
 			layer.set_cell(cell, 0, default_wall)
 
+
 func _remove_dead_ends(layer: TileMapLayer):
-	print('removing dead ends')
 	var filled_cells = 0
 	for cell in layer.get_used_cells():
 		if !_is_wall(cell):
 			var surrounding = layer.get_surrounding_cells(cell)
 			var solid_neighbours = surrounding.filter(func(_cell): return _is_wall(_cell))
 			if solid_neighbours.size() >= 3:
-				print(solid_neighbours.size())
 				layer.set_cell(cell, 0, default_wall)
 				filled_cells += 1
 	
@@ -180,6 +224,7 @@ func _connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Cal
 			astar.connect_points(wall_point, point2)
 			dig.call(wall.cell)
 
+
 func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 	return Digger.new(
 		coord,
@@ -189,7 +234,8 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 		_can_dig,
 		func(__cell): target_layer.set_cell(__cell, 0, default_ground_corridor)
 	)
-	
+
+
 func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
 	var digger: Digger
 
@@ -207,8 +253,11 @@ func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
 			randi_range(6, 25)
 		)
 		diggers.append(digger)
-	return digger
-	
+		return digger
+
+	return null
+
+
 func _lookahead(layer: TileMapLayer, position: Vector2i, direction: Vector2i, length: int):
 	for i in length:
 		if _can_dig(position):
@@ -222,29 +271,34 @@ func _lookahead(layer: TileMapLayer, position: Vector2i, direction: Vector2i, le
 					return i
 	return length
 	
+	
 func _digger_finished(digger: Digger):
 	var new_corridor = Corridor.new()
 	new_corridor.set_cells(digger.cells)
+	print('digger finished corridor ', new_corridor)
 	_dig_feature(new_corridor)
 	if randi_range(0, 100) < 20:
-		for i in range(1):
-			_dig_off_of(new_corridor)
-	features.append(new_corridor)
+		_dig_off_of(new_corridor)
+	return new_corridor
+	
 
 func _can_dig(cell: Vector2i):
 	return _is_solid(cell) and target_layer.get_used_rect().has_point(cell)
+
 
 func _get_features_at(cell: Vector2i):
 	return features.filter(
 		func(feature: Feature):
 			return feature.cells.find(cell) != -1 or feature.exits.find(cell) != -1
 	)
-	
+
+
 func _get_feature_at(cell: Vector2i):
 	var filtered = _get_features_at(cell)
 	if filtered.size() == 0:
 		return null
 	return filtered.front()
+
 
 func _get_navigation_map(is_solid: Callable):
 	var astar = AStar2D.new()
@@ -292,43 +346,57 @@ func _is_wall(cell: Vector2i):
 	
 
 func _place_feature(feature: Feature, _accrete: Feature = null) -> Feature:
-	var workspace_cells = workspace.get_used_cells()
 	if features.size() == 0:
 		return null
 
-	var accrete = _accrete if _accrete != null else features.pick_random()
-	if !accrete:
+	if _accrete != null:
+		if _find_valid_accretion(feature, _accrete) != null:
+			return feature
 		return null
-		
+
+	var feature_queue := []
+	feature_queue.append_array(features)
+	feature_queue.shuffle()
+	
+	for item in feature_queue:
+		var new_location = _find_valid_accretion(feature, item)
+		if new_location.keys().size() > 0:
+			# print('success! checked ', places_checked)
+			return feature
+	# print('failure. checked ', places_checked)
+	return null
+
+
+func _find_valid_accretion(feature: Feature, _accrete: Feature) -> Dictionary:
 	# Find a valid place to put the room in our workspace
 	# All cells already defined on the target layer, for checking overlaps
 	var used_cells = target_layer.get_used_cells().filter(
 		func(cell): return target_layer.get_cell_atlas_coords(cell) != Vector2i(default_wall)
 	)
 
-	# For each direction this room has exits...
-	var valid_location = await MapGen.accrete(accrete, feature, used_cells, template.get_used_rect())
-	if valid_location:
+	var valid_location = MapGen.accrete(_accrete, feature, used_cells, template.get_used_rect())
+	if valid_location.keys().size() > 0:
+		# Adds a one-tile corridor between rooms
 		feature.exits.append(valid_location.exit)
 		target_layer.set_cell(valid_location.exit, 0, default_ground_corridor)
-		feature.cells = feature.cells.map(func(_cell): return _cell + valid_location.offset)
-		feature.update_faces()
-		_dig_feature(feature)
-		if randi_range(0, 100) < 66 and feature is Room:
-			_dig_off_of(feature)
+		# Sets the cells to the new offset
+		feature.set_cells(feature.cells.map(func(_cell): return _cell + valid_location.offset))
 
-		return feature
-		
-	return null
+	return valid_location
+
 
 func _dig_feature(feature: Feature):
-	var workspace_cells = workspace.get_used_cells()
-	print('digging a new room with ', workspace_cells.size(), ' cells')
+	tiles_dug += feature.cells.size()
+	if feature.cells.size() == 0:
+		return
+	print('digging a new room with ', feature.cells.size(), ' cells')
 	for cell in feature.cells:
 		if feature is Room:
 			target_layer.set_cell(cell, 0, default_ground)
 		else:
 			target_layer.set_cell(cell, 0, default_ground_corridor)
+	features.append(feature)
+
 
 func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	workspace.clear()
