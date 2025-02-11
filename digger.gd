@@ -70,7 +70,6 @@ func step():
 
 
 func _change_direction():
-	print('change direction')
 	var valid_directions = directions.filter(
 		func(vec):
 			return vec != direction and vec != -direction

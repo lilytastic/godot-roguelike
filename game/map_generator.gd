@@ -63,7 +63,8 @@ func _ready():
 						randi_range(10, 23)
 					)
 				)
-			_clear(coord, size + Vector2i.ONE) # clear template for the area used
+			print('clearing template at ', coord, ' with size ', size)
+			_clear(coord) # clear template for the area used
 	
 	print(tiles_dug, ' tiles dug for initial features')
 	
@@ -81,6 +82,7 @@ func _ready():
 			for digger in diggers:
 				var _previous_direction = Vector2i(digger.direction)
 				tiles_dug += digger.step()
+				"""
 				if digger.direction != _previous_direction and randi_range(0, 100) < 20:
 					var _directions = Global.directions.filter(
 						func(dir):
@@ -88,8 +90,8 @@ func _ready():
 					)
 					if _directions.size() > 0:
 						var _direction = _directions.pick_random()
-						# diggers.append(_make_digger(digger.position + _direction, _direction, randi_range(6, 14)))
-
+						diggers.append(_make_digger(digger.position + _direction, _direction, randi_range(6, 14)))
+				"""
 				if digger.life <= 0:
 					_digger_finished(digger)
 			await Global.sleep(30)
@@ -322,10 +324,10 @@ func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	return new_room
 
 
-func _clear(_coord: Vector2i, _size: Vector2i):
-	for x in range(_size.x):
-		for y in range(_size.y):
-			template.set_cell(_coord + Vector2i(x, y), -1)
+func _clear(_coord: Vector2i):
+	var cells = MapGen.flood_fill(template, _coord)
+	for cell in cells:
+		template.set_cell(cell, -1)
 
 
 func _dig(layer: TileMapLayer, coord: Vector2i):
