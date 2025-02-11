@@ -132,6 +132,11 @@ func _connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Cal
 		var path = astar.get_point_path(point1, point2)
 		
 		if feature1 is Corridor and feature2 is Corridor:
+			# TODO: merge them into one corridor immediately
+			if feature1 != feature2:
+				feature1.cells += feature2.cells
+				features = features.filter(func(feature): return feature != feature2)
+				print('merge corridors')
 			will_break = true
 
 		if path.size() == 0 or path.size() > 20:
@@ -153,6 +158,19 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 		_can_dig,
 		func(__cell): _dig(target_layer, __cell)
 	)
+	
+func _dig_off_of(feature: Feature):
+	var digger: Digger
+	var random_face = feature.get_random_face()
+	var _direction = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(random_face) != -1).front()
+	if random_face and _direction:
+		digger = _make_digger(
+			random_face,
+			_direction,
+			randi_range(6, 12)
+		)
+		diggers.append(digger)
+	return digger
 
 func _digger_finished(digger: Digger):
 	var new_corridor = Corridor.new()
@@ -160,16 +178,7 @@ func _digger_finished(digger: Digger):
 	_dig_feature(new_corridor)
 	if features.size() < 10:
 		for i in range(randi_range(0, 2)):
-			var random_face = new_corridor.get_random_face()
-			var _direction = new_corridor.faces.keys().filter(func(dir): return new_corridor.faces[dir].find(random_face) != -1).front()
-			if random_face and _direction:
-				diggers.append(
-					_make_digger(
-						random_face,
-						_direction,
-						randi_range(6, 12)
-					)
-				)
+			_dig_off_of(new_corridor)
 	features.append(new_corridor)
 
 func _can_dig(cell: Vector2i):
@@ -240,8 +249,11 @@ func _place_feature(room: Feature, _accrete: Feature = null) -> Feature:
 		room.cells = room.cells.map(func(_cell): return _cell + valid_location.offset)
 		room.update_faces()
 		_dig_feature(room)
+		if randi_range(0, 100) < 40:
+			_dig_off_of(room)
 
 		return room
+		
 	return null
 
 func _dig_feature(feature: Feature):
