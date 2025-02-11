@@ -106,11 +106,43 @@ func _ready():
 	
 	var astar = _get_navigation_map(func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
 
-	MapGen.connect_features(target_layer, astar, _is_solid, func(cell): _open_exit(cell))
+	_connect_features(target_layer, astar, _is_solid, func(cell): _open_exit(cell))
 	
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')
+
+func _connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
+	var target_rect = target_layer.get_used_rect()
+	var connecting_walls = MapGen.get_connecting_walls(target_layer, is_solid)
+
+	connecting_walls.shuffle()
+	print(connecting_walls.size())
+
+	for wall in connecting_walls:
+		var position1 = Vector2i(wall.adjoining[0].x, wall.adjoining[0].y)
+		var position2 = Vector2i(wall.adjoining[1].x, wall.adjoining[1].y)
+		var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
+		var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
+		var feature1 = _get_feature_at(position1)
+		var feature2 = _get_feature_at(position2)
+		
+		var will_break = false
+
+		var path = astar.get_point_path(point1, point2)
+		
+		if feature1 is Corridor and feature2 is Corridor:
+			will_break = true
+
+		if path.size() == 0 or path.size() > 20:
+			will_break = true
+
+		if will_break:
+			var wall_point = Coords.get_astar_pos(wall.cell.x, wall.cell.y, target_rect.end.x)
+			astar.add_point(wall_point, wall.cell)
+			astar.connect_points(wall_point, point1)
+			astar.connect_points(wall_point, point2)
+			dig.call(wall.cell)
 
 func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 	return Digger.new(
@@ -123,7 +155,7 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 	)
 
 func _digger_finished(digger: Digger):
-	var new_corridor = Feature.new()
+	var new_corridor = Corridor.new()
 	new_corridor.set_cells(digger.cells)
 	_dig_feature(new_corridor)
 	if features.size() < 10:
@@ -220,7 +252,7 @@ func _dig_feature(feature: Feature):
 
 func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	workspace.clear()
-	var new_room = Feature.new()
+	var new_room = Room.new()
 	
 	var _cells := []
 	var size = Vector2i(

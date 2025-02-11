@@ -50,22 +50,6 @@ static func accrete(room: Feature, new_room: Feature, used_cells: Array, bounds:
 	var chosen_direction = valid_positions.keys().pick_random()
 	return valid_positions[chosen_direction].pick_random()
 
-static func connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
-	var target_rect = target_layer.get_used_rect()
-	var connecting_walls = get_connecting_walls(target_layer, is_solid)
-	connecting_walls.shuffle()
-	print(connecting_walls.size())
-	for wall in connecting_walls:
-		var point1 = Coords.get_astar_pos(wall.adjoining[0].x, wall.adjoining[0].y, target_rect.end.x)
-		var point2 = Coords.get_astar_pos(wall.adjoining[1].x, wall.adjoining[1].y, target_rect.end.x)
-		var path = astar.get_point_path(point1, point2)
-		if path.size() == 0 or path.size() > 20:
-			var wall_point = Coords.get_astar_pos(wall.cell.x, wall.cell.y, target_rect.end.x)
-			astar.add_point(wall_point, wall.cell)
-			astar.connect_points(wall_point, point1)
-			astar.connect_points(wall_point, point2)
-			dig.call(wall.cell)
-
 static func get_connecting_walls(target_layer: TileMapLayer, is_solid: Callable):
 	var connecting_walls = []
 	var walls = target_layer.get_used_cells().filter(func(cell): return is_solid.call(cell))
