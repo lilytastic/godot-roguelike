@@ -25,17 +25,27 @@ func _init(coord: Vector2i, _direction: Vector2i, _corridor_width: int, _life: i
 func _lookahead(distance: int, _direction := Vector2i(0,0)):
 	if _direction == Vector2i(0,0):
 		_direction = direction
-	for i in distance + 1:
-		for ii in range(3):
-			var to_check = position + _direction * i
-			if ii == 0:
-				to_check += Vector2i.UP if _direction.x != 0 else Vector2i.LEFT
-			if ii == 2:
-				to_check += Vector2i.DOWN if _direction.x != 0 else Vector2i.RIGHT
-			if can_dig.call(to_check) == false or cells.has(to_check):
-				if i > 0 or ii == 1:
-					return i
+	for i in distance:
+		if check_collision_in_direction(position + _direction * (i + 1), _direction):
+			return i
 	return distance
+	
+func check_collision(position: Vector2i):
+	var to_check = position
+	if can_dig.call(to_check) == false or cells.has(to_check):
+		return true
+	return false
+	
+func check_collision_in_direction(position: Vector2i, direction: Vector2i):
+	for ii in range(3):
+		var to_check = position + direction
+		if ii == 0:
+			to_check += Vector2i.UP if direction.x != 0 else Vector2i.LEFT
+		if ii == 2:
+			to_check += Vector2i.DOWN if direction.x != 0 else Vector2i.RIGHT
+		if can_dig.call(to_check) == false or cells.has(to_check):
+			return true
+	return false
 
 func step():
 	var tiles_dug = 0

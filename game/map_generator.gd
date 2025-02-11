@@ -3,6 +3,7 @@ extends MapPrefab
 const DIGGER_COORDS := Vector2i(13, 4)
 const ROOM_COORDS := Vector2i(13, 3)
 const EXIT_COORDS := Vector2i(13, 2)
+const WALL_COORDS := Vector2i(8, 5)
 
 var exits := []
 var features := []
@@ -47,6 +48,8 @@ func _ready():
 		var direction = MapGen.get_tile_direction(template, coord)
 		var size = _get_area(coord)
 
+		if atlas_coords == WALL_COORDS:
+			target_layer.set_cell(coord, 0, WALL_COORDS)
 		if atlas_coords == EXIT_COORDS:
 			var _coord = coord + Vector2i(randi_range(0, size.x - 1), randi_range(0, size.x - 1))
 			var new_room = _make_room(Vector2i(rect.end.x - _coord.x - 1, rect.end.y - _coord.y - 1))
@@ -110,20 +113,26 @@ func _ready():
 
 	_connect_features(target_layer, astar, _is_solid, func(cell): _open_exit(cell))
 	
+	_remove_walls(target_layer)
+	
 	await _remove_dead_ends(target_layer)
 	
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')
 
+func _remove_walls(layer: TileMapLayer):
+	for cell in layer.get_used_cells():
+		if layer.get_cell_atlas_coords(cell) == WALL_COORDS:
+			layer.set_cell(cell, 0, default_wall)
 
 func _remove_dead_ends(layer: TileMapLayer):
 	print('removing dead ends')
 	var filled_cells = 0
 	for cell in layer.get_used_cells():
-		if !_is_solid(cell):
+		if !_is_wall(cell):
 			var surrounding = layer.get_surrounding_cells(cell)
-			var solid_neighbours = surrounding.filter(func(_cell): return _is_solid(_cell))
+			var solid_neighbours = surrounding.filter(func(_cell): return _is_wall(_cell))
 			if solid_neighbours.size() >= 3:
 				print(solid_neighbours.size())
 				layer.set_cell(cell, 0, default_wall)
@@ -132,6 +141,7 @@ func _remove_dead_ends(layer: TileMapLayer):
 	if filled_cells > 0:
 		await Global.sleep(30)
 		await _remove_dead_ends(layer)
+
 
 func _connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
 	var target_rect = target_layer.get_used_rect()
@@ -277,6 +287,9 @@ func _is_solid(cell: Vector2i):
 	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
 	return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
 
+func _is_wall(cell: Vector2i):
+	return _is_solid(cell) or target_layer.get_cell_atlas_coords(cell) == WALL_COORDS
+	
 
 func _place_feature(feature: Feature, _accrete: Feature = null) -> Feature:
 	var workspace_cells = workspace.get_used_cells()
