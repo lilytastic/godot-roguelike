@@ -75,13 +75,23 @@ func _ready():
 
 		iterations += 1
 		
+		diggers = diggers.filter(func(digger): return digger.life > 0)
 		if diggers.size() > 0:
-			if diggers[0].life > 0:
-				tiles_dug += diggers[0].step()
-				if diggers[0].life <= 0:
-					_digger_finished(diggers.pop_front())
+			for digger in diggers:
+				var _previous_direction = Vector2i(digger.direction)
+				tiles_dug += digger.step()
+				if digger.direction != _previous_direction and randi_range(0, 100) < 20:
+					var _directions = Global.directions.filter(
+						func(dir):
+							return dir != digger.direction and _is_solid(digger.position + dir)
+					)
+					if _directions.size() > 0:
+						var _direction = _directions.pick_random()
+						# diggers.append(_make_digger(digger.position + _direction, _direction, randi_range(6, 14)))
 
-			await Global.sleep(10)
+				if digger.life <= 0:
+					_digger_finished(digger)
+			await Global.sleep(30)
 			continue
 
 		total_cells = rect.end.x * rect.end.y * 1.0
@@ -179,14 +189,18 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 		func(__cell): _dig(target_layer, __cell)
 	)
 	
-func _dig_off_of(feature: Feature):
+func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
 	var digger: Digger
+
 	var random_face = feature.get_random_face()
-	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(random_face) != -1)
+	if _position == Vector2i(-1, -1) and random_face:
+		_position = random_face
+
+	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(_position) != -1)
 	var _direction = directions.front() if directions.size() > 0 else Vector2i.ZERO
-	if random_face and _direction:
+	if _position and _direction:
 		digger = _make_digger(
-			random_face,
+			_position,
 			_direction,
 			randi_range(6, 12)
 		)

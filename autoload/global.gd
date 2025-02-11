@@ -15,6 +15,8 @@ var has_game_started = false
 var is_game_started: bool:
 	get: return player != null
 
+var directions = [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
+
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
