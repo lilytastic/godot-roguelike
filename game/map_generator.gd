@@ -123,10 +123,13 @@ func _can_dig(cell: Vector2i):
 	return _is_solid(cell) and target_layer.get_used_rect().has_point(cell)
 
 func _get_feature_at(cell: Vector2i):
-	return features.filter(
+	var filtered = features.filter(
 		func(feature: Feature):
 			return feature.cells.find(cell) != -1
-	).front()
+	)
+	if filtered.size() == 0:
+		return null
+	return filtered.front()
 
 func _get_navigation_map(is_solid: Callable):
 	var astar = AStar2D.new()

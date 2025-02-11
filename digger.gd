@@ -82,6 +82,11 @@ func _change_direction():
 				return true
 			return false
 	)
+	
+	if randi_range(0, 100) < 20:
+		# Allow it to make stupid decisions sometimes, for flavour
+		valid_directions.shuffle()
+
 	direction = valid_directions.front()
 	time_since_direction_change = 0
 	if time_since_size_change > 4 and randi_range(0, 100) < 40:
