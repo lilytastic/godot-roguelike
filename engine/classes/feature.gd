@@ -19,6 +19,8 @@ func update_faces():
 func get_random_face(_direction := Vector2i(0,0)):
 	if _direction == Vector2i(0,0):
 		_direction = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT].pick_random()
+	if faces[_direction].size() == 0:
+		return null
 	return faces[_direction].pick_random()
 
 func set_cells(_cells: Array):

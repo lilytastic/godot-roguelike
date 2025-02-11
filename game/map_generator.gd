@@ -81,7 +81,7 @@ func _ready():
 				if diggers[0].life <= 0:
 					_digger_finished(diggers.pop_front())
 
-			await Global.sleep(20)
+			await Global.sleep(10)
 			continue
 
 		total_cells = rect.end.x * rect.end.y * 1.0
@@ -98,7 +98,7 @@ func _ready():
 		if new_feature:
 			tiles_dug += new_feature.cells.size()
 			features.append(new_feature)
-			await Global.sleep(50)
+			await Global.sleep(30)
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
@@ -108,9 +108,29 @@ func _ready():
 
 	_connect_features(target_layer, astar, _is_solid, func(cell): _open_exit(cell))
 	
+	await _remove_dead_ends(target_layer)
+	
 	workspace.queue_free()
 	template.queue_free()
 	print('==== Map generation complete ====')
+
+
+func _remove_dead_ends(layer: TileMapLayer):
+	print('removing dead ends')
+	var filled_cells = 0
+	for cell in layer.get_used_cells():
+		if !_is_solid(cell):
+			var surrounding = layer.get_surrounding_cells(cell)
+			var solid_neighbours = surrounding.filter(func(_cell): return _is_solid(_cell))
+			if solid_neighbours.size() >= 3:
+				print(solid_neighbours.size())
+				layer.set_cell(cell, 0, default_wall)
+				filled_cells += 1
+	
+	print(filled_cells)
+	if filled_cells > 0:
+		await Global.sleep(30)
+		await _remove_dead_ends(layer)
 
 func _connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
 	var target_rect = target_layer.get_used_rect()
@@ -162,7 +182,8 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 func _dig_off_of(feature: Feature):
 	var digger: Digger
 	var random_face = feature.get_random_face()
-	var _direction = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(random_face) != -1).front()
+	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(random_face) != -1)
+	var _direction = directions.front() if directions.size() > 0 else Vector2i.ZERO
 	if random_face and _direction:
 		digger = _make_digger(
 			random_face,
