@@ -55,6 +55,7 @@ func _ready():
 					_dig(target_layer, _cell)
 				tiles_dug += new_room.cells.size()
 				features.append(new_room)
+				print('new exit at ', _coord, ' with ', new_room.cells.size(), ' cells')
 				diggers.append(
 					_make_digger(
 						new_room.get_random_face(direction),
@@ -62,7 +63,7 @@ func _ready():
 						randi_range(10, 23)
 					)
 				)
-			_clear(coord, size) # clear template for the area used
+			_clear(coord, size + Vector2i.ONE) # clear template for the area used
 	
 	print(tiles_dug, ' tiles dug for initial features')
 	
@@ -137,7 +138,6 @@ func _remove_dead_ends(layer: TileMapLayer):
 				layer.set_cell(cell, 0, default_wall)
 				filled_cells += 1
 	
-	print(filled_cells)
 	if filled_cells > 0:
 		await Global.sleep(30)
 		await _remove_dead_ends(layer)
