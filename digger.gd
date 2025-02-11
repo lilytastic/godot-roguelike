@@ -25,21 +25,22 @@ func _init(coord: Vector2i, _direction: Vector2i, _corridor_width: int, _life: i
 func _lookahead(distance: int, _direction := Vector2i(0,0)):
 	if _direction == Vector2i(0,0):
 		_direction = direction
-	for i in distance:
+	for i in distance + 1:
 		for ii in range(3):
-			var to_check = position + _direction * (i + 1)
+			var to_check = position + _direction * i
 			if ii == 0:
 				to_check += Vector2i.UP if _direction.x != 0 else Vector2i.LEFT
 			if ii == 2:
 				to_check += Vector2i.DOWN if _direction.x != 0 else Vector2i.RIGHT
 			if can_dig.call(to_check) == false or cells.has(to_check):
-				return i
+				if i > 0 or ii == 1:
+					return i
 	return distance
 
 func step():
 	var tiles_dug = 0
 
-	if _lookahead(2) < 2:
+	if _lookahead(3) < 3:
 		_change_direction()
 		life -= 1
 		return tiles_dug
@@ -61,7 +62,7 @@ func step():
 	time_since_direction_change += 1
 	time_since_size_change += 1
 	
-	var change_direction = time_since_direction_change > 4 and randi_range(0, 100) < 10
+	var change_direction = time_since_direction_change > 5 and randi_range(0, 100) < 6
 
 	if change_direction:
 		_change_direction()

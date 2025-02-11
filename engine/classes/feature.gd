@@ -13,12 +13,12 @@ var faces = {
 }
 
 func update_faces():
-	for direction in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
+	for direction in Global.directions:
 		faces[direction] = get_faces(direction)
 
 func get_random_face(_direction := Vector2i(0,0)):
 	if _direction == Vector2i(0,0):
-		_direction = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT].pick_random()
+		_direction = Global.directions.pick_random()
 	if faces[_direction].size() == 0:
 		return null
 	return faces[_direction].pick_random()

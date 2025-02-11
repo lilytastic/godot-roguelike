@@ -94,7 +94,7 @@ func _ready():
 				"""
 				if digger.life <= 0:
 					_digger_finished(digger)
-			await Global.sleep(30)
+			await Global.sleep(10)
 			continue
 
 		total_cells = rect.end.x * rect.end.y * 1.0
@@ -200,7 +200,7 @@ func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
 
 	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(_position) != -1)
 	var _direction = directions.front() if directions.size() > 0 else Vector2i.ZERO
-	if _position and _direction:
+	if _position and _direction != Vector2i.ZERO and _is_solid(_position + _direction * 2):
 		digger = _make_digger(
 			_position,
 			_direction,
@@ -221,11 +221,14 @@ func _digger_finished(digger: Digger):
 func _can_dig(cell: Vector2i):
 	return _is_solid(cell) and target_layer.get_used_rect().has_point(cell)
 
-func _get_feature_at(cell: Vector2i):
-	var filtered = features.filter(
+func _get_features_at(cell: Vector2i):
+	return features.filter(
 		func(feature: Feature):
-			return feature.cells.find(cell) != -1
+			return feature.cells.find(cell) != -1 or feature.exits.find(cell) != -1
 	)
+	
+func _get_feature_at(cell: Vector2i):
+	var filtered = _get_features_at(cell)
 	if filtered.size() == 0:
 		return null
 	return filtered.front()
@@ -249,15 +252,21 @@ func _get_navigation_map(is_solid: Callable):
 
 func _open_exit(cell: Vector2i):
 	var arr = []
-	arr.append(_get_feature_at(cell + Vector2i.UP))
-	arr.append(_get_feature_at(cell + Vector2i.LEFT))
-	arr.append(_get_feature_at(cell + Vector2i.RIGHT))
-	arr.append(_get_feature_at(cell + Vector2i.DOWN))
+	arr.append(_get_features_at(cell + Vector2i.UP))
+	arr.append(_get_features_at(cell + Vector2i.LEFT))
+	arr.append(_get_features_at(cell + Vector2i.RIGHT))
+	arr.append(_get_features_at(cell + Vector2i.DOWN))
+
 	arr = arr.filter(func(x): return x != null)
+
+	var _is_exit = arr.find(func(x: Feature): return x.exits.any(func(exit): exit == cell)) != -1
+	if _is_exit:
+		return
+
 	for feature in arr:
 		if feature is Room:
 			feature.exits.append(cell)
-			target_layer.set_cell(cell, 0, default_ground)
+			target_layer.set_cell(cell, 0, default_ground_corridor)
 		else:
 			target_layer.set_cell(cell, 0, default_ground_corridor)
 
@@ -284,7 +293,8 @@ func _place_feature(feature: Feature, _accrete: Feature = null) -> Feature:
 	# For each direction this room has exits...
 	var valid_location = await MapGen.accrete(accrete, feature, used_cells, template.get_used_rect())
 	if valid_location:
-		_dig(target_layer, valid_location.exit)
+		feature.exits.append(valid_location.exit)
+		target_layer.set_cell(valid_location.exit, 0, default_ground_corridor)
 		feature.cells = feature.cells.map(func(_cell): return _cell + valid_location.offset)
 		feature.update_faces()
 		_dig_feature(feature)
