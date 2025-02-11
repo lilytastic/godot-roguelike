@@ -7,7 +7,8 @@ const EXIT_COORDS := Vector2i(13, 2)
 var exits := []
 var features := []
 
-var default_ground = MapManager.tile_data['soil'].atlas_coords
+var default_ground = MapManager.tile_data['stone floor'].atlas_coords
+var default_ground_corridor = MapManager.tile_data['rough stone floor'].atlas_coords
 var default_wall = null
 var cursor_prefab = preload('res://game/cursor.tscn')
 var cursor = null
@@ -51,8 +52,7 @@ func _ready():
 			var new_room = _make_room(Vector2i(rect.end.x - _coord.x - 1, rect.end.y - _coord.y - 1))
 			new_room.reposition(_coord)
 			if rect.encloses(new_room.rect):
-				for _cell in new_room.cells:
-					_dig(target_layer, _cell)
+				_dig_feature(new_room)
 				tiles_dug += new_room.cells.size()
 				features.append(new_room)
 				print('new exit at ', _coord, ' with ', new_room.cells.size(), ' cells')
@@ -188,7 +188,7 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 		1,
 		life,
 		_can_dig,
-		func(__cell): _dig(target_layer, __cell)
+		func(__cell): target_layer.set_cell(__cell, 0, default_ground_corridor)
 	)
 	
 func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
@@ -204,7 +204,7 @@ func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
 		digger = _make_digger(
 			_position,
 			_direction,
-			randi_range(6, 12)
+			randi_range(6, 25)
 		)
 		diggers.append(digger)
 	return digger
@@ -213,8 +213,8 @@ func _digger_finished(digger: Digger):
 	var new_corridor = Corridor.new()
 	new_corridor.set_cells(digger.cells)
 	_dig_feature(new_corridor)
-	if randi_range(0, 100) < 66:
-		for i in range(randi_range(0, 2)):
+	if randi_range(0, 100) < 20:
+		for i in range(1):
 			_dig_off_of(new_corridor)
 	features.append(new_corridor)
 
@@ -255,16 +255,18 @@ func _open_exit(cell: Vector2i):
 	arr.append(_get_feature_at(cell + Vector2i.DOWN))
 	arr = arr.filter(func(x): return x != null)
 	for feature in arr:
-		feature.exits.append(cell)
-
-	_dig(target_layer, cell)
+		if feature is Room:
+			feature.exits.append(cell)
+			target_layer.set_cell(cell, 0, default_ground)
+		else:
+			target_layer.set_cell(cell, 0, default_ground_corridor)
 
 func _is_solid(cell: Vector2i):
 	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
 	return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
 
 
-func _place_feature(room: Feature, _accrete: Feature = null) -> Feature:
+func _place_feature(feature: Feature, _accrete: Feature = null) -> Feature:
 	var workspace_cells = workspace.get_used_cells()
 	if features.size() == 0:
 		return null
@@ -280,16 +282,16 @@ func _place_feature(room: Feature, _accrete: Feature = null) -> Feature:
 	)
 
 	# For each direction this room has exits...
-	var valid_location = await MapGen.accrete(accrete, room, used_cells, template.get_used_rect())
+	var valid_location = await MapGen.accrete(accrete, feature, used_cells, template.get_used_rect())
 	if valid_location:
 		_dig(target_layer, valid_location.exit)
-		room.cells = room.cells.map(func(_cell): return _cell + valid_location.offset)
-		room.update_faces()
-		_dig_feature(room)
-		if randi_range(0, 100) < 66:
-			_dig_off_of(room)
+		feature.cells = feature.cells.map(func(_cell): return _cell + valid_location.offset)
+		feature.update_faces()
+		_dig_feature(feature)
+		if randi_range(0, 100) < 66 and feature is Room:
+			_dig_off_of(feature)
 
-		return room
+		return feature
 		
 	return null
 
@@ -297,7 +299,10 @@ func _dig_feature(feature: Feature):
 	var workspace_cells = workspace.get_used_cells()
 	print('digging a new room with ', workspace_cells.size(), ' cells')
 	for cell in feature.cells:
-		_dig(target_layer, cell)
+		if feature is Room:
+			target_layer.set_cell(cell, 0, default_ground)
+		else:
+			target_layer.set_cell(cell, 0, default_ground_corridor)
 
 func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	workspace.clear()

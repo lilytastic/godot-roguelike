@@ -85,6 +85,14 @@ var tile_data = {
 		'color': Color.DIM_GRAY,
 		'is_solid': true
 	},
+	'rough stone floor': {
+		'atlas_coords': Vector2(6, 13),
+		'color': Color.DIM_GRAY
+	},
+	'stone floor': {
+		'atlas_coords': Vector2(0, 0),
+		'color': Color.DIM_GRAY
+	},
 	'tree': {
 		'atlas_coords': Vector2(4, 2),
 		'color': Color('387a17'),
