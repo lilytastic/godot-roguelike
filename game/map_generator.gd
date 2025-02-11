@@ -80,18 +80,7 @@ func _ready():
 		diggers = diggers.filter(func(digger): return digger.life > 0)
 		if diggers.size() > 0:
 			for digger in diggers:
-				var _previous_direction = Vector2i(digger.direction)
 				tiles_dug += digger.step()
-				"""
-				if digger.direction != _previous_direction and randi_range(0, 100) < 20:
-					var _directions = Global.directions.filter(
-						func(dir):
-							return dir != digger.direction and _is_solid(digger.position + dir)
-					)
-					if _directions.size() > 0:
-						var _direction = _directions.pick_random()
-						diggers.append(_make_digger(digger.position + _direction, _direction, randi_range(6, 14)))
-				"""
 				if digger.life <= 0:
 					_digger_finished(digger)
 			await Global.sleep(10)
@@ -200,15 +189,29 @@ func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
 
 	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(_position) != -1)
 	var _direction = directions.front() if directions.size() > 0 else Vector2i.ZERO
-	if _position and _direction != Vector2i.ZERO and _is_solid(_position + _direction * 2):
+	if _position and _direction != Vector2i.ZERO and _lookahead(target_layer, _position, _direction, 4) >= 4:
+		target_layer.set_cell(_position, 0, default_ground_corridor)
 		digger = _make_digger(
-			_position,
+			_position + _direction,
 			_direction,
 			randi_range(6, 25)
 		)
 		diggers.append(digger)
 	return digger
-
+	
+func _lookahead(layer: TileMapLayer, position: Vector2i, direction: Vector2i, length: int):
+	for i in length:
+		if _can_dig(position):
+			for ii in range(3):
+				var to_check = position + direction * i
+				if ii == 0:
+					to_check += Vector2i.UP if direction.x != 0 else Vector2i.LEFT
+				if ii == 2:
+					to_check += Vector2i.DOWN if direction.x != 0 else Vector2i.RIGHT
+				if _can_dig(to_check) == false:
+					return i
+	return length
+	
 func _digger_finished(digger: Digger):
 	var new_corridor = Corridor.new()
 	new_corridor.set_cells(digger.cells)
