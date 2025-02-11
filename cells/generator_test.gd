@@ -4,6 +4,6 @@ extends Node2D
 
 func _input(ev: InputEvent):
 	if ev is InputEventMouseButton and ev.is_released():
-		for child in get_children():
+		for child in %Generator.get_children():
 			child.queue_free()
-		add_child(packed_scene.instantiate())
+		%Generator.add_child(packed_scene.instantiate())

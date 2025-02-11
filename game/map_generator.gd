@@ -81,7 +81,7 @@ func _ready():
 				if diggers[0].life <= 0:
 					_digger_finished(diggers.pop_front())
 
-			await Global.sleep(50)
+			await Global.sleep(20)
 			continue
 
 		total_cells = rect.end.x * rect.end.y * 1.0
@@ -98,7 +98,7 @@ func _ready():
 		if new_feature:
 			tiles_dug += new_feature.cells.size()
 			features.append(new_feature)
-			await Global.sleep(150)
+			await Global.sleep(50)
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
@@ -176,7 +176,7 @@ func _digger_finished(digger: Digger):
 	var new_corridor = Corridor.new()
 	new_corridor.set_cells(digger.cells)
 	_dig_feature(new_corridor)
-	if features.size() < 10:
+	if randi_range(0, 100) < 66:
 		for i in range(randi_range(0, 2)):
 			_dig_off_of(new_corridor)
 	features.append(new_corridor)
@@ -249,7 +249,7 @@ func _place_feature(room: Feature, _accrete: Feature = null) -> Feature:
 		room.cells = room.cells.map(func(_cell): return _cell + valid_location.offset)
 		room.update_faces()
 		_dig_feature(room)
-		if randi_range(0, 100) < 40:
+		if randi_range(0, 100) < 66:
 			_dig_off_of(room)
 
 		return room
@@ -268,8 +268,8 @@ func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	
 	var _cells := []
 	var size = Vector2i(
-		randi_range(2, min(8, bounds.x)),
-		randi_range(2, max(8, bounds.y))
+		randi_range(3, min(8, bounds.x)),
+		randi_range(3, min(8, bounds.y))
 	)
 	
 	for x in range(size.x):

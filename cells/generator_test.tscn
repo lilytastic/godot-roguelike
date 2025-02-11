@@ -7,4 +7,12 @@
 script = ExtResource("1_t6vuh")
 packed_scene = ExtResource("1_hqgsi")
 
-[node name="DungeonGenerator" parent="." instance=ExtResource("1_hqgsi")]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(574, 294)
+offset = Vector2(64, 64)
+zoom = Vector2(0.5, 0.5)
+
+[node name="Generator" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="DungeonGenerator" parent="Generator" instance=ExtResource("1_hqgsi")]
