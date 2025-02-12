@@ -28,7 +28,7 @@ func new_game() -> Entity:
 	MapManager.maps_loaded.clear()
 	MapManager.maps.clear()
 
-	var starting_map = MapManager.create_map('Test', { 'prefab': 'test2' })
+	var starting_map = await MapManager.create_map('Test', { 'prefab': 'fort1' })
 	MapManager.switch_map(starting_map)
 
 	player = Entity.new({ 'blueprint': 'hero' })
@@ -103,7 +103,7 @@ func load_game(path: String):
 		if data.maps.maps:
 			var maps = data.maps.maps
 			for map_data in maps:
-				MapManager.add(Map.load_from_data(map_data))
+				MapManager.add(await Map.load_from_data(map_data))
 	
 	var _entities: Array = data.entities
 	for _entity in _entities:

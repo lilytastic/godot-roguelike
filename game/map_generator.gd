@@ -1,3 +1,4 @@
+class_name MapGenerator
 extends MapPrefab
 
 const DIGGER_COORDS := Vector2i(13, 4)
@@ -17,6 +18,8 @@ var cursor = null
 
 var diggers: Array[Digger] = []
 
+@export var _generation_speed = 1
+
 @export var template: TileMapLayer
 @export var workspace: TileMapLayer
 @export var target_layer: TileMapLayer
@@ -24,8 +27,13 @@ var diggers: Array[Digger] = []
 var directions = [Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN, Vector2i.RIGHT]
 
 var tiles_dug = 0
+var is_generating = true
 
 func _ready():
+	pass
+	
+func generate(generation_speed := 0):
+	is_generating = true
 	tiles_dug = 0
 	features.clear()
 	default_wall = MapManager.tile_data[default_tile].atlas_coords
@@ -75,7 +83,8 @@ func _ready():
 				new_cells[cell] = 0 if randi_range(0, 100) < 60 else 1
 				
 			for i in range(12):
-				await Global.sleep(100)
+				if generation_speed > 0:
+					await Global.sleep(100 / generation_speed)
 				for cell in cells:
 					var neighbours = [
 						cell + Vector2i.UP,
@@ -123,6 +132,8 @@ func _ready():
 		
 		iterations += 1
 
+		await Global.sleep(1)
+
 		dug_percentage = tiles_dug / total_cells * 100.0
 		var max_dug_percentage = 45
 
@@ -141,10 +152,12 @@ func _ready():
 				digger.step()
 				if digger.life <= 0:
 					var result = _digger_finished(digger)
-			await Global.sleep(10)
+			if generation_speed > 0:
+				await Global.sleep(10 / generation_speed)
 			continue
 		
-		if randi_range(0, 100) <= 30 and features.size() > 0:
+		var hallway_chance = 30
+		if randi_range(0, 100) <= hallway_chance and features.size() > 0:
 			var shuffled = features
 			shuffled.shuffle()
 			for item in shuffled:
@@ -158,7 +171,8 @@ func _ready():
 		if new_feature:
 			# print('placed ', new_feature)
 			_dig_feature(new_feature)
-			await Global.sleep(150)
+			if generation_speed > 0:
+				await Global.sleep(150 / generation_speed)
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
@@ -174,9 +188,11 @@ func _ready():
 	
 	await _remove_dead_ends(target_layer)
 	
-	workspace.queue_free()
-	template.queue_free()
+	workspace.free()
+	template.free()
 	print('==== Map generation complete ====')
+	
+	is_generating = false
 
 
 func _connect_isolated_rooms():
@@ -336,7 +352,7 @@ func _dig_off_of(_feature: Feature, _position := Vector2i(-1,-1)):
 				digger = _make_digger(
 					face + dir,
 					dir,
-					randi_range(6, 25)
+					randi_range(6, 16)
 				)
 				diggers.append(digger)
 				return digger
@@ -448,10 +464,14 @@ func _place_feature(_feature: Feature, _accrete: Feature = null) -> Feature:
 			return _feature
 		return null
 
-	var allowed_accretion = features.filter(
-		func(f):
-			return true # f is Corridor
-	)
+	var allowed_accretion = features
+	if randi_range(0, 100) < 50:
+		# Restrict it to corridors only
+		allowed_accretion = allowed_accretion.filter(
+			func(f):
+				return f is Corridor
+		)
+
 	var feature_queue := []
 	feature_queue.append_array(allowed_accretion)
 	feature_queue.shuffle()

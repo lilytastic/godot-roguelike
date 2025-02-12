@@ -12,6 +12,7 @@ func _ready() -> void:
 	MapManager.map_changed.connect(
 		func(map):
 			print('map changed!')
+			await Global.sleep(1)
 			render()
 	)
 	render()

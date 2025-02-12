@@ -27,7 +27,7 @@ func perform(entity: Entity) -> ActionResult:
 					return ActionResult.new(false)
 				print(target.destination)
 				var _map_name = target.destination.map
-				var _map = MapManager.create_map(_map_name)
+				var _map = await MapManager.create_map(_map_name)
 				if !_map:
 					return ActionResult.new(false)
 				MapManager.switch_map(_map)

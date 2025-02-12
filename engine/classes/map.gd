@@ -20,11 +20,11 @@ func _init(_map_name: String, data := {}) -> void:
 	prefab = data.get('prefab', 'test')
 	default_tile = data.get('default_tile', 'void')
 	
-	_init_prefab(prefab, data.get('include_entities', false))
+	await _init_prefab(prefab, data.get('include_entities', false))
 
 	seed = data.get('seed', randi())
 
-	print('tiles: ', tiles)
+	# print('tiles: ', tiles)
 	print('size: ', size)
 	# TODO: Set default tile to the most frequent tile in the array
 
@@ -38,8 +38,15 @@ func _init_prefab(prefab: String, include_entities = false):
 	if packed_scene is MapPrefab:
 		default_tile = packed_scene.default_tile
 	
+	if packed_scene is MapGenerator:
+		default_tile = packed_scene.default_tile
+		print('GENERATE!')
+		await packed_scene.generate(0)
+	print('GENERATED!')
+		
 	for child in packed_scene.get_children():
 		if child is TileMapLayer:
+			print('tile map found: ', child)
 			tile_pattern = child.get_pattern(child.get_used_cells())
 		for _child in child.get_children():
 			if _child is Actor:
@@ -62,12 +69,11 @@ func _init_prefab(prefab: String, include_entities = false):
 	for tile in tile_pattern.get_used_cells():
 		var atlas_coords = tile_pattern.get_cell_atlas_coords(tile)
 		var _id = get_tile_id_from_atlas_coords(atlas_coords)
-		if _id != default_tile:
-			if !tiles.has(_id):
-				tiles[tile] = []
-			tiles[tile].append(_id)
+		if !tiles.has(_id):
+			tiles[tile] = []
+		tiles[tile].append(_id)
 	
-	print(tiles)
+	print(tiles.size())
 	_init_navigation_map()
 
 func get_tile_id_from_atlas_coords(coords: Vector2):
@@ -92,10 +98,12 @@ func can_walk(position: Vector2i):
 	
 	return !tiles_at(position).any(
 		func(id):
-			return MapManager.tile_data[id].get('is_solid', false)
+			var tile_data = MapManager.tile_data[id]
+			return tile_data.get('is_solid', false)
 	)
 
 func _init_navigation_map():
+	print('_init_navigation_map')
 	navigation_map.clear()
 	var width = size.x
 	var height = size.y
@@ -118,7 +126,6 @@ func _init_navigation_map():
 							pos,
 							point
 						)
-						
 
 func get_save_data():
 	return {
@@ -132,4 +139,4 @@ func get_save_data():
 
 static func load_from_data(data: Dictionary) -> Map:
 	print('load map from data: ', data)
-	return Map.new(data.name, data)
+	return await Map.new(data.name, data)

@@ -68,7 +68,7 @@ func create_map(_map_name: String, data := {}):
 		print('no prefab found; not creating map')
 		return null
 
-	var _map = Map.new(_map_name, {
+	var _map = await Map.new(_map_name, {
 		'prefab': prefab,
 		'include_entities': true,
 		'default_tile': 'soil'
@@ -150,6 +150,7 @@ func init_actors():
 		actors[entity.uuid] = entity
 	actors_changed.emit()
 
+
 func update_navigation():
 	if !navigation_map:
 		return
@@ -169,7 +170,7 @@ func update_navigation():
 					pos,
 					true
 				)
-			
+
 func get_collisions(position: Vector2):
 	return actors.values().filter(
 		func(_entity):

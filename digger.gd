@@ -50,7 +50,7 @@ func check_collision_in_direction(position: Vector2i, direction: Vector2i):
 func step():
 	var tiles_dug = 0
 
-	if _lookahead(3) < 3:
+	if _lookahead(1) < 1:
 		_change_direction()
 		life -= 1
 		return tiles_dug

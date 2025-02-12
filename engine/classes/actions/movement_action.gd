@@ -10,6 +10,11 @@ func _init(_vector, _can_alternate = true):
 	can_alternate = _can_alternate
 
 func perform(entity: Entity) -> ActionResult:
+	if !MapManager.can_walk(entity.location.position):
+		entity.location.position = MapManager.current_map.navigation_map.get_closest_position_in_segment(entity.location.position)
+		return ActionResult.new(false)
+		
+
 	var new_position = entity.location.position + vector
 
 	if !MapManager.can_walk(new_position):
