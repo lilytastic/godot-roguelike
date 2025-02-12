@@ -84,7 +84,7 @@ func generate(generation_speed := 0):
 				
 			for i in range(12):
 				if generation_speed > 0:
-					await Global.sleep(100 / generation_speed)
+					await Global.sleep(150 / generation_speed)
 				for cell in cells:
 					var neighbours = [
 						cell + Vector2i.UP,
@@ -105,7 +105,10 @@ func generate(generation_speed := 0):
 					else:
 						if living_neighbours.size() >= 5:
 							new_cells[cell] = 1
-						
+
+				if generation_speed > 0:
+					await Global.sleep(300 / generation_speed)
+
 				for cell in new_cells.keys():
 					target_layer.set_cell(cell, 0, default_ground if new_cells[cell] == 1 else default_wall)
 				
@@ -132,8 +135,6 @@ func generate(generation_speed := 0):
 		
 		iterations += 1
 
-		await Global.sleep(1)
-
 		dug_percentage = tiles_dug / total_cells * 100.0
 		var max_dug_percentage = 45
 
@@ -153,7 +154,7 @@ func generate(generation_speed := 0):
 				if digger.life <= 0:
 					var result = _digger_finished(digger)
 			if generation_speed > 0:
-				await Global.sleep(10 / generation_speed)
+				await Global.sleep(30 / generation_speed)
 			continue
 		
 		var hallway_chance = 30
@@ -172,7 +173,7 @@ func generate(generation_speed := 0):
 			# print('placed ', new_feature)
 			_dig_feature(new_feature)
 			if generation_speed > 0:
-				await Global.sleep(150 / generation_speed)
+				await Global.sleep(200 / generation_speed)
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
@@ -186,7 +187,7 @@ func generate(generation_speed := 0):
 	
 	_remove_walls(target_layer)
 	
-	await _remove_dead_ends(target_layer)
+	await _remove_dead_ends(target_layer, generation_speed)
 	
 	workspace.free()
 	template.free()
@@ -266,7 +267,7 @@ func _remove_walls(layer: TileMapLayer):
 			layer.set_cell(cell, 0, default_wall)
 
 
-func _remove_dead_ends(layer: TileMapLayer):
+func _remove_dead_ends(layer: TileMapLayer, __generation_speed := 0):
 	var filled_cells = 0
 
 	for cell in layer.get_used_cells():
@@ -284,8 +285,9 @@ func _remove_dead_ends(layer: TileMapLayer):
 				filled_cells += 1
 	
 	if filled_cells > 0:
-		await Global.sleep(30)
-		await _remove_dead_ends(layer)
+		if __generation_speed > 0:
+			await Global.sleep(30 / __generation_speed)
+		await _remove_dead_ends(layer, __generation_speed)
 
 
 func _connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
