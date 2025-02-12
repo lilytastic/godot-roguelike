@@ -100,8 +100,8 @@ func _ready():
 				for cell in new_cells.keys():
 					target_layer.set_cell(cell, 0, default_ground if new_cells[cell] == 1 else default_wall)
 				
-			var feature = Feature.new()
-			feature.set_cells(cells.filter(func(cell): new_cells[cell] == 1))
+			var feature = Room.new()
+			feature.set_cells(cells.filter(func(cell): return new_cells[cell] == 1))
 			_dig_feature(feature)
 				
 			_clear(coord)
@@ -124,7 +124,7 @@ func _ready():
 		iterations += 1
 
 		dug_percentage = tiles_dug / total_cells * 100.0
-		var max_dug_percentage = 27
+		var max_dug_percentage = 45
 
 		if tiles_dug > previously_dug:
 			print('dug ', tiles_dug - previously_dug, ' tiles (', dug_percentage, '%)')
@@ -432,8 +432,8 @@ func _make_room(bounds := Vector2i(10, 10)) -> Feature:
 	
 	var _cells := []
 	var size = Vector2i(
-		randi_range(3, min(8, bounds.x)),
-		randi_range(3, min(8, bounds.y))
+		randi_range(2, min(8, bounds.x)),
+		randi_range(2, min(8, bounds.y))
 	)
 	
 	for x in range(size.x):
