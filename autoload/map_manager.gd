@@ -82,16 +82,16 @@ var tile_data = {
 	},
 	'rough stone': {
 		'atlas_coords': Vector2(2, 0),
-		'color': Color.DIM_GRAY,
+		'color': Color('aaaaaa'),
 		'is_solid': true
 	},
 	'rough stone floor': {
 		'atlas_coords': Vector2(6, 13),
-		'color': Color.DIM_GRAY
+		'color': Color('444444'),
 	},
 	'stone floor': {
 		'atlas_coords': Vector2(0, 0),
-		'color': Color.DIM_GRAY
+		'color': Color('444444'),
 	},
 	'tree': {
 		'atlas_coords': Vector2(4, 2),
@@ -117,7 +117,9 @@ func get_atlas_coords_for_id(id: String):
 func switch_map(_map: Map):
 	add(_map)
 	
-	print(_map)
+	print('Switching to map: ', _map.name)
+	await _map.init_prefab()
+	print('Finished initiating prefab for map: ',  _map.name)
 
 	map = _map.uuid
 	if !current_map:

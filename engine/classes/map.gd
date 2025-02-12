@@ -13,15 +13,14 @@ var default_tile = 'void'
 
 var navigation_map = AStar2D.new()
 
+var include_entities = false
 
 func _init(_map_name: String, data := {}) -> void:
 	uuid = data.get('uuid',  uuid_util.v4())
 	name = _map_name
 	prefab = data.get('prefab', 'test')
 	default_tile = data.get('default_tile', 'void')
-	
-	await _init_prefab(prefab, data.get('include_entities', false))
-
+	include_entities = data.get('include_entities', false)
 	seed = data.get('seed', randi())
 
 	# print('tiles: ', tiles)
@@ -29,7 +28,7 @@ func _init(_map_name: String, data := {}) -> void:
 	# TODO: Set default tile to the most frequent tile in the array
 
 
-func _init_prefab(prefab: String, include_entities = false):
+func init_prefab():
 	var cell = load('res://cells/' + prefab + '.tscn')
 	var packed_scene = cell.instantiate()
 	var tile_pattern = null

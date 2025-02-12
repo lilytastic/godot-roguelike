@@ -10,7 +10,7 @@ var camera_speed := 2.0
 
 func _ready() -> void:
 	if !Global.player:
-		Global.new_game()
+		await Global.new_game()
 		# Global.autosave()
 
 	if Global.player.location:
