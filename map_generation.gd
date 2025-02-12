@@ -12,16 +12,14 @@ static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bo
 			var faces = attach_to.faces[-face_direction]
 			faces.shuffle()
 			for face_cell in faces:
+				# TODO: Make a helper function out of this shit
 				# Get all cells for our workspace, where the chosen exit is relative to the current face cell
-				var relative_cells = new_room.cells.map(
-					func(_cell):
-						return _cell - exit + face_cell
-				)
-				var padded_bounds = Rect2(padding, padding, max(0, bounds.size.x - padding * 2), max(0, bounds.size.y - padding * 2))
-				if relative_cells.any(func(_cell): return !padded_bounds.has_point(_cell)):
+				var relative_cells = move_relative(new_room.cells, -(exit - face_cell), bounds, padding)
+
+				if relative_cells.size() == 0:
 					continue
 					
-				var overlapped = check_cell_overlap(relative_cells, used_cells)
+				var overlapped = check_cell_overlap(relative_cells, used_cells, padding)
 
 				# TODO: Add padding, or walls around features, so they don't wind up side-by-side
 				if !overlapped:
@@ -38,8 +36,17 @@ static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bo
 	var chosen_direction = valid_positions.keys().filter(func(key): return valid_positions[key].size() > 0).pick_random()
 	return valid_positions[chosen_direction].pick_random()
 
+static func move_relative(_cells: Array, offset: Vector2i, bounds: Rect2, padding := 1) -> Array:
+	var relative_cells = _cells.map(
+		func(_cell):
+			return _cell + offset
+	)
+	var padded_bounds = Rect2(padding, padding, max(0, bounds.size.x - padding * 2), max(0, bounds.size.y - padding * 2))
+	if relative_cells.any(func(_cell): return !padded_bounds.has_point(_cell)):
+		return []
+	return relative_cells
 
-static func check_cell_overlap(cells: Array, used_cells: Array, padding := 1):
+static func check_cell_overlap(cells: Array, used_cells: Array, padding := 1) -> bool:
 	var min_x = cells.map(func(c): return c.x).min()
 	var max_x = cells.map(func(c): return c.x).max()
 	var min_y = cells.map(func(c): return c.y).min()

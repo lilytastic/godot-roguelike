@@ -28,7 +28,7 @@ func get_random_face(_direction := Vector2i(0,0)):
 	return faces[_direction].pick_random()
 
 func set_cells(_cells: Array):
-	cells = _cells
+	cells = _cells.map(func(c): return Vector2i(c))
 	
 	if cells.size() == 0:
 		update_faces()
