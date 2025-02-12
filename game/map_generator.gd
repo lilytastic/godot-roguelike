@@ -67,7 +67,6 @@ func _ready():
 			_clear(coord) # clear template for the area used
 
 		if atlas_coords == CELLULAR_COORDS:
-			continue
 			var cells = MapGen.flood_fill(template, coord)
 			print('cellular ', size, ' with ', cells.size(), ' cells')
 			var new_cells := {}
@@ -352,13 +351,13 @@ func _is_wall(cell: Vector2i):
 	return _is_solid(cell) or target_layer.get_cell_atlas_coords(cell) == WALL_COORDS
 	
 
-func _place_feature(feature: Feature, _accrete: Feature = null) -> Feature:
+func _place_feature(_feature: Feature, _accrete: Feature = null) -> Feature:
 	if features.size() == 0:
 		return null
 
 	if _accrete != null:
-		if _find_valid_accretion(feature, _accrete) != null:
-			return feature
+		if _find_valid_accretion(_feature, _accrete) != null:
+			return _feature
 		return null
 
 	var feature_queue := []
@@ -366,28 +365,28 @@ func _place_feature(feature: Feature, _accrete: Feature = null) -> Feature:
 	feature_queue.shuffle()
 	
 	for item in feature_queue:
-		var new_location = _find_valid_accretion(feature, item)
+		var new_location = _find_valid_accretion(_feature, item)
 		if new_location.keys().size() > 0:
 			# print('success! checked ', places_checked)
-			return feature
+			return _feature
 	# print('failure. checked ', places_checked)
 	return null
 
 
-func _find_valid_accretion(feature: Feature, _accrete: Feature) -> Dictionary:
+func _find_valid_accretion(_feature: Feature, _accrete: Feature) -> Dictionary:
 	# Find a valid place to put the room in our workspace
 	# All cells already defined on the target layer, for checking overlaps
 	var used_cells = target_layer.get_used_cells().filter(
-		func(cell): return target_layer.get_cell_atlas_coords(cell) != Vector2i(default_wall)
+		func(cell): return !_is_solid(cell)
 	)
 
-	var valid_location = MapGen.accrete(_accrete, feature, used_cells, template.get_used_rect())
+	var valid_location = MapGen.accrete(_accrete, _feature, used_cells, target_layer.get_used_rect())
 	if valid_location:
 		# Adds a one-tile corridor between rooms
-		feature.exits.append(valid_location.exit)
+		_feature.exits.append(valid_location.exit)
 		target_layer.set_cell(valid_location.exit, 0, default_ground_corridor)
 		# Sets the cells to the new offset
-		feature.set_cells(feature.cells.map(func(_cell): return _cell + valid_location.offset))
+		_feature.set_cells(_feature.cells.map(func(_cell): return _cell + valid_location.offset))
 
 	return valid_location
 
