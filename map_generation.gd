@@ -4,36 +4,24 @@ static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bo
 	var valid_positions = {}
 	var directions = new_room.faces.keys()
 	directions.shuffle()
+	# For each direction...
 	for face_direction in directions:
-		# For each exit in that direction...
+		# For each of the new room's exits in that direction...
 		for exit in new_room.exits.filter(func(exit): return new_room.faces[face_direction].find(exit) != -1):
+			# Get faces for that direction, shuffle them
 			var faces = attach_to.faces[-face_direction]
 			faces.shuffle()
 			for face_cell in faces:
-				# Exit would be something like (3, -1) or (4, 3) for a 3x3 room -- it's relative to 0,0
 				# Get all cells for our workspace, where the chosen exit is relative to the current face cell
 				var relative_cells = new_room.cells.map(
 					func(_cell):
 						return _cell - exit + face_cell
 				)
-				
 				var padded_bounds = Rect2(padding, padding, max(0, bounds.size.x - padding * 2), max(0, bounds.size.y - padding * 2))
-				
 				if relative_cells.any(func(_cell): return !padded_bounds.has_point(_cell)):
 					continue
-				
-				var min_x = relative_cells.map(func(c): return c.x).min()
-				var max_x = relative_cells.map(func(c): return c.x).max()
-				var min_y = relative_cells.map(func(c): return c.y).min()
-				var max_y = relative_cells.map(func(c): return c.y).max()
-				
-				var new_bounds = Rect2(
-					min_x - padding,
-					min_y - padding,
-					(max_x - min_x) + 1 + padding * 2,
-					(max_y - min_y) + 1 + padding * 2
-				)
-				var overlapped = check_overlap_rect(used_cells, new_bounds)
+					
+				var overlapped = check_cell_overlap(relative_cells, used_cells)
 
 				# TODO: Add padding, or walls around features, so they don't wind up side-by-side
 				if !overlapped:
@@ -49,6 +37,22 @@ static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bo
 		return {}
 	var chosen_direction = valid_positions.keys().filter(func(key): return valid_positions[key].size() > 0).pick_random()
 	return valid_positions[chosen_direction].pick_random()
+
+
+static func check_cell_overlap(cells: Array, used_cells: Array, padding := 1):
+	var min_x = cells.map(func(c): return c.x).min()
+	var max_x = cells.map(func(c): return c.x).max()
+	var min_y = cells.map(func(c): return c.y).min()
+	var max_y = cells.map(func(c): return c.y).max()
+	
+	var new_bounds = Rect2(
+		min_x - padding,
+		min_y - padding,
+		(max_x - min_x) + 1 + padding * 2,
+		(max_y - min_y) + 1 + padding * 2
+	)
+	return check_overlap_rect(used_cells, new_bounds)
+
 
 static func get_connecting_walls(target_layer: TileMapLayer, is_solid: Callable):
 	var connecting_walls = []

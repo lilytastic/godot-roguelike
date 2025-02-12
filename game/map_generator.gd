@@ -72,7 +72,7 @@ func _ready():
 			var new_cells := {}
 			
 			for cell in cells:
-				new_cells[cell] = 0 if randi_range(0, 100) < 65 else 1
+				new_cells[cell] = 0 if randi_range(0, 100) < 60 else 1
 				
 			for i in range(12):
 				await Global.sleep(100)
