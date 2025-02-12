@@ -138,16 +138,21 @@ func _ready():
 			await Global.sleep(10)
 			continue
 		
-		if randi_range(0, 100) < 50 and features.size() > 0:
-			_dig_off_of(features.pick_random())
+		if randi_range(0, 100) < 40 and features.size() > 0:
+			var shuffled = features
+			shuffled.shuffle()
+			for item in shuffled:
+				var result = _dig_off_of(features.pick_random())
+				if result:
+					break
 			continue
 			
-		var new_feature = await _make_room()
-		new_feature = await _place_feature(new_feature)
+		var new_feature = _make_room()
+		new_feature = _place_feature(new_feature)
 		if new_feature:
 			# print('placed ', new_feature)
 			_dig_feature(new_feature)
-			await Global.sleep(30)
+			await Global.sleep(150)
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
@@ -243,9 +248,9 @@ func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
 	if _position == Vector2i(-1, -1) and random_face:
 		_position = random_face
 
-	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(_position) != -1)
+	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(_position) != -1 and _lookahead(target_layer, _position, dir, 4) >= 4)
 	var _direction = directions.front() if directions.size() > 0 else Vector2i.ZERO
-	if _position and _direction != Vector2i.ZERO and _lookahead(target_layer, _position, _direction, 4) >= 4:
+	if _position and _direction != Vector2i.ZERO:
 		target_layer.set_cell(_position, 0, default_ground_corridor)
 		digger = _make_digger(
 			_position + _direction,
@@ -277,8 +282,8 @@ func _digger_finished(digger: Digger):
 	new_corridor.set_cells(digger.cells)
 	print('digger finished corridor ', new_corridor)
 	_dig_feature(new_corridor)
-	if randi_range(0, 100) < 20:
-		_dig_off_of(new_corridor)
+	if randi_range(0, 100) < 40:
+		pass # _dig_off_of(new_corridor)
 	return new_corridor
 	
 
@@ -337,9 +342,11 @@ func _open_exit(cell: Vector2i):
 		else:
 			target_layer.set_cell(cell, 0, default_ground_corridor)
 
+
 func _is_solid(cell: Vector2i):
 	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
 	return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
+
 
 func _is_wall(cell: Vector2i):
 	return _is_solid(cell) or target_layer.get_cell_atlas_coords(cell) == WALL_COORDS
@@ -355,7 +362,7 @@ func _place_feature(feature: Feature, _accrete: Feature = null) -> Feature:
 		return null
 
 	var feature_queue := []
-	feature_queue.append_array(features)
+	feature_queue.append_array(features.filter(func(f): return f is Corridor))
 	feature_queue.shuffle()
 	
 	for item in feature_queue:
@@ -375,7 +382,7 @@ func _find_valid_accretion(feature: Feature, _accrete: Feature) -> Dictionary:
 	)
 
 	var valid_location = MapGen.accrete(_accrete, feature, used_cells, template.get_used_rect())
-	if valid_location.keys().size() > 0:
+	if valid_location:
 		# Adds a one-tile corridor between rooms
 		feature.exits.append(valid_location.exit)
 		target_layer.set_cell(valid_location.exit, 0, default_ground_corridor)
@@ -395,6 +402,7 @@ func _dig_feature(feature: Feature):
 			target_layer.set_cell(cell, 0, default_ground)
 		else:
 			target_layer.set_cell(cell, 0, default_ground_corridor)
+
 	features.append(feature)
 
 
