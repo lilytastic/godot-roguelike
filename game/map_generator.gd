@@ -74,7 +74,7 @@ func _ready():
 			for cell in cells:
 				new_cells[cell] = 0 if randi_range(0, 100) < 65 else 1
 				
-			for i in range(5):
+			for i in range(12):
 				await Global.sleep(100)
 				for cell in cells:
 					var neighbours = [
@@ -115,29 +115,36 @@ func _ready():
 	var total_cells = rect.end.x * rect.end.y * 1.0
 	var dug_percentage = tiles_dug / total_cells * 100.0
 	var iterations = 0
+	var previously_dug = tiles_dug
 	while true:
 		if iterations > 900:
 			print('breaking loop; iterations > 900')
 			break
-
+		
 		iterations += 1
 
-		total_cells = rect.end.x * rect.end.y * 1.0
 		dug_percentage = tiles_dug / total_cells * 100.0
-		if dug_percentage > 40:
-			print('breaking loop; dug_percentage > 40')
+		var max_dug_percentage = 27
+
+		if tiles_dug > previously_dug:
+			print('dug ', tiles_dug - previously_dug, ' tiles (', dug_percentage, '%)')
+		previously_dug = tiles_dug
+
+		total_cells = rect.end.x * rect.end.y * 1.0
+		if dug_percentage > max_dug_percentage:
+			print('breaking loop; dug_percentage > ', max_dug_percentage)
 			break
 		
 		diggers = diggers.filter(func(digger): return digger.life > 0)
 		if diggers.size() > 0:
 			for digger in diggers:
-				tiles_dug += digger.step()
+				digger.step()
 				if digger.life <= 0:
 					var result = _digger_finished(digger)
 			await Global.sleep(10)
 			continue
 		
-		if randi_range(0, 100) < 40 and features.size() > 0:
+		if randi_range(0, 100) <= 30 and features.size() > 0:
 			var shuffled = features
 			shuffled.shuffle()
 			for item in shuffled:
@@ -178,12 +185,19 @@ func _remove_walls(layer: TileMapLayer):
 
 func _remove_dead_ends(layer: TileMapLayer):
 	var filled_cells = 0
+
 	for cell in layer.get_used_cells():
 		if !_is_wall(cell):
 			var surrounding = layer.get_surrounding_cells(cell)
 			var solid_neighbours = surrounding.filter(func(_cell): return _is_wall(_cell))
 			if solid_neighbours.size() >= 3:
 				layer.set_cell(cell, 0, default_wall)
+				filled_cells += 1
+		else:
+			var surrounding = layer.get_surrounding_cells(cell)
+			var solid_neighbours = surrounding.filter(func(_cell): return _is_wall(_cell))
+			if solid_neighbours.size() == 0:
+				layer.set_cell(cell, 0, default_ground_corridor)
 				filled_cells += 1
 	
 	if filled_cells > 0:
@@ -240,30 +254,31 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 	)
 
 
-func _dig_off_of(feature: Feature, _position := Vector2i(-1,-1)):
+func _dig_off_of(_feature: Feature, _position := Vector2i(-1,-1)):
 	var digger: Digger
+	
+	if !_position:
+		return null
 
-	var random_face = feature.get_random_face()
-	if _position == Vector2i(-1, -1) and random_face:
-		_position = random_face
-
-	var directions = feature.faces.keys().filter(func(dir): return feature.faces[dir].find(_position) != -1 and _lookahead(target_layer, _position, dir, 4) >= 4)
-	var _direction = directions.front() if directions.size() > 0 else Vector2i.ZERO
-	if _position and _direction != Vector2i.ZERO:
-		target_layer.set_cell(_position, 0, default_ground_corridor)
-		digger = _make_digger(
-			_position + _direction,
-			_direction,
-			randi_range(6, 25)
-		)
-		diggers.append(digger)
-		return digger
-
+	for dir in _feature.faces.keys():
+		var faces = _feature.faces[dir]
+		faces.shuffle()
+		for face in faces:
+			if _lookahead(target_layer, face, dir, 4) > 4:
+				target_layer.set_cell(face, 0, default_ground_corridor)
+				digger = _make_digger(
+					face + dir,
+					dir,
+					randi_range(6, 25)
+				)
+				diggers.append(digger)
+				return digger
+		
 	return null
 
 
 func _lookahead(layer: TileMapLayer, position: Vector2i, direction: Vector2i, length: int):
-	for i in length:
+	for i in length + 1:
 		if _can_dig(position):
 			for ii in range(3):
 				var to_check = position + direction * i
@@ -273,7 +288,9 @@ func _lookahead(layer: TileMapLayer, position: Vector2i, direction: Vector2i, le
 					to_check += Vector2i.DOWN if direction.x != 0 else Vector2i.RIGHT
 				if _can_dig(to_check) == false:
 					return i
-	return length
+		else:
+			return 0
+	return length + 1
 	
 	
 func _digger_finished(digger: Digger):
@@ -360,8 +377,12 @@ func _place_feature(_feature: Feature, _accrete: Feature = null) -> Feature:
 			return _feature
 		return null
 
+	var allowed_accretion = features.filter(
+		func(f):
+			return true # f is Corridor
+	)
 	var feature_queue := []
-	feature_queue.append_array(features.filter(func(f): return f is Corridor))
+	feature_queue.append_array(allowed_accretion)
 	feature_queue.shuffle()
 	
 	for item in feature_queue:
