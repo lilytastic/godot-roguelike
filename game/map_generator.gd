@@ -44,6 +44,7 @@ func generate(generation_speed := 0):
 	# Clear the map with with the default tile
 	print('==== Map generation started ====')
 	print('clear with ', default_tile)
+
 	for x in range(rect.end.x):
 		for y in range(rect.end.y):
 			target_layer.set_cell(
@@ -197,8 +198,6 @@ func generate(generation_speed := 0):
 
 
 func _connect_isolated_rooms():
-	return
-
 	# TODO: For each room "x", find all rooms within line of sight without overlapping another room
 	# Shuffle it
 	# For each one that is NOT connected to room "x", make a hallway to it.
@@ -213,27 +212,30 @@ func _connect_isolated_rooms():
 					return true
 				return false
 		)
+		
+		# TODO: Will need to update this each time we connect rooms.
+		var astar = _get_navigation_map(
+			func(cell):
+				return target_layer.get_cell_atlas_coords(cell) == Vector2i(default_wall)
+		)
 		for other_room in closest_rooms:
-			# Yes, do this each time.
-			var astar = _get_navigation_map(
-				func(cell): return target_layer.get_cell_atlas_coords(cell) == Vector2i(default_wall)
-			)
 			var position1 = room.get_center()
 			var position2 = other_room.get_center()
 			var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
 			var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
 			var path = astar.get_point_path(point1, point2)
 			if path.size() == 0:
-				# print("Found disconnected room; checking ", position1, " and ", position2)
-				_connect(room, other_room)
-			pass
+				print("Found disconnected room; checking ", position1, " and ", position2)
+				_connect(room, other_room, astar)
+				"""
+				astar = _get_navigation_map(
+					func(cell):
+						return target_layer.get_cell_atlas_coords(cell) == Vector2i(default_wall)
+				)
+				"""
 	return true
 
-func _connect(feature1: Feature, feature2: Feature):
-	var astar = _get_navigation_map(
-		func(cell):
-			return false
-	)
+func _connect(feature1: Feature, feature2: Feature, astar: AStar2D):
 	var position1 = feature1.get_center()
 	var position2 = feature2.get_center()
 	
@@ -247,7 +249,6 @@ func _connect(feature1: Feature, feature2: Feature):
 	"""
 	
 	"""
-	var target_rect = target_layer.get_used_rect()
 	var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
 	var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
 
@@ -256,7 +257,10 @@ func _connect(feature1: Feature, feature2: Feature):
 	if path.size() == 0:
 		return null
 
+	var target_rect = target_layer.get_used_rect()
 	var new_corridor = Corridor.new()
+	for cell in path:
+		astar.add_point(Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x), cell)
 	new_corridor.set_cells(path)
 	_dig_feature(new_corridor)
 	return true
