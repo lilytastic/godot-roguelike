@@ -88,6 +88,7 @@ func get_save_data() -> Dictionary:
 	return data
 
 func load_game(path: String):
+	PlayerInput.overlay_opacity = 1
 	var data = load_from_save(path)
 
 	if !data:

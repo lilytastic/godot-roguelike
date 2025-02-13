@@ -32,7 +32,7 @@ func _process(delta) -> void:
 			targeting.clear_targeting()
 
 func _input(event: InputEvent) -> void:
-	if Global.ui_visible or MapManager.is_switching:
+	if Global.ui_visible or MapManager.is_switching or overlay_opacity > 0.05:
 		return
 	
 	if event is InputEventMouseMotion:
@@ -60,6 +60,9 @@ func _input(event: InputEvent) -> void:
 				_targeting.current_target = entities_under_cursor[0].uuid
 
 func _unhandled_input(event: InputEvent) -> void:
+	if MapManager.is_switching or overlay_opacity > 0.25:
+		return
+
 	if event.is_pressed() and Global.player:
 		targeting.clear()
 		Global.player.targeting.clear()
