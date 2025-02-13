@@ -138,8 +138,6 @@ func generate(seed: int, generation_speed := 0):
 		
 		iterations += 1
 
-		if generation_speed <= 0:
-			await Global.sleep(1)
 		dug_percentage = tiles_dug / total_cells * 100.0
 		var max_dug_percentage = 50
 
