@@ -34,17 +34,14 @@ func init_prefab():
 	var tile_pattern = null
 	var actors := []
 	
-	print('Instantiating!')
 	
 	if packed_scene is MapPrefab:
 		default_tile = packed_scene.default_tile
 	
 	if packed_scene is MapGenerator:
 		default_tile = packed_scene.default_tile
-		print('GENERATE!')
 		await packed_scene.generate(seed, 0)
-	print('GENERATED!')
-		
+
 	for child in packed_scene.get_children():
 		if child is TileMapLayer:
 			print('tile map found: ', child)

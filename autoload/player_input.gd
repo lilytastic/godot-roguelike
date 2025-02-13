@@ -14,12 +14,18 @@ var mouse_position_in_world := Vector2i(0,0)
 var mouse_in_window = true
 var targeting = Targeting.new()
 
+var overlay_opacity := 0.0
+
 signal action_triggered
 signal ui_action_triggered
 signal double_click
 
 func _process(delta) -> void:
 	_update_cursor()
+	
+	var desired_opacity = 0.0 if !MapManager.is_switching else 1.0
+	overlay_opacity = lerp(overlay_opacity, desired_opacity, delta * 3.0)
+	
 	if Global.player:
 		var _target_position = targeting.target_position()
 		if Global.player.location.position.x == _target_position.x and Global.player.location.position.y == _target_position.y:

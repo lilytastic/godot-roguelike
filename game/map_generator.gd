@@ -42,6 +42,7 @@ func generate(seed: int, generation_speed := 0):
 	var rect = template.get_used_rect()
 
 	astar = AStar2D.new()
+	PlayerInput.overlay_opacity = 1.0
 	
 	await Global.sleep(1)
 	

@@ -4,6 +4,7 @@ const PC_TAG = 'PC'
 var player: Entity:
 	get: return Global.player
 var camera_speed := 2.0
+var overlay_opacity = 0.0
 
 @export var map_name = ''
 
@@ -62,3 +63,6 @@ func _update_camera(delta):
 		)
 
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
+
+	if %BlackOverlay:
+		%BlackOverlay.modulate = Color(Color.WHITE, PlayerInput.overlay_opacity)
