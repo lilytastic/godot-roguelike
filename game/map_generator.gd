@@ -14,6 +14,8 @@ var default_ground = MapManager.tile_data['stone floor'].atlas_coords
 var default_ground_corridor = MapManager.tile_data['rough stone floor'].atlas_coords
 var default_wall = null
 
+var astar: AStar2D = AStar2D.new()
+
 var diggers: Array[Digger] = []
 
 @export var _generation_speed = 0
@@ -33,17 +35,20 @@ func _ready():
 	pass
 	
 func generate(seed: int, generation_speed := 0):
-	seed(seed)
 	is_generating = true
 	tiles_dug = 0
 	features.clear()
 	default_wall = MapManager.tile_data[default_tile].atlas_coords
 	var rect = template.get_used_rect()
+
+	astar = AStar2D.new()
 	
 	await Global.sleep(1)
 	
 	var time_started = Time.get_ticks_msec()
 	print('==== Map generation started ====')
+	seed(seed)
+	print('Seed: ', seed)
 
 	# Clear the map with with the default tile
 	for x in range(rect.end.x):
@@ -177,10 +182,8 @@ func generate(seed: int, generation_speed := 0):
 				await Global.sleep(200 / generation_speed)
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
-	
-	var astar = _get_navigation_map(func(cell): return target_layer.get_cell_atlas_coords(cell) == Vector2i(default_wall))
 
-	_connect_features(target_layer, astar, _is_solid, func(cell): _open_exit(cell))
+	_connect_features(target_layer, _is_solid, func(cell): _open_exit(cell))
 	
 	_remove_walls(target_layer)
 	
@@ -192,52 +195,52 @@ func generate(seed: int, generation_speed := 0):
 	template.free()
 	var time_finished = Time.get_ticks_msec()
 	print('==== Map generation complete ====')
-	print('Time to generate: ', (time_finished - time_started) / 1000, 's')
+	print('Time to generate: ', snapped((time_finished - time_started) / 1000.0, 0.01), 's')
 	
 	is_generating = false
 	randomize()
 
 
 func _connect_isolated_rooms(layer: TileMapLayer):
-	var target_rect = layer.get_used_rect()
 	var rooms = features.filter(func(feature): return feature is Room)
 	rooms.shuffle()
+	
+	for room in rooms:
+		await _augh(rooms, room)
 
-	var astar = _get_navigation_map(
-		func(cell):
+
+func _augh(rooms: Array, room: Feature):
+	var room_center = room.get_center()
+	if _is_solid(room_center):
+		return
+
+	var closest_rooms = rooms.filter(func(r): return r != room)
+	closest_rooms.shuffle()
+	closest_rooms.sort_custom(
+		func(a: Room, b: Room):
+			if a.get_center().distance_to(room_center) < b.get_center().distance_to(room_center):
+				return true
 			return false
 	)
 	
-	for room in rooms:
-		var room_center = room.get_center()
-		if _is_solid(room_center):
-			continue
-
-		var closest_rooms = rooms.filter(func(r): return r != room)
-		closest_rooms.shuffle()
-		closest_rooms.sort_custom(
-			func(a: Room, b: Room):
-				if a.get_center().distance_to(room_center) < b.get_center().distance_to(room_center):
-					return true
-				return false
-		)
-		
-		for other_room in closest_rooms:
-			var other_center = other_room.get_center()
-			if _is_solid(other_center):
-				continue
-			var point1 = Coords.get_astar_pos(room_center.x, room_center.y, target_rect.end.x)
-			var point2 = Coords.get_astar_pos(other_center.x, other_center.y, target_rect.end.x)
-			for p in astar.get_point_ids():
-				astar.set_point_disabled(p, _is_solid(astar.get_point_position(p)))
-			if astar.are_points_connected(point1, point2):
-				continue
-			var new_path = await _connect(room, other_room, astar)
-			astar = _connect_adjacent_tiles(astar, new_path, _is_solid)
-			
+	for other_room in closest_rooms:
+		await _auugh(room, other_room)
 
 
-func _connect(feature1: Feature, feature2: Feature, astar: AStar2D):
+func _auugh(room: Room, other_room: Room):
+	var target_rect = target_layer.get_used_rect()
+	var room_center = room.get_center()
+	var other_center = other_room.get_center()
+
+	if _is_solid(other_center):
+		return
+	var point1 = Coords.get_astar_pos(room_center.x, room_center.y, target_rect.end.x)
+	var point2 = Coords.get_astar_pos(other_center.x, other_center.y, target_rect.end.x)
+	if !astar.are_points_connected(point1, point2):
+		var new_path = await _connect(room, other_room)
+
+
+func _connect(feature1: Feature, feature2: Feature):
 	var path := []
 	var target_rect = target_layer.get_used_rect()
 
@@ -246,18 +249,26 @@ func _connect(feature1: Feature, feature2: Feature, astar: AStar2D):
 	
 	var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
 	var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
+	
+	# print('connect ', point1, ' ', point2)
+	
+	var layer_width = target_rect.end.x
 
-	for p in astar.get_point_ids():
-		astar.set_point_disabled(p, false)
+	var astar_empty = AStar2D.new()
+	for cell in target_layer.get_used_cells():
+		var p = Coords.get_astar_pos(cell.x, cell.y, layer_width)
+		astar_empty.add_point(p, cell)
+		for direction in Global.directions:
+			var offset = cell + direction
+			var p2 = Coords.get_astar_pos(offset.x, offset.y, layer_width)
+			if astar_empty.has_point(p2):
+				astar_empty.connect_points(p, p2)
 
-	path = await astar.get_point_path(point1, point2)
-
-	if path.size() <= 1:
-		return path
+	path = await astar_empty.get_point_path(point1, point2)
 
 	var new_corridor = Corridor.new()
 	new_corridor.set_cells(path)
-	_dig_feature(new_corridor)
+	await _dig_feature(new_corridor)
 	
 	return path
 
@@ -267,9 +278,44 @@ func _remove_walls(layer: TileMapLayer):
 		if layer.get_cell_atlas_coords(cell) == WALL_COORDS:
 			_fill_in(layer, cell)
 
+
+func _dig(cell: Vector2i, is_corridor := false):
+	var layer_width = target_layer.get_used_rect().end.x
+	used_cells[cell] = cell
+	target_layer.set_cell(cell, 0, default_ground_corridor if is_corridor else default_ground)
+	var point1 = Coords.get_astar_pos(cell.x, cell.y, layer_width)
+	astar.add_point(point1, cell)
+	for direction in Global.directions:
+		var offset = cell + direction
+		var point2 = Coords.get_astar_pos(offset.x, offset.y, layer_width)
+		if astar.has_point(point2):
+			astar.connect_points(point1, point2)
+
+
 func _fill_in(layer: TileMapLayer, cell: Vector2i):
 	used_cells.erase(cell)
 	layer.set_cell(cell, 0, default_wall)
+	var target_rect = layer.get_used_rect()
+	var point1 = Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x)
+	if !astar.has_point(point1):
+		return
+	for dir in Global.directions:
+		var offset = cell + dir
+		var point2 = Coords.get_astar_pos(offset.x, offset.y, target_rect.end.x)
+		if astar.has_point(point2):
+			astar.disconnect_points(point1, point2)
+	astar.remove_point(point1)
+
+
+func _dig_feature(feature: Feature):
+	tiles_dug += feature.cells.size()
+	if feature.cells.size() == 0:
+		return
+	for cell in feature.cells:
+		_dig(cell, feature is Corridor)
+
+	features.append(feature)
+
 
 func _remove_dead_ends(layer: TileMapLayer, __generation_speed := 0):
 	var filled_cells = 0
@@ -294,41 +340,42 @@ func _remove_dead_ends(layer: TileMapLayer, __generation_speed := 0):
 		await _remove_dead_ends(layer, __generation_speed)
 
 
-func _connect_features(target_layer: TileMapLayer, astar: AStar2D, is_solid: Callable, dig: Callable):
-	var target_rect = target_layer.get_used_rect()
+func _connect_features(target_layer: TileMapLayer, is_solid: Callable, dig: Callable):
 	var connecting_walls = MapGen.get_connecting_walls(target_layer, is_solid)
 
 	connecting_walls.shuffle()
 	
 	for wall in connecting_walls:
-		var position1 = Vector2i(wall.adjoining[0].x, wall.adjoining[0].y)
-		var position2 = Vector2i(wall.adjoining[1].x, wall.adjoining[1].y)
-		var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
-		var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
-		var feature1 = _get_feature_at(position1)
-		var feature2 = _get_feature_at(position2)
-		
-		var will_break = false
+		_check_wall(wall)
 
-		var path = astar.get_point_path(point1, point2)
+
+func _check_wall(wall: Dictionary):
+	var target_rect = target_layer.get_used_rect()
+	var position1 = Vector2i(wall.adjoining[0].x, wall.adjoining[0].y)
+	var position2 = Vector2i(wall.adjoining[1].x, wall.adjoining[1].y)
+	var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
+	var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
+	var feature1 = _get_feature_at(position1)
+	var feature2 = _get_feature_at(position2)
+	
+	var will_break = false
 		
-		if feature1 is Corridor and feature2 is Corridor:
-			# TODO: merge them into one corridor immediately
-			if feature1 != feature2:
-				feature1.cells += feature2.cells
-				features = features.filter(func(feature): return feature != feature2)
-				# print('merge corridors')
-			will_break = true
+	if feature1 is Corridor and feature2 is Corridor:
+		# TODO: merge them into one corridor immediately
+		if feature1 != feature2:
+			feature1.cells += feature2.cells
+			features = features.filter(func(feature): return feature != feature2)
+			# print('merge corridors')
+		will_break = true
+	
+	if astar.has_point(point1) and astar.has_point(point2):
+		var path = astar.get_point_path(point1, point2)
 
 		if path.size() == 0 or path.size() > 20:
 			will_break = true
 
-		if will_break:
-			var wall_point = Coords.get_astar_pos(wall.cell.x, wall.cell.y, target_rect.end.x)
-			astar.add_point(wall_point, wall.cell)
-			astar.connect_points(wall_point, point1)
-			astar.connect_points(wall_point, point2)
-			dig.call(wall.cell)
+	if will_break:
+		_dig(wall.cell, true)
 
 
 func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
@@ -409,38 +456,6 @@ func _get_feature_at(cell: Vector2i):
 	return filtered.front()
 
 
-func _get_navigation_map(is_solid: Callable):
-	var astar = AStar2D.new()
-	var target_rect = target_layer.get_used_rect()
-	var _cells = target_layer.get_used_cells()
-	astar = _connect_adjacent_tiles(astar, _cells, is_solid)
-	return astar
-
-
-func _connect_adjacent_tiles(astar: AStar2D, cells: Array, is_solid: Callable):
-	var target_rect = target_layer.get_used_rect()
-	for cell in cells:
-		var _cell = Vector2i(cell)
-		if !is_solid.call(_cell):
-			var point = Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x)
-			if !astar.has_point(point):
-				astar.add_point(point, cell)
-			for dir in directions:
-				var offset = _cell + dir
-				var point2 = Coords.get_astar_pos(offset.x, offset.y, target_rect.end.x)
-				if point2 < 0 or cells.find(offset) == -1:
-					continue
-				if !is_solid.call(offset):
-					if !astar.has_point(point2):
-						astar.add_point(point2, offset)
-					astar.connect_points(
-						point,
-						point2,
-						true
-					)
-	return astar
-
-
 func _open_exit(cell: Vector2i):
 	var arr = []
 	arr.append(_get_features_at(cell + Vector2i.UP))
@@ -462,8 +477,6 @@ func _open_exit(cell: Vector2i):
 
 func _is_solid(cell: Vector2i):
 	return !used_cells.has(cell)
-	# var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
-	# return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
 
 
 func _is_wall(cell: Vector2i):
@@ -508,30 +521,11 @@ func _find_valid_accretion(_feature: Feature, _accrete: Feature) -> Dictionary:
 	if valid_location:
 		# Adds a one-tile corridor between rooms
 		_feature.exits.append(valid_location.exit)
-		_dig(valid_location.exit)
+		_dig(valid_location.exit, true)
 		# Sets the cells to the new offset
 		_feature.set_cells(_feature.cells.map(func(_cell): return _cell + valid_location.offset))
 
 	return valid_location
-
-func _dig(cell: Vector2i, is_corridor := false):
-	used_cells[cell] = cell
-	target_layer.set_cell(cell, 0, default_ground_corridor if is_corridor else default_ground)
-
-func _dig_feature(feature: Feature):
-	tiles_dug += feature.cells.size()
-	if feature.cells.size() == 0:
-		return
-	if feature is Room:
-		# print('digging a new room with ', feature.cells.size(), ' cells')
-		pass
-	if feature is Corridor:
-		# print('digging a new hallway with ', feature.cells.size(), ' cells')
-		pass
-	for cell in feature.cells:
-		_dig(cell, feature is Corridor)
-
-	features.append(feature)
 
 
 func _make_room(bounds := Vector2i(10, 10)) -> Feature:

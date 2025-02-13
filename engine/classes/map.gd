@@ -34,6 +34,8 @@ func init_prefab():
 	var tile_pattern = null
 	var actors := []
 	
+	print('Instantiating!')
+	
 	if packed_scene is MapPrefab:
 		default_tile = packed_scene.default_tile
 	

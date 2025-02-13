@@ -15,6 +15,8 @@ var actors := {}
 var navigation_map:
 	get: return current_map.navigation_map if current_map else null
 
+var is_switching = false
+
 signal map_changed
 signal entity_moved
 signal actors_changed
@@ -115,6 +117,7 @@ func get_atlas_coords_for_id(id: String):
 	return tile_data[id].get('atlas_coords', Vector2(0, 0))
 
 func switch_map(_map: Map):
+	is_switching = true
 	add(_map)
 	
 	print('Switching to map: ', _map.name)
@@ -129,6 +132,7 @@ func switch_map(_map: Map):
 	map_changed.emit(map)
 
 	init_actors()
+	is_switching = false
 	
 func get_tiles():
 	var arr := []

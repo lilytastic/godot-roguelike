@@ -26,7 +26,7 @@ func _process(delta) -> void:
 			targeting.clear_targeting()
 
 func _input(event: InputEvent) -> void:
-	if Global.ui_visible:
+	if Global.ui_visible or MapManager.is_switching:
 		return
 	
 	if event is InputEventMouseMotion:
