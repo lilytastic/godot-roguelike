@@ -13,8 +13,6 @@ var features := []
 var default_ground = MapManager.tile_data['stone floor'].atlas_coords
 var default_ground_corridor = MapManager.tile_data['rough stone floor'].atlas_coords
 var default_wall = null
-var cursor_prefab = preload('res://game/cursor.tscn')
-var cursor = null
 
 var diggers: Array[Digger] = []
 
@@ -38,8 +36,6 @@ func generate(generation_speed := 0):
 	features.clear()
 	default_wall = MapManager.tile_data[default_tile].atlas_coords
 	var rect = template.get_used_rect()
-	cursor = cursor_prefab.instantiate()
-	add_child(cursor)
 	
 	# Clear the map with with the default tile
 	print('==== Map generation started ====')
@@ -137,10 +133,8 @@ func generate(generation_speed := 0):
 		iterations += 1
 
 		dug_percentage = tiles_dug / total_cells * 100.0
-		var max_dug_percentage = 45
+		var max_dug_percentage = 50
 
-		if tiles_dug > previously_dug:
-			print('dug ', tiles_dug - previously_dug, ' tiles (', snapped(dug_percentage, 0.1), '%)')
 		previously_dug = tiles_dug
 
 		total_cells = rect.end.x * rect.end.y * 1.0
@@ -178,17 +172,15 @@ func generate(generation_speed := 0):
 
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
 	
-	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
-	
-	var astar = _get_navigation_map(func(cell): return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords)
+	var astar = _get_navigation_map(func(cell): return target_layer.get_cell_atlas_coords(cell) == Vector2i(default_wall))
 
 	_connect_features(target_layer, astar, _is_solid, func(cell): _open_exit(cell))
-	
-	_connect_isolated_rooms()
 	
 	_remove_walls(target_layer)
 	
 	await _remove_dead_ends(target_layer, generation_speed)
+	
+	# await _connect_isolated_rooms(target_layer)
 	
 	workspace.free()
 	template.free()
@@ -197,15 +189,22 @@ func generate(generation_speed := 0):
 	is_generating = false
 
 
-func _connect_isolated_rooms():
-	# TODO: For each room "x", find all rooms within line of sight without overlapping another room
-	# Shuffle it
-	# For each one that is NOT connected to room "x", make a hallway to it.
-	var target_rect = target_layer.get_used_rect()
+func _connect_isolated_rooms(layer: TileMapLayer):
+	var target_rect = layer.get_used_rect()
 	var rooms = features.filter(func(feature): return feature is Room)
+	rooms.shuffle()
+
+	var astar = _get_navigation_map(
+		func(cell):
+			return false
+	)
+	
 	for room in rooms:
 		var room_center = room.get_center()
-		var closest_rooms = rooms
+		if _is_solid(room_center):
+			continue
+		var closest_rooms = rooms.filter(func(r): return r != room)
+		closest_rooms.shuffle()
 		closest_rooms.sort_custom(
 			func(a: Room, b: Room):
 				if a.get_center().distance_to(room_center) < b.get_center().distance_to(room_center):
@@ -213,57 +212,45 @@ func _connect_isolated_rooms():
 				return false
 		)
 		
-		# TODO: Will need to update this each time we connect rooms.
-		var astar = _get_navigation_map(
-			func(cell):
-				return target_layer.get_cell_atlas_coords(cell) == Vector2i(default_wall)
-		)
 		for other_room in closest_rooms:
-			var position1 = room.get_center()
-			var position2 = other_room.get_center()
-			var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
-			var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
-			var path = astar.get_point_path(point1, point2)
-			if path.size() == 0:
-				print("Found disconnected room; checking ", position1, " and ", position2)
-				_connect(room, other_room, astar)
-				"""
-				astar = _get_navigation_map(
-					func(cell):
-						return target_layer.get_cell_atlas_coords(cell) == Vector2i(default_wall)
-				)
-				"""
-	return true
+			var other_center = other_room.get_center()
+			if _is_solid(other_center):
+				continue
+			var point1 = Coords.get_astar_pos(room_center.x, room_center.y, target_rect.end.x)
+			var point2 = Coords.get_astar_pos(other_center.x, other_center.y, target_rect.end.x)
+			for p in astar.get_point_ids():
+				astar.set_point_disabled(p, _is_solid(astar.get_point_position(p)))
+			if astar.are_points_connected(point1, point2):
+				continue
+			var new_path = await _connect(room, other_room, astar)
+			astar = _connect_adjacent_tiles(astar, new_path, _is_solid)
+			
+
 
 func _connect(feature1: Feature, feature2: Feature, astar: AStar2D):
+	var path := []
+	var target_rect = target_layer.get_used_rect()
+
 	var position1 = feature1.get_center()
 	var position2 = feature2.get_center()
 	
-	var path := []
-	"""
-	var direction = Vector2i.ZERO
-	var position = feature1.get_center()
-	while true:
-		path.append(position)
-		position += direction
-	"""
-	
-	"""
 	var point1 = Coords.get_astar_pos(position1.x, position1.y, target_rect.end.x)
 	var point2 = Coords.get_astar_pos(position2.x, position2.y, target_rect.end.x)
 
-	var path = astar.get_point_path(point1, point2)
-	"""
-	if path.size() == 0:
-		return null
+	for p in astar.get_point_ids():
+		astar.set_point_disabled(p, false)
 
-	var target_rect = target_layer.get_used_rect()
+	path = await astar.get_point_path(point1, point2)
+
+	if path.size() <= 1:
+		return path
+
 	var new_corridor = Corridor.new()
-	for cell in path:
-		astar.add_point(Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x), cell)
 	new_corridor.set_cells(path)
 	_dig_feature(new_corridor)
-	return true
+	
+	return path
+
 
 func _remove_walls(layer: TileMapLayer):
 	for cell in layer.get_used_cells():
@@ -411,23 +398,34 @@ func _get_feature_at(cell: Vector2i):
 
 
 func _get_navigation_map(is_solid: Callable):
-	var astar = RigidAStar2D.new()
+	var astar = AStar2D.new()
 	var target_rect = target_layer.get_used_rect()
 	var _cells = target_layer.get_used_cells()
-	for cell in _cells:
-		if !is_solid.call(cell):
-			astar.add_point(Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x), cell)
-			
-	for cell in _cells:
-		if !is_solid.call(cell):
+	astar = _connect_adjacent_tiles(astar, _cells, is_solid)
+	return astar
+
+
+func _connect_adjacent_tiles(astar: AStar2D, cells: Array, is_solid: Callable):
+	var target_rect = target_layer.get_used_rect()
+	for cell in cells:
+		var _cell = Vector2i(cell)
+		if !is_solid.call(_cell):
+			var point = Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x)
+			if !astar.has_point(point):
+				astar.add_point(point, cell)
 			for dir in directions:
-				var offset = cell + dir
-				if !is_solid.call(offset) and _cells.find(offset) != -1:
+				var offset = _cell + dir
+				var point2 = Coords.get_astar_pos(offset.x, offset.y, target_rect.end.x)
+				if point2 < 0 or cells.find(offset) == -1:
+					continue
+				if !is_solid.call(offset):
+					if !astar.has_point(point2):
+						astar.add_point(point2, offset)
 					astar.connect_points(
-						Coords.get_astar_pos(cell.x, cell.y, target_rect.end.x),
-						Coords.get_astar_pos(offset.x, offset.y, target_rect.end.x)
+						point,
+						point2,
+						true
 					)
-				pass
 	return astar
 
 
@@ -513,7 +511,10 @@ func _dig_feature(feature: Feature):
 	tiles_dug += feature.cells.size()
 	if feature.cells.size() == 0:
 		return
-	print('digging a new room with ', feature.cells.size(), ' cells')
+	if feature is Room:
+		print('digging a new room with ', feature.cells.size(), ' cells')
+	if feature is Corridor:
+		print('digging a new hallway with ', feature.cells.size(), ' cells')
 	for cell in feature.cells:
 		if feature is Room:
 			target_layer.set_cell(cell, 0, default_ground)

@@ -90,7 +90,7 @@ var tile_data = {
 		'color': Color('444444'),
 	},
 	'stone floor': {
-		'atlas_coords': Vector2(0, 0),
+		'atlas_coords': Vector2(10, 17),
 		'color': Color('444444'),
 	},
 	'tree': {

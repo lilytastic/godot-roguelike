@@ -89,9 +89,6 @@ func _update_mouse_position() -> void:
 
 	var player = Global.player
 	var new_position = Coords.get_coord(camera.get_global_mouse_position()) * Vector2i(16, 16) + Vector2i(8, 8)
-	if player and new_position != mouse_position_in_world and player.targeting.current_path.size() == 0:
-		var player_position = player.location.position
-		var coord = Coords.get_coord(new_position)
 	mouse_position_in_world = new_position
 
 func _check_for_action(event: InputEvent) -> Action:

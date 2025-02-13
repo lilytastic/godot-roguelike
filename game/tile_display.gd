@@ -5,25 +5,24 @@ static var fast_noise_lite = FastNoiseLite.new();
 var _fov_map := {}
 var last_position: Vector2
 
+var tiles := {}
+
 
 func _ready() -> void:
 	get_viewport().connect("size_changed", render)
+	_create_tiles()
 	
 	MapManager.map_changed.connect(
 		func(map):
 			print('map changed!')
 			await Global.sleep(1)
-			render()
+			_create_tiles()
 	)
-	render()
 	
 func _process(delta):
-	if last_position != Global.player.location.position:
-		last_position = Global.player.location.position
-		render()
+	render()
 
-
-func render() -> void:
+func _create_tiles() -> void:
 	for child in get_children():
 		child.free()
 		
@@ -46,7 +45,19 @@ func render() -> void:
 						add_child(tile)
 
 
-func generate_tile(id: String, position: Vector2) -> Sprite2D:
+func render() -> void:
+	if !MapManager.current_map:
+		return
+
+	var current_map = MapManager.current_map
+	for x in range(current_map.size.x):
+		for y in range(current_map.size.y):
+			var position = Vector2i(x, y)
+			if tiles.has(position):
+				tiles[position].visible = AIManager.can_see(Global.player, position)
+
+
+func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 	var spr = Sprite2D.new()
 	spr.position = Coords.get_position(position) + Vector2(8, 8)
 	var atlas = AtlasTexture.new()
@@ -61,4 +72,5 @@ func generate_tile(id: String, position: Vector2) -> Sprite2D:
 	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
 	var col = Color(_noise, _noise, _noise) / 8
 	spr.modulate = data.get('color', Color.WHITE) + col
+	tiles[position] = spr
 	return spr

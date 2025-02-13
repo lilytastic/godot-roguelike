@@ -50,7 +50,7 @@ func _process(delta) -> void:
 	var tracker_position = PlayerInput.mouse_position_in_world
 	%Tracker.position = %Tracker.position.lerp(
 		tracker_position,
-		delta * 80
+		delta * 30
 	)
 	
 	var target_coords = Global.player.targeting.target_position()
@@ -79,7 +79,7 @@ func _process(delta) -> void:
 	if %Tracker.modulate != current_modulate:
 		_set_path()
 
-	if Global.player and AIManager.can_see(Global.player, PlayerInput.mouse_position_in_world / 16):
+	if Global.player and AIManager.can_see(Global.player, Coords.get_coord(PlayerInput.mouse_position_in_world)):
 		%Tracker.modulate = Color(%Tracker.modulate, 1)
 	else:
 		%Tracker.modulate = Color(%Tracker.modulate, 0.5)

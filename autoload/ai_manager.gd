@@ -119,7 +119,7 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 
 
 func can_see(entity: Entity, pos: Vector2) -> bool:
-	return true # Coords.get_range(pos, location.position) < 7
+	return Coords.get_range(pos, entity.location.position) < 7
 
 func can_act(entity: Entity) -> bool:
 	return entity.blueprint.equipment != null
