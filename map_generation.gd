@@ -78,6 +78,7 @@ static func check_overlap(arr1: Array, arr2: Array):
 				return true
 	return false
 
+# TODO: Too many calls to this thing
 static func check_overlap_rect(cells: Dictionary, rect: Rect2):
 	for x in range(rect.position.x, rect.end.x):
 		for y in range(rect.position.y, rect.end.y):

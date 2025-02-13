@@ -40,6 +40,8 @@ func generate(seed: int, generation_speed := 0):
 	default_wall = MapManager.tile_data[default_tile].atlas_coords
 	var rect = template.get_used_rect()
 	
+	await Global.sleep(1)
+	
 	var time_started = Time.get_ticks_msec()
 	print('==== Map generation started ====')
 
@@ -461,8 +463,9 @@ func _open_exit(cell: Vector2i):
 
 
 func _is_solid(cell: Vector2i):
-	var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
-	return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
+	return !used_cells.has(cell)
+	# var wall_atlas_coords = Vector2i(MapManager.tile_data[default_tile].atlas_coords)
+	# return target_layer.get_cell_atlas_coords(cell) == wall_atlas_coords
 
 
 func _is_wall(cell: Vector2i):
