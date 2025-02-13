@@ -58,7 +58,7 @@ static func check_cell_overlap(cells: Array, used_cells: Dictionary, padding := 
 		(max_x - min_x) + 1 + padding * 2,
 		(max_y - min_y) + 1 + padding * 2
 	)
-	return check_overlap_rect(used_cells.keys(), new_bounds)
+	return check_overlap_rect(used_cells, new_bounds)
 
 
 static func get_connecting_walls(target_layer: TileMapLayer, is_solid: Callable):
@@ -78,10 +78,11 @@ static func check_overlap(arr1: Array, arr2: Array):
 				return true
 	return false
 
-static func check_overlap_rect(arr1: Array, rect: Rect2):
-	for item1 in arr1:
-		if rect.has_point(item1):
-			return true
+static func check_overlap_rect(cells: Dictionary, rect: Rect2):
+	for x in range(rect.position.x, rect.end.x):
+		for y in range(rect.position.y, rect.end.y):
+			if cells.has(Vector2i(x, y)):
+				return true
 	return false
 
 static func flood_fill(tile_map_layer: TileMapLayer, coord: Vector2i) -> Array:
