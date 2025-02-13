@@ -34,6 +34,11 @@ func _input(event: InputEvent):
 	else:
 		Engine.time_scale = 0
 
+func _process(delta):
+	if !isMenuOpen:
+		Engine.time_scale = 1
+	else:
+		Engine.time_scale = 0
 
 func _unhandled_input(event: InputEvent):
 	if !isMenuOpen:

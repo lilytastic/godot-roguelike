@@ -19,6 +19,7 @@ func _ready() -> void:
 			Global.player.location.position
 		)
 
+
 func _process(delta):
 	_update_camera(delta)
 
@@ -35,11 +36,13 @@ func _process(delta):
 		if path_result.success:
 			Global.player.targeting.current_path = path_result.path
 
+
 func _input(event: InputEvent) -> void:
 	if %SystemMenu:
 		Global.ui_visible = %SystemMenu.isMenuOpen
 	else:
 		Global.ui_visible = false
+
 
 func _update_camera(delta):
 	if player and player.location != null:

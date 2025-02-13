@@ -121,6 +121,8 @@ func switch_map(_map: Map):
 	add(_map)
 	
 	print('Switching to map: ', _map.name)
+	PlayerInput.overlay_opacity = 1.0
+	await Global.sleep(100)
 	await _map.init_prefab()
 	print('Finished initiating prefab for map: ',  _map.name)
 
