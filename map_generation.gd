@@ -11,7 +11,7 @@ static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bo
 			# Get faces for that direction, shuffle them
 			var faces = attach_to.faces[-face_direction]
 			faces.shuffle()
-			for face_cell in faces:
+			for face_cell in faces.slice(0,3):
 				# TODO: Make a helper function out of this shit
 				# Get all cells for our workspace, where the chosen exit is relative to the current face cell
 				var relative_cells = move_relative(new_room.cells, -(exit - face_cell), bounds, padding)
@@ -23,13 +23,13 @@ static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bo
 
 				# TODO: Add padding, or walls around features, so they don't wind up side-by-side
 				if !overlapped:
-					# await Global.sleep(30)
 					if !valid_positions.has(face_direction):
 						valid_positions[face_direction] = []
 					valid_positions[face_direction].append({
 						'exit': (-exit + face_cell) + exit,
 						'offset': -exit + face_cell
 					})
+					break
 	
 	if valid_positions.keys().size() == 0:
 		return {}

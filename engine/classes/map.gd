@@ -40,7 +40,7 @@ func init_prefab():
 	if packed_scene is MapGenerator:
 		default_tile = packed_scene.default_tile
 		print('GENERATE!')
-		await packed_scene.generate(seed)
+		await packed_scene.generate(seed, 0)
 	print('GENERATED!')
 		
 	for child in packed_scene.get_children():
