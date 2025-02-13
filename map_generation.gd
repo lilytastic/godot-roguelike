@@ -1,6 +1,6 @@
 class_name MapGen
 
-static func accrete(attach_to: Feature, new_room: Feature, used_cells: Array, bounds: Rect2i, padding := 1):
+static func accrete(attach_to: Feature, new_room: Feature, used_cells: Dictionary, bounds: Rect2i, padding := 1):
 	var valid_positions = {}
 	var directions = new_room.faces.keys()
 	directions.shuffle()
@@ -46,7 +46,7 @@ static func move_relative(_cells: Array, offset: Vector2i, bounds: Rect2, paddin
 		return []
 	return relative_cells
 
-static func check_cell_overlap(cells: Array, used_cells: Array, padding := 1) -> bool:
+static func check_cell_overlap(cells: Array, used_cells: Dictionary, padding := 1) -> bool:
 	var min_x = cells.map(func(c): return c.x).min()
 	var max_x = cells.map(func(c): return c.x).max()
 	var min_y = cells.map(func(c): return c.y).min()
@@ -58,7 +58,7 @@ static func check_cell_overlap(cells: Array, used_cells: Array, padding := 1) ->
 		(max_x - min_x) + 1 + padding * 2,
 		(max_y - min_y) + 1 + padding * 2
 	)
-	return check_overlap_rect(used_cells, new_bounds)
+	return check_overlap_rect(used_cells.keys(), new_bounds)
 
 
 static func get_connecting_walls(target_layer: TileMapLayer, is_solid: Callable):
