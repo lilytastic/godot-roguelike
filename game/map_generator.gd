@@ -30,7 +30,8 @@ var is_generating = true
 func _ready():
 	pass
 	
-func generate(generation_speed := 0):
+func generate(seed: int, generation_speed := 0):
+	seed(seed)
 	is_generating = true
 	tiles_dug = 0
 	features.clear()
@@ -187,6 +188,7 @@ func generate(generation_speed := 0):
 	print('==== Map generation complete ====')
 	
 	is_generating = false
+	randomize()
 
 
 func _connect_isolated_rooms(layer: TileMapLayer):
