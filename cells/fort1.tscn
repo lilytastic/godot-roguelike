@@ -16,6 +16,7 @@ tile_map_data = PackedByteArray()
 
 [node name="Workspace" parent="." instance=ExtResource("2_csb8k")]
 unique_name_in_owner = true
+visible = false
 tile_map_data = PackedByteArray()
 
 [node name="Template" parent="." instance=ExtResource("2_csb8k")]
