@@ -118,8 +118,12 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 	return result.success
 
 
-func can_see(entity: Entity, pos: Vector2) -> bool:
-	return Coords.get_range(pos, entity.location.position) < 7
+func can_see(entity: Entity, seen_position: Vector2) -> bool:
+	var position = entity.location.position
+	var collisions = [] # MapManager.get_collisions_line(position, seen_position)
+	if collisions.size() > 0:
+		return false
+	return Coords.get_range(seen_position, position) < 10
 
 func can_act(entity: Entity) -> bool:
 	return entity.blueprint.equipment != null

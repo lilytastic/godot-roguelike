@@ -42,9 +42,11 @@ func generate(seed: int, generation_speed := 0):
 	var rect = template.get_used_rect()
 
 	astar = AStar2D.new()
-	PlayerInput.overlay_opacity = 1.0
+	PlayerInput.overlay_opacity = 3.0
 	
 	await Global.sleep(1)
+	
+	PlayerInput.overlay_opacity = 3.0
 	
 	var time_started = Time.get_ticks_msec()
 	print('==== Map generation started ====')

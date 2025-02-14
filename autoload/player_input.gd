@@ -42,7 +42,7 @@ func _input(event: InputEvent) -> void:
 	if !player_is_valid:
 		return
 
-	var coord = Vector2(Coords.get_coord(mouse_position_in_world))
+	var coord = Vector2i(Coords.get_coord(mouse_position_in_world))
 	if event is InputEventMouseButton:
 		var valid = player_is_valid and AIManager.can_see(Global.player, coord)
 		if valid:
@@ -50,11 +50,16 @@ func _input(event: InputEvent) -> void:
 				targeting.clear()
 				Global.player.targeting.clear()
 				return
+
 		var _targeting = targeting
 		if event.double_click:
 			_targeting = Global.player.targeting
 		
 		if event.is_pressed():
+			print('collisions in line: ', MapManager.get_collisions_line(
+				Global.player.location.position,
+				Coords.get_coord(mouse_position_in_world)
+			))
 			_targeting.set_target_position(Coords.get_coord(mouse_position_in_world))
 			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
 				_targeting.current_target = entities_under_cursor[0].uuid
