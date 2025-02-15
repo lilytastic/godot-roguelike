@@ -65,7 +65,6 @@ func render() -> void:
 		func(tile): return !MapManager.can_walk(tile),
 		func(tile): _visible[tile] = true
 	)
-	print("Visible: ", _visible.size())
 	
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
