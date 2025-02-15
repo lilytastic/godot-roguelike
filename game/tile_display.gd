@@ -63,8 +63,16 @@ func render() -> void:
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)
 			if tiles.has(position):
-				tiles[position].visible = AIManager.can_see(Global.player, position) # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
-
+				var is_known = current_map.tiles_known.get(position, false)
+				if AIManager.can_see(Global.player, position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
+					tiles[position].visible = true
+					tiles[position].modulate = Color(tiles[position].modulate, 1)
+				else:
+					if is_known:
+						tiles[position].visible = true
+						tiles[position].modulate = Color(tiles[position].modulate, 0.15)
+					else:
+						tiles[position].visible = false
 
 func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 	var spr = Sprite2D.new()

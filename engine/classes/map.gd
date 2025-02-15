@@ -22,6 +22,7 @@ func _init(_map_name: String, data := {}) -> void:
 	name = _map_name
 	prefab = data.get('prefab', 'test')
 	default_tile = data.get('default_tile', 'void')
+	tiles_known = data.get('tiles_known', {})
 	include_entities = data.get('include_entities', false)
 	seed = data.get('seed', randi())
 
@@ -138,6 +139,7 @@ func get_save_data():
 		'prefab': prefab,
 		'seed': seed,
 		'default_tile': default_tile,
+		'tiles_known': tiles_known,
 		'size': size
 	}
 

@@ -156,6 +156,7 @@ func init_actors():
 	
 	for entity in entities:
 		actors[entity.uuid] = entity
+		entity.update_fov()
 	actors_changed.emit()
 
 
