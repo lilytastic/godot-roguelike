@@ -62,17 +62,21 @@ func _init(opts: Dictionary):
 		
 	update_fov()
 
+
 func update_fov():
+	var max_vision = 8
 	if !MapManager.current_map or !location or MapManager.current_map.uuid != location.map:
-		return # Don't update for enemies who aren't here!
+		return # Don't update for things that aren't here!
 	visible_tiles.clear()
 	FOV.compute_fov(
 		location.position,
 		func(tile): return !MapManager.can_walk(tile),
 		func(tile):
-		if Global.player and Global.player.uuid == uuid and MapManager.current_map:
-			MapManager.current_map.tiles_known[tile] = true
-			visible_tiles[tile] = true
+			if Global.player and Global.player.uuid == uuid and MapManager.current_map:
+				if Global.player.location.position.distance_to(tile) > max_vision:
+					return
+				MapManager.current_map.tiles_known[tile] = true
+				visible_tiles[tile] = true
 	)
 	
 

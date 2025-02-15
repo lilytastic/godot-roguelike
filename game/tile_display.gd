@@ -12,7 +12,7 @@ func _ready() -> void:
 	get_viewport().connect("size_changed", render)
 	_create_tiles()
 	render()
-
+	
 	MapManager.map_changed.connect(
 		func(map):
 			print('map changed!')
@@ -24,6 +24,7 @@ func _ready() -> void:
 func _process(delta):
 	if Global.player and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
+		await Global.sleep(100)
 		render()
 
 

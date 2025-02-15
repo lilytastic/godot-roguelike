@@ -41,7 +41,6 @@ func _process(delta):
 func finish_turn():
 	if next_actor:
 		next_actor.is_acting = false
-		next_actor.update_fov()
 	next_actor = null
 	turn_in_progress = false
 

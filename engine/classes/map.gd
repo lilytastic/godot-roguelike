@@ -23,9 +23,9 @@ func _init(_map_name: String, data := {}) -> void:
 	prefab = data.get('prefab', 'test')
 	default_tile = data.get('default_tile', 'void')
 
-	var _tiles_known = data.get('tiles_known', {})
-	for tile in _tiles_known.keys():
-		tiles_known[Global.string_to_vector(tile)] = _tiles_known[tile]
+	var _tiles_known = data.get('tiles_known', [])
+	for tile in _tiles_known:
+		tiles_known[Global.string_to_vector(tile)] = true
 
 	include_entities = data.get('include_entities', false)
 	seed = data.get('seed', randi())
@@ -143,7 +143,7 @@ func get_save_data():
 		'prefab': prefab,
 		'seed': seed,
 		'default_tile': default_tile,
-		'tiles_known': tiles_known,
+		'tiles_known': tiles_known.keys(),
 		'size': size
 	}
 

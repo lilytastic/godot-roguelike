@@ -6,13 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="4_dypj6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvv64"]
-bg_color = Color(0.1066, 0.1183, 0.13, 1)
+bg_color = Color(0.058, 0.0699, 0.1, 1)
 
 [sub_resource type="Theme" id="Theme_drivx"]
 VBoxContainer/constants/separation = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yteaq"]
-bg_color = Color(0.144, 0.144, 0.16, 1)
+bg_color = Color(0.0745098, 0.0901961, 0.129412, 1)
 
 [node name="Aside Menu" type="Control"]
 layout_mode = 3

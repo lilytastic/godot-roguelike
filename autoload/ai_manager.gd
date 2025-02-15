@@ -37,6 +37,7 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 	if result.success:
 		Scheduler.finish_turn()
 	entity.action_performed.emit(action, result)
+	entity.update_fov()
 	return result
 
 
