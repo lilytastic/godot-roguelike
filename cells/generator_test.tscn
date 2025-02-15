@@ -16,3 +16,4 @@ zoom = Vector2(0.5, 0.5)
 unique_name_in_owner = true
 
 [node name="DungeonGenerator" parent="Generator" instance=ExtResource("1_hqgsi")]
+default_tile = ""

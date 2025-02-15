@@ -1,20 +1,20 @@
 class_name Quadrant
 
-var direction: Vector2
-var position: Vector2
+var direction: Vector2i
+var origin: Vector2i
 
-func _init(_direction, origin):
+func _init(_direction, _origin):
 	direction = _direction
-	position = origin
+	origin = _origin
 
 func transform(tile):
-	var col = tile.x
-	var row = tile.y
-	if direction == Vector2.UP:
-		return Vector2(position.x + col, position.y - row)
-	if direction == Vector2.DOWN:
-		return Vector2(position.x + col, position.y + row)
-	if direction == Vector2.RIGHT:
-		return Vector2(position.x + row, position.y + col)
-	if direction == Vector2.LEFT:
-		return Vector2(position.x - row, position.y + col)
+	var col = tile.col
+	var row = tile.depth
+	if direction == Vector2i.UP:
+		return Vector2i(origin.x + col, origin.y - row)
+	if direction == Vector2i.DOWN:
+		return Vector2i(origin.x + col, origin.y + row)
+	if direction == Vector2i.RIGHT:
+		return Vector2i(origin.x + row, origin.y + col)
+	if direction == Vector2i.LEFT:
+		return Vector2i(origin.x - row, origin.y + col)

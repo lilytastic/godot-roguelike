@@ -2,30 +2,15 @@ class_name FOV
 
 static func compute_fov(origin, is_blocking: Callable, mark_visible: Callable):
 	mark_visible.call(origin)
-
+	
 	for i in range(4):
-		var quadrant = Quadrant.new(i, origin)
+		var quadrant = Quadrant.new(Global.directions[i], origin)
 		var first_row = Row.new(1, -1.0, 1.0)
 		scan(first_row, quadrant, is_blocking, mark_visible)
 
-static func reveal(tile, quadrant, mark_visible: Callable):
-	var pos = quadrant.transform(tile)
-	mark_visible.call(pos.x, pos.y)
-
-static func is_wall(tile, quadrant, is_blocking: Callable):
-	if tile == null:
-		return false
-	var pos = quadrant.transform(tile)
-	return is_blocking.call(pos.x, pos.y)
-
-static func is_floor(tile, quadrant, is_blocking: Callable):
-	if tile == null:
-		return false
-	var pos = quadrant.transform(tile)
-	return !is_blocking.call(pos.x, pos.y)
-	
 
 static func scan(row, quadrant, is_blocking: Callable, mark_visible: Callable):
+	# print("scanning ", row)
 	var prev_tile = null
 	for tile in row.tiles():
 		if is_wall(tile, quadrant, is_blocking) or row.is_symmetric(row, tile):
@@ -40,3 +25,21 @@ static func scan(row, quadrant, is_blocking: Callable, mark_visible: Callable):
 	if is_floor(prev_tile, quadrant, is_blocking):
 		scan(row.next(), quadrant, is_blocking, mark_visible)
 	return
+
+
+static func reveal(tile, quadrant, mark_visible: Callable):
+	var pos = quadrant.transform(tile)
+	mark_visible.call(pos)
+
+static func is_wall(tile, quadrant, is_blocking: Callable):
+	if tile == null:
+		return false
+	var pos = quadrant.transform(tile)
+	return is_blocking.call(pos)
+
+static func is_floor(tile, quadrant, is_blocking: Callable):
+	if tile == null:
+		return false
+	var pos = quadrant.transform(tile)
+	return !is_blocking.call(pos)
+	
