@@ -62,16 +62,6 @@ func _input(event: InputEvent) -> void:
 			))
 			_targeting.set_target_position(Coords.get_coord(mouse_position_in_world))
 
-			"""
-			var visible = []
-			FOV.compute_fov(
-				Global.player.location.position,
-				func(tile): return !MapManager.can_walk(tile),
-				func(tile): visible.append(tile)
-			)
-			print('Visible: ', visible)
-			"""
-
 			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
 				_targeting.current_target = entities_under_cursor[0].uuid
 

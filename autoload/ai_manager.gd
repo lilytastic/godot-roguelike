@@ -118,10 +118,13 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 	return result.success
 
 
-func can_see(entity: Entity, seen_position: Vector2) -> bool:
+func can_see(entity: Entity, seen_position: Vector2i) -> bool:
 	var position = entity.location.position
+	return entity.visible_tiles.get(seen_position, false)
+	"""
 	if Coords.get_range(seen_position, position) >= 10:
 		return false
+	"""
 	return true
 
 func can_act(entity: Entity) -> bool:

@@ -27,6 +27,8 @@ var health: Meter = null
 var energy := 0.00
 var is_acting = false
 
+var visible_tiles := {}
+
 var animation: AnimationSequence = null
 
 var screen_position: Vector2:
@@ -57,6 +59,19 @@ func _init(opts: Dictionary):
 					on_death.emit()
 					ECS.remove(uuid)
 		)
+		
+	update_fov()
+
+func update_fov():
+	if !MapManager.current_map or MapManager.current_map.uuid != location.map:
+		return # Don't update for enemies who aren't here!
+	visible_tiles.clear()
+	FOV.compute_fov(
+		location.position,
+		func(tile): return !MapManager.can_walk(tile),
+		func(tile): visible_tiles[tile] = true
+	)
+	
 
 func change_location(_location: Location):
 	location = _location
@@ -96,6 +111,8 @@ func load_from_save(data: Dictionary) -> void:
 	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
 	if data.has('destination'): destination = data.get('destination', {})
 	if data.has('health'): health.current = data.health
+	
+	update_fov()
 
 
 func damage(opts: Dictionary):

@@ -11,6 +11,8 @@ var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
 var default_tile = 'void'
 
+var tiles_known := {} # The tiles the player knows about
+
 var navigation_map = AStar2D.new()
 
 var include_entities = false

@@ -58,19 +58,12 @@ func render() -> void:
 	var current_map = MapManager.current_map
 	var walls_seen = {}
 	var collision_dict = {}
-	
-	var _visible := {}
-	FOV.compute_fov(
-		Global.player.location.position,
-		func(tile): return !MapManager.can_walk(tile),
-		func(tile): _visible[tile] = true
-	)
-	
+
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)
 			if tiles.has(position):
-				tiles[position].visible = _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
+				tiles[position].visible = AIManager.can_see(Global.player, position) # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
 
 
 func generate_tile(id: String, position: Vector2i) -> Sprite2D:
