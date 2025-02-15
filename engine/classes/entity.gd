@@ -70,7 +70,7 @@ func update_fov():
 		location.position,
 		func(tile): return !MapManager.can_walk(tile),
 		func(tile):
-		if Global.player.uuid == uuid and MapManager.current_map:
+		if Global.player and Global.player.uuid == uuid and MapManager.current_map:
 			MapManager.current_map.tiles_known[tile] = true
 			visible_tiles[tile] = true
 	)

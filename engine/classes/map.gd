@@ -22,11 +22,15 @@ func _init(_map_name: String, data := {}) -> void:
 	name = _map_name
 	prefab = data.get('prefab', 'test')
 	default_tile = data.get('default_tile', 'void')
-	tiles_known = data.get('tiles_known', {})
+
+	var _tiles_known = data.get('tiles_known', {})
+	for tile in _tiles_known.keys():
+		tiles_known[Global.string_to_vector(tile)] = _tiles_known[tile]
+
 	include_entities = data.get('include_entities', false)
 	seed = data.get('seed', randi())
 
-	# print('tiles: ', tiles)
+	print('tiles known: ', tiles_known.size())
 	print('size: ', size)
 	# TODO: Set default tile to the most frequent tile in the array
 
