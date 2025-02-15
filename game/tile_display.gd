@@ -11,16 +11,21 @@ var tiles := {}
 func _ready() -> void:
 	get_viewport().connect("size_changed", render)
 	_create_tiles()
-	
+	render()
+
 	MapManager.map_changed.connect(
 		func(map):
 			print('map changed!')
 			await Global.sleep(1)
 			_create_tiles()
+			render()
 	)
 	
 func _process(delta):
-	render()
+	if Global.player and Global.player.location.position != last_position:
+		last_position = Global.player.location.position
+		render()
+
 
 func _create_tiles() -> void:
 	for child in get_children():
@@ -49,7 +54,11 @@ func render() -> void:
 	if !MapManager.current_map:
 		return
 
+	var player_location = Global.player.location.position
 	var current_map = MapManager.current_map
+	var walls_seen = {}
+	var collision_dict = {}
+	
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)

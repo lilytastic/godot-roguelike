@@ -17,6 +17,38 @@ var navigation_map:
 
 var is_switching = false
 
+var tile_data = {
+	'void': {
+		'atlas_coords': Vector2(0, 0)
+	},
+	'rough stone': {
+		'atlas_coords': Vector2(2, 0),
+		'color': Color('888888'),
+		'is_solid': true
+	},
+	'rough stone floor': {
+		'atlas_coords': Vector2(6, 13),
+		'color': Color('444444'),
+	},
+	'stone floor': {
+		'atlas_coords': Vector2(10, 17),
+		'color': Color('444444'),
+	},
+	'tree': {
+		'atlas_coords': Vector2(4, 2),
+		'color': Color('387a17'),
+		'is_solid': true
+	},
+	'soil': {
+		'atlas_coords': Vector2(5, 0),
+		'color': Color('2c5b14')
+	},
+	'wildgrass': {
+		'atlas_coords': Vector2(0, 2),
+		'color': Color('387a17')
+	}
+}
+
 signal map_changed
 signal entity_moved
 signal actors_changed
@@ -78,37 +110,6 @@ func create_map(_map_name: String, data := {}):
 
 	return _map
 
-var tile_data = {
-	'void': {
-		'atlas_coords': Vector2(0, 0)
-	},
-	'rough stone': {
-		'atlas_coords': Vector2(2, 0),
-		'color': Color('888888'),
-		'is_solid': true
-	},
-	'rough stone floor': {
-		'atlas_coords': Vector2(6, 13),
-		'color': Color('444444'),
-	},
-	'stone floor': {
-		'atlas_coords': Vector2(10, 17),
-		'color': Color('444444'),
-	},
-	'tree': {
-		'atlas_coords': Vector2(4, 2),
-		'color': Color('387a17'),
-		'is_solid': true
-	},
-	'soil': {
-		'atlas_coords': Vector2(5, 0),
-		'color': Color('2c5b14')
-	},
-	'wildgrass': {
-		'atlas_coords': Vector2(0, 2),
-		'color': Color('387a17')
-	}
-}
 
 func get_tile_data(id: String):
 	return tile_data[id]
@@ -178,7 +179,7 @@ func update_navigation():
 					true
 				)
 
-func get_collisions(position: Vector2):
+func get_collisions(position: Vector2i):
 	return actors.values().filter(
 		func(_entity):
 			return AIManager.blocks_entities(_entity)
@@ -187,46 +188,19 @@ func get_collisions(position: Vector2):
 			return _entity.location.position.x == position.x and _entity.location.position.y == position.y
 	)
 
-func get_collisions_line(position1: Vector2, position2: Vector2):
-	var line = get_point_line(position1, position2)
-	print('line ', line)
+func get_collisions_line(position1: Vector2i, position2: Vector2i):
+	var line = Coords.get_point_line(position1, position2)
+	# print('line ', line)
 	var collisions = []
 	for position in line:
-		var tile_data = MapManager.tile_data.get(current_map.get_tile_at(position), null)
-		if tile_data and tile_data.is_solid:
-			collisions.append(position)
+		var tiles = current_map.get_tiles_at(position)
+		for id in tiles:
+			var tile_data = MapManager.tile_data.get(id)
+			# print(id, ' - ', tile_data)
+			if tile_data and tile_data.get("is_solid", false):
+				collisions.append(position)
 	return collisions
 	
-func get_point_line(position1: Vector2, position2: Vector2):
-	print(position1, ', ', position2)
-	var arr = []
-	var x0 = position1.x
-	var y0 = position1.y
-	var x1 = position2.x
-	var y1 = position2.y
-	
-	var dx = abs(x1 - x0)
-	var sx = 1 if (x0 < x1) else -1
-	var dy = -abs(y1 - y0)
-	var sy = 1 if (y0 < y1) else -1
-	var error = dx + dy
-
-	while true:
-		arr.append(Vector2(x0, y0))
-		var e2 = 2 * error
-		if e2 >= dy:
-			if x0 == x1:
-				break
-			error = error + dy
-			x0 = x0 + sx
-		if e2 <= dx:
-			if y0 == y1:
-				break
-			error = error + dx
-			y0 = y0 + sy
-
-	return arr
-
 func get_astar_pos(x, y) -> int:
 	return current_map.get_astar_pos(x, y)
 
