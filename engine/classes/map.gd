@@ -92,8 +92,10 @@ func tiles_at(position: Vector2i):
 func can_walk(position: Vector2i):
 	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
 		return false
+		
+	var tiles = tiles_at(position)
 	
-	return !tiles_at(position).any(
+	return !tiles.any(
 		func(id):
 			var tile_data = MapManager.tile_data[id]
 			return tile_data.get('is_solid', false)

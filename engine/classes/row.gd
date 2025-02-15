@@ -31,7 +31,7 @@ func slope(tile) -> float:
 	var col = tile.col
 	var x = 2.0 * col - 1.0
 	var y = 2.0 * row_depth
-	return y / float(x) # Vector2(2.0 * col - 1.0, 2.0 * row_depth)
+	return (2 * col - 1) / float(2 * row_depth) # Vector2(2.0 * col - 1.0, 2.0 * row_depth)
 
 func is_symmetric(row, tile) -> bool:
 	var row_depth = tile.depth

@@ -1,10 +1,10 @@
 class_name FOV
 
-static func compute_fov(origin, is_blocking: Callable, mark_visible: Callable):
+static func compute_fov(origin: Vector2i, is_blocking: Callable, mark_visible: Callable):
 	mark_visible.call(origin)
 	
-	for i in range(4):
-		var quadrant = Quadrant.new(Global.directions[i], origin)
+	for direction in Global.directions:
+		var quadrant = Quadrant.new(direction, origin)
 		var first_row = Row.new(1, -1.0, 1.0)
 		scan(first_row, quadrant, is_blocking, mark_visible)
 
