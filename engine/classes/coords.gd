@@ -30,3 +30,33 @@ static func is_in_range(this_coord: Vector2i, that_coord: Vector2i,
 
 static func get_astar_pos(x, y, width) -> int:
 	return x + width * y
+
+static func get_point_line(position1: Vector2, position2: Vector2):
+	# print(position1, ', ', position2)
+	var arr = []
+	var x0 = position1.x
+	var y0 = position1.y
+	var x1 = position2.x
+	var y1 = position2.y
+	
+	var dx = abs(x1 - x0)
+	var sx = 1 if (x0 < x1) else -1
+	var dy = -abs(y1 - y0)
+	var sy = 1 if (y0 < y1) else -1
+	var error = dx + dy
+
+	while true:
+		arr.append(Vector2(x0, y0))
+		var e2 = 2 * error
+		if e2 >= dy:
+			if x0 == x1:
+				break
+			error = error + dy
+			x0 = x0 + sx
+		if e2 <= dx:
+			if y0 == y1:
+				break
+			error = error + dx
+			y0 = y0 + sy
+
+	return arr

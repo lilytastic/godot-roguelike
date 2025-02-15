@@ -124,8 +124,8 @@ func _init_navigation_map():
 							point
 						)
 
-func get_tile_at(position: Vector2i):
-	return tiles[position]
+func get_tiles_at(position: Vector2i):
+	return tiles.get(position, [])
 
 func get_save_data():
 	return {
