@@ -14,11 +14,12 @@ var player_can_act: bool:
 		return next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
 
-func _process(delta):
+func _process(delta: float):
 	var player = Global.player
 	var player_is_valid = player and ECS.entity(player.uuid)
 
 	if !next_actor and player_is_valid:
+		print('update energy')
 		await _update_energy(delta)
 
 	if next_actor != null or !player_is_valid:
@@ -33,7 +34,8 @@ func _process(delta):
 			turn_in_progress = true
 			last_uuid_selected = next_uuid
 			next_actor = next
-			AIManager._process(delta)
+			# AIManager._process(delta)
+
 
 var last_chosen = {}
 func _update_energy(delta: float):
