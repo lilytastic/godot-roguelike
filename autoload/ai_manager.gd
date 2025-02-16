@@ -5,7 +5,7 @@ func _process(delta):
 	# Check if the Scheduler.next_actor is not the player, then trigger an action
 	var player = Global.player
 	var next_actor = Scheduler.next_actor
-
+	
 	if !player:
 		return
 	if next_actor != null and !next_actor.is_acting:
@@ -16,6 +16,8 @@ func _process(delta):
 				if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
 					player.targeting.clear_targeting()
 			else:
+				# print('doing stuff as ', next_actor.blueprint.name, '; ', Time.get_ticks_msec())
+				# Idling
 				result = await perform_action(
 					next_actor,
 					MovementAction.new(
@@ -122,14 +124,9 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 func can_see(entity: Entity, seen_position: Vector2i) -> bool:
 	var position = entity.location.position
 	return entity.visible_tiles.get(seen_position, false)
-	"""
-	if Coords.get_range(seen_position, position) >= 10:
-		return false
-	"""
-	return true
 
 func can_act(entity: Entity) -> bool:
-	return entity.blueprint.equipment != null
+	return entity and entity.blueprint.equipment != null
 
 func blocks_entities(entity: Entity) -> bool:
 	return can_act(entity)

@@ -30,8 +30,7 @@ func perform(entity: Entity) -> ActionResult:
 		],
 		Global.STEP_LENGTH * 1.5
 	)
-		
-	# await Global.sleep((Global.STEP_LENGTH * 1.5) / 4)
+
 	await Global.sleep(20)
 	
 	if is_instance_valid(target.actor):
@@ -57,6 +56,5 @@ func perform(entity: Entity) -> ActionResult:
 	)
 
 	await Global.sleep(150)
-	# await Global.sleep(500)
 
 	return ActionResult.new(true, { 'cost_energy': 3 })

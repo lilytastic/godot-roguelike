@@ -55,7 +55,6 @@ func _init(opts: Dictionary):
 		health_changed.connect(
 			func(amount):
 				if !health or health.current <= 0:
-					# await Global.sleep(250)
 					on_death.emit()
 					ECS.remove(uuid)
 		)
@@ -64,9 +63,12 @@ func _init(opts: Dictionary):
 
 
 func update_fov():
-	var max_vision = 8
+	if Global.player and uuid != Global.player.uuid:
+		return
 	if !MapManager.current_map or !location or MapManager.current_map.uuid != location.map:
 		return # Don't update for things that aren't here!
+		
+	var max_vision = 8
 	visible_tiles.clear()
 	FOV.compute_fov(
 		location.position,

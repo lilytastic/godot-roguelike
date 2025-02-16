@@ -46,7 +46,15 @@ func init_prefab():
 	
 	if packed_scene is MapGenerator:
 		default_tile = packed_scene.default_tile
-		await packed_scene.generate(seed, 0)
+		var features = await packed_scene.generate(seed, 0)
+		if include_entities:
+			for feature in features.filter(func(f): return f is Room):
+				var random_tile = feature.cells.pick_random()
+				var new_entity = Entity.new({ 'blueprint': 'ghoul' })
+				new_entity.location = Location.new(uuid, random_tile)
+				new_entity.equipment = EquipmentProps.new({})
+				ECS.add(new_entity)
+				print(feature, new_entity)
 
 	for child in packed_scene.get_children():
 		if child is TileMapLayer:
@@ -79,6 +87,7 @@ func init_prefab():
 	
 	print(tiles.size())
 	_init_navigation_map()
+	return;
 
 func get_tile_id_from_atlas_coords(coords: Vector2):
 	var valid = MapManager.tile_data.keys().filter(

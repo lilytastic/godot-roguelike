@@ -48,13 +48,15 @@ func _update_camera(delta):
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
 		var _desired_camera_speed = 2.0
+		
 		var _averaged = Vector2.ZERO
 		if player.visible_tiles.keys().size() > 0:
 			for tile in player.visible_tiles.keys():
 				_averaged += Vector2(tile)
 			_averaged /= player.visible_tiles.keys().size()
-		_camera_position = _averaged * 16
-		# _camera_position = Coords.get_position(player.location.position).lerp(_averaged * 16, 0.5)
+		# _camera_position = _averaged * 16
+		
+		_camera_position = Coords.get_position(player.location.position).lerp(_averaged * 16, 0.5)
 		"""
 		var _target = ECS.entity(player.targeting.current_target)
 		var _target_position = player.targeting.target_position()

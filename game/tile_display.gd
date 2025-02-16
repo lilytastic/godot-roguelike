@@ -24,7 +24,6 @@ func _ready() -> void:
 func _process(delta):
 	if Global.player and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
-		await Global.sleep(100)
 		render()
 
 

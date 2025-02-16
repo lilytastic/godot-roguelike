@@ -202,6 +202,7 @@ func generate(seed: int, generation_speed := 0):
 	
 	is_generating = false
 	randomize()
+	return features
 
 
 func _connect_isolated_rooms(layer: TileMapLayer):

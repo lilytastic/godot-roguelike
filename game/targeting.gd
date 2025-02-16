@@ -15,6 +15,7 @@ func clear_path():
 	
 func path_needs_updating() -> bool:
 	var _reset_path = false
+	var navigation_map = MapManager.navigation_map
 	if has_target():
 		if current_path.size() == 0:
 			_reset_path = true
@@ -22,7 +23,7 @@ func path_needs_updating() -> bool:
 			var _target_position = target_position()
 			var _last_position = current_path[current_path.size() - 1]
 			for coord in current_path.slice(1, -1):
-				if MapManager.navigation_map.is_point_disabled(MapManager.get_astar_pos(coord.x, coord.y)):
+				if navigation_map.is_point_disabled(MapManager.get_astar_pos(coord.x, coord.y)):
 					_reset_path = true
 			if _target_position.x != _last_position.x or _target_position.y != _last_position.y:
 				_reset_path = true

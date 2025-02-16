@@ -55,10 +55,12 @@ signal actors_changed
 
 
 func _ready() -> void:
+	update_navigation()
 	ECS.entity_added.connect(
 		func(entity: Entity):
 			if map and entity.location and entity.location.map == map:
 				actors[entity.uuid] = entity
+				update_navigation()
 				actors_changed.emit()
 	)
 	entity_moved.connect(
@@ -66,6 +68,7 @@ func _ready() -> void:
 			var entity = ECS.entity(uuid)
 			if map and entity.location and entity.location.map == map:
 				actors[uuid] = entity
+				update_navigation()
 				actors_changed.emit()
 	)
 	pass
@@ -74,7 +77,6 @@ func _process(delta) -> void:
 	for actor in actors:
 		if !ECS.entity(actor):
 			actors.erase(actor)
-	update_navigation()
 
 
 func get_save_data() -> Dictionary:
@@ -131,9 +133,9 @@ func switch_map(_map: Map):
 		return
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 	print('size: ', current_map.size)
-	map_changed.emit(map)
 
 	init_actors()
+	map_changed.emit(map)
 	is_switching = false
 	
 func get_tiles():
@@ -157,25 +159,28 @@ func init_actors():
 	for entity in entities:
 		actors[entity.uuid] = entity
 		entity.update_fov()
+	print('[MapManager] actors: ', actors.keys().size())
 	actors_changed.emit()
 
 
 func update_navigation():
 	if !navigation_map:
 		return
+		
+	var _navigation_map = navigation_map
 
-	for point in navigation_map.get_point_ids():
-		if navigation_map.has_point(point):
-			navigation_map.set_point_disabled(
+	for point in _navigation_map.get_point_ids():
+		if _navigation_map.has_point(point):
+			_navigation_map.set_point_disabled(
 				point,
-				!can_walk(navigation_map.get_point_position(point))
+				!can_walk(_navigation_map.get_point_position(point))
 			)
 
 	for actor in actors.values():
 		if actor and actor.location and AIManager.blocks_entities(actor):
 			var pos = get_astar_pos(actor.location.position.x, actor.location.position.y)
-			if navigation_map.has_point(pos):
-				navigation_map.set_point_disabled(
+			if _navigation_map.has_point(pos):
+				_navigation_map.set_point_disabled(
 					pos,
 					true
 				)
