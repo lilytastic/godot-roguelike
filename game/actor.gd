@@ -30,6 +30,7 @@ func _init() -> void:
 	if AIManager.can_act(entity):
 		z_index = 2
 
+
 func _process(delta: float) -> void:
 	if !entity or is_dying:
 		return
@@ -50,18 +51,24 @@ func _process(delta: float) -> void:
 	if entity and entity.animation and entity.animation.progress >= entity.animation.length:
 		entity.animation = null
 
+	var color = glyph.fg
 	if entity and entity.animation:
 		var state = entity.animation.process(entity, delta)
 		if state and %Sprite2D:
 			%Sprite2D.position = state.position
 			%Sprite2D.scale = state.scale
-			modulate = state.color
+			color = state.color
 	else:
 		%Sprite2D.position = Vector2.ZERO
 		%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * Global.STEP_LENGTH * 100.0)
 		if glyph:
-			modulate = modulate.lerp(glyph.fg, delta * Global.STEP_LENGTH * 100.0)
+			color = glyph.fg
 
+	var _can_see = AIManager.can_see(Global.player, entity.location.position)
+	modulate = modulate.lerp(
+		Color(color, 1.0 if _can_see else 0.0),
+		delta * 10.0
+	)
 
 func _on_action_performed(action: Action, result: ActionResult):
 	if !result.success:
@@ -100,6 +107,7 @@ func _load(id: String):
 		func():
 			die()
 	)
+
 
 func die():
 	if is_dying:

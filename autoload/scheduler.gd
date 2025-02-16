@@ -34,7 +34,7 @@ func _process(delta: float):
 			turn_in_progress = true
 			last_uuid_selected = next_uuid
 			next_actor = next
-			# AIManager._process(delta)
+			AIManager._process(0.0)
 
 
 var last_chosen = {}

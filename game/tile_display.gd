@@ -20,7 +20,8 @@ func _ready() -> void:
 			_create_tiles()
 			render()
 	)
-	
+
+
 func _process(delta):
 	if Global.player and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
@@ -73,6 +74,7 @@ func render() -> void:
 						tiles[position].modulate = Color(tiles[position].modulate, 0.15)
 					else:
 						tiles[position].visible = false
+
 
 func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 	var spr = Sprite2D.new()
