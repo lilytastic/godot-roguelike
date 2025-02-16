@@ -46,9 +46,9 @@ func _update_energy(delta: float):
 			if Global.player.targeting.current_path.size() > 0:
 				mod *= 0.2
 			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
-			_entity.energy += (float(_entity.blueprint.speed) * 1.0) * mod * 100.0
-			_entity.energy = min(1.0, _entity.energy)
-			if _entity.energy >= 1.0:
+			_entity.energy += (float(_entity.blueprint.speed) * 1.0) * mod
+			_entity.energy = min(0, _entity.energy)
+			if _entity.energy >= 0.0:
 				if next_queue.find(_entity) == -1:
 					next_queue.append(_entity)
 
@@ -58,4 +58,4 @@ func finish_turn():
 		next_actor.is_acting = false
 	next_actor = null
 	turn_in_progress = false
-	_process(0.01) # THIS IS THE MAGIC SAUCE
+	_process(0.0) # THIS IS THE MAGIC SAUCE
