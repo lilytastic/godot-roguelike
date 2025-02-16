@@ -25,7 +25,7 @@ func _ready() -> void:
 func _process(delta):
 	if Global.player and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
-		render()
+	render()
 
 
 func _create_tiles() -> void:

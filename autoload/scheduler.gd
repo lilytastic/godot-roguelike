@@ -19,7 +19,6 @@ func _process(delta: float):
 	var player_is_valid = player and ECS.entity(player.uuid)
 
 	if !next_actor and player_is_valid:
-		print('update energy')
 		await _update_energy(delta)
 
 	if next_actor != null or !player_is_valid:
@@ -28,7 +27,7 @@ func _process(delta: float):
 	var actors = MapManager.actors
 	if !turn_in_progress and next_queue.size() > 0:
 		var next = next_queue.pop_front()
-		if next != null:
+		if next != null and AIManager.can_act(next):
 			# print('switch to: ', next.uuid)
 			var next_uuid = next.uuid
 			turn_in_progress = true
