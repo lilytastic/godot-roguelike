@@ -23,15 +23,18 @@ var tile_data = {
 	},
 	'rough stone': {
 		'atlas_coords': Vector2(2, 0),
-		'color': Color('888888'),
+		'color': Color('aaaaaa'),
+		'bg': Color('888888'),
 		'is_solid': true
 	},
 	'rough stone floor': {
 		'atlas_coords': Vector2(6, 13),
+		'bg': Color('333333'),
 		'color': Color('444444'),
 	},
 	'stone floor': {
 		'atlas_coords': Vector2(10, 17),
+		'bg': Color('333333'),
 		'color': Color('444444'),
 	},
 	'tree': {

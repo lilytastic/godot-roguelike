@@ -60,12 +60,19 @@ func render(delta: float = 0) -> void:
 	var current_map = MapManager.current_map
 	var walls_seen = {}
 	var collision_dict = {}
+	
+	var _center := get_viewport().get_camera_2d().get_screen_center_position()
+	var _rect := get_viewport().get_camera_2d().get_viewport_rect()
+	_rect.position = _center - _rect.size / 2
+	_rect.position -= Vector2.ONE * 16
+	_rect.size += Vector2.ONE * 32
 
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)
 			if tiles.has(position):
-				tiles[position].visible = true
+				tiles[position].visible = _rect.has_point(position * 16)
+				
 				var is_known = current_map.tiles_known.get(position, false)
 				var _color = tiles[position].modulate
 				var _opacity = 1
@@ -96,8 +103,21 @@ func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 	spr.texture = atlas
 	spr.z_index = -1
+	
+	if data.has('bg'):
+		var _bg_color = data.get('bg', Color.WHITE)
+		var _bg = Sprite2D.new()
+		var _atlas = AtlasTexture.new()
+		_atlas.set_atlas(Glyph.tileset)
+		_atlas.set_region(Rect2(8 * 16, 5 * 16, 16, 16))
+		_bg.texture = _atlas
+		_bg.z_index = -1
+		_bg.modulate = _bg_color
+		spr.add_child(_bg)
+	
 	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
 	var col = Color(_noise, _noise, _noise) / 8
 	spr.modulate = Color(data.get('color', Color.WHITE) + col, 0)
+
 	tiles[position] = spr
 	return spr
