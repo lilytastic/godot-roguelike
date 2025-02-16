@@ -33,6 +33,7 @@ func _process(delta):
 			turn_in_progress = true
 			last_uuid_selected = next_uuid
 			next_actor = next
+			AIManager._process(delta)
 
 var last_chosen = {}
 func _update_energy(delta: float):
@@ -57,3 +58,4 @@ func finish_turn():
 		next_actor.is_acting = false
 	next_actor = null
 	turn_in_progress = false
+	_process(0.01) # THIS IS THE MAGIC SAUCE
