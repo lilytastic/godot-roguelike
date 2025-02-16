@@ -48,7 +48,7 @@ func _update_energy(delta: float):
 				mod *= 0.2
 			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
 			_entity.energy += _entity.blueprint.speed * mod
-			_entity.energy = min(3.0, _entity.energy)
+			# _entity.energy = min(0.0, _entity.energy)
 			if _entity.energy >= 0.0:
 				if next_queue.find(_entity) == -1:
 					next_queue.append(_entity)
