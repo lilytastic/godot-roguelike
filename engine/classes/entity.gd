@@ -28,6 +28,7 @@ var energy := 0.00
 var is_acting = false
 
 var visible_tiles := {}
+var known_entity_locations := {}
 
 var animation: AnimationSequence = null
 

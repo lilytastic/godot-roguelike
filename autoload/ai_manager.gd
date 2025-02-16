@@ -52,7 +52,17 @@ func take_turn(entity: Entity) -> bool:
 	
 	if !entity:
 		return false
-		
+	
+	for actor in MapManager.actors.keys():
+		var actor_entity = MapManager.actors[actor]
+		if !actor_entity or !actor_entity.location:
+			if entity.known_entity_locations.has(actor):
+				entity.known_entity_locations.erase(actor)
+			continue
+		if entity.visible_tiles.has(Vector2i(actor_entity.location.position)):
+			entity.known_entity_locations[actor] = actor_entity.location.position
+	# print(entity.known_entity_locations.keys().size(), ' entities known')
+
 	if player and entity.uuid != player.uuid:
 		if Coords.get_range(entity.location.position, player.location.position) < 4:
 			entity.targeting.current_target = player.uuid
