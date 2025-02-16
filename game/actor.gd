@@ -38,35 +38,49 @@ func _process(delta: float) -> void:
 	if !entity.location:
 		destroyed.emit()
 		queue_free()
-	else:
+		return
+		
+	var _can_see = AIManager.can_see(Global.player, entity.location.position)
+	var _known_position = Vector2(-1, -1)
+	if _can_see:
+		_known_position = entity.location.position
+	if !_can_see and Global.player.known_entity_locations.has(entity.uuid):
+		_known_position = Global.player.known_entity_locations[entity.uuid]
+
+	if _known_position != Vector2(-1, -1):
 		position = lerp(
 			position,
 			Coords.get_position(
-				entity.location.position,
+				_known_position,
 				-%Sprite2D.offset + Vector2(8, 8)
 			),
-			delta * Global.STEP_LENGTH * 100.0
+			(delta * Global.STEP_LENGTH * 100.0) if _can_see else 1.0
 		)
 
 	if entity and entity.animation and entity.animation.progress >= entity.animation.length:
 		entity.animation = null
 
 	var color = glyph.fg
-	if entity and entity.animation:
-		var state = entity.animation.process(entity, delta)
-		if state and %Sprite2D:
-			%Sprite2D.position = state.position
-			%Sprite2D.scale = state.scale
-			color = state.color
+	if _can_see:
+		if entity and entity.animation:
+			var state = entity.animation.process(entity, delta)
+			if state and %Sprite2D:
+				%Sprite2D.position = state.position
+				%Sprite2D.scale = state.scale
+				color = state.color
+		else:
+			%Sprite2D.position = Vector2.ZERO
+			%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * Global.STEP_LENGTH * 100.0)
+			if glyph:
+				color = glyph.fg
 	else:
 		%Sprite2D.position = Vector2.ZERO
 		%Sprite2D.scale = %Sprite2D.scale.lerp(Vector2.ONE, delta * Global.STEP_LENGTH * 100.0)
 		if glyph:
 			color = glyph.fg
 
-	var _can_see = AIManager.can_see(Global.player, entity.location.position)
 	modulate = modulate.lerp(
-		Color(color, 1.0 if _can_see else 0.0),
+		Color(color, 1.0 if _can_see else (0.3 if _known_position != Vector2(-1, -1) else 0.0)),
 		delta * 10.0
 	)
 

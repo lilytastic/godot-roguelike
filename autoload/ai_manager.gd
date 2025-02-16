@@ -34,6 +34,7 @@ func _process(delta):
 
 func perform_action(entity: Entity, action: Action, allow_recursion := true) -> ActionResult:
 	entity.is_acting = true
+	_update_known_entities(entity)
 	var result = await action.perform(entity)
 	entity.energy -= result.cost_energy
 	if !result.success and result.alternate:
@@ -44,15 +45,11 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 		Scheduler.finish_turn()
 	entity.action_performed.emit(action, result)
 	entity.update_fov()
+	_update_known_entities(entity)
 	return result
 
 
-func take_turn(entity: Entity) -> bool:
-	var player = Global.player
-	
-	if !entity:
-		return false
-	
+func _update_known_entities(entity: Entity):
 	for actor in MapManager.actors.keys():
 		var actor_entity = MapManager.actors[actor]
 		if !actor_entity or !actor_entity.location:
@@ -61,7 +58,16 @@ func take_turn(entity: Entity) -> bool:
 			continue
 		if entity.visible_tiles.has(Vector2i(actor_entity.location.position)):
 			entity.known_entity_locations[actor] = actor_entity.location.position
-	# print(entity.known_entity_locations.keys().size(), ' entities known')
+		if entity.known_entity_locations.has(actor):
+			if AIManager.can_see(entity, entity.known_entity_locations[actor]) and entity.known_entity_locations[actor] != actor_entity.location.position:
+				entity.known_entity_locations.erase(actor)
+
+
+func take_turn(entity: Entity) -> bool:
+	var player = Global.player
+	
+	if !entity:
+		return false
 
 	if player and entity.uuid != player.uuid:
 		if Coords.get_range(entity.location.position, player.location.position) < 4:

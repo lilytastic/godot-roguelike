@@ -25,7 +25,7 @@ func _ready() -> void:
 func _process(delta):
 	if Global.player and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
-	render()
+	render(delta)
 
 
 func _create_tiles() -> void:
@@ -51,7 +51,7 @@ func _create_tiles() -> void:
 						add_child(tile)
 
 
-func render() -> void:
+func render(delta: float = 0) -> void:
 	if !MapManager.current_map:
 		return
 
@@ -64,16 +64,23 @@ func render() -> void:
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)
 			if tiles.has(position):
+				tiles[position].visible = true
 				var is_known = current_map.tiles_known.get(position, false)
+				var _color = tiles[position].modulate
+				var _opacity = 1
 				if AIManager.can_see(Global.player, position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
-					tiles[position].visible = true
-					tiles[position].modulate = Color(tiles[position].modulate, 1)
+					# tiles[position].visible = true
+					_opacity = 1
+					# tiles[position].modulate = Color(tiles[position].modulate, 1)
 				else:
 					if is_known:
-						tiles[position].visible = true
-						tiles[position].modulate = Color(tiles[position].modulate, 0.15)
+						# tiles[position].visible = true
+						_opacity = 0.15
+						# tiles[position].modulate = Color(tiles[position].modulate, 0.15)
 					else:
-						tiles[position].visible = false
+						_opacity = 0.0
+						# tiles[position].visible = false
+				tiles[position].modulate = tiles[position].modulate.lerp(Color(_color, _opacity), delta * 12.0)
 
 
 func generate_tile(id: String, position: Vector2i) -> Sprite2D:
