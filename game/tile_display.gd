@@ -98,6 +98,6 @@ func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 	spr.z_index = -1
 	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
 	var col = Color(_noise, _noise, _noise) / 8
-	spr.modulate = data.get('color', Color.WHITE) + col
+	spr.modulate = Color(data.get('color', Color.WHITE) + col, 0)
 	tiles[position] = spr
 	return spr
