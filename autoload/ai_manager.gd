@@ -130,7 +130,7 @@ func can_see(entity: Entity, seen_position: Vector2i) -> bool:
 	return entity.visible_tiles.get(seen_position, false)
 
 func can_act(entity: Entity) -> bool:
-	return entity and entity.blueprint.equipment != null
+	return entity and entity.blueprint.equipment != null and entity.health.current > 0
 
 func blocks_entities(entity: Entity) -> bool:
 	return can_act(entity)
