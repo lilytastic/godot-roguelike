@@ -13,13 +13,9 @@ var player_can_act: bool:
 			return false
 		return next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
-
 func _process(delta: float):
 	var player = Global.player
 	var player_is_valid = player and ECS.entity(player.uuid)
-
-	if !next_actor and player_is_valid:
-		await _update_energy(delta)
 
 	if next_actor != null or !player_is_valid:
 		return
@@ -35,6 +31,10 @@ func _process(delta: float):
 			next_actor = next
 			AIManager._process(0.0)
 
+	if !next_actor and player_is_valid and delta > 0:
+		await _update_energy(delta)
+
+
 
 var last_chosen = {}
 func _update_energy(delta: float):
@@ -47,8 +47,8 @@ func _update_energy(delta: float):
 			if Global.player.targeting.current_path.size() > 0:
 				mod *= 0.2
 			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
-			_entity.energy += (float(_entity.blueprint.speed) * 1.0) * mod
-			_entity.energy = min(0, _entity.energy)
+			_entity.energy += _entity.blueprint.speed * mod
+			_entity.energy = min(3.0, _entity.energy)
 			if _entity.energy >= 0.0:
 				if next_queue.find(_entity) == -1:
 					next_queue.append(_entity)

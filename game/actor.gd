@@ -70,7 +70,7 @@ func _process(delta: float) -> void:
 		entity.animation = null
 
 	var color = glyph.fg
-	if _can_see:
+	if _can_see or _could_see:
 		if entity and entity.animation:
 			var state = entity.animation.process(entity, delta)
 			if state and %Sprite2D:
