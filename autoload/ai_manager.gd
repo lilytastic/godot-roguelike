@@ -27,8 +27,8 @@ func _process(delta):
 					),
 				false)
 				if !result.success:
-					next_actor.energy -= 3.0
 					next_actor.is_acting = false
+					next_actor.energy -= 1.0
 					Scheduler.finish_turn()
 
 
