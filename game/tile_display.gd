@@ -55,6 +55,7 @@ func render(delta: float = 0) -> void:
 	if !MapManager.current_map:
 		return
 
+	Global.player.update_fov()
 	var player_location = Global.player.location.position
 	var current_map = MapManager.current_map
 	var walls_seen = {}
@@ -68,7 +69,7 @@ func render(delta: float = 0) -> void:
 				var is_known = current_map.tiles_known.get(position, false)
 				var _color = tiles[position].modulate
 				var _opacity = 1
-				if AIManager.can_see(Global.player, position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
+				if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
 					# tiles[position].visible = true
 					_opacity = 1
 					# tiles[position].modulate = Color(tiles[position].modulate, 1)

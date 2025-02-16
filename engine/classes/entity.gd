@@ -81,7 +81,22 @@ func update_fov():
 				MapManager.current_map.tiles_known[tile] = true
 				visible_tiles[tile] = true
 	)
-	
+	_update_known_entities()
+
+
+func _update_known_entities():
+	for actor in MapManager.actors.keys():
+		var actor_entity = MapManager.actors[actor]
+		if !actor_entity or !actor_entity.location:
+			if known_entity_locations.has(actor):
+				known_entity_locations.erase(actor)
+			continue
+		if visible_tiles.has(Vector2i(actor_entity.location.position)):
+			known_entity_locations[actor] = actor_entity.location.position
+		if known_entity_locations.has(actor):
+			if visible_tiles.has(Vector2i(known_entity_locations[actor])) and known_entity_locations[actor] != actor_entity.location.position:
+				known_entity_locations.erase(actor)
+
 
 func change_location(_location: Location):
 	location = _location

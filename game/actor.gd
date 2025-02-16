@@ -31,6 +31,8 @@ func _init() -> void:
 		z_index = 2
 
 
+var _previous_known_locations := {}
+var _could_see = false
 func _process(delta: float) -> void:
 	if !entity or is_dying:
 		return
@@ -39,7 +41,7 @@ func _process(delta: float) -> void:
 		destroyed.emit()
 		queue_free()
 		return
-		
+	
 	var _can_see = AIManager.can_see(Global.player, entity.location.position)
 	var _known_position = Vector2(-1, -1)
 	if _can_see:
@@ -48,14 +50,21 @@ func _process(delta: float) -> void:
 		_known_position = Global.player.known_entity_locations[entity.uuid]
 
 	if _known_position != Vector2(-1, -1):
+		var _lerp_speed = delta * Global.STEP_LENGTH * 100.0
+		if (!_could_see or !_previous_known_locations.has(entity.uuid) or !Global.player.known_entity_locations.has(entity.uuid)):
+			_lerp_speed = 1.0
 		position = lerp(
 			position,
 			Coords.get_position(
 				_known_position,
 				-%Sprite2D.offset + Vector2(8, 8)
 			),
-			(delta * Global.STEP_LENGTH * 100.0) if _can_see else 1.0
+			_lerp_speed
 		)
+	_could_see = _can_see
+		
+	if Global.player.known_entity_locations:
+		_previous_known_locations = Global.player.known_entity_locations
 
 	if entity and entity.animation and entity.animation.progress >= entity.animation.length:
 		entity.animation = null
