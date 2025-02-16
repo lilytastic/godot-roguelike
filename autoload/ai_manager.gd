@@ -26,6 +26,10 @@ func _process(delta):
 						)
 					),
 				false)
+				if !result.success:
+					next_actor.energy -= 3.0
+					next_actor.is_acting = false
+					Scheduler.finish_turn()
 
 
 func perform_action(entity: Entity, action: Action, allow_recursion := true) -> ActionResult:
