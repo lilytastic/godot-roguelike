@@ -21,9 +21,9 @@ var walkable_tiles: Array:
 	get:
 		return tiles.keys().filter(func(pos): return can_walk(pos))
 
-func _init(_map_name: String, data := {}) -> void:
-	uuid = data.get('uuid',  uuid_util.v4())
-	name = _map_name
+func _init(data := {}) -> void:
+	uuid = data.get('uuid', uuid_util.v4())
+	name = data.get('map', '')
 	prefab = data.get('prefab', 'test')
 	default_tile = data.get('default_tile', 'void')
 
@@ -55,7 +55,7 @@ func init_prefab():
 		if include_entities:
 			for entity in entities:
 				entity.location.map = uuid
-				entity.energy -= 100
+				entity.energy -= 1.0
 				ECS.add(entity)
 
 	for child in packed_scene.get_children():
@@ -160,4 +160,4 @@ func get_save_data():
 
 static func load_from_data(data: Dictionary) -> Map:
 	print('load map from data: ', data)
-	return await Map.new(data.name, data)
+	return await Map.new(data)

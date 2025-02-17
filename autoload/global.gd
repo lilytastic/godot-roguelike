@@ -28,7 +28,7 @@ func new_game() -> Entity:
 	MapManager.maps_loaded.clear()
 	MapManager.maps.clear()
 
-	var starting_map = await MapManager.create_map('Test', { 'prefab': 'fort1' })
+	var starting_map = await MapManager.create_map({ 'prefab': 'fort1' })
 	print('created starting_map: ', starting_map)
 
 	player = Entity.new({ 'blueprint': 'hero' })

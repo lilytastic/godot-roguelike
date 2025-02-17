@@ -88,6 +88,7 @@ func _add_entities():
 		var new_entity = Entity.new({ 'blueprint': 'staircase' })
 		new_entity.location = Location.new('', random_tile)
 		new_entity.equipment = EquipmentProps.new({})
+		new_entity.destination = { 'prefab': 'test' }
 		entities.append(new_entity)
 
 	# await _connect_isolated_rooms(target_layer)

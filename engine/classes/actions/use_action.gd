@@ -26,16 +26,22 @@ func perform(entity: Entity) -> ActionResult:
 				if !target.destination:
 					return ActionResult.new(false)
 				print(target.destination)
-				var _map_name = target.destination.map
-				var _map = await MapManager.create_map(_map_name)
-				if !_map:
-					return ActionResult.new(false)
-				MapManager.switch_map(_map, entity)
-				print('teleported to: ', entity.location.map)
-				entity.location.map = _map.uuid
-				entity.location.position = Global.string_to_vector(target.destination.position)
-				MapManager.init_actors()
-				return ActionResult.new(true, { 'cost_energy': 100 })
+				
+				if !target.destination.has('map'):
+					var _map = await MapManager.create_map(target.destination)
+					target.destination = {
+						'map': _map.uuid,
+						'position': Vector2i(2, 2)
+					}
+					if !_map:
+						return ActionResult.new(false)
+					
+				if target.destination.has('map'):
+					entity.location.map = target.destination.map
+					entity.location.position = Global.string_to_vector(target.destination.position)
+					MapManager.switch_map(MapManager.maps[target.destination.map], entity)
+					MapManager.init_actors()
+					return ActionResult.new(true, { 'cost_energy': 100 })
 				
 		pass
 

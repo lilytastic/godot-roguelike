@@ -100,18 +100,20 @@ func add(_map: Map) -> Map:
 		maps[_map.uuid] = _map
 	return _map
 
-func create_map(_map_name: String, data := {}):
+
+func create_map(data := {}):
 	var prefab = data.get('prefab', 'test')
 
 	if !prefab:
 		print('no prefab found; not creating map')
 		return null
 
-	var _map = await Map.new(_map_name, {
+	var _map = await Map.new({
 		'prefab': prefab,
 		'include_entities': true,
 		'default_tile': 'soil'
 	})
+	maps[_map.uuid] = _map
 
 	return _map
 
@@ -142,7 +144,7 @@ func switch_map(_map: Map, entity: Entity):
 	if !entity.location or entity.location.map != _map.uuid:
 		var starting_location = Vector2i(-1, -1)
 		for actor in actors.values():
-			if actor.blueprint.id == 'staircase':
+			if actor.destination:
 				starting_location = Vector2i(actor.location.position)
 		entity.location = Location.new(_map.uuid, starting_location if starting_location != Vector2i(-1, -1) else _map.walkable_tiles.pick_random())
 		var camera = get_viewport().get_camera_2d()
