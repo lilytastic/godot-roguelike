@@ -137,9 +137,10 @@ func switch_map(_map: Map, entity: Entity):
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 	print('size: ', current_map.size)
 	
-	entity.location = Location.new(_map.uuid, _map.walkable_tiles.pick_random())
-	var camera = get_viewport().get_camera_2d()
-	camera.position = entity.location.position * 16
+	if !entity.location or entity.location.map != _map.uuid:
+		entity.location = Location.new(_map.uuid, _map.walkable_tiles.pick_random())
+		var camera = get_viewport().get_camera_2d()
+		camera.position = entity.location.position * 16
 
 	init_actors()
 	map_changed.emit(map)

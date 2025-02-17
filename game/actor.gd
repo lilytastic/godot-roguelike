@@ -21,6 +21,7 @@ signal destroyed
 
 
 func _init() -> void:
+	modulate = Color(Color.WHITE, 0)
 	position = Coords.get_position(
 		Coords.get_coord(position),
 		Vector2(8, 16)
@@ -120,7 +121,7 @@ func _load(id: String):
 	if glyph:
 		if %Sprite2D:
 			%Sprite2D.set_texture(glyph.to_atlas_texture())
-		modulate = glyph.fg
+		# modulate = glyph.fg
 		
 	entity.action_performed.connect(_on_action_performed)
 

@@ -55,7 +55,7 @@ func take_turn(entity: Entity) -> bool:
 	if !entity:
 		return false
 
-	if player and entity.uuid != player.uuid:
+	if player and entity.uuid != player.uuid and entity.location and player.location:
 		if Coords.get_range(entity.location.position, player.location.position) < 4:
 			entity.targeting.current_target = player.uuid
 
