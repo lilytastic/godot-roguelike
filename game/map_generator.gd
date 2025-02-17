@@ -34,7 +34,6 @@ var used_cells := {}
 
 
 func generate(seed: int, data := {}) -> Dictionary:
-	print('generate()')
 	is_generating = true
 	tiles_dug = 0
 	features.clear()
@@ -85,7 +84,6 @@ func generate(seed: int, data := {}) -> Dictionary:
 
 func _add_entities(data := {}):
 	var connections = data.get('connections', [])
-	print(connections)
 
 	var _exits = exits
 	_exits.shuffle()

@@ -90,7 +90,7 @@ func _process(delta: float) -> void:
 			var _halved = entity.health.max / 2
 			color = Color('eede55').lerp(Color('ff2229'), (_halved - float(entity.health.current)) / _halved * 1.5)
 
-	var opacity = 1.0 if _can_see else (0.3 if _known_position != Vector2i(-1, -1) else 0.1)
+	var opacity = 1.0 if _can_see else (0.3 if _known_position != Vector2i(-1, -1) else 0.0)
 	modulate = modulate.lerp(
 		Color(color, opacity),
 		delta * 10.0
