@@ -44,13 +44,13 @@ func _process(delta: float) -> void:
 		return
 	
 	var _can_see = AIManager.can_see(Global.player, entity.location.position)
-	var _known_position = Vector2(-1, -1)
+	var _known_position = Vector2i(-1, -1)
 	if _can_see:
-		_known_position = entity.location.position
+		_known_position = Vector2i(entity.location.position)
 	if !_can_see and Global.player.known_entity_locations.has(entity.uuid):
 		_known_position = Global.player.known_entity_locations[entity.uuid]
 
-	if _known_position != Vector2(-1, -1):
+	if _known_position != Vector2i(-1, -1):
 		var _lerp_speed = delta * Global.STEP_LENGTH * 100.0
 		if (!_could_see or !_previous_known_locations.has(entity.uuid) or !Global.player.known_entity_locations.has(entity.uuid)):
 			_lerp_speed = 1.0
@@ -95,7 +95,7 @@ func _process(delta: float) -> void:
 			color = Color('eede55').lerp(Color('ff2229'), (_halved - float(entity.health.current)) / _halved * 1.5)
 
 	modulate = modulate.lerp(
-		Color(color, 1.0 if _can_see else (0.3 if _known_position != Vector2(-1, -1) else 0.0)),
+		Color(color, 1.0 if _can_see else (0.3 if _known_position != Vector2i(-1, -1) else 0.0)),
 		delta * 10.0
 	)
 

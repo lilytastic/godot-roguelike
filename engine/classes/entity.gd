@@ -115,6 +115,7 @@ func save() -> Dictionary:
 	if inventory: dict.inventory = inventory.save()
 	if equipment: dict.equipment = equipment.save()
 	if destination: dict.destination = destination
+	if known_entity_locations: dict.known_entity_locations = known_entity_locations
 	if health: dict.health = health.current
 
 	return dict
@@ -135,6 +136,9 @@ func load_from_save(data: Dictionary) -> void:
 	if data.has('inventory'): inventory = InventoryProps.new(data.inventory)
 	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
 	if data.has('destination'): destination = data.get('destination', {})
+	if data.has('known_entity_locations'): known_entity_locations = data.get('known_entity_locations', {})
+	for entity in known_entity_locations:
+		known_entity_locations[entity] = Global.string_to_vector(known_entity_locations[entity])
 	if data.has('health'): health.current = data.health
 	
 	update_fov()
