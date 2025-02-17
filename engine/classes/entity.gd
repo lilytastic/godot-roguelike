@@ -92,9 +92,9 @@ func _update_known_entities():
 				known_entity_locations.erase(actor)
 			continue
 		if visible_tiles.has(Vector2i(actor_entity.location.position)):
-			known_entity_locations[actor] = actor_entity.location.position
+			known_entity_locations[actor] = Vector2i(actor_entity.location.position)
 		if known_entity_locations.has(actor):
-			if visible_tiles.has(Vector2i(known_entity_locations[actor])) and known_entity_locations[actor] != actor_entity.location.position:
+			if visible_tiles.has(Vector2i(known_entity_locations[actor])) and known_entity_locations[actor] != Vector2i(actor_entity.location.position):
 				known_entity_locations.erase(actor)
 
 

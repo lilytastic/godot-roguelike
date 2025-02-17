@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 	if _can_see:
 		_known_position = Vector2i(entity.location.position)
 	if !_can_see and Global.player.known_entity_locations.has(entity.uuid):
-		_known_position = Global.player.known_entity_locations[entity.uuid]
+		_known_position = Vector2i(Global.player.known_entity_locations[entity.uuid])
 
 	if _known_position != Vector2i(-1, -1):
 		var _lerp_speed = delta * Global.STEP_LENGTH * 100.0
