@@ -4,7 +4,6 @@ const PC_TAG = 'PC'
 var player: Entity:
 	get: return Global.player
 var camera_speed := 2.0
-var overlay_opacity = 0.0
 
 @export var map_name = ''
 

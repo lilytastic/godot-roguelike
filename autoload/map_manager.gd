@@ -125,6 +125,9 @@ func get_atlas_coords_for_id(id: String):
 
 func switch_map(_map: Map, entity: Entity):
 	is_switching = true
+
+	PlayerInput.overlay_opacity = 3.0
+	await Global.sleep(1)
 	add(_map)
 	
 	if !_map.is_loaded:
@@ -132,7 +135,6 @@ func switch_map(_map: Map, entity: Entity):
 		print('Finished initiating prefab for map: ',  _map.name)
 
 	print('Switching to map: ', _map.name)
-	PlayerInput.overlay_opacity = 3.0
 	
 	map = _map.uuid
 	if !current_map:

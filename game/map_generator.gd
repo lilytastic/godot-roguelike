@@ -43,10 +43,6 @@ func generate(seed: int, data := {}) -> Dictionary:
 	astar = AStar2D.new()
 	PlayerInput.overlay_opacity = 3.0
 	
-	# await Global.sleep(1)
-	
-	PlayerInput.overlay_opacity = 3.0
-	
 	var time_started = Time.get_ticks_msec()
 	print('==== Map generation started ====')
 	seed(seed)
@@ -99,7 +95,7 @@ func _add_entities(data := {}):
 		new_entity.location = Location.new('', random_tile)
 		new_entity.equipment = EquipmentProps.new({})
 		new_entity.destination = connection
-		print("linked new exit to: ", connection)
+		print("linked an exit to: ", connection)
 		entities.append(new_entity)
 		i += 1
 	
