@@ -217,6 +217,41 @@ func get_collisions(position: Vector2i):
 		func(_entity):
 			return _entity.location.position.x == position.x and _entity.location.position.y == position.y
 	)
+	
+func teleport(destination: Dictionary, entity: Entity):
+	print(destination)
+	
+	if !destination.has('map'):
+		if destination.has('prefab'):
+			for _map in MapManager.maps.values():
+				if _map and _map.prefab == destination['prefab']:
+					destination['map'] = _map.uuid
+
+	if !destination.has('map'):
+		var _map = await MapManager.create_map(destination)
+		await _map.init_prefab()
+		var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
+		print(_entities.size(), ' entities found at ', _map.uuid)
+		var _starting_position = Vector2i(-1, -1)
+		for _entity in _entities:
+			print(_entity.destination)
+			if _entity.destination:
+				_starting_position = _entity.location.position
+		destination = {
+			'map': _map.uuid,
+			'position': _starting_position
+		}
+		if !_map:
+			return ActionResult.new(false)
+		
+	if destination.has('map'):
+		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
+		var _map = MapManager.maps[destination.map]
+		switch_map(_map, entity)
+		init_actors()
+		
+	return destination
+	
 
 func get_collisions_line(position1: Vector2i, position2: Vector2i):
 	var line = Coords.get_point_line(position1, position2)
