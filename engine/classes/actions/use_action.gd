@@ -28,6 +28,12 @@ func perform(entity: Entity) -> ActionResult:
 				print(target.destination)
 				
 				if !target.destination.has('map'):
+					if target.destination.has('prefab'):
+						for _map in MapManager.maps.values():
+							if _map and _map.prefab == target.destination['prefab']:
+								target.destination['map'] = _map.uuid
+
+				if !target.destination.has('map'):
 					var _map = await MapManager.create_map(target.destination)
 					await _map.init_prefab()
 					var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
@@ -45,8 +51,7 @@ func perform(entity: Entity) -> ActionResult:
 						return ActionResult.new(false)
 					
 				if target.destination.has('map'):
-					entity.location.map = target.destination.map
-					entity.location.position = Global.string_to_vector(target.destination.position)
+					entity.location = Location.new(target.destination.map, Global.string_to_vector(target.destination.position))
 					var _map = MapManager.maps[target.destination.map]
 					MapManager.switch_map(_map, entity)
 					MapManager.init_actors()

@@ -28,8 +28,8 @@ position = Vector2(74, 63)
 metadata/blueprint = "staircase"
 metadata/props = {
 "destination": {
-"map": "Test2",
-"position": Vector2i(7, 3)
+"position": Vector2i(7, 3),
+"prefab": "test"
 }
 }
 
