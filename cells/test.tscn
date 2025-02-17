@@ -26,7 +26,7 @@ metadata/blueprint = "staircase"
 metadata/props = {
 "destination": {
 "position": Vector2i(7, 3),
-"prefab": "test2"
+"prefab": "fort1"
 }
 }
 

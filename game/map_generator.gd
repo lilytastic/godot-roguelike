@@ -33,7 +33,8 @@ var is_generating = true
 var used_cells := {}
 
 
-func generate(seed: int) -> Dictionary:
+func generate(seed: int, data := {}) -> Dictionary:
+	print('generate()')
 	is_generating = true
 	tiles_dug = 0
 	features.clear()
@@ -43,7 +44,7 @@ func generate(seed: int) -> Dictionary:
 	astar = AStar2D.new()
 	PlayerInput.overlay_opacity = 3.0
 	
-	await Global.sleep(1)
+	# await Global.sleep(1)
 	
 	PlayerInput.overlay_opacity = 3.0
 	
@@ -65,7 +66,7 @@ func generate(seed: int) -> Dictionary:
 	
 	await _remove_dead_ends(target_layer, _generation_speed)
 	
-	_add_entities()
+	_add_entities(data)
 	
 	workspace.free()
 	template.free()
@@ -82,14 +83,31 @@ func generate(seed: int) -> Dictionary:
 	}
 
 
-func _add_entities():
-	for feature in exits:
-		var random_tile = feature.cells.pick_random()
+func _add_entities(data := {}):
+	var connections = data.get('connections', [])
+	print(connections)
+
+	var _exits = exits
+	_exits.shuffle()
+	
+	var i = 0
+	for connection in connections:
+		if _exits.size() <= i:
+			break
+
+		var _exit = _exits[i]
+		var random_tile = _exit.cells.pick_random()
 		var new_entity = Entity.new({ 'blueprint': 'staircase' })
 		new_entity.location = Location.new('', random_tile)
 		new_entity.equipment = EquipmentProps.new({})
-		new_entity.destination = { 'prefab': 'test' }
+		new_entity.destination = connection
+		print("linked new exit to: ", connection)
 		entities.append(new_entity)
+		i += 1
+	
+	if _exits.size() > i:
+		# Utilize additional exits!
+		pass
 
 	# await _connect_isolated_rooms(target_layer)
 	for feature in features.filter(func(f): return f is Room):

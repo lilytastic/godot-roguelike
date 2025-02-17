@@ -23,7 +23,10 @@ var walkable_tiles: Array:
 	get:
 		return tiles.keys().filter(func(pos): return can_walk(pos))
 
-func _init(data := {}) -> void:
+var data := {}
+
+func _init(_data := {}) -> void:
+	data = _data
 	uuid = data.get('uuid', uuid_util.v4())
 	name = data.get('map', '')
 	prefab = data.get('prefab', 'test')
@@ -39,9 +42,12 @@ func _init(data := {}) -> void:
 	print('size: ', size)
 
 
-func init_prefab():
+func init_prefab() -> void:
+	print('Initializing prefab')
 	if is_loaded:
+		print('Bailing because this map is loaded already')
 		return
+
 	is_loaded = true
 	var cell = load('res://cells/' + prefab + '.tscn')
 	var packed_scene = cell.instantiate()
@@ -52,12 +58,15 @@ func init_prefab():
 		default_tile = packed_scene.default_tile
 	
 	if packed_scene is MapGenerator:
+		print('Found generator')
 		default_tile = packed_scene.default_tile
-		var result = await packed_scene.generate(seed)
+		var result = await packed_scene.generate(seed, data)
 		var features = result.get('features', [])
 		var entities = result.get('entities', [])
+		print('Add entities? ', include_entities)
 		
 		if include_entities:
+			print('Add entities! ', entities)
 			for entity in entities:
 				entity.location.map = uuid
 				entity.energy -= 1.0
@@ -94,7 +103,7 @@ func init_prefab():
 	
 	print(tiles.size())
 	_init_navigation_map()
-	return;
+	return
 
 func get_tile_id_from_atlas_coords(coords: Vector2):
 	var valid = MapManager.tile_data.keys().filter(

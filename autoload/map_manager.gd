@@ -108,13 +108,11 @@ func create_map(data := {}) -> Map:
 		print('no prefab found; not creating map')
 		return null
 
-	var _map = await Map.new({
-		'prefab': prefab,
-		'include_entities': true,
-		'default_tile': 'soil'
-	})
+	data['include_entities'] = true
+	var _map = await Map.new(data)
 	maps[_map.uuid] = _map
-	# await _map.init_prefab()
+	
+	await _map.init_prefab()
 
 	return _map
 
@@ -129,9 +127,11 @@ func switch_map(_map: Map, entity: Entity):
 	is_switching = true
 	add(_map)
 	
+	if !_map.is_loaded:
+		await _map.init_prefab()
+	
 	print('Switching to map: ', _map.name)
 	PlayerInput.overlay_opacity = 3.0
-	await _map.init_prefab()
 	
 	print('Finished initiating prefab for map: ',  _map.name)
 
@@ -219,24 +219,30 @@ func get_collisions(position: Vector2i):
 	)
 	
 func teleport(destination: Dictionary, entity: Entity):
-	print(destination)
+	print('teleport to: ', destination)
 	
+	# If the destination goes to a set location, skip this.
+	# Otherwise, we'll look for an existing map matching the destination's prefab (for procgen maps)
 	if !destination.has('map'):
 		if destination.has('prefab'):
 			for _map in MapManager.maps.values():
 				if _map and _map.prefab == destination['prefab']:
 					destination['map'] = _map.uuid
 
+	# None found for prefab -- so we'll have to generate the prefab.
 	if !destination.has('map'):
+		print('create: ', destination)
 		var _map = await MapManager.create_map(destination)
-		await _map.init_prefab()
+		print('created: ', _map.uuid)
 		var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
 		print(_entities.size(), ' entities found at ', _map.uuid)
 		var _starting_position = Vector2i(-1, -1)
 		for _entity in _entities:
-			print(_entity.destination)
 			if _entity.destination:
 				_starting_position = _entity.location.position
+				if entity.location:
+					_entity.destination['position'] = entity.location.position
+				break
 		destination = {
 			'map': _map.uuid,
 			'position': _starting_position
@@ -244,6 +250,7 @@ func teleport(destination: Dictionary, entity: Entity):
 		if !_map:
 			return ActionResult.new(false)
 		
+	# Finally, take the entity to this destination
 	if destination.has('map'):
 		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
 		var _map = MapManager.maps[destination.map]

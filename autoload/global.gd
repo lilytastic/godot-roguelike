@@ -27,9 +27,7 @@ func new_game() -> Entity:
 		clear_game()
 	MapManager.maps_loaded.clear()
 	MapManager.maps.clear()
-
-	var starting_map = await MapManager.create_map({ 'prefab': 'fort1' })
-	print('created starting_map: ', starting_map)
+	MapManager.map = ''
 
 	player = Entity.new({ 'blueprint': 'hero' })
 	player.inventory = InventoryProps.new()
@@ -40,10 +38,11 @@ func new_game() -> Entity:
 	player.equipment = EquipmentProps.new({})
 	player.equipment.equip(ECS.create({ 'blueprint': 'sword' }))
 	player_changed.emit(player)
-
-	MapManager.switch_map(starting_map, player)
-
 	ECS.add(player)
+
+	var starting_map = await MapManager.teleport({ 'prefab': 'fort1', 'connections': [{'prefab': 'test'}] }, player)
+	print('created starting_map: ', starting_map)
+
 	has_game_started = true
 	return player
 	# player.position = Coords.get_position(Vector2i(0, 0))

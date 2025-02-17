@@ -27,6 +27,7 @@ func perform(entity: Entity) -> ActionResult:
 					return ActionResult.new(false)
 					
 				target.destination = await MapManager.teleport(target.destination, entity)
+				print('used staircase; change destination to: ', target.destination)
 				if target.destination.has('map'):
 					return ActionResult.new(true, { 'cost_energy': 100 })
 		pass
