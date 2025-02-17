@@ -29,9 +29,16 @@ func perform(entity: Entity) -> ActionResult:
 				
 				if !target.destination.has('map'):
 					var _map = await MapManager.create_map(target.destination)
+					var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
+					print(_entities.size(), ' entities found at ', _map.uuid)
+					var _starting_position = Vector2i(-1, -1)
+					for _entity in _entities:
+						print(_entity.destination)
+						if _entity.destination:
+							_starting_position = _entity.location.position
 					target.destination = {
 						'map': _map.uuid,
-						'position': Vector2i(2, 2)
+						'position': _starting_position
 					}
 					if !_map:
 						return ActionResult.new(false)
