@@ -59,7 +59,7 @@ func _process(delta: float) -> void:
 			_lerp_speed
 		)
 	_could_see = _can_see
-		
+
 	if Global.player.known_entity_locations:
 		_previous_known_locations = Global.player.known_entity_locations
 
@@ -90,8 +90,9 @@ func _process(delta: float) -> void:
 			var _halved = entity.health.max / 2
 			color = Color('eede55').lerp(Color('ff2229'), (_halved - float(entity.health.current)) / _halved * 1.5)
 
+	var opacity = 1.0 if _can_see else (0.3 if _known_position != Vector2i(-1, -1) else 0.1)
 	modulate = modulate.lerp(
-		Color(color, 1.0 if _can_see else (0.3 if _known_position != Vector2i(-1, -1) else 0.0)),
+		Color(color, opacity),
 		delta * 10.0
 	)
 	

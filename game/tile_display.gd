@@ -49,6 +49,8 @@ func _create_tiles() -> void:
 
 
 func _create_tile_for_position(position: Vector2i):
+	if !MapManager.current_map.tiles.has(position):
+		return
 	for _id in MapManager.current_map.tiles[position]:
 		var tile = generate_tile(_id, position)
 		if tile:

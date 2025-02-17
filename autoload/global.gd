@@ -45,7 +45,6 @@ func new_game() -> Entity:
 
 	has_game_started = true
 	return player
-	# player.position = Coords.get_position(Vector2i(0, 0))
 
 func clear_game() -> void:
 	ECS.clear()

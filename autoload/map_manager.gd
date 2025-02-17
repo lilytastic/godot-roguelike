@@ -129,12 +129,11 @@ func switch_map(_map: Map, entity: Entity):
 	
 	if !_map.is_loaded:
 		await _map.init_prefab()
-	
+		print('Finished initiating prefab for map: ',  _map.name)
+
 	print('Switching to map: ', _map.name)
 	PlayerInput.overlay_opacity = 3.0
 	
-	print('Finished initiating prefab for map: ',  _map.name)
-
 	map = _map.uuid
 	if !current_map:
 		return
@@ -172,7 +171,6 @@ func get_tiles():
 
 func init_actors():
 	actors = {}
-	# print('[ecs] entities: ', ECS.entities.keys())
 	
 	var entities = ECS.entities.values().filter(
 		func(entity):
@@ -183,7 +181,7 @@ func init_actors():
 	for entity in entities:
 		actors[entity.uuid] = entity
 		entity.update_fov()
-	print('[MapManager] actors: ', actors.keys().size())
+	print('[MapManager] init_actors, actors: ', actors.keys().size())
 	actors_changed.emit()
 
 
@@ -241,6 +239,8 @@ func teleport(destination: Dictionary, entity: Entity):
 			if _entity.destination:
 				_starting_position = _entity.location.position
 				if entity.location:
+					_entity.destination.erase('prefab')
+					_entity.destination['map'] = entity.location.map
 					_entity.destination['position'] = entity.location.position
 				break
 		destination = {

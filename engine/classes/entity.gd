@@ -125,17 +125,17 @@ func load_from_save(data: Dictionary) -> void:
 	var json = JSON.new()
 	
 	if data.has('position'):
-		var _pos = str(data.position).trim_prefix('(').trim_suffix(')').split(', ')
-		change_location(Location.new(
-			data.map,
-			Vector2(int(_pos[0]), int(_pos[1]))
-		))
+		var _pos = Global.string_to_vector(data.position)
+		change_location(Location.new(data.map, _pos))
 
 	energy = data.energy if data.has('energy') else 0
 	
 	if data.has('inventory'): inventory = InventoryProps.new(data.inventory)
 	if data.has('equipment'): equipment = EquipmentProps.new(data.equipment)
-	if data.has('destination'): destination = data.get('destination', {})
+	if data.has('destination'):
+		destination = data.get('destination', {})
+		if destination.has('position'):
+			destination.position = Global.string_to_vector(destination.position)
 	if data.has('known_entity_locations'): known_entity_locations = data.get('known_entity_locations', {})
 	for entity in known_entity_locations:
 		known_entity_locations[entity] = Global.string_to_vector(known_entity_locations[entity])
