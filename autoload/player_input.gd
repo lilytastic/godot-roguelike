@@ -26,10 +26,11 @@ func _process(delta) -> void:
 	var desired_opacity = 0.0 if !MapManager.is_switching else 1.0
 	overlay_opacity = lerp(overlay_opacity, desired_opacity, delta * 3.0)
 	
-	if Global.player:
+	if Global.player and Global.player.location:
 		var _target_position = targeting.target_position()
 		if Global.player.location.position.x == _target_position.x and Global.player.location.position.y == _target_position.y:
 			targeting.clear_targeting()
+
 
 func _input(event: InputEvent) -> void:
 	if Global.ui_visible or MapManager.is_switching or overlay_opacity > 0.05:

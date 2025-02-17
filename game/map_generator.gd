@@ -9,6 +9,7 @@ const CELLULAR_COORDS := Vector2i(1, 17)
 
 var exits := []
 var features := []
+var entities := []
 
 var default_ground = MapManager.tile_data['stone floor'].atlas_coords
 var default_ground_corridor = MapManager.tile_data['rough stone floor'].atlas_coords
@@ -31,11 +32,8 @@ var is_generating = true
 
 var used_cells := {}
 
-func _ready():
-	pass
 
-
-func generate(seed: int):
+func generate(seed: int) -> Dictionary:
 	is_generating = true
 	tiles_dug = 0
 	features.clear()
@@ -55,16 +53,9 @@ func generate(seed: int):
 	print('Seed: ', seed)
 
 	# Clear the map with with the default tile
-	for x in range(rect.end.x):
-		for y in range(rect.end.y):
-			target_layer.set_cell(
-				Vector2i(x, y),
-				0,
-				default_wall
-			)
+	_fill(rect, default_wall)
 
 	_resolve_template()
-	print(tiles_dug, ' tiles dug for initial features, of which there are ', features.size())
 	
 	_dig_random_dungeon()
 	
@@ -74,7 +65,7 @@ func generate(seed: int):
 	
 	await _remove_dead_ends(target_layer, _generation_speed)
 	
-	# await _connect_isolated_rooms(target_layer)
+	_add_entities()
 	
 	workspace.free()
 	template.free()
@@ -83,9 +74,29 @@ func generate(seed: int):
 	print('Time to generate: ', snapped((time_finished - time_started) / 1000.0, 0.01), 's')
 	
 	is_generating = false
-	randomize()
-	return features
+	randomize() # Reset the seed to a random state
+	return {
+		'features': features,
+		'exits': exits,
+		'entities': entities
+	}
 
+
+func _add_entities():
+	for feature in exits:
+		var random_tile = feature.cells.pick_random()
+		var new_entity = Entity.new({ 'blueprint': 'staircase' })
+		new_entity.location = Location.new('', random_tile)
+		new_entity.equipment = EquipmentProps.new({})
+		entities.append(new_entity)
+
+	# await _connect_isolated_rooms(target_layer)
+	for feature in features.filter(func(f): return f is Room):
+		var random_tile = feature.cells.pick_random()
+		var new_entity = Entity.new({ 'blueprint': 'ghoul' })
+		new_entity.location = Location.new('', random_tile)
+		new_entity.equipment = EquipmentProps.new({})
+		entities.append(new_entity)
 
 
 func _resolve_template():
@@ -101,6 +112,7 @@ func _resolve_template():
 			new_room.reposition(_coord)
 			if rect.encloses(new_room.rect):
 				_dig_feature(new_room)
+				exits.append(new_room)
 				# print('new exit at ', _coord, ' with ', new_room.cells.size(), ' cells')
 				diggers.append(
 					_make_digger(
@@ -159,6 +171,14 @@ func _resolve_template():
 		if atlas_coords == WALL_COORDS:
 			used_cells[coord] = coord
 			target_layer.set_cell(coord, 0, WALL_COORDS)
+
+	print(tiles_dug, ' tiles dug for initial features, of which there are ', features.size())
+
+
+func _fill(rect: Rect2, atlas_coords: Vector2i):
+	for x in range(rect.end.x):
+		for y in range(rect.end.y):
+			target_layer.set_cell(Vector2i(x, y), 0, atlas_coords)
 
 
 func _dig_random_dungeon():

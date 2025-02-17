@@ -122,7 +122,7 @@ func get_tile_data(id: String):
 func get_atlas_coords_for_id(id: String):
 	return tile_data[id].get('atlas_coords', Vector2(0, 0))
 
-func switch_map(_map: Map):
+func switch_map(_map: Map, entity: Entity):
 	is_switching = true
 	add(_map)
 	
@@ -136,6 +136,10 @@ func switch_map(_map: Map):
 		return
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 	print('size: ', current_map.size)
+	
+	entity.location = Location.new(_map.uuid, _map.walkable_tiles.pick_random())
+	var camera = get_viewport().get_camera_2d()
+	camera.position = entity.location.position * 16
 
 	init_actors()
 	map_changed.emit(map)

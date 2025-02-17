@@ -17,6 +17,10 @@ var navigation_map = AStar2D.new()
 
 var include_entities = false
 
+var walkable_tiles: Array:
+	get:
+		return tiles.keys().filter(func(pos): return can_walk(pos))
+
 func _init(_map_name: String, data := {}) -> void:
 	uuid = data.get('uuid',  uuid_util.v4())
 	name = _map_name
@@ -30,9 +34,7 @@ func _init(_map_name: String, data := {}) -> void:
 	include_entities = data.get('include_entities', false)
 	seed = data.get('seed', randi())
 
-	print('tiles known: ', tiles_known.size())
 	print('size: ', size)
-	# TODO: Set default tile to the most frequent tile in the array
 
 
 func init_prefab():
@@ -46,15 +48,15 @@ func init_prefab():
 	
 	if packed_scene is MapGenerator:
 		default_tile = packed_scene.default_tile
-		var features = await packed_scene.generate(seed)
+		var result = await packed_scene.generate(seed)
+		var features = result.get('features', [])
+		var entities = result.get('entities', [])
+		
 		if include_entities:
-			for feature in features.filter(func(f): return f is Room):
-				var random_tile = feature.cells.pick_random()
-				var new_entity = Entity.new({ 'blueprint': 'ghoul' })
-				new_entity.location = Location.new(uuid, random_tile)
-				new_entity.equipment = EquipmentProps.new({})
-				ECS.add(new_entity)
-				print(feature, new_entity)
+			print(entities)
+			for entity in entities:
+				entity.location.map = uuid
+				ECS.add(entity)
 
 	for child in packed_scene.get_children():
 		if child is TileMapLayer:

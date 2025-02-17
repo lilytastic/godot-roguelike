@@ -30,7 +30,7 @@ func perform(entity: Entity) -> ActionResult:
 				var _map = await MapManager.create_map(_map_name)
 				if !_map:
 					return ActionResult.new(false)
-				MapManager.switch_map(_map)
+				MapManager.switch_map(_map, entity)
 				print('teleported to: ', entity.location.map)
 				entity.location.map = _map.uuid
 				entity.location.position = Global.string_to_vector(target.destination.position)
