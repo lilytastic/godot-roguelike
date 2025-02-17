@@ -7,7 +7,7 @@ func _ready():
 		child.queue_free()
 	var new_generator = packed_scene.instantiate()
 	%Generator.add_child(new_generator)
-	new_generator.generate(randi_range(0,99999999), 100.0)
+	new_generator.generate(randi_range(0,99999999))
 
 
 func _input(ev: InputEvent):

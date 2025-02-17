@@ -46,7 +46,7 @@ func init_prefab():
 	
 	if packed_scene is MapGenerator:
 		default_tile = packed_scene.default_tile
-		var features = await packed_scene.generate(seed, 0)
+		var features = await packed_scene.generate(seed)
 		if include_entities:
 			for feature in features.filter(func(f): return f is Room):
 				var random_tile = feature.cells.pick_random()

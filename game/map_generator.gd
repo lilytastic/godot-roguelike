@@ -33,8 +33,9 @@ var used_cells := {}
 
 func _ready():
 	pass
-	
-func generate(seed: int, generation_speed := 0):
+
+
+func generate(seed: int):
 	is_generating = true
 	tiles_dug = 0
 	features.clear()
@@ -62,6 +63,33 @@ func generate(seed: int, generation_speed := 0):
 				default_wall
 			)
 
+	_resolve_template()
+	print(tiles_dug, ' tiles dug for initial features, of which there are ', features.size())
+	
+	_dig_random_dungeon()
+	
+	_connect_features(target_layer, _is_solid, func(cell): _open_exit(cell))
+	
+	_remove_walls(target_layer)
+	
+	await _remove_dead_ends(target_layer, _generation_speed)
+	
+	# await _connect_isolated_rooms(target_layer)
+	
+	workspace.free()
+	template.free()
+	var time_finished = Time.get_ticks_msec()
+	print('==== Map generation complete ====')
+	print('Time to generate: ', snapped((time_finished - time_started) / 1000.0, 0.01), 's')
+	
+	is_generating = false
+	randomize()
+	return features
+
+
+
+func _resolve_template():
+	var rect = template.get_used_rect()
 	for coord in template.get_used_cells():
 		var atlas_coords = template.get_cell_atlas_coords(coord)
 		var direction = MapGen.get_tile_direction(template, coord)
@@ -93,8 +121,8 @@ func generate(seed: int, generation_speed := 0):
 				new_cells[cell] = 0 if randi_range(0, 100) < 60 else 1
 				
 			for i in range(12):
-				if generation_speed > 0:
-					await Global.sleep(150 / generation_speed)
+				if _generation_speed > 0:
+					await Global.sleep(150 / _generation_speed)
 				for cell in cells:
 					var neighbours = [
 						cell + Vector2i.UP,
@@ -116,8 +144,8 @@ func generate(seed: int, generation_speed := 0):
 						if living_neighbours.size() >= 5:
 							new_cells[cell] = 1
 
-				if generation_speed > 0:
-					await Global.sleep(300 / generation_speed)
+				if _generation_speed > 0:
+					await Global.sleep(300 / _generation_speed)
 
 				for cell in new_cells.keys():
 					target_layer.set_cell(cell, 0, default_ground if new_cells[cell] == 1 else default_wall)
@@ -132,9 +160,9 @@ func generate(seed: int, generation_speed := 0):
 			used_cells[coord] = coord
 			target_layer.set_cell(coord, 0, WALL_COORDS)
 
-	
-	print(tiles_dug, ' tiles dug for initial features, of which there are ', features.size())
-	
+
+func _dig_random_dungeon():
+	var rect = template.get_used_rect()
 	var total_cells = rect.end.x * rect.end.y * 1.0
 	var dug_percentage = tiles_dug / total_cells * 100.0
 	var iterations = 0
@@ -162,8 +190,8 @@ func generate(seed: int, generation_speed := 0):
 				digger.step()
 				if digger.life <= 0:
 					var result = _digger_finished(digger)
-			if generation_speed > 0:
-				await Global.sleep(30 / generation_speed)
+			if _generation_speed > 0:
+				await Global.sleep(30 / _generation_speed)
 			continue
 		
 		var hallway_chance = 30
@@ -181,28 +209,9 @@ func generate(seed: int, generation_speed := 0):
 		if new_feature:
 			# print('placed ', new_feature)
 			_dig_feature(new_feature)
-			if generation_speed > 0:
-				await Global.sleep(200 / generation_speed)
-
+			if _generation_speed > 0:
+				await Global.sleep(200 / _generation_speed)
 	print(tiles_dug, '/', total_cells, ' tiles dug (', snapped(dug_percentage, 0.1), '%)')
-
-	_connect_features(target_layer, _is_solid, func(cell): _open_exit(cell))
-	
-	_remove_walls(target_layer)
-	
-	await _remove_dead_ends(target_layer, generation_speed)
-	
-	# await _connect_isolated_rooms(target_layer)
-	
-	workspace.free()
-	template.free()
-	var time_finished = Time.get_ticks_msec()
-	print('==== Map generation complete ====')
-	print('Time to generate: ', snapped((time_finished - time_started) / 1000.0, 0.01), 's')
-	
-	is_generating = false
-	randomize()
-	return features
 
 
 func _connect_isolated_rooms(layer: TileMapLayer):
