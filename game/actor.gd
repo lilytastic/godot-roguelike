@@ -88,6 +88,11 @@ func _process(delta: float) -> void:
 		if glyph:
 			color = glyph.fg
 
+	if entity.health:
+		if entity.health.current <= entity.health.max / 2:
+			var _halved = entity.health.max / 2
+			color = Color('eede55').lerp(Color('ff2229'), (_halved - float(entity.health.current)) / _halved * 1.5)
+
 	modulate = modulate.lerp(
 		Color(color, 1.0 if _can_see else (0.3 if _known_position != Vector2(-1, -1) else 0.0)),
 		delta * 10.0
@@ -116,7 +121,7 @@ func _load(id: String):
 		if %Sprite2D:
 			%Sprite2D.set_texture(glyph.to_atlas_texture())
 		modulate = glyph.fg
-
+		
 	entity.action_performed.connect(_on_action_performed)
 
 	if entity.health:
