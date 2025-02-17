@@ -45,10 +45,14 @@ func _create_tiles() -> void:
 				if tile:
 					add_child(tile)
 			else:
-				for _id in MapManager.current_map.tiles[position]:
-					var tile = generate_tile(_id, position)
-					if tile:
-						add_child(tile)
+				_create_tile_for_position(position)
+
+
+func _create_tile_for_position(position: Vector2i):
+	for _id in MapManager.current_map.tiles[position]:
+		var tile = generate_tile(_id, position)
+		if tile:
+			add_child(tile)
 
 
 func render(delta: float = 0) -> void:
@@ -70,6 +74,8 @@ func render(delta: float = 0) -> void:
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)
+			if !tiles.has(position):
+				_create_tile_for_position(position)
 			if tiles.has(position):
 				tiles[position].visible = _rect.has_point(position * 16)
 				
