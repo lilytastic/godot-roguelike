@@ -220,6 +220,8 @@ func get_collisions(position: Vector2i):
 	
 func teleport(destination: Dictionary, entity: Entity):
 	print('teleport to: ', destination)
+
+	PlayerInput.overlay_opacity = 3.0
 	
 	# If the destination goes to a set location, skip this.
 	# Otherwise, we'll look for an existing map matching the destination's prefab (for procgen maps)
