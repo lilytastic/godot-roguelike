@@ -114,7 +114,7 @@ func create_map(data := {}) -> Map:
 		'default_tile': 'soil'
 	})
 	maps[_map.uuid] = _map
-	await _map.init_prefab()
+	# await _map.init_prefab()
 
 	return _map
 
@@ -131,6 +131,8 @@ func switch_map(_map: Map, entity: Entity):
 	
 	print('Switching to map: ', _map.name)
 	PlayerInput.overlay_opacity = 3.0
+	await _map.init_prefab()
+	
 	print('Finished initiating prefab for map: ',  _map.name)
 
 	map = _map.uuid
@@ -140,20 +142,21 @@ func switch_map(_map: Map, entity: Entity):
 	print('size: ', current_map.size)
 
 	init_actors()
-	
+
 	if !entity.location or entity.location.map != _map.uuid:
 		var starting_location = Vector2i(-1, -1)
 		for actor in actors.values():
 			if actor.destination:
 				starting_location = Vector2i(actor.location.position)
 		entity.location = Location.new(_map.uuid, starting_location if starting_location != Vector2i(-1, -1) else _map.walkable_tiles.pick_random())
-		var camera = get_viewport().get_camera_2d()
-		if camera:
-			camera.position = entity.location.position * 16
 
 	if !actors.has(entity.uuid):
 		actors[entity.uuid] = entity
 		entity.update_fov()
+
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		camera.position = entity.location.position * 16
 
 	map_changed.emit(map)
 	is_switching = false

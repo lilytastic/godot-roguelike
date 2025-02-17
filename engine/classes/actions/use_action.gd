@@ -29,6 +29,7 @@ func perform(entity: Entity) -> ActionResult:
 				
 				if !target.destination.has('map'):
 					var _map = await MapManager.create_map(target.destination)
+					await _map.init_prefab()
 					var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
 					print(_entities.size(), ' entities found at ', _map.uuid)
 					var _starting_position = Vector2i(-1, -1)
@@ -46,7 +47,8 @@ func perform(entity: Entity) -> ActionResult:
 				if target.destination.has('map'):
 					entity.location.map = target.destination.map
 					entity.location.position = Global.string_to_vector(target.destination.position)
-					MapManager.switch_map(MapManager.maps[target.destination.map], entity)
+					var _map = MapManager.maps[target.destination.map]
+					MapManager.switch_map(_map, entity)
 					MapManager.init_actors()
 					return ActionResult.new(true, { 'cost_energy': 100 })
 				
