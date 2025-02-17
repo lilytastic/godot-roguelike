@@ -128,6 +128,8 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 
 
 func can_see(entity: Entity, seen_position: Vector2i) -> bool:
+	if !entity.location:
+		return false
 	var position = entity.location.position
 	return entity.visible_tiles.get(seen_position, false)
 

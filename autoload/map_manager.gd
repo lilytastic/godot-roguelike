@@ -136,16 +136,26 @@ func switch_map(_map: Map, entity: Entity):
 		return
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 	print('size: ', current_map.size)
+
+	init_actors()
 	
 	if !entity.location or entity.location.map != _map.uuid:
-		entity.location = Location.new(_map.uuid, _map.walkable_tiles.pick_random())
+		var starting_location = Vector2i(-1, -1)
+		for actor in actors.values():
+			if actor.blueprint.id == 'staircase':
+				starting_location = Vector2i(actor.location.position)
+		entity.location = Location.new(_map.uuid, starting_location if starting_location != Vector2i(-1, -1) else _map.walkable_tiles.pick_random())
 		var camera = get_viewport().get_camera_2d()
 		camera.position = entity.location.position * 16
 
-	init_actors()
+	if !actors.has(entity.uuid):
+		actors[entity.uuid] = entity
+		entity.update_fov()
+
 	map_changed.emit(map)
 	is_switching = false
-	
+
+
 func get_tiles():
 	var arr := []
 	

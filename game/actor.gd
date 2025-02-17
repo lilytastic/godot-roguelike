@@ -26,10 +26,6 @@ func _init() -> void:
 		Coords.get_coord(position),
 		Vector2(8, 16)
 	)
-	if AIManager.blocks_entities(entity):
-		z_index = 1
-	if AIManager.can_act(entity):
-		z_index = 2
 
 
 var _previous_known_locations := {}
@@ -98,6 +94,11 @@ func _process(delta: float) -> void:
 		Color(color, 1.0 if _can_see else (0.3 if _known_position != Vector2i(-1, -1) else 0.0)),
 		delta * 10.0
 	)
+	
+	if AIManager.blocks_entities(entity):
+		z_index = 1
+	if AIManager.can_act(entity):
+		z_index = 2
 
 func _on_action_performed(action: Action, result: ActionResult):
 	if !result.success:

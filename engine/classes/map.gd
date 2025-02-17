@@ -53,9 +53,9 @@ func init_prefab():
 		var entities = result.get('entities', [])
 		
 		if include_entities:
-			print(entities)
 			for entity in entities:
 				entity.location.map = uuid
+				entity.energy -= 100
 				ECS.add(entity)
 
 	for child in packed_scene.get_children():
