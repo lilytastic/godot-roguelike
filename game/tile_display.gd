@@ -76,7 +76,7 @@ func render(delta: float = 0) -> void:
 			var position = Vector2i(x, y)
 			if !tiles.has(position):
 				_create_tile_for_position(position)
-			if tiles.has(position):
+			if tiles.has(position) and is_instance_valid(tiles[position]):
 				tiles[position].visible = _rect.has_point(position * 16)
 				
 				var is_known = current_map.tiles_known.get(position, false)

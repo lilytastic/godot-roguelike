@@ -11,6 +11,8 @@ var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
 var default_tile = 'void'
 
+var is_loaded = false
+
 var tiles_known := {} # The tiles the player knows about
 
 var navigation_map = AStar2D.new()
@@ -38,6 +40,9 @@ func _init(data := {}) -> void:
 
 
 func init_prefab():
+	if is_loaded:
+		return
+	is_loaded = true
 	var cell = load('res://cells/' + prefab + '.tscn')
 	var packed_scene = cell.instantiate()
 	var tile_pattern = null
