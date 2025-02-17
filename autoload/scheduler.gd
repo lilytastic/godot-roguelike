@@ -45,7 +45,7 @@ func _update_energy(delta: float):
 		if _entity and _entity.blueprint.speed:
 			var mod = delta
 			if Global.player.targeting.current_path.size() > 0:
-				mod *= 0.2
+				mod *= 0.4
 			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
 			_entity.energy += _entity.blueprint.speed * mod
 			# _entity.energy = min(0.0, _entity.energy)

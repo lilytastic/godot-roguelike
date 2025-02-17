@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://game/floating_text.gd" id="6_qudki"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
 [ext_resource type="PackedScene" uid="uid://be05y3swrshiq" path="res://game/cursor.tscn" id="7_2s5nd"]
-[ext_resource type="PackedScene" uid="uid://d32kgngy6fe6u" path="res://game/circular_meter.tscn" id="7_5uobx"]
+[ext_resource type="PackedScene" uid="uid://d32kgngy6fe6u" path="res://game/meter.tscn" id="7_5uobx"]
 [ext_resource type="Script" path="res://engine/classes/scene_view.gd" id="7_mvjgg"]
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="9_o4gab"]
 [ext_resource type="Script" path="res://game/tile_display.gd" id="9_ytsw5"]
@@ -27,12 +27,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -24.0
-offset_top = -53.0
-offset_right = 24.0
-offset_bottom = -5.0
+offset_left = -47.0
+offset_top = -36.0
+offset_right = 53.0
+offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 8
 
 [node name="BlackOverlay" type="Panel" parent="CanvasLayer"]
 unique_name_in_owner = true
