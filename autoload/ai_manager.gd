@@ -74,7 +74,7 @@ func take_turn(entity: Entity) -> bool:
 
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
-	# TODO: If it's hostile, use this entity's first weaponskill on it.
+	# If it's hostile, use this entity's first weaponskill on it.
 	if target and target.blueprint.equipment:
 		if entity.equipment:
 			for uuid in entity.equipment.slots.values():
@@ -90,7 +90,7 @@ func get_default_action(entity: Entity, target: Entity) -> Action:
 			target,
 			'slash'
 		)
-	# TODO: Otherwise, if it's usable, use it!
+	# Otherwise, if it's usable, use it!
 	if target and (target.blueprint.item or target.blueprint.use):
 		return UseAction.new(target)
 		

@@ -70,4 +70,4 @@ func perform(entity: Entity) -> ActionResult:
 	if Global.player and entity.uuid == Global.player.uuid:
 		await Global.sleep(65)
 
-	return ActionResult.new(true, { 'cost_energy': 3 })
+	return ActionResult.new(true, { 'cost_energy': 100 })

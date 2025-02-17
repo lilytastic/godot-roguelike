@@ -35,13 +35,13 @@ func perform(entity: Entity) -> ActionResult:
 				entity.location.map = _map.uuid
 				entity.location.position = Global.string_to_vector(target.destination.position)
 				MapManager.init_actors()
-				return ActionResult.new(true, { 'cost_energy': 3 })
+				return ActionResult.new(true, { 'cost_energy': 100 })
 				
 		pass
 
 	if target.location and target.blueprint.item:
 		if InventoryManager.give(entity, target):
-			return ActionResult.new(true, { 'cost_energy': 3 })
+			return ActionResult.new(true, { 'cost_energy': 100 })
 
 	if entity.equipment and entity.equipment.has(target.uuid):
 		if InventoryManager.unequip(entity, target):

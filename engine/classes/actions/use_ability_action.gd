@@ -57,4 +57,4 @@ func perform(entity: Entity) -> ActionResult:
 
 	await Global.sleep(150)
 
-	return ActionResult.new(true, { 'cost_energy': 3 })
+	return ActionResult.new(true, { 'cost_energy': 100 })
