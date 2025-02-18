@@ -6,26 +6,33 @@ var _fov_map := {}
 var last_position: Vector2
 
 var tiles := {}
+var tile_render := {}
 
 
 func _ready() -> void:
 	get_viewport().connect("size_changed", render)
 	_create_tiles()
-	render()
+	update_tiles()
+	
+	Global.player.action_performed.connect(
+		func(action, result):
+			await Global.sleep(1)
+			update_tiles()
+	)
 	
 	MapManager.map_changed.connect(
 		func(map):
 			await Global.sleep(1)
 			_create_tiles()
-			render()
+			update_tiles()
 	)
 
 
 func _process(delta):
 	if Global.player and Global.player.location and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
+		update_tiles()
 	render(delta)
-
 
 func _create_tiles() -> void:
 	for child in get_children():
@@ -57,6 +64,46 @@ func _create_tile_for_position(position: Vector2i):
 
 
 func render(delta: float = 0) -> void:
+	var current_map = MapManager.current_map
+	var _center := get_viewport().get_camera_2d().get_screen_center_position()
+	var _rect := get_viewport().get_camera_2d().get_viewport_rect()
+	_rect.position = _center - _rect.size / 2
+	_rect.position -= Vector2.ONE * 16
+	_rect.size += Vector2.ONE * 32
+
+	for position in tiles.keys():
+		if !is_instance_valid(tiles[position]):
+			continue
+		var _is_visible = _rect.has_point(position * 16)
+		tiles[position].visible = _is_visible
+
+		if !_is_visible or !tile_render.has(position):
+			pass # return
+
+		var _render_data = tile_render[position]
+		var is_known = current_map.tiles_known.get(position, false)
+		var _color = tile_render[position].tile_data.color if tile_render[position].tile_data.has('color') else Color.WHITE # tiles[position].modulate
+		"""
+		if path_to_cursor.find(Vector2(position)) != -1:
+			_color = _tile_data * 2
+		else:
+			_color = MapManager.get_tile_data(MapManager.current_map.tiles_at(position)[0]).color
+		"""
+		var _opacity = 1
+		if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
+			_opacity = 1
+		else:
+			if is_known:
+				_opacity = 0.15
+			else:
+				_opacity = 0.0
+		# tiles[position].modulate = Color(_color, _opacity)
+		tile_render[position].color = _color
+		tile_render[position].opacity = _opacity
+		tiles[position].modulate = tiles[position].modulate.lerp(Color(_render_data.color, _render_data.opacity), delta * 8.0)
+
+
+func update_tiles() -> void:
 	if !MapManager.current_map:
 		return
 
@@ -66,11 +113,7 @@ func render(delta: float = 0) -> void:
 	var walls_seen = {}
 	var collision_dict = {}
 	
-	var _center := get_viewport().get_camera_2d().get_screen_center_position()
-	var _rect := get_viewport().get_camera_2d().get_viewport_rect()
-	_rect.position = _center - _rect.size / 2
-	_rect.position -= Vector2.ONE * 16
-	_rect.size += Vector2.ONE * 32
+	var path_to_cursor = Coords.get_point_line(player_location, PlayerInput.mouse_position_in_world / 16)
 
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
@@ -78,25 +121,11 @@ func render(delta: float = 0) -> void:
 			if !tiles.has(position):
 				_create_tile_for_position(position)
 			if tiles.has(position) and is_instance_valid(tiles[position]):
-				tiles[position].visible = _rect.has_point(position * 16)
+				var _tile_data = MapManager.get_tile_data(MapManager.current_map.tiles_at(position)[0])
+				if !tile_render.has(position):
+					tile_render[position] = {}
+				tile_render[position].tile_data = _tile_data
 				
-				var is_known = current_map.tiles_known.get(position, false)
-				var _color = tiles[position].modulate
-				var _opacity = 1
-				if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
-					# tiles[position].visible = true
-					_opacity = 1
-					# tiles[position].modulate = Color(tiles[position].modulate, 1)
-				else:
-					if is_known:
-						# tiles[position].visible = true
-						_opacity = 0.15
-						# tiles[position].modulate = Color(tiles[position].modulate, 0.15)
-					else:
-						_opacity = 0.0
-						# tiles[position].visible = false
-				tiles[position].modulate = tiles[position].modulate.lerp(Color(_color, _opacity), delta * 12.0)
-
 
 func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 	var spr = Sprite2D.new()
@@ -124,7 +153,7 @@ func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 	
 	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
 	var col = Color(_noise, _noise, _noise) / 8
-	spr.modulate = Color(data.get('color', Color.WHITE) + col, 0)
+	spr.modulate = Color(data.get('color', Color.WHITE) + col, 0.0)
 
 	tiles[position] = spr
 	return spr
