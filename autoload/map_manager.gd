@@ -126,7 +126,7 @@ func get_atlas_coords_for_id(id: String):
 func switch_map(_map: Map, entity: Entity):
 	is_switching = true
 
-	PlayerInput.overlay_opacity = 3.0
+	PlayerInput.overlay_opacity = 1.0
 	await Global.sleep(1)
 	add(_map)
 	
@@ -221,8 +221,6 @@ func get_collisions(position: Vector2i):
 func teleport(destination: Dictionary, entity: Entity):
 	print('teleport to: ', destination)
 
-	PlayerInput.overlay_opacity = 3.0
-	
 	# If the destination goes to a set location, skip this.
 	# Otherwise, we'll look for an existing map matching the destination's prefab (for procgen maps)
 	if !destination.has('map'):
