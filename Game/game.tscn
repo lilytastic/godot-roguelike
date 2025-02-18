@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://game/tile_display.gd" id="9_ytsw5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826o3"]
-bg_color = Color(1, 1, 1, 0)
+bg_color = Color(1, 1, 1, 1)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")

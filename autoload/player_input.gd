@@ -33,7 +33,7 @@ func _process(delta) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if Global.ui_visible or MapManager.is_switching or overlay_opacity > 0.12:
+	if Global.ui_visible or MapManager.is_switching or overlay_opacity > 0.2:
 		return
 	
 	if event is InputEventMouseMotion:

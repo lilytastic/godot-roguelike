@@ -17,6 +17,9 @@ func _ready() -> void:
 		$Camera2D.position = Coords.get_position(
 			Global.player.location.position
 		)
+		
+	if %BlackOverlay:
+		%BlackOverlay.modulate = Color(Palette.PALETTE.BACKGROUND, 1.0)
 
 
 func _process(delta):
