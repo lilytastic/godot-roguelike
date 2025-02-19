@@ -23,13 +23,13 @@ func _process(delta: float):
 	var actors = MapManager.actors
 	if !turn_in_progress and next_queue.size() > 0:
 		var next = next_queue.pop_front()
-		if next != null and AIManager.can_act(next):
+		if next != null and AgentManager.can_act(next):
 			# print('switch to: ', next.uuid)
 			var next_uuid = next.uuid
 			turn_in_progress = true
 			last_uuid_selected = next_uuid
 			next_actor = next
-			AIManager._process(0.0)
+			AgentManager._process(0.0)
 
 	if !next_actor and player_is_valid and delta > 0:
 		await _update_energy(delta)

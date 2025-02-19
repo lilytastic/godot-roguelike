@@ -102,7 +102,7 @@ func render(delta: float = 0) -> void:
 			_color = Color.RED # _color * 2
 		"""
 		var _opacity = 1
-		if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
+		if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AgentManager.can_see(Global.player, position) and 
 			_opacity = 1
 		else:
 			if is_known:

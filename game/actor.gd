@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 		queue_free()
 		return
 	
-	var _can_see = AIManager.can_see(Global.player, entity.location.position)
+	var _can_see = AgentManager.can_see(Global.player, entity.location.position)
 	var _known_position = Vector2i(-1, -1)
 	if _can_see:
 		_known_position = Vector2i(entity.location.position)
@@ -96,9 +96,9 @@ func _process(delta: float) -> void:
 		delta * 10.0
 	)
 	
-	if AIManager.blocks_entities(entity):
+	if AgentManager.blocks_entities(entity):
 		z_index = 1
-	if AIManager.can_act(entity):
+	if AgentManager.can_act(entity):
 		z_index = 2
 
 func _on_action_performed(action: Action, result: ActionResult):

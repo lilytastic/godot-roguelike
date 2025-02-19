@@ -43,7 +43,7 @@ func _process(delta):
 
 		"""
 		if actor.entity.location:
-			var _can_see = AIManager.can_see(Global.player, actor.entity.location.position)
+			var _can_see = AgentManager.can_see(Global.player, actor.entity.location.position)
 			actor.modulate = actor.modulate.lerp(
 				Color(actor.modulate, 1.0 if _can_see else 0.0),
 				delta * 10.0

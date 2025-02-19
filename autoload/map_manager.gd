@@ -257,7 +257,7 @@ func update_navigation():
 			)
 
 	for actor in actors.values():
-		if actor and actor.location and AIManager.blocks_entities(actor):
+		if actor and actor.location and AgentManager.blocks_entities(actor):
 			var pos = get_astar_pos(actor.location.position.x, actor.location.position.y)
 			if _navigation_map.has_point(pos):
 				_navigation_map.set_point_disabled(
@@ -268,7 +268,7 @@ func update_navigation():
 func get_collisions(position: Vector2i):
 	return actors.values().filter(
 		func(_entity):
-			return AIManager.blocks_entities(_entity)
+			return AgentManager.blocks_entities(_entity)
 	).filter(
 		func(_entity):
 			return _entity.location.position.x == position.x and _entity.location.position.y == position.y

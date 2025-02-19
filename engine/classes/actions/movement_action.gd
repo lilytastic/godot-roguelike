@@ -20,7 +20,7 @@ func perform(entity: Entity) -> ActionResult:
 	if !MapManager.can_walk(new_position):
 		var collisions = MapManager.get_collisions(new_position)
 		if can_alternate and collisions.size():
-			var action = AIManager.get_default_action(entity, collisions[0])
+			var action = AgentManager.get_default_action(entity, collisions[0])
 			if action:
 				return ActionResult.new(
 					false,
@@ -34,7 +34,7 @@ func perform(entity: Entity) -> ActionResult:
 		
 	var collisions = ECS.entities.values().filter(
 		func(_entity):
-			return AIManager.blocks_entities(_entity) and _entity.location and _entity.location.map == entity.location.map
+			return AgentManager.blocks_entities(_entity) and _entity.location and _entity.location.map == entity.location.map
 	).filter(
 		func(_entity):
 			return _entity.location.position.x == new_position.x and _entity.location.position.y == new_position.y
@@ -43,7 +43,7 @@ func perform(entity: Entity) -> ActionResult:
 	if collisions.size():
 		for collision in collisions:
 			if can_alternate:
-				var action = AIManager.get_default_action(entity, collision)
+				var action = AgentManager.get_default_action(entity, collision)
 				if action:
 					return ActionResult.new(
 						false,

@@ -147,7 +147,7 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 # TODO: Move within Action class?
 func is_within_range(entity: Entity, target: Entity, action: Action) -> bool:
 	var act_range = 0
-	if target and AIManager.blocks_entities(target):
+	if target and AgentManager.blocks_entities(target):
 		act_range = 1
 
 	var distance = Coords.get_range(entity.location.position, entity.targeting.target_position())

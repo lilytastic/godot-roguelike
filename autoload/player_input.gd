@@ -45,7 +45,7 @@ func _input(event: InputEvent) -> void:
 
 	var coord = Vector2i(Coords.get_coord(mouse_position_in_world))
 	if event is InputEventMouseButton:
-		var valid = player_is_valid and AIManager.can_see(Global.player, coord)
+		var valid = player_is_valid and AgentManager.can_see(Global.player, coord)
 		if valid:
 			if event.button_index != 1:
 				targeting.clear()
@@ -83,7 +83,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		targeting.clear()
 		action_triggered.emit(action)
 		if Scheduler.player_can_act:
-			await AIManager.perform_action(Global.player, action)
+			await AgentManager.perform_action(Global.player, action)
 
 
 func _notification(event):
@@ -157,12 +157,12 @@ func _act(entity: Entity) -> void:
 
 	var target = ECS.entity(entity.targeting.current_target)
 	if target:
-		var default_action = AIManager.get_default_action(entity, target)
-		if AIManager.is_within_range(entity, target, default_action):
-			await AIManager.perform_action(entity, default_action)
+		var default_action = AgentManager.get_default_action(entity, target)
+		if AgentManager.is_within_range(entity, target, default_action):
+			await AgentManager.perform_action(entity, default_action)
 			return
 
-	await AIManager.try_close_distance(Scheduler.next_actor, entity.targeting.target_position())
+	await AgentManager.try_close_distance(Scheduler.next_actor, entity.targeting.target_position())
 
 func _on_ui_action(action):
 	action.perform(Global.player)
