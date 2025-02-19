@@ -6,6 +6,8 @@ var uuid := ''
 var name := ''
 var tiles := {}
 var seed = 0
+var depth = 0
+var branch = ''
 var prefab = ''
 var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
@@ -28,8 +30,13 @@ var data := {}
 func _init(_data := {}) -> void:
 	data = _data
 	uuid = data.get('uuid', uuid_util.v4())
-	name = data.get('map', '')
 	prefab = data.get('prefab', 'test')
+	branch = data.get('branch', '')
+	depth = data.get('depth', 0)
+	
+	var _map_definition = MapManager.map_definitions.get(branch, null)
+
+	name = data.get('map', _map_definition.name if _map_definition else '<unnamed map>')
 	default_tile = data.get('default_tile', 'void')
 
 	var _tiles_known = data.get('tiles_known', [])
@@ -166,6 +173,8 @@ func get_save_data():
 		'uuid': uuid,
 		'name': name,
 		'prefab': prefab,
+		'branch': branch,
+		'depth': depth,
 		'seed': seed,
 		'default_tile': default_tile,
 		'tiles_known': tiles_known.keys(),

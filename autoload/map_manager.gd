@@ -19,6 +19,7 @@ var is_switching = false
 
 var map_definitions = {
 	'privateers_hideout': {
+		'name': "Privateer's Hideout",
 		'max_depth': 3,
 		'encounters': [ 'ghoul' ],
 		'prefabs': [ 'fort1' ]
@@ -126,6 +127,8 @@ func create_map(data := {}) -> Map:
 	var _map = await Map.new(data)
 	maps[_map.uuid] = _map
 	_map.prefab = prefab
+	_map.branch = data.get('branch', '')
+	_map.depth = data.get('depth', 1)
 	
 	await _map.init_prefab()
 
@@ -231,6 +234,11 @@ func assign_destination(destination: Dictionary):
 	if _destination.has('prefab'):
 		for _map in maps.values():
 			if _map and _map.prefab == _destination['prefab']:
+				_destination['map'] = _map.uuid
+	if _destination.has('branch'):
+		var _depth = _destination.get('depth', 1)
+		for _map in maps.values():
+			if _map and _map.branch == _destination['branch'] and (!_destination.has('depth') or _map.depth == _depth):
 				_destination['map'] = _map.uuid
 	return _destination
 	
