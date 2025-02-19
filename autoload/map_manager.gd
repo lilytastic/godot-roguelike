@@ -187,6 +187,13 @@ func init_actors():
 	actors_changed.emit()
 
 
+func teleport(destination: Dictionary, entity: Entity):
+	print('teleport to: ', destination)
+	if destination.has('map'):
+		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
+		var _map = MapManager.maps[destination.map]
+		switch_map(_map, entity)
+		init_actors()
 
 func resolve_destination(destination: Dictionary, entity: Entity):
 	var _destination = destination
@@ -212,14 +219,15 @@ func assign_destination(destination: Dictionary):
 	return _destination
 	
 
-func create_destination(destination: Dictionary, entity: Entity) -> Dictionary:
+func create_destination(destination: Dictionary, entity: Entity = null) -> Dictionary:
 	var _map = await MapManager.create_map(destination)
 	var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
 	var _starting_position = Vector2i(-1, -1)
 	for _entity in _entities:
 		if _entity.destination:
 			_starting_position = _entity.location.position
-			if entity.location:
+			if entity and entity.location and !_entity.destination.has('position'):
+				# Directly link this portal to wherever the teleported entity is
 				_entity.destination.erase('prefab')
 				_entity.destination['map'] = entity.location.map
 				_entity.destination['position'] = entity.location.position
@@ -231,13 +239,6 @@ func create_destination(destination: Dictionary, entity: Entity) -> Dictionary:
 	return destination
 	
 
-func teleport(destination: Dictionary, entity: Entity):
-	print('teleport to: ', destination)
-	if destination.has('map'):
-		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
-		var _map = MapManager.maps[destination.map]
-		switch_map(_map, entity)
-		init_actors()
 
 
 
