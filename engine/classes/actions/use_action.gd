@@ -29,7 +29,8 @@ func perform(entity: Entity) -> ActionResult:
 				PlayerInput.overlay_opacity = 1.0
 				await Global.sleep(1)
 
-				target.destination = await MapManager.teleport(target.destination, entity)
+				target.destination = await MapManager.resolve_destination(target.destination, entity)
+				MapManager.teleport(target.destination, entity)
 				print('used staircase; change destination to: ', target.destination)
 				if target.destination.has('map'):
 					return ActionResult.new(true, { 'cost_energy': 100 })

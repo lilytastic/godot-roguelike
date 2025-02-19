@@ -40,7 +40,8 @@ func new_game() -> Entity:
 	player_changed.emit(player)
 	ECS.add(player)
 
-	var starting_map = await MapManager.teleport({ 'prefab': 'fort1', 'connections': [{'prefab': 'test'}] }, player)
+	var starting_map = await MapManager.resolve_destination({ 'prefab': 'fort1', 'connections': [{'prefab': 'test'}] }, player)
+	MapManager.teleport(starting_map, player)
 	print('created starting_map: ', starting_map)
 
 	has_game_started = true

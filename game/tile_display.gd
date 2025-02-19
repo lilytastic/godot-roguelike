@@ -70,6 +70,19 @@ func render(delta: float = 0) -> void:
 	_rect.position = _center - _rect.size / 2
 	_rect.position -= Vector2.ONE * 16
 	_rect.size += Vector2.ONE * 32
+	
+	"""
+	var _target_position = Vector2i(-1, -1)# (PlayerInput.mouse_position_in_world / 16)
+	if PlayerInput.targeting.has_target():
+		_target_position = Vector2i(PlayerInput.targeting.target_position())
+	if Global.player.targeting.has_target():
+		_target_position = Vector2i(Global.player.targeting.target_position())
+
+	var path_to_cursor = Coords.get_point_line(
+		Global.player.location.position,
+		_target_position
+	) if _target_position != Vector2i(-1, -1) else []
+	"""
 
 	for position in tiles.keys():
 		if !is_instance_valid(tiles[position]):
@@ -83,11 +96,10 @@ func render(delta: float = 0) -> void:
 		var _render_data = tile_render[position]
 		var is_known = current_map.tiles_known.get(position, false)
 		var _color = tile_render[position].tile_data.color if tile_render[position].tile_data.has('color') else Color.WHITE # tiles[position].modulate
+
 		"""
 		if path_to_cursor.find(Vector2(position)) != -1:
-			_color = _tile_data * 2
-		else:
-			_color = MapManager.get_tile_data(MapManager.current_map.tiles_at(position)[0]).color
+			_color = Color.RED # _color * 2
 		"""
 		var _opacity = 1
 		if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AIManager.can_see(Global.player, position) and 
@@ -113,8 +125,6 @@ func update_tiles() -> void:
 	var walls_seen = {}
 	var collision_dict = {}
 	
-	var path_to_cursor = Coords.get_point_line(player_location, PlayerInput.mouse_position_in_world / 16)
-
 	for x in range(current_map.size.x):
 		for y in range(current_map.size.y):
 			var position = Vector2i(x, y)

@@ -187,6 +187,62 @@ func init_actors():
 	actors_changed.emit()
 
 
+
+func resolve_destination(destination: Dictionary, entity: Entity):
+	var _destination = destination
+	
+	# If the destination goes to a set location, skip this.
+	# Otherwise, we'll look for an existing map matching the destination's prefab (for procgen maps)
+	if !_destination.has('map'):
+		_destination = assign_destination(_destination)
+
+	# None found for prefab -- so we'll have to generate the prefab.
+	if !_destination.has('map'):
+		_destination = await create_destination(_destination, entity)
+
+	return _destination
+
+
+func assign_destination(destination: Dictionary):
+	var _destination = destination
+	if _destination.has('prefab'):
+		for _map in MapManager.maps.values():
+			if _map and _map.prefab == _destination['prefab']:
+				_destination['map'] = _map.uuid
+	return _destination
+	
+
+func create_destination(destination: Dictionary, entity: Entity) -> Dictionary:
+	var _map = await MapManager.create_map(destination)
+	var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
+	var _starting_position = Vector2i(-1, -1)
+	for _entity in _entities:
+		if _entity.destination:
+			_starting_position = _entity.location.position
+			if entity.location:
+				_entity.destination.erase('prefab')
+				_entity.destination['map'] = entity.location.map
+				_entity.destination['position'] = entity.location.position
+			break
+	destination = {
+		'map': _map.uuid,
+		'position': _starting_position
+	}
+	return destination
+	
+
+func teleport(destination: Dictionary, entity: Entity):
+	print('teleport to: ', destination)
+	if destination.has('map'):
+		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
+		var _map = MapManager.maps[destination.map]
+		switch_map(_map, entity)
+		init_actors()
+
+
+
+
+
 func update_navigation():
 	if !navigation_map:
 		return
@@ -218,50 +274,6 @@ func get_collisions(position: Vector2i):
 			return _entity.location.position.x == position.x and _entity.location.position.y == position.y
 	)
 	
-func teleport(destination: Dictionary, entity: Entity):
-	print('teleport to: ', destination)
-
-	# If the destination goes to a set location, skip this.
-	# Otherwise, we'll look for an existing map matching the destination's prefab (for procgen maps)
-	if !destination.has('map'):
-		if destination.has('prefab'):
-			for _map in MapManager.maps.values():
-				if _map and _map.prefab == destination['prefab']:
-					destination['map'] = _map.uuid
-
-	# None found for prefab -- so we'll have to generate the prefab.
-	if !destination.has('map'):
-		print('create: ', destination)
-		var _map = await MapManager.create_map(destination)
-		print('created: ', _map.uuid)
-		var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
-		print(_entities.size(), ' entities found at ', _map.uuid)
-		var _starting_position = Vector2i(-1, -1)
-		for _entity in _entities:
-			if _entity.destination:
-				_starting_position = _entity.location.position
-				if entity.location:
-					_entity.destination.erase('prefab')
-					_entity.destination['map'] = entity.location.map
-					_entity.destination['position'] = entity.location.position
-				break
-		destination = {
-			'map': _map.uuid,
-			'position': _starting_position
-		}
-		if !_map:
-			return ActionResult.new(false)
-		
-	# Finally, take the entity to this destination
-	if destination.has('map'):
-		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
-		var _map = MapManager.maps[destination.map]
-		switch_map(_map, entity)
-		init_actors()
-		
-	return destination
-	
-
 func get_collisions_line(position1: Vector2i, position2: Vector2i):
 	var line = Coords.get_point_line(position1, position2)
 	# print('line ', line)
