@@ -43,7 +43,7 @@ func _init(_data := {}) -> void:
 
 
 func init_prefab() -> void:
-	print('Initializing prefab')
+	print('Initializing prefab: ', prefab)
 	if is_loaded:
 		print('Bailing because this map is loaded already')
 		return

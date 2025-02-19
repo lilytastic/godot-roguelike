@@ -25,7 +25,8 @@ position = Vector2(74, 63)
 metadata/blueprint = "staircase"
 metadata/props = {
 "destination": {
-"prefab": "fort1"
+"branch": "privateers_hideout",
+"depth": 1
 }
 }
 

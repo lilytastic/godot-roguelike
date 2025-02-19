@@ -17,6 +17,14 @@ var navigation_map:
 
 var is_switching = false
 
+var map_definitions = {
+	'privateers_hideout': {
+		'max_depth': 3,
+		'encounters': [ 'ghoul' ],
+		'prefabs': [ 'fort1' ]
+	}
+}
+
 var tile_data = {
 	'void': {
 		'atlas_coords': Vector2(0, 0)
@@ -103,6 +111,12 @@ func add(_map: Map) -> Map:
 
 func create_map(data := {}) -> Map:
 	var prefab = data.get('prefab', 'test')
+	
+	var _map_definition = map_definitions.get(data.get('branch', ''), null)
+	print(_map_definition)
+	if _map_definition:
+		prefab = _map_definition.prefabs.pick_random()
+		print('set prefab to ', prefab)
 
 	if !prefab:
 		print('no prefab found; not creating map')
@@ -111,6 +125,7 @@ func create_map(data := {}) -> Map:
 	data['include_entities'] = true
 	var _map = await Map.new(data)
 	maps[_map.uuid] = _map
+	_map.prefab = prefab
 	
 	await _map.init_prefab()
 
@@ -191,9 +206,10 @@ func teleport(destination: Dictionary, entity: Entity):
 	print('teleport to: ', destination)
 	if destination.has('map'):
 		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
-		var _map = MapManager.maps[destination.map]
+		var _map = maps[destination.map]
 		switch_map(_map, entity)
 		init_actors()
+
 
 func resolve_destination(destination: Dictionary, entity: Entity):
 	var _destination = destination
@@ -213,14 +229,14 @@ func resolve_destination(destination: Dictionary, entity: Entity):
 func assign_destination(destination: Dictionary):
 	var _destination = destination
 	if _destination.has('prefab'):
-		for _map in MapManager.maps.values():
+		for _map in maps.values():
 			if _map and _map.prefab == _destination['prefab']:
 				_destination['map'] = _map.uuid
 	return _destination
 	
 
 func create_destination(destination: Dictionary, entity: Entity = null) -> Dictionary:
-	var _map = await MapManager.create_map(destination)
+	var _map = await create_map(destination)
 	var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
 	var _starting_position = Vector2i(-1, -1)
 	for _entity in _entities:
