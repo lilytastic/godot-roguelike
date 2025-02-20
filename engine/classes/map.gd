@@ -9,6 +9,7 @@ var seed = 0
 var depth = 0
 var branch = ''
 var prefab = ''
+var connections := []
 var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
 var default_tile = 'void'
@@ -31,6 +32,7 @@ func _init(_data := {}) -> void:
 	data = _data
 	uuid = data.get('uuid', uuid_util.v4())
 	prefab = data.get('prefab', 'test')
+	connections = data.get('connections', [])
 	branch = data.get('branch', '')
 	depth = data.get('depth', 0)
 	
@@ -73,7 +75,6 @@ func init_prefab() -> void:
 		print('Add entities? ', include_entities)
 		
 		if include_entities:
-			print('Add entities! ', entities)
 			for entity in entities:
 				entity.location.map = uuid
 				entity.energy -= 1.0

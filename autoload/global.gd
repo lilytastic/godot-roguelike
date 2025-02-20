@@ -50,7 +50,7 @@ func new_game() -> Entity:
 	var starting_map = await MapManager.resolve_destination({
 		'worldspace': 'domino',
 		'cell': Vector2i(0, 0),
-		'connections': [{'prefab': 'test'}]
+		'connections': [{'branch': 'privateers_hideout', 'depth': 1 }]
 	}, player)
 	MapManager.teleport(starting_map, player)
 	print('created starting_map: ', starting_map)

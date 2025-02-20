@@ -19,22 +19,26 @@ var is_switching = false
 
 var map_definitions = {
 	'wilderness': {
-		'is_interior': false
+		'is_interior': false,
+		'prefabs': [ 'test' ]
+	},
+	'dungeon': {
+		'is_interior': true
 	},
 	'cave': {
-		'is_interior': true
+		'parent': 'dungeon'
 	},
 	'mine': {
-		'is_interior': true
+		'parent': 'dungeon'
 	},
 	'fort': {
-		'is_interior': true
+		'parent': 'dungeon'
 	},
 	'ruin': {
-		'is_interior': true
+		'parent': 'dungeon'
 	},
 	'tomb': {
-		'is_interior': true,
+		'parent': 'dungeon',
 		'encounters': [ 'ghoul' ],
 		'prefabs': [ 'fort1' ]
 	},
@@ -148,9 +152,11 @@ func create_map(data := {}) -> Map:
 		return null
 
 	data['include_entities'] = true
+	print('Creating map with data: ', data)
 	var _map = await Map.new(data)
 	maps[_map.uuid] = _map
 	_map.prefab = prefab
+	_map.connections = data.get('connections', [])
 	_map.branch = data.get('branch', '')
 	_map.depth = data.get('depth', 1)
 	
@@ -184,14 +190,18 @@ func switch_map(_map: Map, entity: Entity):
 	print('Switched to map: ', current_map.name, ' (', current_map.uuid, ')')
 	print('size: ', current_map.size)
 
-	init_actors()
+	await init_actors()
+	
+	await Global.sleep(1)
 
 	if !entity.location or entity.location.map != _map.uuid:
-		var starting_location = Vector2i(-1, -1)
+		var starting_location = _map.walkable_tiles.pick_random()
+		print('looking for a starting location...')
 		for actor in actors.values():
-			if actor.destination:
+			if actor.blueprint.id == 'staircase' or actor.destination:
+				print('staircase found: ', actor.location.position)
 				starting_location = Vector2i(actor.location.position)
-		entity.location = Location.new(_map.uuid, starting_location if starting_location != Vector2i(-1, -1) else _map.walkable_tiles.pick_random())
+		entity.location = Location.new(_map.uuid, starting_location)
 
 	if !actors.has(entity.uuid):
 		actors[entity.uuid] = entity
@@ -232,10 +242,11 @@ func init_actors():
 func teleport(destination: Dictionary, entity: Entity):
 	print('teleport to: ', destination)
 	if destination.has('map'):
-		entity.location = Location.new(destination.map, Global.string_to_vector(destination.position))
 		var _map = maps[destination.map]
 		switch_map(_map, entity)
-		init_actors()
+		if destination.has('position'):
+			var _position = Global.string_to_vector(destination.position)
+			entity.location = Location.new(destination.map, _position)
 
 
 func resolve_destination(destination: Dictionary, entity: Entity):
@@ -269,11 +280,13 @@ func assign_destination(destination: Dictionary):
 	
 
 func create_destination(destination: Dictionary, entity: Entity = null) -> Dictionary:
+	if !destination.has('connections'):
+		destination['connections'] = [{ 'map': entity.location.map, 'position': entity.location.position }]
 	var _map = await create_map(destination)
 	var _entities = ECS.entities.values().filter(func(e): return e.location and e.location.map == _map.uuid)
 	var _starting_position = Vector2i(-1, -1)
 	for _entity in _entities:
-		if _entity.destination:
+		if _entity.destination or _entity.blueprint.id == 'staircase':
 			_starting_position = _entity.location.position
 			if entity and entity.location and !_entity.destination.has('position'):
 				# Directly link this portal to wherever the teleported entity is
