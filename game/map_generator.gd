@@ -100,10 +100,21 @@ func _add_entities(data := {}):
 	
 	if _exits.size() > i:
 		# Utilize additional exits!
+		var _exit = _exits[i]
+		var random_tile = _exit.cells.pick_random()
+		var new_entity = Entity.new({ 'blueprint': 'staircase' })
+		new_entity.location = Location.new('', random_tile)
+		new_entity.equipment = EquipmentProps.new({})
+		new_entity.destination = { 'branch': data.get('branch', ''), 'depth': data.get('depth', 0) + 1 }
+		print('(2) linked an exit to: ', new_entity.destination)
+		entities.append(new_entity)
+		i += 1
 		pass
 
 	# await _connect_isolated_rooms(target_layer)
-	for feature in features.filter(func(f): return f is Room):
+	var _features = features
+	_features.shuffle()
+	for feature in _features.filter(func(f): return f is Room).slice(0, 20):
 		var random_tile = feature.cells.pick_random()
 		var new_entity = Entity.new({ 'blueprint': 'ghoul' })
 		new_entity.location = Location.new('', random_tile)
