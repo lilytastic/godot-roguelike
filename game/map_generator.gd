@@ -98,18 +98,20 @@ func _add_entities(data := {}):
 		entities.append(new_entity)
 		i += 1
 	
+	var map_definition = MapManager.map_definitions.get(data.get('branch', ''), null)
 	if _exits.size() > i:
 		# Utilize additional exits!
 		var _exit = _exits[i]
-		var random_tile = _exit.cells.pick_random()
-		var new_entity = Entity.new({ 'blueprint': 'staircase' })
-		new_entity.location = Location.new('', random_tile)
-		new_entity.equipment = EquipmentProps.new({})
-		new_entity.destination = { 'branch': data.get('branch', ''), 'depth': data.get('depth', 0) + 1 }
-		print('(2) linked an exit to: ', new_entity.destination)
-		entities.append(new_entity)
-		i += 1
-		pass
+		if map_definition and map_definition.max_depth > data.get('depth', 0):
+			var random_tile = _exit.cells.pick_random()
+			var new_entity = Entity.new({ 'blueprint': 'staircase' })
+			new_entity.location = Location.new('', random_tile)
+			new_entity.equipment = EquipmentProps.new({})
+			new_entity.destination = { 'branch': data.get('branch', ''), 'depth': data.get('depth', 0) + 1 }
+			print('(2) linked an exit to: ', new_entity.destination)
+			entities.append(new_entity)
+			i += 1
+			pass
 
 	# await _connect_isolated_rooms(target_layer)
 	var _features = features
