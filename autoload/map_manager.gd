@@ -18,11 +18,30 @@ var navigation_map:
 var is_switching = false
 
 var map_definitions = {
-	'privateers_hideout': {
-		'name': "Privateer's Hideout",
-		'max_depth': 3,
+	'wilderness': {
+		'is_interior': false
+	},
+	'cave': {
+		'is_interior': true
+	},
+	'mine': {
+		'is_interior': true
+	},
+	'fort': {
+		'is_interior': true
+	},
+	'ruin': {
+		'is_interior': true
+	},
+	'tomb': {
+		'is_interior': true,
 		'encounters': [ 'ghoul' ],
 		'prefabs': [ 'fort1' ]
+	},
+	'privateers_hideout': {
+		'name': "Thief's Hideout",
+		'parent': 'tomb',
+		'max_depth': 3,
 	}
 }
 
@@ -67,6 +86,11 @@ signal actors_changed
 
 
 func _ready() -> void:
+	for key in map_definitions:
+		var def = map_definitions.get(key, {});
+		if def.has('parent'):
+			map_definitions[key].merge(map_definitions.get(def.parent, {}), true)
+
 	update_navigation()
 	ECS.entity_added.connect(
 		func(entity: Entity):
@@ -226,6 +250,7 @@ func resolve_destination(destination: Dictionary, entity: Entity):
 	if !_destination.has('map'):
 		_destination = await create_destination(_destination, entity)
 
+	print('resolved destination: ', destination, ' as ', _destination)
 	return _destination
 
 

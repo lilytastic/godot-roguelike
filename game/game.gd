@@ -25,10 +25,11 @@ func _ready() -> void:
 func _process(delta):
 	_update_camera(delta)
 	
-	if Global.player and Global.player.health:
-		%HealthMeter.value = Global.player.health.current
-		%HealthMeter.max = Global.player.health.max
-		%HealthMeter.label = str(Global.player.health.current)
+	if Global.player:
+		if Global.player.health:
+			%HealthMeter.value = Global.player.health.current
+			%HealthMeter.max = Global.player.health.max
+			%HealthMeter.label = str(Global.player.health.current)
 
 	PlayerInput._update_mouse_position()
 	

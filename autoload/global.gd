@@ -39,10 +39,17 @@ func new_game() -> Entity:
 	player.equipment.equip(ECS.create({ 'blueprint': 'sword' }))
 	player_changed.emit(player)
 	ECS.add(player)
-
+	
+	"""
 	var starting_map = await MapManager.resolve_destination({
 		'branch': 'privateers_hideout',
 		'depth': 1,
+		'connections': [{'prefab': 'test'}]
+	}, player)
+	"""
+	var starting_map = await MapManager.resolve_destination({
+		'worldspace': 'domino',
+		'cell': Vector2i(0, 0),
 		'connections': [{'prefab': 'test'}]
 	}, player)
 	MapManager.teleport(starting_map, player)

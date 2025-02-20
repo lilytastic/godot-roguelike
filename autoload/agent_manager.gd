@@ -8,6 +8,11 @@ func _process(delta):
 	
 	if !player:
 		return
+		
+	if !player.health or player.health.current <= 0:
+		# You are dead.
+		pass
+
 	if next_actor != null and !next_actor.is_acting:
 		var result = await take_turn(next_actor)
 		if !result:
