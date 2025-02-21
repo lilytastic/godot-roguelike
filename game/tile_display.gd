@@ -16,7 +16,7 @@ func _ready() -> void:
 	
 	Global.player.action_performed.connect(
 		func(action, result):
-			await Global.sleep(1)
+			await Global.sleep(100)
 			update_tiles()
 	)
 	
@@ -31,6 +31,7 @@ func _ready() -> void:
 func _process(delta):
 	if Global.player and Global.player.location and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
+		await Global.sleep(100)
 		update_tiles()
 	render(delta)
 

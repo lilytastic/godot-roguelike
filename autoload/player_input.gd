@@ -14,7 +14,8 @@ var mouse_position_in_world := Vector2i(0,0)
 var mouse_in_window = true
 var targeting = Targeting.new()
 
-var overlay_opacity := 0.0
+var overlay_opacity := 0.00
+var camera_shake := Vector2(0,0)
 
 signal action_triggered
 signal ui_action_triggered
@@ -22,6 +23,8 @@ signal double_click
 
 func _process(delta) -> void:
 	_update_cursor()
+	
+	camera_shake = camera_shake.lerp(Vector2.ZERO, delta * 8)
 	
 	var desired_opacity = 0.0 if !MapManager.is_switching else 1.0
 	overlay_opacity = lerp(overlay_opacity, desired_opacity, delta * 3.0)
