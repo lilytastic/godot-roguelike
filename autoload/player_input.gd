@@ -24,7 +24,7 @@ signal double_click
 func _process(delta) -> void:
 	_update_cursor()
 	
-	camera_shake = camera_shake.lerp(Vector2.ZERO, delta * 30)
+	camera_shake = camera_shake.lerp(Vector2.ZERO, delta * 20)
 	
 	var desired_opacity = 0.0 if !MapManager.is_switching else 1.0
 	overlay_opacity = lerp(overlay_opacity, desired_opacity, delta * 3.0)

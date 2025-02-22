@@ -80,11 +80,12 @@ func _update_camera(delta):
 		
 		var camera_shake = PlayerInput.camera_shake
 		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
+		var randomized = Vector2(randf_range(-camera_shake.length(), camera_shake.length()), randf_range(-camera_shake.length(), camera_shake.length()))
 		$Camera2D.position = lerp(
 			$Camera2D.position,
 			_camera_position,
 			delta * camera_speed
-		) + camera_shake # Vector2(randf_range(-camera_shake.x, camera_shake.x), randf_range(-camera_shake.y, camera_shake.y))
+		) + (camera_shake + randomized)
 
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 
