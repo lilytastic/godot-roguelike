@@ -26,7 +26,7 @@ bg_color = Color(0.023291, 0.000702083, 0.0851246, 1)
 [resource]
 default_base_scale = 1.0
 default_font = ExtResource("1_1vgjk")
-default_font_size = 8
+default_font_size = 6
 TabBar/constants/h_separation = 1
 TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_eaolf")
 TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_eol5m")

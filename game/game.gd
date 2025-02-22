@@ -50,6 +50,14 @@ func _input(event: InputEvent) -> void:
 		Global.ui_visible = %SystemMenu.isMenuOpen
 	else:
 		Global.ui_visible = false
+	
+	var camera = get_viewport().get_camera_2d()
+	if event.is_action_pressed('zoom_out'):
+		if camera.zoom.x > 0:
+			camera.zoom -= Vector2.ONE
+	if event.is_action_pressed('zoom_in'):
+		if camera.zoom.x < 3:
+			camera.zoom += Vector2.ONE
 
 
 func _update_camera(delta):
