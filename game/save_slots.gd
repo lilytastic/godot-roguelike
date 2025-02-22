@@ -1,11 +1,25 @@
-extends VBoxContainer
+extends ScrollContainer
 
+@export var list: Container
 const slot_scene = preload('res://game/save_slot.tscn')
 var mode := 'load'
 
 signal slot_pressed
 
+func _ready() -> void:
+	if !list:
+		return
+	for dict in Global.get_save_slots():
+		_create_slot(dict.path, dict.type)
+
+
 func _init() -> void:
+	if !list:
+		return
+		
+	for child in list.get_children():
+		child.queue_free()
+		
 	for dict in Global.get_save_slots():
 		_create_slot(dict.path, dict.type)
 
@@ -15,7 +29,7 @@ func _create_slot(path: String, type: String):
 	slot.slot_type = type
 	slot.path = path
 	slot.slot_clicked.connect(func(path: String): _select(path, type))
-	add_child(slot)
+	list.add_child(slot)
 	return slot
 
 

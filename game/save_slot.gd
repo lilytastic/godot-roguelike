@@ -35,15 +35,16 @@ func _load():
 				return entity['uuid'] == data.player
 		)[0]
 		var current_map = data.maps.maps[data.maps.maps.find(func(x): x.uuid == player_entity.map)]
-		%TopLeft.text = ('%s - ' % current_map.name if current_map else '<Unknown Map>') + slot_type
+		%TopLeft.text = current_map.name if current_map else '<Unknown Map>'
+		%TopRight.text = slot_type.capitalize()
 		if data.has('date_modified'):
 			var dict = Time.get_datetime_dict_from_datetime_string(data.date_modified, false)
 			var minute = str(dict.minute) if dict.minute >= 10 else ('0'+str(dict.minute))
 			var day = str(dict.day) if dict.day >= 10 else ('0'+str(dict.day))
-			var date = str(dict.month) + '/' + day + '/' + str(dict.year) + ' ' + str(dict.hour) + ':' + minute
-			%BottomRight.text = '[right]%s[/right]' % date
+			var date = str(dict.month) + '/' + day + '/' + str(dict.year) + ' ' + str(dict.hour)+ ':' + minute
+			%BottomRight.text = date
 	else:
-		%Center.text = '[center]No data[/center]'
+		%Center.text = 'No data'
 
 func round_place(num,places):
 	return (round(num*pow(10,places))/pow(10,places))

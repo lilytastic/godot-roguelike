@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://kv6mv8j4a7yc"]
+[gd_scene load_steps=7 format=3 uid="uid://kv6mv8j4a7yc"]
 
-[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="1_4cwgy"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e060e"]
 [ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://themes/display.tres" id="1_inosm"]
 [ext_resource type="Script" path="res://game/aside_menu.gd" id="1_x6mru"]
@@ -128,29 +127,27 @@ flat = true
 
 [node name="SaveSlotWrapper" type="Panel" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_4cwgy")
 theme_override_styles/panel = SubResource("StyleBoxFlat_yteaq")
 
 [node name="SaveSlots" parent="SaveSlotWrapper" instance=ExtResource("4_dypj6")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 7
 anchor_left = 0.5
-anchor_right = 0.504
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -185.0
-offset_top = 60.0
-offset_right = 181.44
-offset_bottom = -30.0
+offset_left = -150.0
+offset_top = -240.0
+offset_right = 150.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="SaveSlotsLabel" type="RichTextLabel" parent="SaveSlotWrapper"]
 unique_name_in_owner = true
@@ -163,7 +160,6 @@ offset_top = 11.0
 offset_right = 114.0
 offset_bottom = 42.0
 grow_horizontal = 2
-theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "[center]Save Game[/center]"
 fit_content = true

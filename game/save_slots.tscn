@@ -1,15 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://uo48yikfpeo8"]
+[gd_scene load_steps=5 format=3 uid="uid://uo48yikfpeo8"]
 
 [ext_resource type="PackedScene" uid="uid://hdb51gogs12" path="res://game/save_slot.tscn" id="1_0pvvu"]
 [ext_resource type="Script" path="res://game/save_slots.gd" id="1_hh1h5"]
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_pkl1c"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_upepq"]
+content_margin_bottom = 32.0
+
+[node name="ScrollContainer" type="ScrollContainer" node_paths=PackedStringArray("list")]
+custom_minimum_size = Vector2(0, 200)
 offset_right = 200.0
-offset_bottom = 300.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_upepq")
+script = ExtResource("1_hh1h5")
+list = NodePath("ListContainer")
+
+[node name="ListContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1_hh1h5")
+theme = ExtResource("1_pkl1c")
 
-[node name="Button" parent="." instance=ExtResource("1_0pvvu")]
+[node name="Button" parent="ListContainer" instance=ExtResource("1_0pvvu")]
 visible = false
 layout_mode = 2
