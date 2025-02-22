@@ -15,7 +15,7 @@ func _ready():
 func _process(delta):
 	life += delta
 	var camera = get_viewport().get_camera_2d()
-	var mod = Vector2.ZERO;
+	var mod = Vector2.ZERO
 	if last_camera_position:
 		pass # mod = camera.position - last_camera_position
 	position = position.lerp(initial_position + Vector2(0, -16), delta * 8 * camera.zoom.length()) + mod

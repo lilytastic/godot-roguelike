@@ -8,7 +8,7 @@
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2wf1"]
-bg_color = Color(0.308, 0.77, 0.7238, 0.772549)
+bg_color = Color(0.86, 0.86, 0.86, 0.784314)
 
 [node name="Button" type="Button"]
 offset_right = 32.0
