@@ -1,9 +1,8 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cqfyqanbgls4b"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cqfyqanbgls4b"]
 
-[ext_resource type="FontFile" uid="uid://n4fvr3m43tpv" path="res://assets/fonts/CinzelDecorative/CinzelDecorative-Black.ttf" id="1_nfxej"]
+[ext_resource type="FontFile" uid="uid://bpqyjjs05qqgh" path="res://assets/fonts/m42flight721/m42.TTF" id="1_k7xh2"]
 [ext_resource type="FontFile" uid="uid://nhso3cwdhman" path="res://assets/fonts/IbarraRealNova/IbarraRealNova-BoldItalic.ttf" id="2_a2fmr"]
 [ext_resource type="FontFile" uid="uid://dwr5p240wso2o" path="res://assets/fonts/IbarraRealNova/IbarraRealNova-Italic.ttf" id="3_pbgs0"]
-[ext_resource type="FontFile" uid="uid://hjawhkfkoakm" path="res://assets/fonts/IbarraRealNova/IbarraRealNova-Regular.ttf" id="4_edd5y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5v8rt"]
 content_margin_left = 4.0
@@ -50,14 +49,14 @@ RichTextLabel/constants/table_h_separation = 3
 RichTextLabel/constants/table_v_separation = 3
 RichTextLabel/constants/text_highlight_h_padding = 3
 RichTextLabel/constants/text_highlight_v_padding = 3
-RichTextLabel/font_sizes/bold_font_size = 14
+RichTextLabel/font_sizes/bold_font_size = 12
 RichTextLabel/font_sizes/bold_italics_font_size = 14
 RichTextLabel/font_sizes/italics_font_size = 14
 RichTextLabel/font_sizes/mono_font_size = 14
 RichTextLabel/font_sizes/normal_font_size = 14
-RichTextLabel/fonts/bold_font = ExtResource("1_nfxej")
+RichTextLabel/fonts/bold_font = ExtResource("1_k7xh2")
 RichTextLabel/fonts/bold_italics_font = ExtResource("2_a2fmr")
 RichTextLabel/fonts/italics_font = ExtResource("3_pbgs0")
-RichTextLabel/fonts/normal_font = ExtResource("4_edd5y")
+RichTextLabel/fonts/normal_font = ExtResource("1_k7xh2")
 RichTextLabel/styles/focus = SubResource("StyleBoxFlat_5v8rt")
 RichTextLabel/styles/normal = SubResource("StyleBoxEmpty_c7asn")

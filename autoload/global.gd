@@ -75,7 +75,7 @@ func quicksave():
 	
 func get_save_slots() -> Array[Dictionary]:
 	var arr: Array[Dictionary] = [
-		{'path': 'user://%s.save' % 'quicksave', 'type': 'quicksave'},
+		# {'path': 'user://%s.save' % 'quicksave', 'type': 'quicksave'},
 		{'path': 'user://%s.save' % 'autosave', 'type': 'autosave'}
 	]
 	for n in 3:

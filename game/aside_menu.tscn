@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://kv6mv8j4a7yc"]
+[gd_scene load_steps=8 format=3 uid="uid://kv6mv8j4a7yc"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e060e"]
 [ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://themes/display.tres" id="1_inosm"]
 [ext_resource type="Script" path="res://game/aside_menu.gd" id="1_x6mru"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="4_dypj6"]
+[ext_resource type="FontFile" uid="uid://bpqyjjs05qqgh" path="res://assets/fonts/m42flight721/m42.TTF" id="4_x77hr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvv64"]
 bg_color = Color(0.058, 0.0699, 0.1, 1)
@@ -32,24 +33,25 @@ offset_right = 123.96
 offset_bottom = -11.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wvv64")
 
-[node name="Title" type="RichTextLabel" parent="Panel"]
+[node name="Title" type="Label" parent="Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.25
 anchor_right = 1.0
 anchor_bottom = 0.25
-offset_left = -26.0
-offset_top = -36.5
-offset_right = 26.0
-offset_bottom = -3.5
+offset_left = -30.24
+offset_top = -42.0
+offset_right = 29.76
+offset_bottom = -9.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_inosm")
 theme_override_constants/shadow_outline_size = 20
-theme_override_font_sizes/bold_font_size = 24
-bbcode_enabled = true
-text = "[center][b]CrossRoadS[/b][/center]"
-fit_content = true
+theme_override_fonts/font = ExtResource("4_x77hr")
+theme_override_font_sizes/font_size = 12
+text = "CROSSROADS"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
@@ -58,9 +60,9 @@ anchor_top = 0.595
 anchor_right = 1.0
 anchor_bottom = 0.595
 offset_left = 7.76
-offset_top = -98.56
+offset_top = -107.56
 offset_right = -8.23999
-offset_bottom = 109.44
+offset_bottom = 100.44
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -127,6 +129,7 @@ flat = true
 
 [node name="SaveSlotWrapper" type="Panel" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

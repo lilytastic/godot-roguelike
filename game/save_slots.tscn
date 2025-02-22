@@ -5,7 +5,6 @@
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_pkl1c"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_upepq"]
-content_margin_bottom = 32.0
 
 [node name="ScrollContainer" type="ScrollContainer" node_paths=PackedStringArray("list")]
 custom_minimum_size = Vector2(0, 200)
