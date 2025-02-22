@@ -15,6 +15,12 @@ func perform(entity: Entity) -> ActionResult:
 	if !target:
 		print('no target')
 		return ActionResult.new(false)
+
+	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
+	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1
+	if weapon_props and distance > weapon_props.range:
+		# Too far!
+		return ActionResult.new(false)
 		
 	var vec = entity.location.position.direction_to(target.location.position)
 	
@@ -39,7 +45,6 @@ func perform(entity: Entity) -> ActionResult:
 	for effect in ability.effects:
 		match effect.type:
 			'damage':
-				var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 				var damageRange = weapon_props.damage if weapon_props else [5, 5]
 				var damage = round(randf_range(damageRange[0], damageRange[1]) * effect.potency)
 				target.damage({ 'damage': damage, 'source': entity })
