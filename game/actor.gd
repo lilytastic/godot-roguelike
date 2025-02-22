@@ -144,6 +144,8 @@ func die():
 	if is_dying:
 		return
 	is_dying = true
+	if PlayerInput.targeting.current_target == entity.uuid:
+		PlayerInput.targeting.clear_targeting()
 	await Global.sleep(400)
 	destroyed.emit()
 	queue_free()
