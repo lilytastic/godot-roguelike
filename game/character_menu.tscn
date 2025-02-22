@@ -4,8 +4,8 @@
 [ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjchh"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c7vui"]
+bg_color = Color(0.0130667, 0.007, 0.02, 0.568627)
 
 [node name="CharacterMenu" type="Panel"]
 anchors_preset = 15
@@ -16,7 +16,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 theme = ExtResource("1_5t1bb")
-theme_override_styles/panel = SubResource("StyleBoxFlat_hjchh")
+theme_override_styles/panel = SubResource("StyleBoxFlat_c7vui")
 script = ExtResource("2_mm07u")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]

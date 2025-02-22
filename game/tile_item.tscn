@@ -8,18 +8,15 @@ content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(0, 0, 0, 0.235294)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+bg_color = Color(0.06, 0.06, 0.06, 0.494118)
+corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3rxi"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(0.0130515, 0.0110748, 0.0398365, 0.235294)
+bg_color = Color(0.01312, 0.0112, 0.04, 0.576471)
 corner_detail = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_skahh"]

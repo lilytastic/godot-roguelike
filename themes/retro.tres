@@ -1,7 +1,34 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bipr4bw2pcbw6"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bipr4bw2pcbw6"]
 
 [ext_resource type="FontFile" uid="uid://b2aiyqpwxyvf4" path="res://assets/fonts/DOS/Px437_IBM_Conv.ttf" id="1_p2xom"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eaolf"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eol5m"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.0117647, 0.00784314, 0.0196078, 0.568627)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buksi"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.15, 0.15, 0.15, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_miqxh"]
+bg_color = Color(0.15, 0.15, 0.15, 1)
+
 [resource]
+default_base_scale = 1.0
 default_font = ExtResource("1_p2xom")
 default_font_size = 8
+TabBar/constants/h_separation = 1
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_eaolf")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_eol5m")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_buksi")
+TabContainer/styles/tabbar_background = SubResource("StyleBoxFlat_miqxh")
