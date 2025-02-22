@@ -1,45 +1,65 @@
 [gd_scene load_steps=5 format=3 uid="uid://d32kgngy6fe6u"]
 
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_3ipdt"]
 [ext_resource type="Script" path="res://game/meter.gd" id="1_hoxj6"]
-[ext_resource type="FontFile" uid="uid://dvhdrlkkngd7h" path="res://assets/fonts/NoticiaText/NoticiaText-Bold.ttf" id="2_1v1do"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sltbr"]
-bg_color = Color(0.223111, 0.0442096, 0.0839923, 1)
-anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gs34n"]
-bg_color = Color(0.696684, 0, 0.0962609, 1)
+bg_color = Color(0.421731, 0.421731, 0.421731, 1)
+corner_detail = 1
 
-[node name="Meter" type="Panel"]
-clip_children = 2
-offset_right = 48.0
-offset_bottom = 24.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_sltbr")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xwon"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 12.0
+size_flags_horizontal = 3
+theme = ExtResource("1_3ipdt")
 script = ExtResource("1_hoxj6")
 
-[node name="Fill" type="Panel" parent="."]
+[node name="Meter" type="Control" parent="."]
 unique_name_in_owner = true
+clip_children = 2
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Background" type="Panel" parent="Meter"]
+unique_name_in_owner = true
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gs34n")
+
+[node name="Fill" type="Panel" parent="Meter"]
+unique_name_in_owner = true
+z_index = 1
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_right = 24.0
+offset_right = 2.0
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gs34n")
+theme_override_styles/panel = SubResource("StyleBoxFlat_8xwon")
 
 [node name="Label" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 1.0
-offset_top = -12.0
-offset_right = 1.0
-offset_bottom = 11.0
+offset_bottom = 8.0
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/normal_font = ExtResource("2_1v1do")
+theme_override_constants/outline_size = 2
 bbcode_enabled = true
-text = "[center]50[/center]"
+text = "50"
 fit_content = true

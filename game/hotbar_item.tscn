@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://bmte80igv5w4l"]
+
+[ext_resource type="FontFile" uid="uid://dvhdrlkkngd7h" path="res://assets/fonts/NoticiaText/NoticiaText-Bold.ttf" id="1_f66qx"]
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_lc0ff"]
+[ext_resource type="Script" path="res://game/hotbar_item.gd" id="2_vqoxc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66lkw"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2wf1"]
+bg_color = Color(0.308, 0.77, 0.7238, 0.772549)
+
+[node name="Button" type="Button"]
+offset_right = 32.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_lc0ff")
+theme_override_fonts/font = ExtResource("1_f66qx")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_66lkw")
+text = "
+"
+script = ExtResource("2_vqoxc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_y2wf1")
+
+[node name="Hotkey" type="Label" parent="VBoxContainer/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -10.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.0144, 0.08656, 0.12, 0.772549)
+text = "1"
+horizontal_alignment = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.113049, 0.113049, 0.113049, 1)
+horizontal_alignment = 1
+vertical_alignment = 1

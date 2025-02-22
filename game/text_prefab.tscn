@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://cn6uxrnuo8dka"]
 
-[ext_resource type="FontFile" uid="uid://cg5ii4lfwe4f" path="res://assets/fonts/Onest/static/Onest-Black.ttf" id="1_pnb5b"]
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e2nku"]
 [ext_resource type="Script" path="res://game/floating_text_label.gd" id="2_8j3t5"]
 
-[node name="TextPrefab" type="RichTextLabel"]
+[node name="TextPrefab" type="Label"]
 custom_minimum_size = Vector2(100, 0)
 anchors_preset = 8
 anchor_left = 0.5
@@ -18,13 +18,10 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(50, 18)
 size_flags_horizontal = 4
-size_flags_vertical = 4
+theme = ExtResource("1_e2nku")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/normal_font = ExtResource("1_pnb5b")
-theme_override_font_sizes/normal_font_size = 28
-bbcode_enabled = true
+theme_override_constants/outline_size = 5
 text = "Text"
-fit_content = true
-scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource("2_8j3t5")

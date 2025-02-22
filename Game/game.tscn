@@ -1,6 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=14 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="2_ittis"]
+[ext_resource type="PackedScene" uid="uid://bmte80igv5w4l" path="res://game/hotbar_item.tscn" id="3_yxi8w"]
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://dqasfn61u6sl5" path="res://game/character_menu.tscn" id="6_8exhv"]
 [ext_resource type="Script" path="res://game/floating_text.gd" id="6_qudki"]
@@ -8,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://be05y3swrshiq" path="res://game/cursor.tscn" id="7_2s5nd"]
 [ext_resource type="PackedScene" uid="uid://d32kgngy6fe6u" path="res://game/meter.tscn" id="7_5uobx"]
 [ext_resource type="Script" path="res://engine/classes/scene_view.gd" id="7_mvjgg"]
-[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="9_o4gab"]
+[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="9_o4gab"]
 [ext_resource type="Script" path="res://game/tile_display.gd" id="9_ytsw5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826o3"]
@@ -20,21 +22,86 @@ script = ExtResource("1_4nfvf")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 
-[node name="HealthMeter" parent="CanvasLayer" instance=ExtResource("7_5uobx")]
-unique_name_in_owner = true
+[node name="VFlowContainer" type="VBoxContainer" parent="CanvasLayer"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -47.0
-offset_top = -36.0
-offset_right = 53.0
-offset_bottom = -12.0
+offset_left = -135.0
+offset_top = -57.0
+offset_right = 165.0
+offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 3
+theme = ExtResource("2_ittis")
+theme_override_constants/separation = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VFlowContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="HealthMeter" parent="CanvasLayer/VFlowContainer/HBoxContainer" instance=ExtResource("7_5uobx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.85, 0.1275, 0.223833, 1)
+
+[node name="FocusMeter" parent="CanvasLayer/VFlowContainer/HBoxContainer" instance=ExtResource("7_5uobx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_stretch_ratio = 0.74
+label = "0"
+color = Color(0.88, 0.64504, 0.0968, 1)
+
+[node name="HFlowContainer" type="HBoxContainer" parent="CanvasLayer/VFlowContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HotbarItem" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_stretch_ratio = 2.0
+hotkey = "1"
+
+[node name="HotbarItem2" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+size_flags_stretch_ratio = 2.0
+hotkey = "2"
+
+[node name="HotbarItem3" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "3"
+
+[node name="HotbarItem4" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "4"
+
+[node name="HotbarItem5" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "5"
+
+[node name="HotbarItem6" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "6"
+
+[node name="HotbarItem7" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "7"
+
+[node name="HotbarItem8" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "8"
+
+[node name="HotbarItem9" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "9"
+
+[node name="HotbarItem10" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+layout_mode = 2
+hotkey = "0"
 
 [node name="BlackOverlay" type="Panel" parent="CanvasLayer"]
 unique_name_in_owner = true

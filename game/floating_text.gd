@@ -13,7 +13,7 @@ func add_text(text: String, position: Vector2, opts := {}):
 	add_child(prefab)
 	var pos = position + -prefab.size / 2
 	prefab.position = pos
-	prefab.text = '[center]' + text + '[/center]'
+	prefab.text = text
 	prefab.modulate = opts.get('color', Color.WHITE)
 	prefab._ready()
 	return prefab

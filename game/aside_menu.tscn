@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://kv6mv8j4a7yc"]
 
-[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="1_4cwgy"]
-[ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://display.tres" id="1_inosm"]
+[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="1_4cwgy"]
+[ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://themes/display.tres" id="1_inosm"]
 [ext_resource type="Script" path="res://game/aside_menu.gd" id="1_x6mru"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="4_dypj6"]
 

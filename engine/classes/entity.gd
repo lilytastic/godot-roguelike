@@ -149,15 +149,16 @@ func damage(opts: Dictionary):
 	if health:
 		health.deduct(damage)
 		var source = opts.get('source', null)
-		if source and (uuid == Global.player.uuid or source.uuid == Global.player.uuid):
-			PlayerInput.camera_shake += (location.position - source.location.position).normalized() * 6
+		health_changed.emit(-damage)
+		if source and (source.uuid == Global.player.uuid or uuid == Global.player.uuid):
+			PlayerInput.camera_shake = (source.location.position - location.position).normalized() * 3
 		if damage > 0:
+			await Global.sleep(150)
 			Global.add_floating_text(
 				str(damage),
-				screen_position,
-				{ 'color': Color.CRIMSON }
+				screen_position + Vector2.UP * 24,
+				{ 'color': Color('cc1f39') }
 			)
-		health_changed.emit(-damage)
 
 
 static func init_from_node(node: Node2D):

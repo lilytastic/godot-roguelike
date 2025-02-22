@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dqasfn61u6sl5"]
 
-[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://normal.tres" id="1_xhxxf"]
+[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="1_xhxxf"]
 [ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 

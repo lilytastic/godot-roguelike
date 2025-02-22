@@ -71,7 +71,7 @@
 		  "damage": [3, 8],
 		  "range": 1,
 		  "speed": 1.3,
-		  "weaponskills": [ "slash" ]
+		  "weaponskills": [ "slash", "crosscut" ]
 		},
 		"glyph": {
 		  "ch": "G_DAGGER",
@@ -115,7 +115,7 @@
 		  "damage": [8, 10],
 		  "range": 2,
 		  "speed": 0.8,
-		  "weaponskills": [ "slash" ],
+		  "weaponskills": [ "slash", "cleave" ],
 		},
 		"wearable": {
 		  "slot": "weapon",
