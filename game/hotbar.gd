@@ -1,11 +1,13 @@
 extends HBoxContainer
 
 func _ready():
-	var i = 0
+	var i = 1
 	for child in get_children():
 		if child is HotbarItem:
 			child.pressed.connect(func(): _on_click(i))
 		i += 1
+		if i > 9:
+			i = 0
 
 func _on_click(index: int):
 	print(index)
