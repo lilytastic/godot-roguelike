@@ -95,11 +95,15 @@ func get_default_action(entity: Entity, target: Entity) -> Action:
 func get_abilities(entity: Entity, target: Entity = null) -> Array[Dictionary]: 
 	var arr: Array[Dictionary] = []
 	if entity.equipment:
+		var covered := []
 		for uuid in entity.equipment.slots.values():
+			if covered.find(uuid) != -1:
+				continue
+			covered.append(uuid)
 			var worn_item = ECS.entity(uuid)
 			if worn_item.blueprint.weapon:
-				var ability = worn_item.blueprint.weapon.weaponskills[0]
-				arr.append({'ability': ability, 'conduit': worn_item})
+				for ability in worn_item.blueprint.weapon.weaponskills:
+					arr.append({'ability': ability, 'conduit': worn_item})
 	if arr.size() == 0:
 		arr.append({'ability': 'slash'})
 	return arr

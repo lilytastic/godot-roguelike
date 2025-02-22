@@ -67,6 +67,8 @@ static func get_atlas_region(_ch: String) -> Rect2:
 			rect = Rect2(27 * 16, 0 * 16, 16, 16)
 		'G_SLASH':
 			rect = Rect2(24 * 16, 11 * 16, 16, 16)
+		'G_CLEAVE':
+			rect = Rect2(25 * 16, 11 * 16, 16, 16)
 		'G_STRIKE':
 			rect = Rect2(31 * 16, 12 * 16, 16, 16)
 		'G_HUMAN':
