@@ -157,7 +157,7 @@ func damage(opts: Dictionary):
 			Global.add_floating_text(
 				str(damage),
 				screen_position + Vector2.UP * 16,
-				{ 'color': Color('cc1f39') }
+				{ 'color': Color('d92139') }
 			)
 
 

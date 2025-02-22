@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c7vui"]
-bg_color = Color(0.0299, 0.0582617, 0.13, 0.87451)
+bg_color = Color(0.0483, 0.0876683, 0.23, 0.827451)
 
 [node name="CharacterMenu" type="Panel"]
 anchors_preset = 15

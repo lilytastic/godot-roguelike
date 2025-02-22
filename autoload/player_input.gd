@@ -64,7 +64,11 @@ func _input(event: InputEvent) -> void:
 				Global.player.location.position,
 				Coords.get_coord(mouse_position_in_world)
 			))
-			_targeting.set_target_position(Coords.get_coord(mouse_position_in_world))
+			var _coord = Coords.get_coord(mouse_position_in_world)
+			if Vector2i(_targeting.target_position()) == _coord:
+				_targeting.clear_targeting()
+			else:
+				_targeting.set_target_position(_coord)
 
 			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
 				_targeting.current_target = entities_under_cursor[0].uuid
@@ -74,7 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_pressed() and Global.player:
-		targeting.clear()
+		# targeting.clear()
 		Global.player.targeting.clear()
 		
 	if event.is_action_pressed('quicksave'):
@@ -83,7 +87,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	var action := _check_for_action(event)
 	if action:
-		targeting.clear()
+		# targeting.clear()
 		action_triggered.emit(action)
 		if Scheduler.player_can_act:
 			await AgentManager.perform_action(Global.player, action)
