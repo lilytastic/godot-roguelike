@@ -28,7 +28,7 @@ func _process(delta) -> void:
 	camera_shake = camera_shake.lerp(Vector2.ZERO, delta * 20)
 	
 	var desired_opacity = 0.0 if !MapManager.is_switching else 1.0
-	overlay_opacity = lerp(overlay_opacity, desired_opacity, delta * 3.0)
+	overlay_opacity = lerp(overlay_opacity, desired_opacity, delta * 10.0)
 	
 	if Global.player and Global.player.location:
 		var _target_position = targeting.target_position()

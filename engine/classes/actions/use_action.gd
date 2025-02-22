@@ -26,8 +26,9 @@ func perform(entity: Entity) -> ActionResult:
 				if !target.destination:
 					return ActionResult.new(false)
 					
-				PlayerInput.overlay_opacity = 1.0
-				await Global.sleep(1)
+				entity.animation = null
+				MapManager.is_switching = true
+				await Global.sleep(500)
 
 				target.destination = await MapManager.resolve_destination(target.destination, entity)
 				MapManager.teleport(target.destination, entity)
