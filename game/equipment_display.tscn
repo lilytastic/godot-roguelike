@@ -41,7 +41,7 @@ layout_mode = 2
 slot = "ring2"
 
 [node name="PaperDoll" type="Control" parent="."]
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
 [node name="SlotsRight" type="VBoxContainer" parent="."]

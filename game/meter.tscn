@@ -44,7 +44,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_gs34n")
 
 [node name="Fill" type="Panel" parent="Meter"]
 unique_name_in_owner = true
-z_index = 1
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0

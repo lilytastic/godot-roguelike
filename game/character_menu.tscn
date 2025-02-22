@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dqasfn61u6sl5"]
 
-[ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="1_xhxxf"]
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_5t1bb"]
 [ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 
@@ -15,7 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
-theme = ExtResource("1_xhxxf")
+theme = ExtResource("1_5t1bb")
 theme_override_styles/panel = SubResource("StyleBoxFlat_hjchh")
 script = ExtResource("2_mm07u")
 
