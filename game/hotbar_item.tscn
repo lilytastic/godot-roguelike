@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmte80igv5w4l"]
+[gd_scene load_steps=10 format=3 uid="uid://bmte80igv5w4l"]
 
 [ext_resource type="FontFile" uid="uid://dvhdrlkkngd7h" path="res://assets/fonts/NoticiaText/NoticiaText-Bold.ttf" id="1_f66qx"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_lc0ff"]
@@ -6,15 +6,17 @@
 [ext_resource type="FontFile" uid="uid://bbyq1furfrqqs" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_compact.ttf" id="4_iq443"]
 [ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="5_ayo1n"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66lkw"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7s6r"]
+bg_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2wf1"]
-bg_color = Color(0.86, 0.86, 0.86, 0.576471)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hpvo"]
+bg_color = Color(0.88, 0.88, 0.88, 0.666667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_paeiq"]
 atlas = ExtResource("5_ayo1n")
 region = Rect2(416, 176, 16, 16)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iap2a"]
 
 [node name="Button" type="Button"]
 offset_right = 32.0
@@ -24,26 +26,13 @@ size_flags_vertical = 3
 theme = ExtResource("1_lc0ff")
 theme_override_fonts/font = ExtResource("1_f66qx")
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_66lkw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s7s6r")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2hpvo")
 text = "
 "
 script = ExtResource("2_vqoxc")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 4
-
-[node name="Panel" type="Panel" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_y2wf1")
-
-[node name="Hotkey" type="Label" parent="VBoxContainer/Panel"]
+[node name="Hotkey" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
@@ -60,7 +49,7 @@ text = "1"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Panel"]
+[node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -72,7 +61,7 @@ theme_override_colors/font_color = Color(0.113049, 0.113049, 0.113049, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Panel"]
+[node name="TextureRect" type="TextureRect" parent="."]
 unique_name_in_owner = true
 modulate = Color(0.0156863, 0.0862745, 0.121569, 0.772549)
 layout_mode = 1
@@ -88,3 +77,18 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_paeiq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_iap2a")

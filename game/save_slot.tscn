@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://hdb51gogs12"]
+[gd_scene load_steps=6 format=3 uid="uid://hdb51gogs12"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_ijkol"]
 [ext_resource type="Script" path="res://game/save_slot.gd" id="1_uelva"]
+[ext_resource type="FontFile" uid="uid://cq0ydk3gbo13m" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_bold.ttf" id="3_3l0f8"]
+[ext_resource type="FontFile" uid="uid://cv3uwt0ir851t" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_small.ttf" id="4_jnuoy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6bts"]
 bg_color = Color(0.114897, 0.114897, 0.114897, 1)
@@ -23,7 +25,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 12
+theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 8
 
@@ -32,6 +34,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_3l0f8")
 text = "Center"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -47,6 +50,7 @@ custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_3l0f8")
 text = "TopLeft"
 
 [node name="TopRight" type="Label" parent="MarginContainer/GridContainer"]
@@ -75,6 +79,7 @@ custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("4_jnuoy")
 text = "BottomRight
 "
 horizontal_alignment = 2

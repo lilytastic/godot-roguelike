@@ -5,6 +5,7 @@ var name: String
 var is_active: bool
 var effects: Array
 var area: Dictionary
+var icon: Dictionary
 
 
 func _init(props: Dictionary):
@@ -13,6 +14,7 @@ func _init(props: Dictionary):
 	is_active = props.get('isActive', false)
 	effects = props.get('effects', [])
 	area = props.get('area', {})
+	icon = props.get('icon', {})
 
 static func load_from_files(resources: Array) -> Dictionary:
 	var preprocess: Dictionary
