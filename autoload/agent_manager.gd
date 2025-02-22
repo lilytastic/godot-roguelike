@@ -95,11 +95,14 @@ func get_default_action(entity: Entity, target: Entity) -> Action:
 func get_abilities(entity: Entity, target: Entity = null) -> Array[Dictionary]: 
 	var arr: Array[Dictionary] = []
 	if entity.equipment:
-		var covered := []
+		var weapons := []
 		for uuid in entity.equipment.slots.values():
-			if covered.find(uuid) != -1:
+			if weapons.find(uuid) != -1:
 				continue
-			covered.append(uuid)
+			weapons.append(uuid)
+
+		# TODO: The basic attack (0) should be different when dual-wielding
+		for uuid in weapons:
 			var worn_item = ECS.entity(uuid)
 			if worn_item.blueprint.weapon:
 				for ability in worn_item.blueprint.weapon.weaponskills:

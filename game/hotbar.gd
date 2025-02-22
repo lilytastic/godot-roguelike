@@ -4,17 +4,18 @@ func _ready():
 	var i = 0
 	for child in get_children():
 		if child is HotbarItem:
+			var n = i
 			child.pressed.connect(
 				func():
-					_on_click(i)
+					_on_click(n)
 			)
+			i += 1
 
 func _on_click(index: int):
 	var abilities = AgentManager.get_abilities(Global.player)
 	if !Global.player or abilities.size() <= index:
 		return
 	var dict = abilities[index]
-	print(dict)
 	var result = await AgentManager.perform_action(
 		Global.player,
 		UseAbilityAction.new(
@@ -23,8 +24,6 @@ func _on_click(index: int):
 			dict
 		)
 	)
-	# if Scheduler.player_can_act:
-	print(index, result)
 
 func _input(event: InputEvent):
 	var i = 0
@@ -36,6 +35,7 @@ func _input(event: InputEvent):
 			key_i += 1
 		if key_i > 9:
 			key_i = 0
+		i += 1
 	pass
 
 func _process(delta):
