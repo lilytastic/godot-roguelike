@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=6 format=3 uid="uid://bipr4bw2pcbw6"]
 
-[ext_resource type="FontFile" uid="uid://b2aiyqpwxyvf4" path="res://assets/fonts/DOS/Px437_IBM_Conv.ttf" id="1_p2xom"]
+[ext_resource type="FontFile" uid="uid://f4ysdkkb43hb" path="res://assets/fonts/pixChicago.ttf" id="1_1vgjk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eaolf"]
 content_margin_left = 8.0
@@ -25,7 +25,7 @@ bg_color = Color(0.023291, 0.000702083, 0.0851246, 1)
 
 [resource]
 default_base_scale = 1.0
-default_font = ExtResource("1_p2xom")
+default_font = ExtResource("1_1vgjk")
 default_font_size = 8
 TabBar/constants/h_separation = 1
 TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_eaolf")
