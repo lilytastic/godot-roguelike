@@ -28,10 +28,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -180.0
-offset_top = -60.0
-offset_right = 180.0
-offset_bottom = -17.0
+offset_left = -130.0
+offset_top = -50.0
+offset_right = 130.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 3
@@ -52,7 +52,6 @@ color = Color(0.85, 0.1275, 0.223833, 1)
 [node name="FocusMeter" parent="CanvasLayer/VFlowContainer/HBoxContainer" instance=ExtResource("7_5uobx")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_stretch_ratio = 0.73
 label = "0"
 color = Color(0.264838, 0.731203, 0.741988, 1)
 
@@ -63,12 +62,10 @@ size_flags_vertical = 3
 [node name="HotbarItem" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
-size_flags_stretch_ratio = 2.0
 hotkey = "1"
 
 [node name="HotbarItem2" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
-size_flags_stretch_ratio = 2.0
 hotkey = "2"
 
 [node name="HotbarItem3" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
@@ -94,14 +91,6 @@ hotkey = "7"
 [node name="HotbarItem8" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "8"
-
-[node name="HotbarItem9" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
-layout_mode = 2
-hotkey = "9"
-
-[node name="HotbarItem10" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
-layout_mode = 2
-hotkey = "0"
 
 [node name="BlackOverlay" type="Panel" parent="CanvasLayer"]
 unique_name_in_owner = true
