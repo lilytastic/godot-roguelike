@@ -81,26 +81,31 @@ func take_turn(entity: Entity) -> bool:
 func get_default_action(entity: Entity, target: Entity) -> Action:
 	# If it's hostile, use this entity's first weaponskill on it.
 	if target and target.blueprint.equipment:
-		if entity.equipment:
-			for uuid in entity.equipment.slots.values():
-				var worn_item = ECS.entity(uuid)
-				if worn_item.blueprint.weapon:
-					var ability = worn_item.blueprint.weapon.weaponskills[0]
-					return UseAbilityAction.new(
-						target,
-						ability,
-						{ 'conduit': worn_item } if worn_item else {}
-					)
-		return UseAbilityAction.new(
-			target,
-			'slash'
-		)
+		return get_abilities(entity, target)[0]
 	# Otherwise, if it's usable, use it!
 	if target and (target.blueprint.item or target.blueprint.use):
 		return UseAction.new(target)
 		
 	return null
 
+func get_abilities(entity: Entity, target: Entity) -> Array[UseAbilityAction]: 
+	var arr: Array[UseAbilityAction] = []
+	if entity.equipment:
+		for uuid in entity.equipment.slots.values():
+			var worn_item = ECS.entity(uuid)
+			if worn_item.blueprint.weapon:
+				var ability = worn_item.blueprint.weapon.weaponskills[0]
+				arr.append(UseAbilityAction.new(
+					target,
+					ability,
+					{ 'conduit': worn_item } if worn_item else {}
+				))
+	if arr.size() == 0:
+		arr.append(UseAbilityAction.new(
+			target,
+			'slash'
+		))
+	return arr
 
 func try_close_distance(entity: Entity, position: Vector2) -> bool:
 	var next_position = Pathfinding.move_towards(entity, position)

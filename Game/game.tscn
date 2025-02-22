@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=15 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="2_ittis"]
 [ext_resource type="PackedScene" uid="uid://bmte80igv5w4l" path="res://game/hotbar_item.tscn" id="3_yxi8w"]
+[ext_resource type="Script" path="res://game/hotbar.gd" id="4_35lq1"]
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://dqasfn61u6sl5" path="res://game/character_menu.tscn" id="6_8exhv"]
 [ext_resource type="Script" path="res://game/floating_text.gd" id="6_qudki"]
@@ -56,40 +57,42 @@ layout_mode = 2
 label = "0"
 color = Color(0.264838, 0.731203, 0.741988, 1)
 
-[node name="HFlowContainer" type="HBoxContainer" parent="CanvasLayer/VFlowContainer"]
+[node name="Hotbar" type="HBoxContainer" parent="CanvasLayer/VFlowContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("4_35lq1")
 
-[node name="HotbarItem" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 hotkey = "1"
 
-[node name="HotbarItem2" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem2" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "2"
 
-[node name="HotbarItem3" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem3" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "3"
 
-[node name="HotbarItem4" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem4" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "4"
 
-[node name="HotbarItem5" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem5" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "5"
 
-[node name="HotbarItem6" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem6" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "6"
 
-[node name="HotbarItem7" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem7" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "7"
 
-[node name="HotbarItem8" parent="CanvasLayer/VFlowContainer/HFlowContainer" instance=ExtResource("3_yxi8w")]
+[node name="HotbarItem8" parent="CanvasLayer/VFlowContainer/Hotbar" instance=ExtResource("3_yxi8w")]
 layout_mode = 2
 hotkey = "8"
 
