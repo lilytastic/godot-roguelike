@@ -89,9 +89,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	var action := _check_for_action(event)
 	if action:
 		# targeting.clear()
-		action_triggered.emit(action)
-		if Scheduler.player_can_act:
-			await AgentManager.perform_action(Global.player, action)
+		trigger_action(action)
+
+
+func trigger_action(action: Action) -> void:
+	action_triggered.emit(action)
+	if Scheduler.player_can_act:
+		await AgentManager.perform_action(Global.player, action)
 
 
 func _notification(event):

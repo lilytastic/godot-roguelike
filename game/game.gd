@@ -53,7 +53,7 @@ func _input(event: InputEvent) -> void:
 	
 	var camera = get_viewport().get_camera_2d()
 	if event.is_action_pressed('zoom_out'):
-		if camera.zoom.x > 0:
+		if camera.zoom.x > 1:
 			camera.zoom -= Vector2.ONE
 	if event.is_action_pressed('zoom_in'):
 		if camera.zoom.x < 3:

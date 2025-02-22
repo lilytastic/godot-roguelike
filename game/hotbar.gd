@@ -4,22 +4,41 @@ func _ready():
 	var i = 1
 	for child in get_children():
 		if child is HotbarItem:
-			child.pressed.connect(func(): _on_click(i))
+			child.pressed.connect(
+				func():
+					_on_click(i)
+			)
 		i += 1
 		if i > 9:
 			i = 0
 
 func _on_click(index: int):
-	print(index)
+	var abilities = AgentManager.get_abilities(Global.player)
+	if !Global.player or abilities.size() <= index:
+		return
+	var dict = abilities[index]
+	print(dict)
+	var result = await AgentManager.perform_action(
+		Global.player,
+		UseAbilityAction.new(
+			ECS.entity(PlayerInput.targeting.current_target),
+			dict.ability,
+			dict
+		)
+	)
+	# if Scheduler.player_can_act:
+	print(index, result)
 
 func _input(event: InputEvent):
-	var i = 1
+	var i = 0
+	var key_i = 1
 	for child in get_children():
-		if event.is_action_pressed('num_' + str(i)):
-			_on_click(i)
-		i += 1
-		if i > 9:
-			i = 0
+		if child is HotbarItem:
+			if event.is_action_pressed('num_' + str(key_i)):
+				_on_click(i)
+			key_i += 1
+		if key_i > 9:
+			key_i = 0
 	pass
 
 func _process(delta):

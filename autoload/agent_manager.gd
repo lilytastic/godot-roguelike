@@ -77,7 +77,6 @@ func take_turn(entity: Entity) -> bool:
 		entity.targeting.target_position()
 	)
 
-
 func get_default_action(entity: Entity, target: Entity) -> Action:
 	# If it's hostile, use this entity's first weaponskill on it.
 	if target and target.blueprint.equipment:
