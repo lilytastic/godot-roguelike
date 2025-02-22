@@ -1,5 +1,15 @@
 extends HBoxContainer
 
+func _ready():
+	var i = 0
+	for child in get_children():
+		if child is HotbarItem:
+			child.pressed.connect(func(): _on_click(i))
+		i += 1
+
+func _on_click(index: int):
+	print(index)
+
 func _process(delta):
 	if Global.player:
 		var target = ECS.entity(Global.player.targeting.current_target)

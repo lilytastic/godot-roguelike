@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmte80igv5w4l"]
+[gd_scene load_steps=11 format=3 uid="uid://bmte80igv5w4l"]
 
 [ext_resource type="FontFile" uid="uid://dvhdrlkkngd7h" path="res://assets/fonts/NoticiaText/NoticiaText-Bold.ttf" id="1_f66qx"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_lc0ff"]
@@ -9,8 +9,10 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7s6r"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5u41"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hpvo"]
-bg_color = Color(0.88, 0.88, 0.88, 0.666667)
+bg_color = Color(0.88, 0.88, 0.88, 0.619608)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_paeiq"]
 atlas = ExtResource("5_ayo1n")
@@ -27,6 +29,7 @@ theme = ExtResource("1_lc0ff")
 theme_override_fonts/font = ExtResource("1_f66qx")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/hover = SubResource("StyleBoxFlat_s7s6r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p5u41")
 theme_override_styles/normal = SubResource("StyleBoxFlat_2hpvo")
 text = "
 "
