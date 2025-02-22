@@ -72,7 +72,7 @@ func _update_camera(delta):
 			_averaged /= player.visible_tiles.keys().size()
 		# _camera_position = _averaged * 16
 		
-		_camera_position = Coords.get_position(player.location.position).lerp(_averaged * 16, 0.5)
+		_camera_position = Coords.get_position(player.location.position + PlayerInput.camera_offset).lerp(_averaged * 16, 0.5)
 		"""
 		var _target = ECS.entity(player.targeting.current_target)
 		var _target_position = player.targeting.target_position()

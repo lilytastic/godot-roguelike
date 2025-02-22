@@ -16,6 +16,7 @@ var targeting = Targeting.new()
 
 var overlay_opacity := 0.00
 var camera_shake := Vector2(0,0)
+var camera_offset = Vector2(0,0.5)
 
 signal action_triggered
 signal ui_action_triggered

@@ -212,7 +212,7 @@ func switch_map(_map: Map, entity: Entity):
 
 	var camera = get_viewport().get_camera_2d()
 	if camera:
-		camera.position = entity.location.position * 16
+		camera.position = (entity.location.position + PlayerInput.camera_offset) * 16
 
 	map_changed.emit(map)
 	is_switching = false
