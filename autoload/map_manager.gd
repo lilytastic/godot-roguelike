@@ -19,10 +19,12 @@ var is_switching = false
 
 var map_definitions = {
 	'wilderness': {
+		'name': "Wilderness",
 		'is_interior': false,
 		'prefabs': [ 'test' ]
 	},
 	'dungeon': {
+		'name': "Dungeon",
 		'is_interior': true
 	},
 	'cave': {
@@ -156,9 +158,10 @@ func create_map(data := {}) -> Map:
 	var _map = await Map.new(data)
 	maps[_map.uuid] = _map
 	_map.prefab = prefab
+	_map.name = data.get('name', _map.name)
 	_map.connections = data.get('connections', [])
 	_map.branch = data.get('branch', '')
-	_map.depth = data.get('depth', 1)
+	_map.depth = data.get('depth', 0)
 	
 	await _map.init_prefab()
 

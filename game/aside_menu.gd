@@ -41,14 +41,14 @@ func _ready() -> void:
 		func():
 			option_pressed.emit('SaveGame')
 			%SaveSlots.mode = 'save'
-			%SaveSlotsLabel.text = '[center]Save Game[/center]'
+			%SaveSlotsLabel.text = 'Save Game'
 			%SaveSlotWrapper.visible = true
 	)
 	%'LoadGame'.pressed.connect(
 		func():
 			option_pressed.emit('LoadGame')
 			%SaveSlots.mode = 'load'
-			%SaveSlotsLabel.text = '[center]Load Game[/center]'
+			%SaveSlotsLabel.text = 'Load Game'
 			%SaveSlotWrapper.visible = true
 	)
 	%'ExitToMainMenu'.pressed.connect(

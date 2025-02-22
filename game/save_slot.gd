@@ -35,7 +35,9 @@ func _load():
 				return entity['uuid'] == data.player
 		)[0]
 		var current_map = data.maps.maps[data.maps.maps.find(func(x): x.uuid == player_entity.map)]
-		%TopLeft.text = current_map.name if current_map else '<Unknown Map>'
+		%TopLeft.text = '<Unknown Map>'
+		if current_map:
+			%TopLeft.text = current_map.name + ((' ' + str(current_map.depth) + 'F') if current_map.depth else '')
 		%TopRight.text = slot_type.capitalize()
 		if data.has('date_modified'):
 			var dict = Time.get_datetime_dict_from_datetime_string(data.date_modified, false)
