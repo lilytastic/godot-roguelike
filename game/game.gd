@@ -78,7 +78,8 @@ func _update_camera(delta):
 			)
 		"""
 		
-		var camera_shake = PlayerInput.camera_shake
+		var camera = get_viewport().get_camera_2d()
+		var camera_shake = PlayerInput.camera_shake / camera.zoom.length()
 		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
 		var randomized = Vector2(randf_range(-camera_shake.length(), camera_shake.length()), randf_range(-camera_shake.length(), camera_shake.length()))
 		$Camera2D.position = lerp(
