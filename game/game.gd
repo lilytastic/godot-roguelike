@@ -30,6 +30,7 @@ func _process(delta):
 			%HealthMeter.value = Global.player.health.current
 			%HealthMeter.max = Global.player.health.max
 			%HealthMeter.label = str(Global.player.health.current)
+			%HealthMeter.label_small = '/' + str(Global.player.health.max)
 
 	PlayerInput._update_mouse_position()
 	

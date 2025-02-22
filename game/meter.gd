@@ -3,6 +3,7 @@ extends Control
 @export var value = 1.0
 @export var max = 1
 @export var label = ''
+@export var label_small = ''
 @export var color = Color.WHITE
 @export var fill_direction := Vector2i.RIGHT
 
@@ -22,4 +23,5 @@ func _process(delta: float) -> void:
 		var _scaled_value = float(value) / max * %Meter.size.x
 		%Fill.size = %Fill.size.lerp(Vector2(_scaled_value, %Fill.size.y), delta * 30.0)
 	%Label.text = label
+	%Small.text = label_small
 	modulate = color
