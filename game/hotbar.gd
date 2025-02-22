@@ -10,6 +10,16 @@ func _ready():
 func _on_click(index: int):
 	print(index)
 
+func _input(event: InputEvent):
+	var i = 1
+	for child in get_children():
+		if event.is_action_pressed('num_' + str(i)):
+			_on_click(i)
+		i += 1
+		if i > 9:
+			i = 0
+	pass
+
 func _process(delta):
 	if Global.player:
 		var target = ECS.entity(Global.player.targeting.current_target)
