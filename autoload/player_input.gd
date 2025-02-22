@@ -43,10 +43,29 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		_update_mouse_position()
 		
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if MapManager.is_switching or overlay_opacity > 0.25:
+		return
+
+	if event.is_pressed() and Global.player:
+		# targeting.clear()
+		Global.player.targeting.clear()
+		
+	if event.is_action_pressed('quicksave'):
+		Global.quicksave()
+		return
+		
+	var action := _check_for_action(event)
+	if action:
+		# targeting.clear()
+		trigger_action(action)
+
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
 	if !player_is_valid:
 		return
-
+		
 	var coord = Vector2i(Coords.get_coord(mouse_position_in_world))
 	if event is InputEventMouseButton:
 		var valid = player_is_valid and AgentManager.can_see(Global.player, coord)
@@ -73,23 +92,6 @@ func _input(event: InputEvent) -> void:
 
 			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
 				_targeting.current_target = entities_under_cursor[0].uuid
-
-func _unhandled_input(event: InputEvent) -> void:
-	if MapManager.is_switching or overlay_opacity > 0.25:
-		return
-
-	if event.is_pressed() and Global.player:
-		# targeting.clear()
-		Global.player.targeting.clear()
-		
-	if event.is_action_pressed('quicksave'):
-		Global.quicksave()
-		return
-		
-	var action := _check_for_action(event)
-	if action:
-		# targeting.clear()
-		trigger_action(action)
 
 
 func trigger_action(action: Action) -> void:
