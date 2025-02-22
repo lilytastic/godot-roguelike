@@ -151,8 +151,9 @@ func damage(opts: Dictionary):
 		var source = opts.get('source', null)
 		health_changed.emit(-damage)
 		if source and (source.uuid == Global.player.uuid or uuid == Global.player.uuid):
-			PlayerInput.camera_shake = (location.position - source.location.position).normalized() * 2.5
+			PlayerInput.camera_shake += (location.position - source.location.position).normalized() * 2
 		if damage > 0:
+			await Global.sleep(150)
 			Global.add_floating_text(
 				str(damage),
 				screen_position + Vector2.UP * 12,

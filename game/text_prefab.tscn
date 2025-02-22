@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cn6uxrnuo8dka"]
+[gd_scene load_steps=4 format=3 uid="uid://cn6uxrnuo8dka"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e2nku"]
 [ext_resource type="Script" path="res://game/floating_text_label.gd" id="2_8j3t5"]
+[ext_resource type="FontFile" uid="uid://bcpnex2rvsreh" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_black.ttf" id="2_upljc"]
 
 [node name="TextPrefab" type="Label"]
 custom_minimum_size = Vector2(100, 0)
@@ -20,7 +21,8 @@ pivot_offset = Vector2(50, 18)
 size_flags_horizontal = 4
 theme = ExtResource("1_e2nku")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 5
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_upljc")
 text = "Text"
 horizontal_alignment = 1
 vertical_alignment = 1
