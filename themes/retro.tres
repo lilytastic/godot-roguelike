@@ -1,6 +1,7 @@
 [gd_resource type="Theme" load_steps=6 format=3 uid="uid://bipr4bw2pcbw6"]
 
 [ext_resource type="FontFile" uid="uid://buaimy6vdhglx" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue.ttf" id="1_71py5"]
+[ext_resource type="FontFile" uid="uid://cq0ydk3gbo13m" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_bold.ttf" id="1_x3pjo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eaolf"]
 content_margin_left = 8.0
@@ -20,15 +21,12 @@ content_margin_right = 8.0
 content_margin_bottom = 6.0
 bg_color = Color(0.15, 0.15, 0.15, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_miqxh"]
-bg_color = Color(0.023291, 0.000702083, 0.0851246, 1)
-
 [resource]
 default_base_scale = 1.0
 default_font = ExtResource("1_71py5")
 default_font_size = 16
 TabBar/constants/h_separation = 1
+TabContainer/fonts/font = ExtResource("1_x3pjo")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_eaolf")
 TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_eol5m")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_buksi")
-TabContainer/styles/tabbar_background = SubResource("StyleBoxFlat_miqxh")

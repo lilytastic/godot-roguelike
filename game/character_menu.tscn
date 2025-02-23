@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqasfn61u6sl5"]
+[gd_scene load_steps=6 format=3 uid="uid://dqasfn61u6sl5"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_5t1bb"]
 [ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c7vui"]
-bg_color = Color(0.0483, 0.0876683, 0.23, 0.827451)
+bg_color = Color(0.0728, 0.0871, 0.13, 0.815686)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ufjfk"]
 
 [node name="CharacterMenu" type="Panel"]
 anchors_preset = 15
@@ -32,6 +34,7 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ufjfk")
 tab_alignment = 1
 current_tab = 1
 
@@ -45,12 +48,15 @@ metadata/_tab_index = 0
 
 [node name="Inventory" type="MarginContainer" parent="HBoxContainer/Control"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 metadata/_tab_index = 1
 
 [node name="Inventory" parent="HBoxContainer/Control/Inventory" instance=ExtResource("3_byvbg")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
 
 [node name="Journal" type="Control" parent="HBoxContainer/Control"]
 unique_name_in_owner = true

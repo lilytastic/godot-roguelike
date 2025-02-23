@@ -4,67 +4,67 @@
 [ext_resource type="PackedScene" uid="uid://dju8px38gxg0m" path="res://game/tile_item.tscn" id="1_ixvtc"]
 
 [node name="EquipmentDisplay" type="HBoxContainer"]
-custom_minimum_size = Vector2(0, 180)
 alignment = 1
 script = ExtResource("1_brgwq")
 
 [node name="SlotsLeft" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
-[node name="MainHand" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+[node name="Head" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "main hand"
-metadata/slot = "main hand"
+slot = "head"
 
-[node name="OffHand" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+[node name="Torso" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "off-hand"
-metadata/slot = "off-hand"
+slot = "torso"
 
-[node name="Control" type="Control" parent="SlotsLeft"]
-visible = false
-custom_minimum_size = Vector2(0, 40)
+[node name="Back" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
+slot = "back"
 
-[node name="Amulet" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+[node name="Hands" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "amulet"
+slot = "hands"
 
-[node name="Ring1" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
+[node name="Feet" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "ring1"
-
-[node name="Ring2" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
-layout_mode = 2
-slot = "ring2"
+slot = "feet"
 
 [node name="PaperDoll" type="Control" parent="."]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="SlotsRight" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
-[node name="Head" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+[node name="MainHand" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "head"
+slot = "main hand"
+metadata/slot = "main hand"
 
-[node name="Torso" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+[node name="OffHand" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "torso"
+slot = "off-hand"
+metadata/slot = "off-hand"
 
-[node name="Back" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+[node name="Control" type="Control" parent="SlotsRight"]
+visible = false
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-slot = "back"
 
-[node name="Hands" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+[node name="Amulet" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "hands"
+slot = "amulet"
 
-[node name="Feet" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+[node name="Ring1" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-slot = "feet"
+slot = "ring1"
+
+[node name="Ring2" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
+layout_mode = 2
+slot = "ring2"
