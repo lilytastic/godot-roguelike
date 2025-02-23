@@ -22,7 +22,7 @@ metadata/blueprint = "ghoul"
 
 [node name="Staircase" parent="AutoAddEntities" instance=ExtResource("3_pbyxe")]
 position = Vector2(74, 63)
-metadata/blueprint = "staircase"
+metadata/blueprint = "stairs_down"
 metadata/props = {
 "destination": {
 "branch": "privateers_hideout",

@@ -62,6 +62,7 @@ func new_game() -> Entity:
 func clear_game() -> void:
 	ECS.clear()
 	Scheduler.finish_turn()
+	PlayerInput.targeting.clear_targeting()
 	player = null
 
 func autosave():

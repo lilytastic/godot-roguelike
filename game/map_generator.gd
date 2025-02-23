@@ -89,8 +89,10 @@ func _add_entities(data := {}):
 			break
 
 		var _exit = _exits[i]
+		var _depth = data.get('depth', 0)
+		var _connected_depth = connection.get('depth', 0)
 		var random_tile = _exit.cells.pick_random()
-		var new_entity = Entity.new({ 'blueprint': 'staircase' })
+		var new_entity = Entity.new({ 'blueprint': 'stairs_down' if _depth < _connected_depth else 'stairs_up' })
 		new_entity.location = Location.new('', random_tile)
 		new_entity.equipment = EquipmentProps.new({})
 		new_entity.destination = connection
@@ -104,7 +106,7 @@ func _add_entities(data := {}):
 		var _exit = _exits[i]
 		if map_definition and map_definition.max_depth > data.get('depth', 0):
 			var random_tile = _exit.cells.pick_random()
-			var new_entity = Entity.new({ 'blueprint': 'staircase' })
+			var new_entity = Entity.new({ 'blueprint': 'stairs_down' })
 			new_entity.location = Location.new('', random_tile)
 			new_entity.equipment = EquipmentProps.new({})
 			new_entity.destination = { 'branch': data.get('branch', ''), 'depth': data.get('depth', 0) + 1 }

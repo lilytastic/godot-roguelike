@@ -24,7 +24,7 @@
 				"isActive": true,
 				"icon": {
 					"sprite": "G_SLASH",
-					"color": "DDDDDD"
+					"color": "dddddd"
 				},
 				"effects": [
 					{
@@ -34,11 +34,7 @@
 					}
 				],
 				"area": {
-					"type": "directional",
-					"layout": ["#",
-							   "@"],
-					"layoutDiagonal": [" #",
-									   "@ "]
+					"type": "melee"
 				},
 				"chain": "slash_double"
 			},
@@ -58,11 +54,7 @@
 					}
 				],
 				"area": {
-					"type": "directional",
-					"layout": ["#",
-							   "@"],
-					"layoutDiagonal": [" #",
-									   "@ "]
+					"type": "melee"
 				}
 			},
 			{
@@ -81,11 +73,7 @@
 					}
 				],
 				"area": {
-					"type": "directional",
-					"layout": ["#",
-							   "@"],
-					"layoutDiagonal": [" #",
-									   "@ "]
+					"type": "melee"
 				}
 			},
 			{
@@ -148,11 +136,7 @@
 					}
 				],
 				"area": {
-					"type": "directional",
-					"layout": ["#",
-							   "@"],
-					"layoutDiagonal": [" #",
-									   "@ "]
+					"type": "melee"
 				},
 				"chain": "slash_final"
 			},
@@ -172,11 +156,7 @@
 					}
 				],
 				"area": {
-					"type": "directional",
-					"layout": ["#",
-							   "@"],
-					"layoutDiagonal": [" #",
-									   "@ "]
+					"type": "melee"
 				},
 				"chain": "slash"
 			},
@@ -225,11 +205,7 @@
 					}
 				],
 				"area": {
-					"type": "directional",
-					"layout": ["#",
-							   "@"],
-					"layoutDiagonal": [" #",
-									   "@ "]
+					"type": "melee"
 				}
 			},
 			{
@@ -252,8 +228,7 @@
 					}
 				],
 				"area": {
-					"type": "self",
-					"layout": [ "#" ]
+					"type": "self"
 				}
 			},
 			{

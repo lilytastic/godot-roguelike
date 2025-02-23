@@ -139,6 +139,32 @@
 		}
 	  },
 	  {
+		"id": "stairs_down",
+		"name": "stairs_down",
+		"parent": "staircase",
+		"glyph": {
+		  "ch": "G_STAIRS_DOWN",
+		  "fg": [
+			200,
+			200,
+			200
+		  ]
+		}
+	  },
+	  {
+		"id": "stairs_up",
+		"name": "stairs_up",
+		"parent": "staircase",
+		"glyph": {
+		  "ch": "G_STAIRS_UP",
+		  "fg": [
+			200,
+			200,
+			200
+		  ]
+		}
+	  },
+	  {
 		"id": "town",
 		"name": "town",
 		"parent": "staircase",

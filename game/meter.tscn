@@ -59,7 +59,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 12.0
 grow_horizontal = 2
-theme_override_constants/separation = 3
+theme_override_constants/separation = 4
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -68,6 +68,7 @@ size_flags_vertical = 5
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_l8klg")
 text = "50"
+vertical_alignment = 1
 
 [node name="Small" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -78,4 +79,3 @@ size_flags_vertical = 5
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_eyn48")
 text = "/20"
-vertical_alignment = 1
