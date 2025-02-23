@@ -214,6 +214,7 @@ theme_override_fonts/font = ExtResource("5_chqje")
 text = "All Items"
 
 [node name="InventorySection" type="ScrollContainer" parent="Panel/MarginContainer/ScrollContainer"]
+clip_contents = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -269,7 +270,7 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer2/MarginContainer"]
 layout_mode = 2
@@ -277,4 +278,5 @@ size_flags_horizontal = 3
 
 [node name="ItemPreview" parent="ScrollContainer2/MarginContainer/VBoxContainer2" instance=ExtResource("9_i2k1l")]
 layout_mode = 2
+size_flags_vertical = 3
 script = ExtResource("10_p5y7m")

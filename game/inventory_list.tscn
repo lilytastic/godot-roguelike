@@ -5,7 +5,7 @@
 
 [node name="InventoryList" type="VBoxContainer"]
 size_flags_horizontal = 3
-theme_override_constants/separation = 0
+theme_override_constants/separation = -4
 script = ExtResource("1_bvivv")
 
 [node name="Button" parent="." instance=ExtResource("1_u8kbo")]
