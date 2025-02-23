@@ -179,7 +179,7 @@ func generate_tile(id: String, position: Vector2i) -> Node2D:
 	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 	spr.texture = atlas
 	tile_node.z_index = -1
-	# tile_node.modulate = Color(col, 0)
+	tile_node.modulate = Color(Color.WHITE, 0)
 	
 	if data.has('bg'):
 		var _bg_color = data.get('bg', Color.WHITE)
