@@ -11,12 +11,12 @@ content_margin_left = 2.0
 content_margin_top = 4.0
 content_margin_right = 2.0
 content_margin_bottom = 4.0
-bg_color = Color(0.0168, 0.0484, 0.08, 0.196078)
+bg_color = Color(0.0168, 0.0484, 0.08, 0.266667)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.481789, 0.48179, 0.481789, 1)
+border_color = Color(0.48, 0.48, 0.48, 0.611765)
 shadow_size = 1
 shadow_offset = Vector2(2, 2)
 
