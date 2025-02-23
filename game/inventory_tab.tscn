@@ -5,20 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://wbe1mck10xec" path="res://game/equipment_display.tscn" id="2_ikqqu"]
 [ext_resource type="PackedScene" uid="uid://dkwvu2cc7wnbr" path="res://game/inventory_display.tscn" id="3_3j3vn"]
 [ext_resource type="PackedScene" uid="uid://dxe6gxf53hv0w" path="res://game/inventory_list.tscn" id="5_14rb5"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfm8w"]
-content_margin_left = 2.0
-content_margin_top = 4.0
-content_margin_right = 2.0
-content_margin_bottom = 4.0
-bg_color = Color(0.0168, 0.0484, 0.08, 0.266667)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.48, 0.48, 0.48, 0.611765)
-shadow_size = 1
-shadow_offset = Vector2(2, 2)
+[ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="6_cuul2"]
 
 [node name="InventoryTab" type="HBoxContainer"]
 anchors_preset = 15
@@ -49,24 +36,73 @@ custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 columns = 6
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_wfm8w")
+theme_override_styles/panel = ExtResource("6_cuul2")
 
-[node name="InventorySection" type="VBoxContainer" parent="ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="ScrollContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="MarginContainer2" type="MarginContainer" parent="Panel/MarginContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/ScrollContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/ScrollContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/ScrollContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "All Items"
+
+[node name="InventorySection" type="ScrollContainer" parent="Panel/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
 
-[node name="InventoryList" parent="ScrollContainer/InventorySection" instance=ExtResource("5_14rb5")]
+[node name="InventoryList" parent="Panel/MarginContainer/ScrollContainer/InventorySection" instance=ExtResource("5_14rb5")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/ScrollContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "0.0/0g"
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_wfm8w")
+theme_override_styles/panel = ExtResource("6_cuul2")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer2"]
 layout_mode = 2
