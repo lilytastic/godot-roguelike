@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://cv3uwt0ir851t" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_small.ttf" id="4_eyn48"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gs34n"]
-bg_color = Color(0.421731, 0.421731, 0.421731, 1)
+bg_color = Color(0.482253, 0.596233, 0.716065, 1)
 corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xwon"]
@@ -59,7 +59,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 12.0
 grow_horizontal = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 3
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
