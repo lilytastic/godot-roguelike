@@ -7,6 +7,8 @@ var _item = ''
 	set(value):
 		_item = value
 		_update()
+		
+@export var wrapper: Control = null
 
 var entity: Entity:
 	get:
@@ -17,6 +19,9 @@ var entity: Entity:
 func _ready():
 	PlayerInput.item_hovered.connect(
 		func(_entity):
+			if !_entity:
+				item = ''
+				return
 			if item != _entity:
 				print('picked up ', _entity)
 				item = _entity
@@ -25,8 +30,14 @@ func _ready():
 
 func _update():
 	if !is_instance_valid(entity):
-		visible = false
+		if wrapper:
+			wrapper.visible = false
+		else:
+			visible = false
 		return
+	
+	if wrapper:
+		wrapper.visible = true
 	visible = true
 	%ItemIcon.texture = entity.glyph.to_atlas_texture()
 	%ItemIcon.modulate = entity.glyph.fg
@@ -37,4 +48,3 @@ func _update():
 		if entity.blueprint.weapon:
 			%WeaponDamage.text = str(entity.blueprint.weapon.damage[0]) + '-' + str(entity.blueprint.weapon.damage[1]) + ' Damage'
 			%WeaponSpeed.text = 'x' + str(entity.blueprint.weapon.speed) + ' Attack Speed'
-	print(entity)

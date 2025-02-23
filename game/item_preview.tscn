@@ -42,7 +42,7 @@ stretch_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 0
+theme_override_constants/separation = 1
 
 [node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -64,6 +64,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 custom_minimum_size = Vector2(0, 32)
@@ -97,14 +98,11 @@ theme_override_styles/separator = SubResource("StyleBoxLine_p6pml")
 [node name="Description" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 modulate = Color(0.76, 0.76, 0.76, 1)
+custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Description"
-
-[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-theme_override_styles/separator = SubResource("StyleBoxLine_1ennx")
+autowrap_mode = 3
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -113,26 +111,35 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxLine_1ennx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 modulate = Color(0.49, 0.456843, 0.4214, 1)
 layout_mode = 2
 texture = SubResource("AtlasTexture_vciug")
 
-[node name="Weight" type="Label" parent="MarginContainer2/HBoxContainer"]
+[node name="Weight" type="Label" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0lb"
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer2/HBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 modulate = Color(0.71, 0.63758, 0.2272, 1)
 layout_mode = 2
 texture = SubResource("AtlasTexture_x7cq3")
 
-[node name="Value" type="Label" parent="MarginContainer2/HBoxContainer"]
+[node name="Value" type="Label" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0g"

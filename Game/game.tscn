@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=19 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="2_ittis"]
@@ -13,9 +13,20 @@
 [ext_resource type="Script" path="res://engine/classes/scene_view.gd" id="7_mvjgg"]
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="9_o4gab"]
 [ext_resource type="Script" path="res://game/tile_display.gd" id="9_ytsw5"]
+[ext_resource type="PackedScene" uid="uid://drrqc406l4xxu" path="res://game/item_preview.tscn" id="11_5xsb2"]
+[ext_resource type="Script" path="res://game/tooltip_wrapper.gd" id="11_e0cmg"]
+[ext_resource type="Script" path="res://game/item_preview.gd" id="13_3w56u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826o3"]
 bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sbi3"]
+bg_color = Color(0.0232, 0.06864, 0.08, 0.792157)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0.392157)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_4nfvf")
@@ -142,6 +153,41 @@ size_flags_vertical = 0
 mouse_filter = 2
 theme = ExtResource("9_o4gab")
 script = ExtResource("6_qudki")
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -206.0
+offset_top = -153.0
+offset_right = -6.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_7sbi3")
+script = ExtResource("11_e0cmg")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="ItemPreview" parent="CanvasLayer/Panel/MarginContainer" node_paths=PackedStringArray("wrapper") instance=ExtResource("11_5xsb2")]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("13_3w56u")
+wrapper = NodePath("../..")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
