@@ -53,10 +53,10 @@ metadata/_tab_index = 0
 
 [node name="Inventory" type="MarginContainer" parent="HBoxContainer/Control"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 metadata/_tab_index = 1
 
 [node name="Inventory" parent="HBoxContainer/Control/Inventory" instance=ExtResource("3_byvbg")]

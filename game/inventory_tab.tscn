@@ -1,10 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2o6kp0x6jeb0"]
+[gd_scene load_steps=7 format=3 uid="uid://b2o6kp0x6jeb0"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_daiut"]
 [ext_resource type="Script" path="res://game/inventory_tab.gd" id="1_sbvjl"]
 [ext_resource type="PackedScene" uid="uid://wbe1mck10xec" path="res://game/equipment_display.tscn" id="2_ikqqu"]
 [ext_resource type="PackedScene" uid="uid://dkwvu2cc7wnbr" path="res://game/inventory_display.tscn" id="3_3j3vn"]
 [ext_resource type="PackedScene" uid="uid://dxe6gxf53hv0w" path="res://game/inventory_list.tscn" id="5_14rb5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfm8w"]
+content_margin_left = 2.0
+content_margin_top = 4.0
+content_margin_right = 2.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0168, 0.0484, 0.08, 0.196078)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.481789, 0.48179, 0.481789, 1)
+shadow_size = 1
+shadow_offset = Vector2(2, 2)
 
 [node name="InventoryTab" type="HBoxContainer"]
 anchors_preset = 15
@@ -13,7 +27,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_daiut")
-theme_override_constants/separation = 24
+theme_override_constants/separation = 12
 script = ExtResource("1_sbvjl")
 
 [node name="Container" type="HBoxContainer" parent="."]
@@ -35,10 +49,26 @@ custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 columns = 6
 
-[node name="InventoryList" parent="." instance=ExtResource("5_14rb5")]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_wfm8w")
+
+[node name="InventorySection" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InventoryList" parent="ScrollContainer/InventorySection" instance=ExtResource("5_14rb5")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="ScrollContainer2" type="ScrollContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_wfm8w")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75

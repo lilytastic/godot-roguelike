@@ -9,7 +9,11 @@ content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
 bg_color = Color(0.06, 0.06, 0.06, 0.494118)
-corner_detail = 1
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.66, 0.66, 0.66, 0.164706)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3rxi"]
 content_margin_left = 4.0
@@ -17,6 +21,11 @@ content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
 bg_color = Color(0.01312, 0.0112, 0.04, 0.576471)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0.419608)
 corner_detail = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_skahh"]
@@ -25,9 +34,12 @@ region = Rect2(512, 112, 16, 16)
 
 [node name="TileItem" type="Button"]
 custom_minimum_size = Vector2(28, 28)
+offset_right = 28.0
+offset_bottom = 28.0
 theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
 theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 theme_override_styles/disabled = SubResource("StyleBoxFlat_86h8q")
+theme_override_styles/hover = SubResource("StyleBoxFlat_i3rxi")
 theme_override_styles/normal = SubResource("StyleBoxFlat_i3rxi")
 icon = SubResource("AtlasTexture_skahh")
 expand_icon = true
