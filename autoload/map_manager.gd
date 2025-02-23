@@ -58,17 +58,17 @@ var tile_data = {
 	'rough stone': {
 		'atlas_coords': Vector2(2, 0),
 		'color': Color('aaaaaa'),
-		'bg': Color('888888'),
+		'bg': Color('666666'),
 		'is_solid': true
 	},
 	'rough stone floor': {
 		'atlas_coords': Vector2(6, 13),
-		'bg': Color('333333'),
+		'bg': Color('111111'),
 		'color': Color('444444'),
 	},
 	'stone floor': {
 		'atlas_coords': Vector2(10, 17),
-		'bg': Color('333333'),
+		'bg': Color('171717'),
 		'color': Color('444444'),
 	},
 	'tree': {
@@ -82,6 +82,10 @@ var tile_data = {
 	},
 	'wildgrass': {
 		'atlas_coords': Vector2(0, 2),
+		'color': Color('387a17')
+	},
+	'scrub': {
+		'atlas_coords': Vector2(1, 2),
 		'color': Color('387a17')
 	}
 }

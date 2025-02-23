@@ -96,13 +96,14 @@ func render(delta: float = 0) -> void:
 
 		var _render_data = tile_render[position]
 		var is_known = current_map.tiles_known.get(position, false)
-		var _color = tile_render[position].tile_data.color if tile_render[position].tile_data.has('color') else Color.WHITE # tiles[position].modulate
+		var _color = tile_render[position].tile_data.get('color', Color.WHITE) # tiles[position].modulate
+		var _bg_color = tile_render[position].tile_data.get('bg', Color.WHITE) # tiles[position].modulate
 
 		"""
 		if path_to_cursor.find(Vector2(position)) != -1:
 			_color = Color.RED # _color * 2
 		"""
-		var _opacity = 1
+		var _opacity = 0.5
 		if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AgentManager.can_see(Global.player, position) and 
 			_opacity = 1
 		else:
@@ -111,11 +112,26 @@ func render(delta: float = 0) -> void:
 			else:
 				_opacity = 0.0
 		# tiles[position].modulate = Color(_color, _opacity)
-		tile_render[position].color = _color
+	
+		var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
+		var col = Color(_noise, _noise, _noise) / 8
+		
+		tile_render[position].color = _color + col
+		tile_render[position].bg = _bg_color + col
 		tile_render[position].opacity = _opacity
+		
+		_render_data = tile_render[position]
 		# var _render_color = Color(_render_data.color, _render_data.opacity)
-		tiles[position].modulate = tiles[position].modulate.lerp(Color(Color.WHITE, _render_data.opacity), delta * 8.0)
-		tiles[position].get_children()[0].modulate = tiles[position].get_children()[0].modulate.lerp(_render_data.color, delta * 8.0)
+		tiles[position].modulate = tiles[position].modulate.lerp(
+			Color(Color.WHITE, _render_data.opacity),
+			delta * 8.0
+		)
+		var children = tiles[position].get_children()
+		var spr = children[0]
+		spr.modulate = spr.modulate.lerp(_render_data.color, delta * 8.0)
+		if children.size() > 1:
+			var bg = children[1]
+			bg.modulate = bg.modulate.lerp(_render_data.bg, delta * 8.0)
 
 
 func update_tiles() -> void:
@@ -154,6 +170,7 @@ func generate_tile(id: String, position: Vector2i) -> Node2D:
 	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 	spr.texture = atlas
 	tile_node.z_index = -1
+	# tile_node.modulate = Color(col, 0)
 	
 	if data.has('bg'):
 		var _bg_color = data.get('bg', Color.WHITE)
@@ -166,10 +183,7 @@ func generate_tile(id: String, position: Vector2i) -> Node2D:
 		_bg.modulate = _bg_color
 		tile_node.add_child(_bg)
 	
-	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
-	var col = Color(_noise, _noise, _noise) / 8
 	spr.modulate = data.get('color', Color.WHITE)
-	tile_node.modulate = Color(Color.WHITE, 0)
 
 	tiles[position] = tile_node
 	return tile_node
