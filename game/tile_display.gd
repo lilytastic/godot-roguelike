@@ -113,7 +113,9 @@ func render(delta: float = 0) -> void:
 		# tiles[position].modulate = Color(_color, _opacity)
 		tile_render[position].color = _color
 		tile_render[position].opacity = _opacity
-		tiles[position].modulate = tiles[position].modulate.lerp(Color(_render_data.color, _render_data.opacity), delta * 8.0)
+		# var _render_color = Color(_render_data.color, _render_data.opacity)
+		tiles[position].modulate = tiles[position].modulate.lerp(Color(Color.WHITE, _render_data.opacity), delta * 8.0)
+		tiles[position].get_children()[0].modulate = tiles[position].get_children()[0].modulate.lerp(_render_data.color, delta * 8.0)
 
 
 func update_tiles() -> void:
@@ -138,9 +140,11 @@ func update_tiles() -> void:
 				tile_render[position].tile_data = _tile_data
 				
 
-func generate_tile(id: String, position: Vector2i) -> Sprite2D:
+func generate_tile(id: String, position: Vector2i) -> Node2D:
+	var tile_node = Node2D.new()
 	var spr = Sprite2D.new()
-	spr.position = Coords.get_position(position) + Vector2(8, 8)
+	tile_node.add_child(spr)
+	tile_node.position = Coords.get_position(position) + Vector2(8, 8)
 	var atlas = AtlasTexture.new()
 	atlas.set_atlas(Glyph.tileset)
 	var data = MapManager.get_tile_data(id)
@@ -149,7 +153,7 @@ func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 		return null
 	atlas.set_region(Rect2(coords.x * 16, coords.y * 16, 16, 16))
 	spr.texture = atlas
-	spr.z_index = -1
+	tile_node.z_index = -1
 	
 	if data.has('bg'):
 		var _bg_color = data.get('bg', Color.WHITE)
@@ -160,11 +164,12 @@ func generate_tile(id: String, position: Vector2i) -> Sprite2D:
 		_bg.texture = _atlas
 		_bg.z_index = -1
 		_bg.modulate = _bg_color
-		spr.add_child(_bg)
+		tile_node.add_child(_bg)
 	
 	var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
 	var col = Color(_noise, _noise, _noise) / 8
-	spr.modulate = Color(data.get('color', Color.WHITE) + col, 0.0)
+	spr.modulate = data.get('color', Color.WHITE)
+	tile_node.modulate = Color(Color.WHITE, 0)
 
-	tiles[position] = spr
-	return spr
+	tiles[position] = tile_node
+	return tile_node
