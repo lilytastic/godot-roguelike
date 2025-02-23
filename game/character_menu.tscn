@@ -1,18 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqasfn61u6sl5"]
+[gd_scene load_steps=7 format=3 uid="uid://dqasfn61u6sl5"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_5t1bb"]
 [ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
+[ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="4_gwa4w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c7vui"]
 bg_color = Color(0.0728, 0.0871, 0.13, 0.815686)
+expand_margin_top = 4.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ufjfk"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nt2vv"]
+atlas = ExtResource("4_gwa4w")
+region = Rect2(640, 208, 16, 16)
 
 [node name="CharacterMenu" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -31,10 +36,10 @@ grow_vertical = 2
 alignment = 1
 
 [node name="Control" type="TabContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ufjfk")
 tab_alignment = 1
 current_tab = 1
 
@@ -66,16 +71,21 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_tab_index = 2
 
-[node name="Button" type="Button" parent="."]
-visible = false
+[node name="CloseButton" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -67.0
-offset_right = -7.0
-offset_bottom = 34.0
+offset_left = -25.0
+offset_right = -1.0
+offset_bottom = 24.0
 grow_horizontal = 0
-text = "Close"
+theme_override_colors/icon_normal_color = Color(0.5984, 0.68, 0.6732, 1)
+theme_override_colors/icon_pressed_color = Color(0.9, 0.983333, 1, 1)
+theme_override_colors/icon_hover_color = Color(0.4214, 0.7869, 0.86, 1)
+text = "
+"
+icon = SubResource("AtlasTexture_nt2vv")
 flat = true
 expand_icon = true

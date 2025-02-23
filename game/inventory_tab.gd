@@ -10,6 +10,7 @@ var entity: Entity:
 
 		if _entity:
 			%InventoryDisplay.inventory = _entity.inventory
+			%InventoryList.inventory = _entity.inventory
 			%EquipmentDisplay.equipment = _entity.equipment
 		
 func _ready():
@@ -22,3 +23,4 @@ func _on_double_click(stack):
 		var action = UseAction.new(ECS.entity(stack.entity))
 		action.perform(Global.player)
 		PlayerInput.ui_action_triggered.emit(action)
+	%InventoryList.inventory = _entity.inventory

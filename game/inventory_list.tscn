@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxe6gxf53hv0w"]
+
+[ext_resource type="Script" path="res://game/inventory_list.gd" id="1_bvivv"]
+[ext_resource type="PackedScene" uid="uid://bk8eon1oyy01k" path="res://game/list_item.tscn" id="1_u8kbo"]
+
+[node name="InventoryList" type="VBoxContainer"]
+size_flags_horizontal = 3
+script = ExtResource("1_bvivv")
+
+[node name="Button" parent="." instance=ExtResource("1_u8kbo")]
+layout_mode = 2
