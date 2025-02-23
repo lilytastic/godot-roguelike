@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b2o6kp0x6jeb0"]
+[gd_scene load_steps=23 format=3 uid="uid://b2o6kp0x6jeb0"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_daiut"]
 [ext_resource type="Script" path="res://game/inventory_tab.gd" id="1_sbvjl"]
@@ -8,8 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://dxe6gxf53hv0w" path="res://game/inventory_list.tscn" id="5_14rb5"]
 [ext_resource type="FontFile" uid="uid://tmiu6ynilg7r" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_narrow_bold.ttf" id="5_chqje"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="6_cuul2"]
+[ext_resource type="PackedScene" uid="uid://drrqc406l4xxu" path="res://game/item_preview.tscn" id="9_i2k1l"]
+[ext_resource type="Script" path="res://game/item_preview.gd" id="10_p5y7m"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o7lln"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sph3a"]
+atlas = ExtResource("4_wsdns")
+region = Rect2(752, 64, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5542f"]
 atlas = ExtResource("4_wsdns")
@@ -46,6 +52,14 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_top = 1
 border_width_bottom = 1
 border_color = Color(0.8, 0.8, 0.8, 0.101961)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssfww"]
+atlas = ExtResource("4_wsdns")
+region = Rect2(752, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_co7cn"]
+atlas = ExtResource("4_wsdns")
+region = Rect2(656, 64, 16, 16)
 
 [node name="InventoryTab" type="HBoxContainer"]
 anchors_preset = 15
@@ -112,6 +126,16 @@ layout_mode = 2
 alignment = 1
 
 [node name="Button" type="Button" parent="Panel/MarginContainer/ScrollContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.54902)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_o7lln")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_o7lln")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_o7lln")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_o7lln")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_o7lln")
+icon = SubResource("AtlasTexture_sph3a")
+
+[node name="Button8" type="Button" parent="Panel/MarginContainer/ScrollContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.54902)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_o7lln")
@@ -213,16 +237,44 @@ theme_override_constants/margin_bottom = 4
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 
+[node name="TextureRect" type="TextureRect" parent="Panel/MarginContainer/ScrollContainer/MarginContainer/HBoxContainer"]
+modulate = Color(0.49, 0.456843, 0.4214, 1)
+layout_mode = 2
+texture = SubResource("AtlasTexture_ssfww")
+
 [node name="Label" type="Label" parent="Panel/MarginContainer/ScrollContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "0.0/0g"
+size_flags_horizontal = 3
+text = "0.0 / 0lb"
+
+[node name="TextureRect2" type="TextureRect" parent="Panel/MarginContainer/ScrollContainer/MarginContainer/HBoxContainer"]
+modulate = Color(0.71, 0.63758, 0.2272, 1)
+layout_mode = 2
+texture = SubResource("AtlasTexture_co7cn")
+
+[node name="Label2" type="Label" parent="Panel/MarginContainer/ScrollContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "1,024g"
+horizontal_alignment = 2
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("6_cuul2")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer2/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.75
+
+[node name="ItemPreview" parent="ScrollContainer2/MarginContainer/VBoxContainer2" instance=ExtResource("9_i2k1l")]
+layout_mode = 2
+script = ExtResource("10_p5y7m")

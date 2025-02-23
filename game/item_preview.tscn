@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://drrqc406l4xxu"]
+
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_4675t"]
+[ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="2_si0be"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hck5p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8grav"]
+atlas = ExtResource("2_si0be")
+region = Rect2(512, 128, 16, 16)
+
+[node name="Panel" type="Panel"]
+offset_right = 200.0
+offset_bottom = 80.0
+size_flags_horizontal = 3
+theme = ExtResource("1_4675t")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hck5p")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 43.0
+offset_bottom = 16.0
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_8grav")
+
+[node name="ItemName" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Item"

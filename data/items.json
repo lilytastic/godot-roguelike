@@ -23,6 +23,7 @@
 	  {
 		"id": "item",
 		"name": "item",
+		"value": 0,
 		"glyph": {
 		  "ch": "G_UNKNOWN"
 		},
@@ -120,7 +121,7 @@
 		  ]
 		},
 		"storage": {
-		  "weight": 1
+		  "weight": 0.3
 		}
 	  },
 	  {

@@ -21,6 +21,8 @@ var camera_offset = Vector2(0,0.5)
 signal action_triggered
 signal ui_action_triggered
 signal double_click
+signal item_hovered
+
 
 func _process(delta) -> void:
 	_update_cursor()

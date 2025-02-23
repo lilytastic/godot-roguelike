@@ -20,7 +20,6 @@ var stack: Dictionary:
 
 signal item_dropped
 
-
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if entity:
 		PlayerInput.dragging = {
@@ -48,10 +47,13 @@ func _exit_tree():
 	disconnect('gui_input', on_input)
 
 func on_input(ev: InputEvent):
-	if !ev is InputEventMouseButton:
+	if ev is InputEventMouseMotion:
+		if stack.has('entity'):
+			PlayerInput.item_hovered.emit(stack.entity)
 		return
-	if ev.double_click:
-		PlayerInput.double_click.emit(stack)
+	if ev is InputEventMouseButton:
+		if ev.double_click:
+			PlayerInput.double_click.emit(stack)
 	update()
 
 func update():
