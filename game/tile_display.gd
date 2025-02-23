@@ -71,19 +71,6 @@ func render(delta: float = 0) -> void:
 	_rect.position = _center - _rect.size / 2
 	_rect.position -= Vector2.ONE * 16
 	_rect.size += Vector2.ONE * 32
-	
-	"""
-	var _target_position = Vector2i(-1, -1)# (PlayerInput.mouse_position_in_world / 16)
-	if PlayerInput.targeting.has_target():
-		_target_position = Vector2i(PlayerInput.targeting.target_position())
-	if Global.player.targeting.has_target():
-		_target_position = Vector2i(Global.player.targeting.target_position())
-
-	var path_to_cursor = Coords.get_point_line(
-		Global.player.location.position,
-		_target_position
-	) if _target_position != Vector2i(-1, -1) else []
-	"""
 
 	for position in tiles.keys():
 		if !is_instance_valid(tiles[position]):
@@ -93,42 +80,7 @@ func render(delta: float = 0) -> void:
 
 		if !_is_visible or !tile_render.has(position):
 			pass # return
-
 		var _render_data = tile_render[position]
-		var is_known = current_map.tiles_known.get(position, false)
-		var _tile_data = tile_render[position].tile_data
-		var _color = _tile_data.get('color', Color.WHITE) # tiles[position].modulate
-		var _bg_color = _tile_data.get('bg', Color.WHITE) # tiles[position].modulate
-		var _scattering = _tile_data.get('scattering', -1)
-
-		"""
-		if path_to_cursor.find(Vector2(position)) != -1:
-			_color = Color.RED # _color * 2
-		"""
-		var _opacity = 0.5
-		if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AgentManager.can_see(Global.player, position) and 
-			_opacity = 1
-		else:
-			if is_known:
-				_opacity = 0.15
-			else:
-				_opacity = 0.0
-		# tiles[position].modulate = Color(_color, _opacity)
-	
-		var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
-		var _noise2 = fast_noise_lite.get_noise_2d((position.x + 3000) * 50, (position.y + 3000) * 50)
-		var col = Color(_noise, _noise, _noise) / 8
-		var bg_col = Color(_noise, _noise, _noise) / 30
-		
-		if _scattering > 0 and _noise2 * 100 <= _scattering:
-			_color = Color(0,0,0,0)
-			tile_render[position].color = _color
-		else:
-			tile_render[position].color = _color + col
-		tile_render[position].bg = _bg_color + bg_col
-		tile_render[position].opacity = _opacity
-		
-		_render_data = tile_render[position]
 		# var _render_color = Color(_render_data.color, _render_data.opacity)
 		tiles[position].modulate = tiles[position].modulate.lerp(
 			Color(Color.WHITE, _render_data.opacity),
@@ -162,6 +114,34 @@ func update_tiles() -> void:
 				if !tile_render.has(position):
 					tile_render[position] = {}
 				tile_render[position].tile_data = _tile_data
+				
+				var is_known = current_map.tiles_known.get(position, false)
+				var _color = _tile_data.get('color', Color.WHITE) # tiles[position].modulate
+				var _bg_color = _tile_data.get('bg', Color.WHITE) # tiles[position].modulate
+				var _scattering = _tile_data.get('scattering', -1)
+				var _opacity = 0.5
+				if Global.player.visible_tiles.has(position): # _visible.get(position, false) # AgentManager.can_see(Global.player, position) and 
+					_opacity = 1
+				else:
+					if is_known:
+						_opacity = 0.15
+					else:
+						_opacity = 0.0
+
+				var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
+				var _noise2 = fast_noise_lite.get_noise_2d((position.x + 3000) * 50, (position.y + 3000) * 50)
+				var col = Color(_noise, _noise, _noise) / 8
+				var bg_col = Color(_noise, _noise, _noise) / 30
+				
+				if _scattering > 0 and _noise2 * 100 <= _scattering:
+					_color = Color(0,0,0,0)
+					tile_render[position].color = _color
+				else:
+					tile_render[position].color = _color + col
+				tile_render[position].bg = _bg_color + bg_col
+				tile_render[position].opacity = _opacity
+				
+
 				
 
 func generate_tile(id: String, position: Vector2i) -> Node2D:

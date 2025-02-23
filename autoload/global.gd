@@ -80,7 +80,7 @@ func get_save_slots() -> Array[Dictionary]:
 		# {'path': 'user://%s.save' % 'quicksave', 'type': 'quicksave'},
 		{'path': 'user://%s.save' % 'autosave', 'type': 'autosave'}
 	]
-	for n in 3:
+	for n in 6:
 		var num = str(n+1)
 		arr.append({'path': 'user://%s.save' % ('save' + num), 'type': 'manual'})
 	return arr

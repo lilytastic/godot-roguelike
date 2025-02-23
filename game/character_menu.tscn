@@ -53,15 +53,16 @@ metadata/_tab_index = 0
 
 [node name="Inventory" type="MarginContainer" parent="HBoxContainer/Control"]
 layout_mode = 2
-theme_override_constants/margin_left = 16
+theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 16
+theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 16
 metadata/_tab_index = 1
 
 [node name="Inventory" parent="HBoxContainer/Control/Inventory" instance=ExtResource("3_byvbg")]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="Journal" type="Control" parent="HBoxContainer/Control"]
 unique_name_in_owner = true
