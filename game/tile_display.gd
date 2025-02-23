@@ -80,6 +80,7 @@ func render(delta: float = 0) -> void:
 
 		if !_is_visible or !tile_render.has(position):
 			pass # return
+
 		var _render_data = tile_render[position]
 		# var _render_color = Color(_render_data.color, _render_data.opacity)
 		tiles[position].modulate = tiles[position].modulate.lerp(
