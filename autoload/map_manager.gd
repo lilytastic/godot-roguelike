@@ -78,7 +78,8 @@ var tile_data = {
 	},
 	'soil': {
 		'atlas_coords': Vector2(5, 0),
-		'color': Color('2c5b14')
+		'color': Color('2c5b14'),
+		'scattering': 30
 	},
 	'wildgrass': {
 		'atlas_coords': Vector2(0, 2),

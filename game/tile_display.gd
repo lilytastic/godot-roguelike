@@ -96,8 +96,10 @@ func render(delta: float = 0) -> void:
 
 		var _render_data = tile_render[position]
 		var is_known = current_map.tiles_known.get(position, false)
-		var _color = tile_render[position].tile_data.get('color', Color.WHITE) # tiles[position].modulate
-		var _bg_color = tile_render[position].tile_data.get('bg', Color.WHITE) # tiles[position].modulate
+		var _tile_data = tile_render[position].tile_data
+		var _color = _tile_data.get('color', Color.WHITE) # tiles[position].modulate
+		var _bg_color = _tile_data.get('bg', Color.WHITE) # tiles[position].modulate
+		var _scattering = _tile_data.get('scattering', -1)
 
 		"""
 		if path_to_cursor.find(Vector2(position)) != -1:
@@ -114,10 +116,16 @@ func render(delta: float = 0) -> void:
 		# tiles[position].modulate = Color(_color, _opacity)
 	
 		var _noise = fast_noise_lite.get_noise_2d(position.x * 20, position.y * 20)
+		var _noise2 = fast_noise_lite.get_noise_2d((position.x + 3000) * 50, (position.y + 3000) * 50)
 		var col = Color(_noise, _noise, _noise) / 8
+		var bg_col = Color(_noise, _noise, _noise) / 30
 		
-		tile_render[position].color = _color + col
-		tile_render[position].bg = _bg_color + col
+		if _scattering > 0 and _noise2 * 100 <= _scattering:
+			_color = Color(0,0,0,0)
+			tile_render[position].color = _color
+		else:
+			tile_render[position].color = _color + col
+		tile_render[position].bg = _bg_color + bg_col
 		tile_render[position].opacity = _opacity
 		
 		_render_data = tile_render[position]
@@ -164,6 +172,7 @@ func generate_tile(id: String, position: Vector2i) -> Node2D:
 	var atlas = AtlasTexture.new()
 	atlas.set_atlas(Glyph.tileset)
 	var data = MapManager.get_tile_data(id)
+	data.bg = data.get('bg', Color('0a2604'))
 	var coords = MapManager.get_atlas_coords_for_id(id)
 	if coords == Vector2.ZERO:
 		return null
