@@ -165,6 +165,7 @@ func update_tiles() -> void:
 				
 
 func generate_tile(id: String, position: Vector2i) -> Node2D:
+	var current_map = MapManager.current_map
 	var tile_node = Node2D.new()
 	var spr = Sprite2D.new()
 	tile_node.add_child(spr)
@@ -172,7 +173,8 @@ func generate_tile(id: String, position: Vector2i) -> Node2D:
 	var atlas = AtlasTexture.new()
 	atlas.set_atlas(Glyph.tileset)
 	var data = MapManager.get_tile_data(id)
-	data.bg = data.get('bg', Color('0a2604'))
+	var bg = Color(current_map.map_definition.get('default_color', 'FF0000')) if current_map.map_definition else Color('FF0000')
+	data.bg = data.get('bg', bg)
 	var coords = MapManager.get_atlas_coords_for_id(id)
 	if coords == Vector2.ZERO:
 		return null

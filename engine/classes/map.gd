@@ -13,6 +13,7 @@ var connections := []
 var size := Vector2(0,0)
 var neighbours := [] # TODO: Neighbouring cells, particularly for exteriors.
 var default_tile = 'void'
+var map_definition = null
 
 var is_loaded = false
 
@@ -36,9 +37,9 @@ func _init(_data := {}) -> void:
 	branch = data.get('branch', '')
 	depth = data.get('depth', 0)
 	
-	var _map_definition = MapManager.map_definitions.get(branch, null)
+	map_definition = MapManager.map_definitions.get(branch, null)
 
-	name = data.get('map', _map_definition.name if _map_definition else '<unnamed map>')
+	name = data.get('map', map_definition.name if map_definition else '<unnamed map>')
 	default_tile = data.get('default_tile', 'void')
 
 	var _tiles_known = data.get('tiles_known', [])

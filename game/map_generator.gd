@@ -13,6 +13,7 @@ var entities := []
 
 var default_ground = MapManager.tile_data['stone floor'].atlas_coords
 var default_ground_corridor = MapManager.tile_data['rough stone floor'].atlas_coords
+var default_ground_natural = MapManager.tile_data['soil'].atlas_coords
 var default_wall = null
 
 var astar: AStar2D = AStar2D.new()
@@ -187,9 +188,9 @@ func _resolve_template():
 					await Global.sleep(300 / _generation_speed)
 
 				for cell in new_cells.keys():
-					target_layer.set_cell(cell, 0, default_ground if new_cells[cell] == 1 else default_wall)
+					target_layer.set_cell(cell, 0, default_ground_natural if new_cells[cell] == 1 else default_wall)
 				
-			var feature = Room.new()
+			var feature = Cavern.new()
 			feature.set_cells(cells.filter(func(cell): return new_cells[cell] == 1))
 			_dig_feature(feature)
 
@@ -339,10 +340,10 @@ func _remove_walls(layer: TileMapLayer):
 			_fill_in(layer, cell)
 
 
-func _dig(cell: Vector2i, is_corridor := false):
+func _dig(cell: Vector2i, _tile: Vector2i):
 	var layer_width = target_layer.get_used_rect().end.x
 	used_cells[cell] = cell
-	target_layer.set_cell(cell, 0, default_ground_corridor if is_corridor else default_ground)
+	target_layer.set_cell(cell, 0, _tile)
 	var point1 = Coords.get_astar_pos(cell.x, cell.y, layer_width)
 	astar.add_point(point1, cell)
 	for direction in Global.directions:
@@ -372,7 +373,12 @@ func _dig_feature(feature: Feature):
 	if feature.cells.size() == 0:
 		return
 	for cell in feature.cells:
-		_dig(cell, feature is Corridor)
+		var _tile = default_ground
+		if feature is Corridor:
+			_tile = default_ground_corridor
+		if feature is Cavern:
+			_tile = default_ground_natural
+		_dig(cell, _tile)
 
 	features.append(feature)
 
@@ -391,7 +397,7 @@ func _remove_dead_ends(layer: TileMapLayer, __generation_speed := 0):
 			var surrounding = layer.get_surrounding_cells(cell)
 			var solid_neighbours = surrounding.filter(func(_cell): return _is_wall(_cell))
 			if solid_neighbours.size() == 0:
-				_dig(cell, true)
+				_dig(cell, default_ground_corridor)
 				filled_cells += 1
 	
 	if filled_cells > 0:
@@ -435,7 +441,7 @@ func _check_wall(wall: Dictionary):
 			will_break = true
 
 	if will_break:
-		_dig(wall.cell, true)
+		_dig(wall.cell, default_ground_corridor)
 
 
 func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
@@ -445,7 +451,7 @@ func _make_digger(coord: Vector2i, direction: Vector2i, life: int) -> Digger:
 		1,
 		life,
 		_can_dig,
-		func(__cell): _dig(__cell, true)
+		func(__cell): _dig(__cell, default_ground_corridor)
 	)
 
 
@@ -460,7 +466,7 @@ func _dig_off_of(_feature: Feature, _position := Vector2i(-1,-1)):
 		faces.shuffle()
 		for face in faces:
 			if _lookahead(target_layer, face, dir, 4) > 4:
-				_dig(face, true)
+				_dig(face, default_ground_corridor)
 				digger = _make_digger(
 					face + dir,
 					dir,
@@ -532,7 +538,7 @@ func _open_exit(cell: Vector2i):
 	for feature in arr:
 		if feature is Room:
 			feature.exits.append(cell)
-		_dig(cell, true)
+		_dig(cell, default_ground_corridor)
 
 
 func _is_solid(cell: Vector2i):
@@ -581,7 +587,7 @@ func _find_valid_accretion(_feature: Feature, _accrete: Feature) -> Dictionary:
 	if valid_location:
 		# Adds a one-tile corridor between rooms
 		_feature.exits.append(valid_location.exit)
-		_dig(valid_location.exit, true)
+		_dig(valid_location.exit, default_ground_corridor)
 		# Sets the cells to the new offset
 		_feature.set_cells(_feature.cells.map(func(_cell): return _cell + valid_location.offset))
 

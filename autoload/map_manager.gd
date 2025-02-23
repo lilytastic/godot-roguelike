@@ -21,11 +21,13 @@ var map_definitions = {
 	'wilderness': {
 		'name': "Wilderness",
 		'is_interior': false,
+		'default_color': '0e2d15',
 		'prefabs': [ 'test' ]
 	},
 	'dungeon': {
 		'name': "Dungeon",
-		'is_interior': true
+		'is_interior': true,
+		'default_color': '28190d'
 	},
 	'cave': {
 		'parent': 'dungeon'
@@ -77,6 +79,11 @@ var tile_data = {
 		'is_solid': true
 	},
 	'soil': {
+		'atlas_coords': Vector2(30, 12),
+		'color': Color('3a2718'),
+		'scattering': 30
+	},
+	'grass': {
 		'atlas_coords': Vector2(5, 0),
 		'color': Color('2c5b14'),
 		'scattering': 30

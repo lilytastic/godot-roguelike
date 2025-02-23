@@ -50,6 +50,7 @@ func new_game() -> Entity:
 	var starting_map = await MapManager.resolve_destination({
 		'worldspace': 'domino',
 		'name': 'Wilderness',
+		'branch': 'wilderness',
 		'cell': Vector2i(0, 0),
 		'connections': [{'branch': 'privateers_hideout', 'depth': 1 }]
 	}, player)
