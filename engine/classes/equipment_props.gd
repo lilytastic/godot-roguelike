@@ -27,6 +27,7 @@ func _empty_slots_first(a, b):
 func equip(entity: Entity, opts := {}) -> Dictionary:
 	var blueprint = entity.blueprint
 	if !blueprint or !blueprint.item:
+		print('no item for blueprint')
 		return { 'success': false }
 		
 	var item_slots = blueprint.item.slots.duplicate(true)
@@ -43,6 +44,7 @@ func equip(entity: Entity, opts := {}) -> Dictionary:
 		item_equipped.emit({ 'slots': slotSet, 'item': entity.uuid })
 		return { 'success': true, 'items_swapped': swapped }
 
+	print('no slot for blueprint')
 	return { 'success': false }
 	
 func unequip(slot) -> String:

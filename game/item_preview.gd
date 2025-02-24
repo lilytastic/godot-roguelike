@@ -46,3 +46,8 @@ func _update():
 			%WeaponSpeed.text = 'x' + str(entity.blueprint.weapon.speed) + ' Attack Speed'
 		else:
 			%WeaponInfo.visible = false
+		
+		if entity.blueprint.item:
+			%Weight.text = str(entity.blueprint.item.weight) + 'lb'
+		else:
+			%Weight.text = '-'

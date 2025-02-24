@@ -39,7 +39,12 @@ func concat(parent: Blueprint):
 	type = type if type != 'unknown' else parent.type
 	description = description if description != '' else parent.description
 	glyph = glyph if glyph else parent.glyph
-	item = item if item else parent.item
+	if item:
+		if parent.item:
+			item.slots = parent.item.slots if item.slots.size() == 0 else item.slots
+			item.weight = parent.item.weight if item.weight == 0 else item.weight
+	else:
+		item = parent.item
 	equipment = equipment if equipment else parent.equipment
 	speed = speed if speed != 0.0 else float(parent.speed)
 	weapon = weapon if weapon else parent.weapon

@@ -28,9 +28,6 @@
 			180
 		  ]
 		},
-		"storage": {
-		  "weight": 10
-		},
 		"wearable": {
 		  "slot": "weapon",
 		  "slots": [ ["main hand"], ["off-hand"] ]
@@ -51,6 +48,9 @@
 			"range": 1,
 			"speed": 1,
 			"weaponskills": [ "punch" ]
+		},
+		"storage": {
+		  "weight": 3
 		},
 		"glyph": {
 		  "ch": "G_FISTS",
@@ -76,6 +76,9 @@
 			"speed": 1.3,
 			"weaponskills": [ "slash", "crosscut" ]
 		},
+		"storage": {
+		  "weight": 3
+		},
 		"glyph": {
 		  "ch": "G_DAGGER",
 		  "fg": [
@@ -97,6 +100,9 @@
 		  "range": 1,
 		  "speed": 1,
 		  "weaponskills": [ "slash" ],
+		},
+		"storage": {
+		  "weight": 8
 		},
 		"glyph": {
 		  "ch": "G_SWORD",
@@ -120,6 +126,9 @@
 			"range": 2,
 			"speed": 0.8,
 			"weaponskills": [ "slash", "cleave" ],
+		},
+		"storage": {
+		  "weight": 13
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -147,6 +156,9 @@
 			"range": 2,
 			"speed": 1,
 			"weaponskills": [ "thrust" ],
+		},
+		"storage": {
+		  "weight": 10
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -176,6 +188,9 @@
 			"speed": 1,
 			"weaponskills": [ "slash" ],
 		},
+		"storage": {
+		  "weight": 6
+		},
 		"glyph": {
 		  "ch": "G_AXE",
 		  "fg": [
@@ -200,6 +215,9 @@
 			"speed": 1,
 			"weaponskills": [ "strike" ],
 		},
+		"storage": {
+		  "weight": 7
+		},
 		"glyph": {
 		  "ch": "G_MACE",
 		  "fg": [
@@ -223,6 +241,9 @@
 			"range": 1,
 			"speed": 0.7,
 			"weaponskills": [ "strike" ],
+		},
+		"storage": {
+		  "weight": 15
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -251,6 +272,9 @@
 			"speed": 1,
 			"weaponskills": [ "strike" ],
 		},
+		"storage": {
+		  "weight": 9
+		},
 		"glyph": {
 		  "ch": "G_STAFF",
 		  "fg": [
@@ -274,6 +298,9 @@
 			"range": 8,
 			"speed": 1.3,
 			"weaponskills": [ "shoot" ],
+		},
+		"storage": {
+		  "weight": 12
 		},
 		"wearable": {
 		  "slot": "weapon",
@@ -301,6 +328,9 @@
 			"range": 12,
 			"speed": 0.8,
 			"weaponskills": [ "shoot" ],
+		},
+		"storage": {
+		  "weight": 8
 		},
 		"wearable": {
 		  "slot": "weapon",
