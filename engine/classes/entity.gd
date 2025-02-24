@@ -57,7 +57,6 @@ func _init(opts: Dictionary):
 			func(amount):
 				if !health or health.current <= 0:
 					on_death.emit()
-					ECS.remove(uuid)
 		)
 		
 	update_fov()

@@ -30,6 +30,9 @@ func _update():
 	%ItemIcon.modulate = entity.glyph.fg
 	if is_instance_valid(entity.blueprint):
 		%ItemName.text = entity.blueprint.name.capitalize()
+		%ItemTags.text = ''
+		if entity.health and entity.health.current <= 0:
+			%ItemTags.text = '(dead)'
 		%ItemType.text = entity.blueprint.type.capitalize()
 		if !show_description and !show_weapon_info:
 			%WeaponAndDescription.visible = false
