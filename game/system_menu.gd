@@ -34,7 +34,11 @@ func _input(event: InputEvent):
 	else:
 		Engine.time_scale = 0
 
+var was_menu_open = false
 func _process(delta):
+	if isMenuOpen != was_menu_open:
+		was_menu_open = isMenuOpen
+		PlayerInput.item_hovered.emit(null)
 	if !isMenuOpen:
 		Engine.time_scale = 1
 	else:

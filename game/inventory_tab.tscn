@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b2o6kp0x6jeb0"]
+[gd_scene load_steps=24 format=3 uid="uid://b2o6kp0x6jeb0"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_daiut"]
 [ext_resource type="Script" path="res://game/inventory_tab.gd" id="1_sbvjl"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dxe6gxf53hv0w" path="res://game/inventory_list.tscn" id="5_14rb5"]
 [ext_resource type="FontFile" uid="uid://tmiu6ynilg7r" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_narrow_bold.ttf" id="5_chqje"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="6_cuul2"]
+[ext_resource type="Script" path="res://game/item_display.gd" id="9_8q5sj"]
 [ext_resource type="PackedScene" uid="uid://drrqc406l4xxu" path="res://game/item_preview.tscn" id="9_i2k1l"]
 [ext_resource type="Script" path="res://game/item_preview.gd" id="10_p5y7m"]
 
@@ -259,12 +260,13 @@ layout_mode = 2
 text = "1,024g"
 horizontal_alignment = 2
 
-[node name="ScrollContainer2" type="ScrollContainer" parent="."]
+[node name="ItemDisplay" type="ScrollContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("6_cuul2")
+script = ExtResource("9_8q5sj")
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="ItemDisplay"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -273,11 +275,12 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer2/MarginContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="ItemDisplay/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ItemPreview" parent="ScrollContainer2/MarginContainer/VBoxContainer2" instance=ExtResource("9_i2k1l")]
+[node name="ItemPreview" parent="ItemDisplay/MarginContainer/VBoxContainer2" instance=ExtResource("9_i2k1l")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("10_p5y7m")

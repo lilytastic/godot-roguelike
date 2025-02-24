@@ -159,9 +159,11 @@ func _update_cursor() -> void:
 		func(entity): return entity.location and entity.location.position == coord
 	)
 	if entities_under_cursor.size() > 0:
-		item_hovered.emit(entities_under_cursor[0].uuid)
+		if !Global.ui_visible:
+			item_hovered.emit(entities_under_cursor[0].uuid)
 	else:
-		item_hovered.emit(null)
+		if !Global.ui_visible:
+			item_hovered.emit(null)
 
 func _on_double_click_tile(coord: Vector2i):
 	if Scheduler.player_can_act:

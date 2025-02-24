@@ -77,20 +77,24 @@ layout_mode = 2
 theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxLine_p6pml")
 
-[node name="WeaponDamage" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="WeaponInfo" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="WeaponDamage" type="Label" parent="MarginContainer/VBoxContainer/WeaponInfo"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_73ipq")
 text = "Item"
 
-[node name="WeaponSpeed" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="WeaponSpeed" type="Label" parent="MarginContainer/VBoxContainer/WeaponInfo"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 text = "Item"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/WeaponInfo"]
 layout_mode = 2
 theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxLine_p6pml")
