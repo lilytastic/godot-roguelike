@@ -7,6 +7,7 @@
 		"parent": "item",
 		"type": "one-handed melee",
 		"categories": [ "weapons", "melee weapons" ],
+		"value": 300,
 		"use": {
 			"type": "equip"
 		},
@@ -68,6 +69,7 @@
 		"type": "one-handed melee",
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "Doubles as a toothpick.",
+		"value": 150,
 		"weapon": {
 			"type": "dagger",
 			"damage_type": "slash",
@@ -94,6 +96,7 @@
 		"parent": "weapon",
 		"type": "one-handed melee",
 		"description": "Goes 'whoosh' when you swing it.",
+		"value": 350,
 		"weapon": {
 		  "type": "slash",
 		  "damage": [5, 8],
@@ -119,6 +122,7 @@
 		"parent": "weapon",
 		"type": "two-handed melee",
 		"description": "Goes 'whoosh' when you swing it.",
+		"value": 500,
 		"weapon": {
 			"type": "greatsword",
 			"damage_type": "slash",
@@ -149,6 +153,7 @@
 		"parent": "weapon",
 		"type": "two-handed melee",
 		"description": "Slang for genitalia.",
+		"value": 200,
 		"weapon": {
 			"type": "spear",
 			"damage_type": "pierce",
@@ -178,6 +183,7 @@
 		"name": "axe",
 		"parent": "weapon",
 		"type": "one-handed melee",
+		"value": 180,
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "The trees will fear you.",
 		"weapon": {
@@ -207,6 +213,7 @@
 		"type": "one-handed melee",
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "Good for cracking bones.",
+		"value": 220,
 		"weapon": {
 			"type": "blunt weapon",
 			"damage_type": "bludgeon",
@@ -234,6 +241,7 @@
 		"type": "two-handed melee",
 		"categories": [ "weapons", "melee weapons" ],
 		"description": "Good for cracking bones.",
+		"value": 460,
 		"weapon": {
 			"type": "blunt weapon",
 			"damage_type": "bludgeon",
@@ -264,6 +272,7 @@
 		"parent": "weapon",
 		"type": "one-handed melee",
 		"description": "Bonk.",
+		"value": 120,
 		"weapon": {
 			"type": "blunt weapon",
 			"damage_type": "bludgeon",
@@ -289,6 +298,7 @@
 		"name": "crossbow",
 		"parent": "weapon",
 		"type": "two-handed ranged",
+		"value": 500,
 		"description": "Pew.",
 		"abilities": [ "shoot" ],
 		"weapon": {
@@ -321,6 +331,7 @@
 		"parent": "weapon",
 		"type": "two-handed ranged",
 		"description": "Pew.",
+		"value": 150,
 		"weapon": {
 			"type": "bow",
 			"damage_type": "pierce",

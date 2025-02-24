@@ -51,3 +51,8 @@ func _update():
 			%Weight.text = str(entity.blueprint.item.weight) + 'lb'
 		else:
 			%Weight.text = '-'
+		
+		if entity.blueprint.item:
+			%Value.text = str(entity.blueprint.item.value) + 'g'
+		else:
+			%Value.text = '-'

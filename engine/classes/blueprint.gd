@@ -43,6 +43,7 @@ func concat(parent: Blueprint):
 		if parent.item:
 			item.slots = parent.item.slots if item.slots.size() == 0 else item.slots
 			item.weight = parent.item.weight if item.weight == 0 else item.weight
+			item.value = parent.item.value if item.value == 0 else item.value
 	else:
 		item = parent.item
 	equipment = equipment if equipment else parent.equipment
