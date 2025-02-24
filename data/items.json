@@ -78,7 +78,8 @@
 		"parent": "item",
 		"type": "armor",
 		"glyph": {
-		  "ch": "G_ARMOR"
+		  "ch": "G_ARMOR",
+		  "fg": [160, 160, 160]
 		},
 		"wearable": {
 			"slot": "torso",
@@ -90,7 +91,8 @@
 		"parent": "item",
 		"type": "clothing",
 		"glyph": {
-		  "ch": "G_SHIRT"
+		  "ch": "G_SHIRT",
+		  "fg": [160, 160, 160]
 		},
 		"wearable": {
 			"slot": "torso",
@@ -101,7 +103,8 @@
 		"id": "shoes",
 		"parent": "clothing",
 		"glyph": {
-		  "ch": "G_SHOES"
+		  "ch": "G_SHOES",
+		  "fg": [160, 160, 160]
 		},
 		"wearable": {
 			"slot": "feet",
@@ -121,10 +124,10 @@
 	{
 		"id": "sandals",
 		"parent": "shoes",
-		"description": "Optimal airflow.",
+		"description": "Lets others admire your socks.",
 		"value": 1,
 		"storage": {
-		  "weight": 1
+		  "weight": 0.5
 		}
 	},
 	  {
@@ -197,7 +200,7 @@
 	  },
 	  {
 		"id": "stairs_down",
-		"name": "stairs_down",
+		"name": "stairs",
 		"parent": "staircase",
 		"glyph": {
 		  "ch": "G_STAIRS_DOWN",
@@ -210,7 +213,7 @@
 	  },
 	  {
 		"id": "stairs_up",
-		"name": "stairs_up",
+		"name": "stairs",
 		"parent": "staircase",
 		"glyph": {
 		  "ch": "G_STAIRS_UP",

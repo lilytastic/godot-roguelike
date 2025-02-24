@@ -31,13 +31,17 @@ func _init() -> void:
 var _previous_known_locations := {}
 var _could_see = false
 func _process(delta: float) -> void:
-	if !entity or is_dying:
+	if !entity:
 		return
-
+		
 	if !entity.location:
 		destroyed.emit()
 		queue_free()
 		return
+		
+	if is_dying:
+		return
+
 	
 	var _can_see = AgentManager.can_see(Global.player, entity.location.position)
 	var _known_position = Vector2i(-1, -1)
@@ -144,8 +148,11 @@ func die():
 	if is_dying:
 		return
 	is_dying = true
+	modulate = Color(0.5,0,0)
+	z_index = 0
 	if PlayerInput.targeting.current_target == entity.uuid:
 		PlayerInput.targeting.clear_targeting()
+	return
 	await Global.sleep(400)
 	destroyed.emit()
 	queue_free()
