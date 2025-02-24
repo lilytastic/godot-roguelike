@@ -4,6 +4,7 @@
 	  {
 		"id": "creature",
 		"level": 1,
+		"type": "creature",
 		"experienceAwarded": 50,
 		"baseHP": "5*($body + $willpower)/2",
 		"speed": 50,
@@ -138,6 +139,7 @@
 	  {
 		"id": "human",
 		"name": "human",
+		"type": "person",
 		"parent": "humanoid",
 		"experienceAwarded": 100,
 		"glyph": {

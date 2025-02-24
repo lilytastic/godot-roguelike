@@ -41,6 +41,7 @@ func _update_equipment(value: EquipmentProps):
 	_initialize_slots()
 	_update_slots()
 
+
 func _update_slots():
 	for tile in tiles:
 		var slot = tile.slot if (tile is TileItem) else ''

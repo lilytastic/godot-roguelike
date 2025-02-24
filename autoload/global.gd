@@ -37,6 +37,8 @@ func new_game() -> Entity:
 	})
 	player.equipment = EquipmentProps.new({})
 	player.equipment.equip(ECS.create({ 'blueprint': 'sword' }))
+	player.equipment.equip(ECS.create({ 'blueprint': 'rags' }))
+	player.equipment.equip(ECS.create({ 'blueprint': 'sandals' }))
 	player_changed.emit(player)
 	ECS.add(player)
 	

@@ -42,6 +42,7 @@ func equip(entity: Entity, opts := {}) -> Dictionary:
 			slots[slot] = entity.uuid
 
 		item_equipped.emit({ 'slots': slotSet, 'item': entity.uuid })
+		print('equipped: ', entity.blueprint.name)
 		return { 'success': true, 'items_swapped': swapped }
 
 	print('no slot for blueprint')

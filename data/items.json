@@ -73,6 +73,60 @@
 		"name": "off-hand",
 		"parent": "hand"
 	  },
+	{
+		"id": "armor",
+		"parent": "item",
+		"type": "armor",
+		"glyph": {
+		  "ch": "G_ARMOR"
+		},
+		"wearable": {
+			"slot": "torso",
+			"slots": [["torso"]]
+		},
+	},
+	{
+		"id": "clothing",
+		"parent": "item",
+		"type": "clothing",
+		"glyph": {
+		  "ch": "G_SHIRT"
+		},
+		"wearable": {
+			"slot": "torso",
+			"slots": [["torso"]]
+		},
+	},
+	{
+		"id": "shoes",
+		"parent": "clothing",
+		"glyph": {
+		  "ch": "G_SHOES"
+		},
+		"wearable": {
+			"slot": "feet",
+			"slots": [["feet"]]
+		},
+	},
+	{
+		"id": "rags",
+		"parent": "clothing",
+		"type": "clothing",
+		"description": "Optimal airflow.",
+		"value": 0,
+		"storage": {
+		  "weight": 3
+		}
+	},
+	{
+		"id": "sandals",
+		"parent": "shoes",
+		"description": "Optimal airflow.",
+		"value": 1,
+		"storage": {
+		  "weight": 1
+		}
+	},
 	  {
 		"id": "mass",
 		"name": "mass",
@@ -107,6 +161,7 @@
 	  {
 		"id": "consumable",
 		"name": "consumable",
+		"type": "consumable",
 		"categories": [ "consumables" ],
 		"parent": "item",
 		"use": {
@@ -127,6 +182,7 @@
 	  {
 		"id": "staircase",
 		"name": "staircase",
+		"type": "structure",
 		"use": {
 		  "type": "teleport"
 		},
