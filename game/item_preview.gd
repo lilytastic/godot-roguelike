@@ -7,7 +7,9 @@ var _item = ''
 	set(value):
 		_item = value
 		_update()
-		
+
+@export var show_weapon_info = true
+@export var show_description = true
 
 var entity: Entity:
 	get:
@@ -29,8 +31,16 @@ func _update():
 	if is_instance_valid(entity.blueprint):
 		%ItemName.text = entity.blueprint.name.capitalize()
 		%ItemType.text = entity.blueprint.type.capitalize()
-		%Description.text = entity.blueprint.description
-		if entity.blueprint.weapon:
+		if !show_description and !show_weapon_info:
+			%WeaponAndDescription.visible = false
+		else:
+			%WeaponAndDescription.visible = true
+		if show_description:
+			%Description.visible = true
+			%Description.text = entity.blueprint.description
+		else:
+			%Description.visible = false
+		if entity.blueprint.weapon and show_weapon_info:
 			%WeaponInfo.visible = true
 			%WeaponDamage.text = str(entity.blueprint.weapon.damage[0]) + '-' + str(entity.blueprint.weapon.damage[1]) + ' Damage'
 			%WeaponSpeed.text = 'x' + str(entity.blueprint.weapon.speed) + ' Attack Speed'

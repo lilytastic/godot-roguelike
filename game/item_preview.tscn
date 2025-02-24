@@ -24,8 +24,8 @@ region = Rect2(656, 64, 16, 16)
 
 [node name="Panel" type="VBoxContainer"]
 offset_left = 60.0
-offset_right = 128.0
-offset_bottom = 104.0
+offset_right = 228.0
+offset_bottom = 180.0
 size_flags_horizontal = 3
 theme = ExtResource("1_4675t")
 theme_override_constants/separation = 0
@@ -66,40 +66,42 @@ theme_override_constants/margin_left = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="WeaponAndDescription" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/WeaponAndDescription"]
 layout_mode = 2
 theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxLine_p6pml")
 
-[node name="WeaponInfo" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="WeaponInfo" type="VBoxContainer" parent="MarginContainer/WeaponAndDescription"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="WeaponDamage" type="Label" parent="MarginContainer/VBoxContainer/WeaponInfo"]
+[node name="WeaponDamage" type="Label" parent="MarginContainer/WeaponAndDescription/WeaponInfo"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_73ipq")
 text = "Item"
 
-[node name="WeaponSpeed" type="Label" parent="MarginContainer/VBoxContainer/WeaponInfo"]
+[node name="WeaponSpeed" type="Label" parent="MarginContainer/WeaponAndDescription/WeaponInfo"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 text = "Item"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/WeaponInfo"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/WeaponAndDescription/WeaponInfo"]
 layout_mode = 2
 theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxLine_p6pml")
 
-[node name="Description" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Description" type="Label" parent="MarginContainer/WeaponAndDescription"]
 unique_name_in_owner = true
 modulate = Color(0.76, 0.76, 0.76, 1)
 custom_minimum_size = Vector2(160, 0)
@@ -111,7 +113,7 @@ autowrap_mode = 3
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 3
+theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 1
 
