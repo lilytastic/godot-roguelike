@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=3 format=3 uid="uid://crimdq7ctfu43"]
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://crimdq7ctfu43"]
 
 [ext_resource type="Script" path="res://data/script_effect.gd" id="1_8bnaq"]
 [ext_resource type="Script" path="res://data/skill.gd" id="2_6w3s3"]
+[ext_resource type="Resource" uid="uid://238owusdhlwo" path="res://data/skills/trees/strength.tres" id="3_own3a"]
 
 [resource]
 script = ExtResource("2_6w3s3")
 name = "Pain Tolerance"
 description = ""
 is_passive = true
-skill_tree = 1
+skill_tree = ExtResource("3_own3a")
 effects = Array[ExtResource("1_8bnaq")]([])

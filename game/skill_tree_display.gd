@@ -1,7 +1,8 @@
+class_name SkillTreeDisplay
 extends GridContainer
 
-var _current_tree: int = 0
-@export_enum("Combat", "Strength", "Dexterity", "Mind", "Charisma", "Arcane", "Boons") var current_tree: int:
+var _current_tree: SkillTree
+@export var current_tree: SkillTree:
 	get: return _current_tree
 	set(value):
 		_current_tree = value

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://biqhwq8qmxpuy"]
+
+[ext_resource type="Script" path="res://data/script_effect.gd" id="1_j32ya"]
+[ext_resource type="Script" path="res://data/skill.gd" id="2_oc0av"]
+[ext_resource type="Resource" uid="uid://238owusdhlwo" path="res://data/skills/trees/strength.tres" id="3_thvlq"]
+
+[resource]
+script = ExtResource("2_oc0av")
+name = "Fists of Fury"
+description = ""
+is_passive = true
+skill_tree = ExtResource("3_thvlq")
+effects = Array[ExtResource("1_j32ya")]([])

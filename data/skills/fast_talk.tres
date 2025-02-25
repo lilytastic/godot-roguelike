@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=3 format=3 uid="uid://cr4pafnamf5ch"]
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://cr4pafnamf5ch"]
 
 [ext_resource type="Script" path="res://data/script_effect.gd" id="1_l3evb"]
 [ext_resource type="Script" path="res://data/skill.gd" id="2_dt03i"]
+[ext_resource type="Resource" uid="uid://cv17dvpbi15n1" path="res://data/skills/trees/charisma.tres" id="3_4w7kn"]
 
 [resource]
 script = ExtResource("2_dt03i")
 name = "Fast Talk"
 description = ""
-is_passive = true
-skill_tree = 4
+is_passive = false
+skill_tree = ExtResource("3_4w7kn")
 effects = Array[ExtResource("1_l3evb")]([])

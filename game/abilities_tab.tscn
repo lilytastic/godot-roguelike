@@ -42,13 +42,14 @@ tab_2/title = "Dexterity"
 tab_3/title = "Intellect"
 tab_4/title = "Charisma"
 tab_5/title = "Arcane"
-tab_6/title = "Weld"
+tab_6/title = "Divine"
 script = ExtResource("1_1upok")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 8
 
 [node name="SkillDisplay" type="Panel" parent="HBoxContainer"]
 layout_mode = 2
