@@ -6,3 +6,4 @@
 script = ExtResource("1_2y4xr")
 name = "Divine"
 description = ""
+sort_order = 6

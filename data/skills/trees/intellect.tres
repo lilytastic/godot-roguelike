@@ -6,3 +6,4 @@
 script = ExtResource("1_0rfiq")
 name = "Intellect"
 description = ""
+sort_order = 3

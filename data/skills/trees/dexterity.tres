@@ -6,3 +6,4 @@
 script = ExtResource("1_lxkmj")
 name = "Dexterity"
 description = ""
+sort_order = 2

@@ -12,7 +12,10 @@ func _ready():
 		var tree = load(resource)
 		if tree is SkillTree:
 			trees.append(tree)
-			add_tab(tree.name)
+	trees.sort_custom(func(a, b): return a.sort_order < b.sort_order)
+	for tree in trees:
+		add_tab(tree.name)
+
 	print(trees)
 	
 

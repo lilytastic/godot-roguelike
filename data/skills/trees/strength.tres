@@ -6,3 +6,4 @@
 script = ExtResource("1_4cmxt")
 name = "Strength"
 description = ""
+sort_order = 1

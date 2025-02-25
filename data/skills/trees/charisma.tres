@@ -6,3 +6,4 @@
 script = ExtResource("1_minge")
 name = "Charisma"
 description = ""
+sort_order = 4
