@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("2_kjyqh")
 name = "Glamour Muscles"
-description = ""
+description = null
 is_passive = true
 skill_tree = ExtResource("3_m4pyk")
 effects = Array[ExtResource("1_07bi2")]([])

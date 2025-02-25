@@ -5,5 +5,4 @@ extends Resource
 @export var description: String
 @export var is_passive: bool
 @export var skill_tree: SkillTree
-
-@export var effects: Array[ScriptEffect] = []
+@export var tiers: Array[SkillTier]

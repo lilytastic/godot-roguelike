@@ -10,6 +10,8 @@ var _current_tree: SkillTree
 
 var skills: Array[Skill] = []
 
+signal skill_selected
+
 func _update():
 	var resources = Files.get_all_files('res://data/skills')
 	print(resources)
@@ -29,5 +31,9 @@ func _update():
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.text = skill.name
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		btn.mouse_entered.connect(
+			func():
+				skill_selected.emit(skill)
+		)
 	pass
 	
