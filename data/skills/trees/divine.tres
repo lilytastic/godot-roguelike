@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_2y4xr")
 name = "Divine"
-description = ""
+description = "Divine skills can only be purchased with boons."
 sort_order = 6

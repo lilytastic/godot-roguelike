@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_xsop1")
 name = "Arcane"
-description = ""
+description = "Learn forbidden secrets in ancient tomes."
 sort_order = 5

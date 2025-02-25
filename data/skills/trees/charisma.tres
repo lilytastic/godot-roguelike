@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_minge")
 name = "Charisma"
-description = ""
+description = "You can become better with people by talking to them, or by bartering."
 sort_order = 4

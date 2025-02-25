@@ -11,6 +11,13 @@ var _skill: Skill
 		_update()
 		
 func _ready():
+	skill_tree_display.skill_hovered.connect(
+		func(__skill):
+			if __skill:
+				skill = __skill
+			else:
+				skill = skill_tree_display._skill_selected
+	)
 	skill_tree_display.skill_selected.connect(
 		func(__skill):
 			skill = __skill

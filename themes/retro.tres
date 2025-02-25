@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://bipr4bw2pcbw6"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://bipr4bw2pcbw6"]
 
 [ext_resource type="FontFile" uid="uid://buaimy6vdhglx" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue.ttf" id="1_71py5"]
 [ext_resource type="FontFile" uid="uid://cq0ydk3gbo13m" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_bold.ttf" id="1_x3pjo"]
@@ -9,14 +9,26 @@ content_margin_top = 4.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xfri"]
+content_margin_left = 9.0
+content_margin_right = 9.0
+bg_color = Color(0.139399, 0.183443, 0.22782, 1)
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lx3s6"]
 content_margin_top = 4.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wml0m"]
-content_margin_left = 10.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_03o00"]
+content_margin_left = 12.0
 content_margin_top = 8.0
-content_margin_right = 10.0
+content_margin_right = 12.0
 content_margin_bottom = 8.0
+bg_color = Color(0.139399, 0.183443, 0.22782, 1)
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_koy60"]
 
@@ -33,19 +45,18 @@ bg_color = Color(0.6, 0.6, 0.6, 0.356863)
 default_base_scale = 1.0
 default_font = ExtResource("1_71py5")
 default_font_size = 16
-TabBar/colors/drop_mark_color = Color(1, 1, 1, 0)
 TabBar/constants/h_separation = 4
 TabBar/styles/tab_disabled = SubResource("StyleBoxEmpty_qsfi3")
-TabBar/styles/tab_focus = SubResource("StyleBoxEmpty_qsfi3")
-TabBar/styles/tab_hovered = SubResource("StyleBoxEmpty_qsfi3")
-TabBar/styles/tab_selected = SubResource("StyleBoxEmpty_qsfi3")
-TabBar/styles/tab_unselected = SubResource("StyleBoxEmpty_qsfi3")
+TabBar/styles/tab_focus = null
+TabBar/styles/tab_hovered = SubResource("StyleBoxFlat_0xfri")
+TabBar/styles/tab_selected = SubResource("StyleBoxFlat_0xfri")
+TabBar/styles/tab_unselected = SubResource("StyleBoxFlat_0xfri")
 TabContainer/constants/h_separation = 4
 TabContainer/fonts/font = ExtResource("1_x3pjo")
 TabContainer/styles/panel = SubResource("StyleBoxEmpty_lx3s6")
-TabContainer/styles/tab_hovered = SubResource("StyleBoxEmpty_wml0m")
-TabContainer/styles/tab_selected = SubResource("StyleBoxEmpty_wml0m")
-TabContainer/styles/tab_unselected = SubResource("StyleBoxEmpty_wml0m")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_03o00")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_03o00")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_03o00")
 TabContainer/styles/tabbar_background = SubResource("StyleBoxEmpty_koy60")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_5e6ps")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_l5do3")

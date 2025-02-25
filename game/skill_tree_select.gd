@@ -17,11 +17,3 @@ func _ready():
 		add_tab(tree.name)
 
 	print(trees)
-	
-
-	tab_clicked.connect(
-		func(tab: int):
-			print(tab)
-			%SkillTree.current_tree = trees[tab]
-			pass
-	)

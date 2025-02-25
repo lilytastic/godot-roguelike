@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_4cmxt")
 name = "Strength"
-description = ""
+description = "Get stronger by exercising at camp, or by fighting with fists, two-handed, or blunt weapons."
 sort_order = 1
