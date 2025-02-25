@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckfu4wwscv0f5"]
+[gd_scene load_steps=6 format=3 uid="uid://ckfu4wwscv0f5"]
 
 [ext_resource type="Script" path="res://game/skill_tree_select.gd" id="1_1upok"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_4hxva"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="1_6aomi"]
 [ext_resource type="PackedScene" uid="uid://dcknjwod5co1l" path="res://game/skill_tree.tscn" id="2_2uxoe"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_4vdyq"]
+color = Color(1, 1, 1, 0.223529)
 
 [node name="Abilities" type="VBoxContainer"]
 anchors_preset = 15
@@ -17,6 +20,13 @@ theme = ExtResource("1_4hxva")
 theme_override_constants/separation = 4
 metadata/_tab_index = 0
 
+[node name="HSeparator" type="HSeparator" parent="."]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 4
+theme_override_styles/separator = SubResource("StyleBoxLine_4vdyq")
+
 [node name="TabBar" type="TabBar" parent="."]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
@@ -25,12 +35,13 @@ size_flags_stretch_ratio = 2.0
 mouse_default_cursor_shape = 2
 current_tab = 0
 tab_alignment = 1
-tab_count = 5
+tab_count = 6
 tab_0/title = "Combat"
 tab_1/title = "Social"
-tab_2/title = "Arcane"
+tab_2/title = "Mental"
 tab_3/title = "Physical"
-tab_4/title = "Daemonic"
+tab_4/title = "Arcane"
+tab_5/title = "Daemonic"
 script = ExtResource("1_1upok")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
