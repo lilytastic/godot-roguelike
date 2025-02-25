@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckfu4wwscv0f5"]
+
+[ext_resource type="Script" path="res://game/skill_tree_select.gd" id="1_1upok"]
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_4hxva"]
+[ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="1_6aomi"]
+[ext_resource type="PackedScene" uid="uid://dcknjwod5co1l" path="res://game/skill_tree.tscn" id="2_2uxoe"]
+
+[node name="Abilities" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_4hxva")
+theme_override_constants/separation = 4
+metadata/_tab_index = 0
+
+[node name="TabBar" type="TabBar" parent="."]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+mouse_default_cursor_shape = 2
+current_tab = 0
+tab_alignment = 1
+tab_count = 5
+tab_0/title = "Combat"
+tab_1/title = "Social"
+tab_2/title = "Arcane"
+tab_3/title = "Physical"
+tab_4/title = "Daemonic"
+script = ExtResource("1_1upok")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SkillDisplay" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = ExtResource("1_6aomi")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/SkillDisplay"]
+layout_mode = 2
+offset_left = 414.0
+offset_right = 430.0
+offset_bottom = 316.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SkillTree" parent="HBoxContainer/SkillDisplay/MarginContainer" instance=ExtResource("2_2uxoe")]
+layout_mode = 2
+
+[node name="SkillPreview" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("1_6aomi")

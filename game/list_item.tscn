@@ -10,6 +10,7 @@ region = Rect2(528, 112, 16, 16)
 [node name="Button" type="Button"]
 offset_right = 113.0
 offset_bottom = 31.0
+mouse_default_cursor_shape = 2
 text = "Iron Sword"
 icon = SubResource("AtlasTexture_xjhnj")
 flat = true

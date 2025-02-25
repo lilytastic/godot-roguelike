@@ -36,6 +36,7 @@ region = Rect2(512, 112, 16, 16)
 custom_minimum_size = Vector2(28, 28)
 offset_right = 28.0
 offset_bottom = 28.0
+mouse_default_cursor_shape = 2
 theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
 theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 theme_override_styles/disabled = SubResource("StyleBoxFlat_86h8q")
