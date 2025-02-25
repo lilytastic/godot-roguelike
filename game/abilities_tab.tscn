@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckfu4wwscv0f5"]
+[gd_scene load_steps=7 format=3 uid="uid://ckfu4wwscv0f5"]
 
 [ext_resource type="Script" path="res://game/skill_tree_select.gd" id="1_1upok"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_4hxva"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="1_6aomi"]
 [ext_resource type="PackedScene" uid="uid://dcknjwod5co1l" path="res://game/skill_tree.tscn" id="2_2uxoe"]
+[ext_resource type="Script" path="res://game/skill_tree.gd" id="5_iyh7n"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_4vdyq"]
 color = Color(1, 1, 1, 0.223529)
@@ -37,9 +38,9 @@ current_tab = 0
 tab_alignment = 1
 tab_count = 6
 tab_0/title = "Combat"
-tab_1/title = "Social"
+tab_1/title = "Physical"
 tab_2/title = "Mental"
-tab_3/title = "Physical"
+tab_3/title = "Social"
 tab_4/title = "Arcane"
 tab_5/title = "Daemonic"
 script = ExtResource("1_1upok")
@@ -69,6 +70,7 @@ theme_override_constants/margin_bottom = 8
 
 [node name="SkillTree" parent="HBoxContainer/SkillDisplay/MarginContainer" instance=ExtResource("2_2uxoe")]
 layout_mode = 2
+script = ExtResource("5_iyh7n")
 
 [node name="SkillPreview" type="Panel" parent="HBoxContainer"]
 layout_mode = 2
