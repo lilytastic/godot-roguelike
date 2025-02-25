@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://dcknjwod5co1l"]
+[gd_scene load_steps=2 format=3 uid="uid://dcknjwod5co1l"]
+
+[ext_resource type="Script" path="res://game/skill_tree.gd" id="1_gi4vv"]
 
 [node name="GridContainer" type="GridContainer"]
 columns = 2
+script = ExtResource("1_gi4vv")

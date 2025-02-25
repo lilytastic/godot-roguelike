@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=3 format=3 uid="uid://cr4pafnamf5ch"]
+
+[ext_resource type="Script" path="res://data/script_effect.gd" id="1_l3evb"]
+[ext_resource type="Script" path="res://data/skill.gd" id="2_dt03i"]
+
+[resource]
+script = ExtResource("2_dt03i")
+name = "Fast Talk"
+description = ""
+is_passive = false
+skill_tree = 4
+effects = Array[ExtResource("1_l3evb")]([])
