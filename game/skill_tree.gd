@@ -25,6 +25,8 @@ func _update():
 	for skill in skills:
 		var btn = Button.new()
 		add_child(btn)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.text = skill.name
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	pass
 	

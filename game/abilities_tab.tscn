@@ -68,10 +68,15 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="SkillTree" parent="HBoxContainer/SkillDisplay/MarginContainer" instance=ExtResource("2_2uxoe")]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/SkillDisplay/MarginContainer"]
+clip_contents = false
+layout_mode = 2
+
+[node name="SkillTree" parent="HBoxContainer/SkillDisplay/MarginContainer/ScrollContainer" instance=ExtResource("2_2uxoe")]
 unique_name_in_owner = true
 layout_mode = 2
-current_tree = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="SkillPreview" type="Panel" parent="HBoxContainer"]
 layout_mode = 2

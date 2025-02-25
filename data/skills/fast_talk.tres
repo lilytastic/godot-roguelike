@@ -7,6 +7,6 @@
 script = ExtResource("2_dt03i")
 name = "Fast Talk"
 description = ""
-is_passive = false
+is_passive = true
 skill_tree = 4
 effects = Array[ExtResource("1_l3evb")]([])
