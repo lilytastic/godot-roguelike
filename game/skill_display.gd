@@ -22,6 +22,8 @@ func _ready():
 		func(__skill):
 			skill = __skill
 	)
+	
+	_update()
 
 func _update():
 	if !skill:

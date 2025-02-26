@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_lxkmj")
-name = "Dexterity"
-description = "Improve your reflexes by sneaking, or by fighting with fists, claws, bows, and one-handed weapons."
+name = "Agility"
+description = "Improve your reflexes by sneaking, or by fighting with fists, claws, or one-handed weapons."
 sort_order = 2

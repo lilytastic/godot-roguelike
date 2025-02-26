@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=3 format=3 uid="uid://cy6s2ouhkg8ev"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_a5d8c"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="2_f33p7"]
+
+[resource]
+script = ExtResource("1_a5d8c")
+name = "Endurance Training"
+description = ""
+is_passive = true
+tiers = Array[ExtResource("2_f33p7")]([])

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SkillTree" load_steps=2 format=3 uid="uid://kix2kklyh38u"]
+
+[ext_resource type="Script" path="res://data/skills/trees/skill_tree.gd" id="1_tl52j"]
+
+[resource]
+script = ExtResource("1_tl52j")
+name = "Perception"
+description = "Train your eye by uncovering secret areas, or by fighting with ranged weapons."
+sort_order = 2
