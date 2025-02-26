@@ -23,14 +23,6 @@ theme_override_constants/separation = 4
 script = ExtResource("2_gd3em")
 metadata/_tab_index = 0
 
-[node name="HSeparator" type="HSeparator" parent="."]
-visible = false
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 4
-theme_override_styles/separator = SubResource("StyleBoxLine_4vdyq")
-
 [node name="SkillTreeSelect" type="TabBar" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
@@ -48,6 +40,13 @@ tab_4/title = "Charisma"
 tab_5/title = "Arcane"
 tab_6/title = "Divine"
 script = ExtResource("1_1upok")
+
+[node name="HSeparator" type="HSeparator" parent="."]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 1
+theme_override_styles/separator = SubResource("StyleBoxLine_4vdyq")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

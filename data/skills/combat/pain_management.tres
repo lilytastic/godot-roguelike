@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://dtxtb72l6em71"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_6uub5"]
+[ext_resource type="Resource" uid="uid://cq3ho8ddosm53" path="res://data/skills/trees/combat.tres" id="2_h0nk4"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="2_r5wtb"]
+
+[resource]
+script = ExtResource("1_6uub5")
+name = "Pain Management"
+description = ""
+is_passive = true
+skill_tree = ExtResource("2_h0nk4")
+tiers = Array[ExtResource("2_r5wtb")]([])

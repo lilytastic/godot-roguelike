@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://bf8ouadj10mvh"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_qsmhb"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="2_8l4qt"]
+[ext_resource type="Resource" uid="uid://cq3ho8ddosm53" path="res://data/skills/trees/combat.tres" id="2_en5pi"]
+
+[resource]
+script = ExtResource("1_qsmhb")
+name = "Vanguard"
+description = ""
+is_passive = true
+skill_tree = ExtResource("2_en5pi")
+tiers = Array[ExtResource("2_8l4qt")]([])
