@@ -22,9 +22,9 @@ content_margin_top = 4.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_03o00"]
 content_margin_left = 12.0
-content_margin_top = 8.0
+content_margin_top = 6.0
 content_margin_right = 12.0
-content_margin_bottom = 8.0
+content_margin_bottom = 6.0
 bg_color = Color(0.139399, 0.183443, 0.22782, 1)
 border_width_left = 2
 border_width_right = 2

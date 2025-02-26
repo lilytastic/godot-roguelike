@@ -20,7 +20,10 @@ func _update():
 	for child in get_children():
 		child.queue_free()
 	
-	for skill in AgentManager.skills.values():
+	for skill in AgentManager.skills.values().filter(
+		func(skill):
+			return skill.skill_tree == current_tree
+	):
 		var btn = Button.new()
 		add_child(btn)
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
