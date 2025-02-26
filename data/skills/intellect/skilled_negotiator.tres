@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://c1ghcdgl8ru7j"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_3tguy"]
+[ext_resource type="Resource" uid="uid://b8peg37dqdeee" path="res://data/skills/trees/intellect.tres" id="2_nv1w1"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_0ijtk"]
+
+[resource]
+script = ExtResource("1_3tguy")
+name = "Skilled Negotiator"
+description = ""
+is_passive = true
+skill_tree = ExtResource("2_nv1w1")
+tiers = Array[ExtResource("3_0ijtk")]([])

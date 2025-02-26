@@ -4,6 +4,8 @@
 [ext_resource type="FontFile" uid="uid://tjvbjneifeu1" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large.ttf" id="2_t7e66"]
 
 [node name="SkillDisplay" type="VBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+size_flags_horizontal = 3
 theme_override_constants/separation = 4
 script = ExtResource("1_ky1nb")
 
@@ -18,3 +20,4 @@ unique_name_in_owner = true
 modulate = Color(0.66, 0.66, 0.66, 1)
 layout_mode = 2
 text = "Description"
+autowrap_mode = 3

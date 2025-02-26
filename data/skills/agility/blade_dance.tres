@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=9 format=3 uid="uid://dxi50h4ah5go2"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_2cd8w"]
+[ext_resource type="Resource" uid="uid://caeojwmpclhvv" path="res://data/skills/trees/dexterity.tres" id="2_7421y"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_2mqxm"]
+[ext_resource type="Script" path="res://data/script_effect.gd" id="4_hsi5p"]
+
+[sub_resource type="Resource" id="Resource_pxx2q"]
+script = ExtResource("3_2mqxm")
+description = "Enemy awareness increases 20% slower."
+effects = Array[ExtResource("4_hsi5p")]([])
+
+[sub_resource type="Resource" id="Resource_stgbl"]
+script = ExtResource("3_2mqxm")
+description = "Make 50% less noise while sneaking."
+effects = Array[ExtResource("4_hsi5p")]([])
+
+[sub_resource type="Resource" id="Resource_5ager"]
+script = ExtResource("3_2mqxm")
+description = "Move 50% faster while sneaking."
+effects = Array[ExtResource("4_hsi5p")]([])
+
+[sub_resource type="Resource" id="Resource_5nmn3"]
+script = ExtResource("3_2mqxm")
+description = "Double previous bonuses."
+effects = Array[ExtResource("4_hsi5p")]([])
+
+[resource]
+script = ExtResource("1_2cd8w")
+name = "Sword Dance"
+description = ""
+is_passive = true
+skill_tree = ExtResource("2_7421y")
+tiers = Array[ExtResource("3_2mqxm")]([SubResource("Resource_pxx2q"), SubResource("Resource_stgbl"), SubResource("Resource_5ager"), SubResource("Resource_5nmn3")])

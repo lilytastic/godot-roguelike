@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_minge")
-name = "Charisma"
+name = "Personality"
 description = "You can become better with people by talking to them, or by bartering."
+is_visible = true
 sort_order = 4

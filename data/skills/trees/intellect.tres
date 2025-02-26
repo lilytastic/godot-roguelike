@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_0rfiq")
-name = "Intellect"
+name = "Mind"
 description = "Sharpen your mind by reading or meditating at camp."
+is_visible = true
 sort_order = 3

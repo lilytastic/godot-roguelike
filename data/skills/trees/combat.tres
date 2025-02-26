@@ -6,4 +6,5 @@
 script = ExtResource("1_xfvd4")
 name = "Combat"
 description = "You get combat experience whenever you take or deal damage."
+is_visible = true
 sort_order = 0

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://bw6j2nntaqfxx"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_k4wkb"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="2_1v2a2"]
+[ext_resource type="Resource" uid="uid://b8peg37dqdeee" path="res://data/skills/trees/intellect.tres" id="2_5vwk3"]
+
+[resource]
+script = ExtResource("1_k4wkb")
+name = "Medicine"
+description = ""
+is_passive = true
+skill_tree = ExtResource("2_5vwk3")
+tiers = Array[ExtResource("2_1v2a2")]([])

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://blnve17vm5opk"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_ksct8"]
+[ext_resource type="Resource" uid="uid://cv17dvpbi15n1" path="res://data/skills/trees/charisma.tres" id="2_ssk0h"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_4d213"]
+
+[resource]
+script = ExtResource("1_ksct8")
+name = "Grooming Habits"
+description = ""
+is_passive = false
+skill_tree = ExtResource("2_ssk0h")
+tiers = Array[ExtResource("3_4d213")]([])
