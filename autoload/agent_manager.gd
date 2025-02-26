@@ -1,5 +1,23 @@
 extends Node
 
+var skills: Dictionary = {}
+var skill_trees: Dictionary = {}
+
+func _ready():
+	var resources = Files.get_all_files('res://data/skills')
+	skills.clear()
+	skill_trees.clear()
+	for resource in resources:
+		var obj = load(resource)
+		print(obj.get_instance_id())
+		var rid = obj.get_instance_id()
+		if obj is Skill:
+			skills[rid] = obj
+		if obj is SkillTree:
+			skill_trees[rid] = obj
+	print("Skills: ", skills)
+	print("Skill trees: ", skill_trees)
+	
 
 func _process(delta):
 	# Check if the Scheduler.next_actor is not the player, then trigger an action

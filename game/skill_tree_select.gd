@@ -1,19 +1,13 @@
 extends TabBar
 
-var trees: Array[SkillTree] = []
+var skill_trees := []
 
-func _ready():
+func _init():
 	clear_tabs()
 	
-	var resources = Files.get_all_files('res://data/skills')
-	print(resources)
-	trees = []
-	for resource in resources:
-		var tree = load(resource)
-		if tree is SkillTree:
-			trees.append(tree)
-	trees.sort_custom(func(a, b): return a.sort_order < b.sort_order)
-	for tree in trees:
+	skill_trees = AgentManager.skill_trees.values()
+	skill_trees.sort_custom(func(a, b): return a.sort_order < b.sort_order)
+	for tree in skill_trees:
 		add_tab(tree.name)
 
-	print(trees)
+	print('trees: ', skill_trees)
