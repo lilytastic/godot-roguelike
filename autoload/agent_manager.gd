@@ -40,18 +40,18 @@ func _process(delta):
 			else:
 				# print('doing stuff as ', next_actor.blueprint.name, '; ', Time.get_ticks_msec())
 				# Idling
-				result = await perform_action(
-					next_actor,
-					MovementAction.new(
-						PlayerInput._input_to_direction(
-							InputTag.MOVE_ACTIONS.pick_random()
-						)
-					),
-				false)
-				if !result.success:
-					next_actor.is_acting = false
-					next_actor.energy -= 1.0
-					Scheduler.finish_turn()
+				if randf_range(0, 100) < 50:
+					result = await perform_action(
+						next_actor,
+						MovementAction.new(
+							PlayerInput._input_to_direction(
+								InputTag.MOVE_ACTIONS.pick_random()
+							)
+						),
+					false)
+				next_actor.is_acting = false
+				next_actor.energy -= 100
+				Scheduler.finish_turn()
 
 
 
