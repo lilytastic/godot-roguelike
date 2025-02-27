@@ -69,16 +69,22 @@ func choose(choice: InkChoice) -> void:
 	story.ChooseChoiceIndex(choice.Index)
 	choice_selected.emit(choice)
 	current_choices.clear()
+	if story.GetCurrentChoices().size() > 0:
+		current_choices = story.GetCurrentChoices()
+	choices_changed.emit(current_choices)
 	proceed()
 
 func next() -> bool:
+	var line = ''
 	if story.GetCanContinue():
-		var line = story.Continue()
+		line = story.Continue()
 		line_registered.emit(line)
-		if story.GetCurrentChoices().size() > 0:
-			current_choices = story.GetCurrentChoices()
-			choices_changed.emit(current_choices)
-		var result = await process(line)
+	print('next: ', story.GetCurrentChoices())
+	if story.GetCurrentChoices().size() > 0:
+		current_choices = story.GetCurrentChoices()
+		choices_changed.emit(current_choices)
+	if line:
+		await process(line)
 	if story.GetCanContinue():
 		return await next()
 	return true

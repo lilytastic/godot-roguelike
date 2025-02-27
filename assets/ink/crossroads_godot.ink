@@ -18,4 +18,5 @@
     + [Leave]
         -> DONE
     -
+    Trainer: Anythin' else?
     -> top

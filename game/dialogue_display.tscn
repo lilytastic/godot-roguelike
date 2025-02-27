@@ -40,7 +40,6 @@ flat = true
 [node name="DialogueChoiceButton2" parent="HBoxContainer/ChoiceList" instance=ExtResource("3_4bwms")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-size_flags_vertical = 8
 
 [node name="Panel" type="Panel" parent="."]
 custom_minimum_size = Vector2(0, 100)

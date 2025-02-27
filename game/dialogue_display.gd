@@ -27,20 +27,20 @@ func _ready():
 	)
 	InkManager.choices_changed.connect(
 		func(choices):
-			current_choices = choices
-			print(choices)
+			current_choices = InkManager.story.GetCurrentChoices()
+			print('choices changed: ', current_choices)
 			for child in %ChoiceList.get_children():
 				child.queue_free()
-			for choice in InkManager.story.GetCurrentChoices():
+			for choice in current_choices:
 				var button = choice_button.instantiate()
 				button.text = choice.Text
-				print(button.text, %ChoiceList)
+				print(button.text)
 				%ChoiceList.add_child(button)
 				button.pressed.connect(
 					func():
-						InkManager.choose(choice)
 						for child in %ChoiceList.get_children():
 							child.queue_free()
+						InkManager.choose(choice)
 				)
 	)
 
