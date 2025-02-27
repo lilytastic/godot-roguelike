@@ -24,7 +24,7 @@ func perform(entity: Entity) -> ActionResult:
 		match target.blueprint.use.type:
 			'talk':
 				if target.blueprint.use.knot:
-					return await InkManager.perform(target.blueprint.use.knot)
+					return await InkManager.perform(entity, target.blueprint.use.knot, target)
 			'teleport':
 				if !target.destination:
 					return ActionResult.new(false)

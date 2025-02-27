@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://tnnobbxmjsst"]
+[gd_scene load_steps=24 format=3 uid="uid://tnnobbxmjsst"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="2_ittis"]
@@ -6,19 +6,24 @@
 [ext_resource type="Script" path="res://game/hotbar.gd" id="4_35lq1"]
 [ext_resource type="Script" path="res://game/system_menu.gd" id="4_q6bec"]
 [ext_resource type="PackedScene" uid="uid://dqasfn61u6sl5" path="res://game/character_menu.tscn" id="6_8exhv"]
+[ext_resource type="Script" path="res://game/dialogue_display.gd" id="6_m0fg4"]
 [ext_resource type="Script" path="res://game/floating_text.gd" id="6_qudki"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="6_s5ktb"]
 [ext_resource type="PackedScene" uid="uid://be05y3swrshiq" path="res://game/cursor.tscn" id="7_2s5nd"]
 [ext_resource type="PackedScene" uid="uid://d32kgngy6fe6u" path="res://game/meter.tscn" id="7_5uobx"]
 [ext_resource type="Script" path="res://engine/classes/scene_view.gd" id="7_mvjgg"]
+[ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="7_txax0"]
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="9_o4gab"]
 [ext_resource type="Script" path="res://game/tile_display.gd" id="9_ytsw5"]
 [ext_resource type="PackedScene" uid="uid://drrqc406l4xxu" path="res://game/item_preview.tscn" id="11_5xsb2"]
 [ext_resource type="Script" path="res://game/tooltip_wrapper.gd" id="11_e0cmg"]
 [ext_resource type="Script" path="res://game/item_preview.gd" id="13_3w56u"]
+[ext_resource type="FontFile" uid="uid://tjvbjneifeu1" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large.ttf" id="14_idlpp"]
+[ext_resource type="FontFile" uid="uid://d0i0dxuqu3xax" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_italic.ttf" id="16_1n65t"]
+[ext_resource type="FontFile" uid="uid://br802x22psogy" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_bold.ttf" id="17_l2te3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826o3"]
-bg_color = Color(1, 1, 1, 1)
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sbi3"]
 bg_color = Color(0.0232, 0.06864, 0.08, 0.792157)
@@ -198,6 +203,53 @@ size_flags_vertical = 0
 mouse_filter = 2
 theme = ExtResource("9_o4gab")
 script = ExtResource("6_qudki")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+ratio = 1.5
+
+[node name="Dialogue" type="VBoxContainer" parent="CanvasLayer/MarginContainer/AspectRatioContainer"]
+layout_mode = 2
+theme = ExtResource("2_ittis")
+alignment = 2
+script = ExtResource("6_m0fg4")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer/AspectRatioContainer/Dialogue"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("7_txax0")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/AspectRatioContainer/Dialogue/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 10
+
+[node name="DialogueText" type="RichTextLabel" parent="CanvasLayer/MarginContainer/AspectRatioContainer/Dialogue/Panel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("14_idlpp")
+theme_override_fonts/italics_font = ExtResource("16_1n65t")
+theme_override_fonts/bold_font = ExtResource("17_l2te3")
+text = "Test"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
