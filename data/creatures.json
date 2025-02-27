@@ -152,6 +152,16 @@
 		}
 	  },
 	  {
+		"id": "trainer",
+		"name": "trainer",
+		"type": "person",
+		"parent": "human",
+		"use": {
+			"type": "talk",
+			"knot": "test_trainer"
+		}
+	  },
+	  {
 		"id": "hero",
 		"name": "hero",
 		"parent": "human",

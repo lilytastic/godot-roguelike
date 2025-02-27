@@ -77,7 +77,7 @@ func take_turn(entity: Entity) -> bool:
 	if !entity:
 		return false
 
-	if player and entity.uuid != player.uuid and entity.location and player.location:
+	if player and is_hostile(entity, player) and entity.location and player.location:
 		if Coords.get_range(entity.location.position, player.location.position) < 4:
 			entity.targeting.current_target = player.uuid
 
@@ -96,7 +96,7 @@ func take_turn(entity: Entity) -> bool:
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
 	# If it's hostile, use this entity's first weaponskill on it.
-	if target and target.blueprint.equipment:
+	if is_hostile(entity, target):
 		var dict = get_abilities(entity, target)[0]
 		return UseAbilityAction.new(
 			target,
@@ -176,6 +176,8 @@ func blocks_entities(entity: Entity) -> bool:
 
 func is_hostile(entity: Entity, other: Entity) -> bool:
 	if other.uuid == entity.uuid:
+		return false
+	if entity.blueprint.name == 'trainer' or other.blueprint.name == 'trainer':
 		return false
 	return can_act(entity)
 

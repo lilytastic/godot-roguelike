@@ -31,8 +31,8 @@ metadata/props = {
 }
 
 [node name="Actor2" parent="AutoAddEntities" instance=ExtResource("3_pbyxe")]
-position = Vector2(135, 46)
-metadata/blueprint = "ghoul"
+position = Vector2(106, 63)
+metadata/blueprint = "trainer"
 
 [node name="Actor3" parent="AutoAddEntities" instance=ExtResource("3_pbyxe")]
 position = Vector2(106, 161)
