@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://lp5clmlm1lsm"]
+
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_cdr8g"]
+[ext_resource type="Script" path="res://game/dialogue_display.gd" id="2_as2tl"]
+[ext_resource type="PackedScene" uid="uid://cmnc1gby4ce5q" path="res://game/dialogue_choice_button.tscn" id="3_4bwms"]
+[ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="3_hsdv4"]
+[ext_resource type="FontFile" uid="uid://tjvbjneifeu1" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large.ttf" id="4_6u0pj"]
+[ext_resource type="FontFile" uid="uid://d0i0dxuqu3xax" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_italic.ttf" id="5_4f5lj"]
+[ext_resource type="FontFile" uid="uid://br802x22psogy" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_bold.ttf" id="6_ra8n2"]
+
+[node name="Dialogue" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cdr8g")
+theme_override_constants/separation = 8
+alignment = 2
+script = ExtResource("2_as2tl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 2
+
+[node name="ChoiceList" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="DialogueChoiceButton" parent="HBoxContainer/ChoiceList" instance=ExtResource("3_4bwms")]
+layout_mode = 2
+
+[node name="DialogueChoiceButton2" parent="HBoxContainer/ChoiceList" instance=ExtResource("3_4bwms")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_hsdv4")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 90
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 10
+
+[node name="DialogueText" type="RichTextLabel" parent="Panel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_6u0pj")
+theme_override_fonts/italics_font = ExtResource("5_4f5lj")
+theme_override_fonts/bold_font = ExtResource("6_ra8n2")
+bbcode_enabled = true
+text = "Test"

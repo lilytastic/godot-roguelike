@@ -3,14 +3,18 @@ extends Node
 @export var story: InkStory = preload('res://assets/ink/crossroads_godot.ink')
 
 var is_playing = true
+var current_choices := []
 
 signal line_registered
 signal line_processed
 signal command_executed
 signal script_started
 signal script_ended
+signal choices_changed
+signal choice_selected
 
 signal _step
+signal _choose
 
 func _process(delta: float) -> void:
 	pass
@@ -51,17 +55,30 @@ func process(line: String) -> bool:
 		return true
 		
 	line_processed.emit(line)
-	
+	if current_choices.size() > 0:
+		await choice_selected
+		print('choice selected')
+		return true
+
 	await _step
+	print('stepped')
 	return true
+
+func choose(choice: InkChoice) -> void:
+	print(choice.Index, " in ", current_choices.map(func(x): return x.Index))
+	story.ChooseChoiceIndex(choice.Index)
+	choice_selected.emit(choice)
+	current_choices.clear()
+	proceed()
 
 func next() -> bool:
 	if story.GetCanContinue():
 		var line = story.Continue()
 		line_registered.emit(line)
+		if story.GetCurrentChoices().size() > 0:
+			current_choices = story.GetCurrentChoices()
+			choices_changed.emit(current_choices)
 		var result = await process(line)
-	if story.GetCurrentChoices().size() > 0:
-		return false
 	if story.GetCanContinue():
 		return await next()
 	return true

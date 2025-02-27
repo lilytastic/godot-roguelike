@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmnc1gby4ce5q"]
+
+[ext_resource type="FontFile" uid="uid://dcygvh0q3vd35" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_extra_large_bold.ttf" id="1_6xmu8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hokgc"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+bg_color = Color(0.0168, 0.0484, 0.08, 0.705882)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.611765)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_51qhr"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+bg_color = Color(0.0168, 0.0484, 0.08, 0.705882)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.48, 0.48, 0.611765)
+
+[node name="DialogueChoiceButton" type="Button"]
+custom_minimum_size = Vector2(0, 38)
+theme_override_fonts/font = ExtResource("1_6xmu8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hokgc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_51qhr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_51qhr")
+text = "Test"
+alignment = 0
+autowrap_mode = 3
