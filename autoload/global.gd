@@ -17,6 +17,8 @@ var is_game_started: bool:
 
 var directions = [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 
+@export var story: InkStory = preload('res://assets/ink/crossroads_godot.ink')
+
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
@@ -28,6 +30,9 @@ func new_game() -> Entity:
 	MapManager.maps_loaded.clear()
 	MapManager.maps.clear()
 	MapManager.map = ''
+	
+	story.ResetState()
+	print('New game: ', story.Continue())
 
 	player = Entity.new({ 'blueprint': 'hero' })
 	player.inventory = InventoryProps.new()

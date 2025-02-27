@@ -9,14 +9,13 @@ func _ready():
 	skill_trees.clear()
 	for resource in resources:
 		var obj = load(resource)
-		print(obj.get_instance_id())
 		var rid = obj.get_instance_id()
 		if obj is Skill:
 			skills[rid] = obj
 		if obj is SkillTree:
 			skill_trees[rid] = obj
-	print("Skills: ", skills)
-	print("Skill trees: ", skill_trees)
+# 	print("Skills: ", skills)
+#	print("Skill trees: ", skill_trees)
 	
 
 func _process(delta):
