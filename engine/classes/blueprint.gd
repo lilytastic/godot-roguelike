@@ -9,7 +9,7 @@ var glyph: Glyph
 var item: ItemProps
 var equipment: EquipmentProps
 var weapon: WeaponProps
-var use: String
+var use: UseProps
 var speed := 0.0
 var baseHP: String
 
@@ -19,7 +19,8 @@ func _init(props: Dictionary):
 	name = props.get('name', id)
 	parent = props.get('parent', '')
 	description = props.get('description', '')
-	use = props.get('use', {}).get('type', '')
+	if props.has('use'):
+		use = UseProps.new(props.get('use'))
 	var _hp = props.get('baseHP', 0)
 	baseHP = str(_hp) if !(_hp is String) else _hp
 	type = props.get('type', 'unknown')

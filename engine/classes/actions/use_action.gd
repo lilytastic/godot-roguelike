@@ -20,8 +20,8 @@ func perform(entity: Entity) -> ActionResult:
 	)
 
 	if target.blueprint.use:
-		print(target.blueprint.use)
-		match target.blueprint.use:
+		print(target.blueprint.use.type)
+		match target.blueprint.use.type:
 			'teleport':
 				if !target.destination:
 					return ActionResult.new(false)
