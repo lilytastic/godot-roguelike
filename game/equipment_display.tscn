@@ -14,27 +14,22 @@ theme_override_constants/separation = 4
 
 [node name="Head" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "head"
 
 [node name="Torso" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "torso"
 
 [node name="Back" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "back"
 
 [node name="Hands" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "hands"
 
 [node name="Feet" parent="SlotsLeft" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "feet"
 
 [node name="PaperDoll" type="Control" parent="."]
@@ -49,13 +44,11 @@ theme_override_constants/separation = 4
 
 [node name="MainHand" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "main hand"
 metadata/slot = "main hand"
 
 [node name="OffHand" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "off-hand"
 metadata/slot = "off-hand"
 
@@ -66,15 +59,12 @@ layout_mode = 2
 
 [node name="Amulet" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "amulet"
 
 [node name="Ring1" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "ring1"
 
 [node name="Ring2" parent="SlotsRight" instance=ExtResource("1_ixvtc")]
 layout_mode = 2
-theme_override_colors/icon_disabled_color = Color(0.2464, 0.27216, 0.32, 0.760784)
 slot = "ring2"

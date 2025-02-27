@@ -23,6 +23,7 @@ ECS="*res://autoload/ecs.gd"
 MapManager="*res://autoload/map_manager.gd"
 Scheduler="*res://autoload/scheduler.gd"
 AgentManager="*res://autoload/agent_manager.gd"
+uuid="*res://addons/uuid/uuid.gd"
 
 [display]
 
@@ -37,6 +38,10 @@ window/stretch/scale_mode="integer"
 [dotnet]
 
 project/assembly_name="Godot Roguelike"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GodotInk/plugin.cfg", "res://addons/uuid/plugin.cfg")
 
 [input]
 

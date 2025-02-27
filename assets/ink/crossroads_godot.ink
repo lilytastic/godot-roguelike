@@ -1,6 +1,8 @@
 
+-> init
 
 === init ===
+    Test
     -> DONE
     
 === test_trainer ===

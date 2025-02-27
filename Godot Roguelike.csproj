@@ -6,4 +6,5 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>GodotRoguelike</RootNamespace>
   </PropertyGroup>
+  <Import Project="addons\GodotInk\GodotInk.props" />
 </Project>

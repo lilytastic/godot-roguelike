@@ -1,0 +1,16 @@
+[remap]
+
+importer="ink"
+type="Resource"
+uid="uid://cd2utt7afcg4g"
+path="res://.godot/imported/crossroads_godot.ink-4b621396d8b21813b898b6f1bf20e42d.res"
+
+[deps]
+
+source_file="res://assets/ink/crossroads_godot.ink"
+dest_files=["res://.godot/imported/crossroads_godot.ink-4b621396d8b21813b898b6f1bf20e42d.res"]
+
+[params]
+
+is_main_file=true
+compress=true
