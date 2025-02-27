@@ -24,6 +24,7 @@ MapManager="*res://autoload/map_manager.gd"
 Scheduler="*res://autoload/scheduler.gd"
 AgentManager="*res://autoload/agent_manager.gd"
 uuid="*res://addons/uuid/uuid.gd"
+InkManager="*res://autoload/ink_manager.gd"
 
 [display]
 

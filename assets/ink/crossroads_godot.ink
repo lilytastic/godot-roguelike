@@ -6,8 +6,16 @@
     -> DONE
     
 === test_trainer ===
-    Trainer: Howdy!
+    You: Hey, Trainer.
+    Trainer: Hero.
+    - (top)
+    + [Shop]
+        >>> shop
     + [Train]
+        >>> train
+    + [Heal]
+        >>> heal
     + [Leave]
+        -> DONE
     -
-    -> DONE
+    -> top
