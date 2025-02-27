@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://catbdhunuq7ig"]
+
+[ext_resource type="Script" path="res://data/skill.gd" id="1_axwrh"]
+[ext_resource type="Resource" uid="uid://cv17dvpbi15n1" path="res://data/skills/trees/charisma.tres" id="2_qne3m"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_6jyuq"]
+
+[resource]
+script = ExtResource("1_axwrh")
+name = "Walk Like You Belong"
+description = "A confident attitude can get you far in life."
+is_passive = true
+skill_tree = ExtResource("2_qne3m")
+tiers = Array[ExtResource("3_6jyuq")]([])

@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_ywr7w")
 name = "Streetwise"
-description = ""
+description = "There's a way things are done."
 is_passive = true
 skill_tree = ExtResource("2_iwpbp")
 tiers = Array[ExtResource("3_xb6s8")]([])
