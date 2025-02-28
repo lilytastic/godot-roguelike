@@ -23,7 +23,6 @@ func _ready():
 		func(line):
 			current_line = line
 			%DialogueText.text = line
-			print(line)
 	)
 	InkManager.choices_changed.connect(
 		func(choices):
@@ -34,7 +33,6 @@ func _ready():
 			for choice in current_choices:
 				var button = choice_button.instantiate()
 				button.text = choice.Text
-				print(button.text)
 				%ChoiceList.add_child(button)
 				button.pressed.connect(
 					func():

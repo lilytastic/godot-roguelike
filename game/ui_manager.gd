@@ -12,7 +12,11 @@ var screens: Array[Control]:
 		return [pause_screen, character_screen, dialogue_screen, gameplay_screen]
 
 var is_menu_open:
-	get: return screens.filter(func(screen): return screen.visible && screen != gameplay_screen).size() > 0
+	get:
+		return screens.filter(
+			func(screen):
+				return screen.visible && screen != gameplay_screen
+		).size() > 0
 
 
 func _ready():

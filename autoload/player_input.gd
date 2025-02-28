@@ -82,10 +82,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_targeting = Global.player.targeting
 		
 		if event.is_pressed():
-			print('collisions in line: ', MapManager.get_collisions_line(
-				Global.player.location.position,
-				Coords.get_coord(mouse_position_in_world)
-			))
 			var _coord = Coords.get_coord(mouse_position_in_world)
 			if Vector2i(_targeting.target_position()) == _coord:
 				_targeting.clear_targeting()

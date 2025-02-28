@@ -20,7 +20,6 @@ func perform(entity: Entity) -> ActionResult:
 	)
 
 	if target.blueprint.use:
-		print(target.blueprint.use.type)
 		match target.blueprint.use.type:
 			'talk':
 				if target.blueprint.use.knot:

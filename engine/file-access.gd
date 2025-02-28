@@ -3,7 +3,8 @@ class_name Files
 
 static func get_dictionary(path: String) -> Dictionary:
 	var file_access = FileAccess.open(path, FileAccess.READ)
-	var file = JSON.parse_string(file_access.get_as_text())
+	var text = file_access.get_as_text()
+	var file = JSON.parse_string(text) if text else null
 	file_access.close()
 	return file.data if file and file.has('data') else {}
 

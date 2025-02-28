@@ -31,27 +31,9 @@ func _process(delta):
 		pass
 
 	if next_actor != null and !next_actor.is_acting:
-		var result = await take_turn(next_actor)
-		if !result:
-			if next_actor.uuid == player.uuid:
-				var _target_position = player.targeting.target_position()
-				if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
-					player.targeting.clear_targeting()
-			else:
-				# print('doing stuff as ', next_actor.blueprint.name, '; ', Time.get_ticks_msec())
-				# Idling
-				if randf_range(0, 100) < 50:
-					result = await perform_action(
-						next_actor,
-						MovementAction.new(
-							PlayerInput._input_to_direction(
-								InputTag.MOVE_ACTIONS.pick_random()
-							)
-						),
-					false)
-				next_actor.is_acting = false
-				next_actor.energy -= 100
-				Scheduler.finish_turn()
+		var success = await take_turn(next_actor)
+		if success:
+			Scheduler.finish_turn()
 
 
 
@@ -59,10 +41,10 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 	entity.is_acting = true
 	var result = await action.perform(entity)
 	entity.energy -= result.cost_energy
+	entity.is_acting = false
 	if !result.success and result.alternate:
 		if allow_recursion:
 			return await perform_action(entity, result.alternate)
-	entity.is_acting = false
 	if result.success:
 		Scheduler.finish_turn()
 	entity.action_performed.emit(action, result)
@@ -74,7 +56,7 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 func take_turn(entity: Entity) -> bool:
 	var player = Global.player
 	
-	if !entity:
+	if !entity or entity.uuid == player.uuid:
 		return false
 
 	if player and is_hostile(entity, player) and entity.location and player.location:
@@ -87,12 +69,42 @@ func take_turn(entity: Entity) -> bool:
 		if default_action and is_within_range(entity, target, default_action):
 			var result = await perform_action(entity, default_action)
 			entity.targeting.clear()
-			if result: return true
+			if result:
+				return true
+		return await try_close_distance(
+			entity,
+			entity.targeting.target_position()
+		)
 
-	return await try_close_distance(
-		entity,
-		entity.targeting.target_position()
-	)
+	if entity.uuid != player.uuid:
+		# print('doing stuff as ', entity.blueprint.name, '; ', Time.get_ticks_msec())
+		# Idling
+		if randf_range(0, 100) < 50:
+			var result = await perform_action(
+				entity,
+				MovementAction.new(
+					PlayerInput._input_to_direction(
+						InputTag.MOVE_ACTIONS.pick_random()
+					)
+				),
+			false)
+			if result:
+				return true
+		else:
+			var result = await perform_action(
+				entity,
+				MovementAction.new(
+					Vector2i.ZERO
+				),
+			false)
+			if result:
+				return true
+	else:
+		var _target_position = player.targeting.target_position()
+		if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
+			player.targeting.clear_targeting()
+			
+	return false
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
 	# If it's hostile, use this entity's first weaponskill on it.

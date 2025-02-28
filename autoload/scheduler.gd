@@ -4,7 +4,7 @@ extends Node
 var next_actor: Entity
 var next_queue := []
 
-var last_uuid_selected = -1
+var last_uuid_selected = ''
 
 var turn_in_progress = false
 var player_can_act: bool:
@@ -15,21 +15,22 @@ var player_can_act: bool:
 
 func _process(delta: float):
 	var player = Global.player
-	var player_is_valid = player and ECS.entity(player.uuid)
+	var player_is_valid = player and ECS.entity(player.uuid) and player.health.current > 0
 
 	if next_actor != null or !player_is_valid:
 		return
 	
 	var actors = MapManager.actors
 	if !turn_in_progress and next_queue.size() > 0:
-		var next = next_queue.pop_front()
-		if next != null and AgentManager.can_act(next):
+		var next = next_queue[0]
+		if next != null:
 			# print('switch to: ', next.uuid)
+			next = next_queue.pop_front()
 			var next_uuid = next.uuid
 			turn_in_progress = true
-			last_uuid_selected = next_uuid
 			next_actor = next
-			AgentManager._process(0.0)
+			last_uuid_selected = next_uuid
+			# AgentManager._process(0.0)
 
 	if !next_actor and player_is_valid and delta > 0:
 		await _update_energy(delta)
@@ -56,6 +57,7 @@ func _update_energy(delta: float):
 
 func finish_turn():
 	if next_actor:
+		# print('finished: ', next_actor.uuid)
 		next_actor.is_acting = false
 	next_actor = null
 	turn_in_progress = false
