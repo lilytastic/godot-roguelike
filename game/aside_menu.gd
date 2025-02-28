@@ -4,7 +4,7 @@ signal option_pressed
 signal resume_pressed
 
 func _input(ev: InputEvent) -> void:
-	if ev.is_action_pressed('open_system_menu'):
+	if ev.is_action_pressed('pause'):
 		if %SaveSlotWrapper.visible:
 			%SaveSlotWrapper.visible = false
 			get_viewport().set_input_as_handled()

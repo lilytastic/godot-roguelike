@@ -25,13 +25,6 @@ func _ready() -> void:
 func _process(delta):
 	_update_camera(delta)
 	
-	if Global.player:
-		if Global.player.health:
-			%HealthMeter.value = Global.player.health.current
-			%HealthMeter.max = Global.player.health.max
-			%HealthMeter.label = str(Global.player.health.current)
-			%HealthMeter.label_small = '/ ' + str(Global.player.health.max)
-
 	PlayerInput._update_mouse_position()
 	
 	if PlayerInput.cursor and Global.player:
@@ -47,8 +40,8 @@ func _process(delta):
 
 
 func _input(event: InputEvent) -> void:
-	if %SystemMenu:
-		Global.ui_visible = %SystemMenu.isMenuOpen
+	if %UIManager:
+		Global.ui_visible = %UIManager.is_menu_open
 	else:
 		Global.ui_visible = false
 	
