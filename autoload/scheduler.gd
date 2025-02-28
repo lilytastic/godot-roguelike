@@ -23,13 +23,16 @@ func _process(delta: float):
 	var actors = MapManager.actors
 	if !turn_in_progress and next_queue.size() > 0:
 		var next = next_queue[0]
-		if next != null:
+		if !AgentManager.can_act(next):
+			next_queue.pop_front()
+		if next != null and AgentManager.can_act(next):
 			# print('switch to: ', next.uuid)
 			next = next_queue.pop_front()
 			var next_uuid = next.uuid
 			turn_in_progress = true
 			next_actor = next
 			last_uuid_selected = next_uuid
+			# This should make it run synchronously and therefore faster, but fucks up the logic somewhere.
 			# AgentManager._process(0.0)
 
 	if !next_actor and player_is_valid and delta > 0:

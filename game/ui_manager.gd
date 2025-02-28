@@ -38,7 +38,10 @@ func _ready():
 
 func switch_screen(screen: Control):
 	if !screen:
-		screen = gameplay_screen
+		if InkManager.is_playing:
+			screen = dialogue_screen
+		else:
+			screen = gameplay_screen
 	print('switch to: ', screen.name if screen else 'null')
 	for _screen in screens:
 		_screen.visible = false

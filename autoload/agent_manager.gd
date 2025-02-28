@@ -56,7 +56,7 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 func take_turn(entity: Entity) -> bool:
 	var player = Global.player
 	
-	if !entity or entity.uuid == player.uuid:
+	if !entity:
 		return false
 
 	if player and is_hostile(entity, player) and entity.location and player.location:
@@ -71,13 +71,15 @@ func take_turn(entity: Entity) -> bool:
 			entity.targeting.clear()
 			if result:
 				return true
-		return await try_close_distance(
+		var result = await try_close_distance(
 			entity,
 			entity.targeting.target_position()
 		)
+		if result:
+			return true
 
 	if entity.uuid != player.uuid:
-		# print('doing stuff as ', entity.blueprint.name, '; ', Time.get_ticks_msec())
+		print('doing stuff as ', entity.blueprint.name, '; ', Time.get_ticks_msec())
 		# Idling
 		if randf_range(0, 100) < 50:
 			var result = await perform_action(
@@ -87,16 +89,16 @@ func take_turn(entity: Entity) -> bool:
 						InputTag.MOVE_ACTIONS.pick_random()
 					)
 				),
-			false)
+				false
+			)
 			if result:
 				return true
 		else:
 			var result = await perform_action(
 				entity,
-				MovementAction.new(
-					Vector2i.ZERO
-				),
-			false)
+				MovementAction.new(Vector2i.ZERO),
+				false
+			)
 			if result:
 				return true
 	else:
@@ -104,6 +106,7 @@ func take_turn(entity: Entity) -> bool:
 		if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
 			player.targeting.clear_targeting()
 			
+	
 	return false
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
