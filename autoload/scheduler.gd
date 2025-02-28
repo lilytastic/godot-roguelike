@@ -45,9 +45,11 @@ func _update_energy(delta: float):
 	for actor in MapManager.actors:
 		if !MapManager.actors[actor]:
 			continue
-		if !PlayerInput.is_on_screen(MapManager.actors[actor].location.position):
-			continue
 		var _entity = MapManager.actors[actor]
+		if !PlayerInput.is_on_screen(_entity.location.position) and !_entity.is_touched:
+			continue
+		if !_entity.is_touched:
+			_entity.is_touched = true
 		if _entity and _entity.blueprint.speed:
 			var mod = delta
 			if Global.player.targeting.current_path.size() > 0:

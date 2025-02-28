@@ -12,8 +12,11 @@ var blueprint: Blueprint:
 	get: return ECS.blueprints.get(_blueprint, null)
 	set(value): _blueprint = value.id
 
+var _glyph: Glyph = null
 var glyph: Glyph:
-	get: return blueprint.glyph if blueprint else null
+	get: return _glyph if _glyph else blueprint.glyph if blueprint else null
+	set(value):
+		_glyph = value
 
 var location: Location = null
 var inventory: InventoryProps = null
@@ -26,6 +29,7 @@ var health: Meter = null
 
 var energy := 0.00
 var is_acting = false
+var is_touched = false
 
 var visible_tiles := {}
 var known_entity_locations := {}

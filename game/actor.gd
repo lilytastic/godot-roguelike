@@ -13,7 +13,7 @@ var blueprint: Blueprint:
 	get: return entity.blueprint if entity else null
 
 var glyph: Glyph:
-	get: return blueprint.glyph if blueprint else null
+	get: return entity.glyph if entity else null
 
 
 signal destroyed
@@ -38,10 +38,6 @@ func _process(delta: float) -> void:
 		destroyed.emit()
 		queue_free()
 		return
-		
-	if is_dying:
-		return
-
 	
 	var _can_see = AgentManager.can_see(Global.player, entity.location.position)
 	var _known_position = Vector2i(-1, -1)
@@ -93,7 +89,8 @@ func _process(delta: float) -> void:
 		if entity.health.current <= entity.health.max / 2:
 			var _halved = entity.health.max / 2
 			color = Color('eede55').lerp(Color('ff2229'), (_halved - float(entity.health.current)) / _halved * 1.5)
-
+		if entity.health.current <= 0:
+			color = Color('999999')
 	var opacity = 1.0 if _can_see else (0.3 if _known_position != Vector2i(-1, -1) else 0.0)
 	modulate = modulate.lerp(
 		Color(color, opacity),
@@ -148,11 +145,12 @@ func die():
 	if is_dying:
 		return
 	is_dying = true
-	modulate = Color(0.5,0,0)
 	z_index = 0
+	var dead_sprite = Glyph.new({ 'ch': 'G_BONES', 'fg': [140,140,140] })
+	%Sprite2D.texture = dead_sprite.to_atlas_texture()
+	entity.glyph = dead_sprite
+	modulate = Color(0.5,0.5,0.5)
 	if PlayerInput.targeting.current_target == entity.uuid:
 		PlayerInput.targeting.clear_targeting()
-	return
 	await Global.sleep(400)
-	destroyed.emit()
-	queue_free()
+	return

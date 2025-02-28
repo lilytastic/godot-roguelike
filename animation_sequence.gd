@@ -10,7 +10,7 @@ func _init(_sequence := [], _length := 1.0):
 	
 func process(entity: Entity, delta: float) -> Dictionary:
 	progress = min(progress + delta, length)
-	var glyph = entity.blueprint.glyph
+	var glyph = entity.glyph
 	# 0.5 -> [0, 1, 2]
 	var index = progress / length * (sequence.size() - 1)
 	var min = floor(index)
