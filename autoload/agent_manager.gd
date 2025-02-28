@@ -79,7 +79,7 @@ func take_turn(entity: Entity) -> bool:
 			return true
 
 	if entity.uuid != player.uuid:
-		print('doing stuff as ', entity.blueprint.name, '; ', Time.get_ticks_msec())
+		# print('doing stuff as ', entity.blueprint.name, '; ', Time.get_ticks_msec())
 		# Idling
 		if randf_range(0, 100) < 50:
 			var result = await perform_action(

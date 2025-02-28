@@ -20,6 +20,9 @@ func _process(delta: float):
 	if next_actor != null or !player_is_valid:
 		return
 	
+	if !next_actor and player_is_valid and delta > 0:
+		_update_energy(delta)
+		
 	var actors = MapManager.actors
 	if !turn_in_progress and next_queue.size() > 0:
 		var next = next_queue[0]
@@ -35,15 +38,14 @@ func _process(delta: float):
 			# This should make it run synchronously and therefore faster, but fucks up the logic somewhere.
 			# AgentManager._process(0.0)
 
-	if !next_actor and player_is_valid and delta > 0:
-		await _update_energy(delta)
-
 
 
 var last_chosen = {}
 func _update_energy(delta: float):
 	for actor in MapManager.actors:
 		if !MapManager.actors[actor]:
+			continue
+		if !PlayerInput.is_on_screen(MapManager.actors[actor].location.position):
 			continue
 		var _entity = MapManager.actors[actor]
 		if _entity and _entity.blueprint.speed:
@@ -52,7 +54,7 @@ func _update_energy(delta: float):
 				mod *= 0.4
 			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
 			_entity.energy += _entity.blueprint.speed * mod * 20.0
-			# _entity.energy = min(0.0, _entity.energy)
+			# _entity.energy = min(10.0, _entity.energy)
 			if _entity.energy >= 0.0:
 				if next_queue.find(_entity) == -1:
 					next_queue.append(_entity)

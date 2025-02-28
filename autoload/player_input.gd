@@ -165,6 +165,16 @@ func _on_double_click_tile(coord: Vector2i):
 	if Scheduler.player_can_act:
 		_act(Scheduler.next_actor)
 
+func is_on_screen(coord: Vector2i):
+	var _center := get_viewport().get_camera_2d().get_screen_center_position()
+	var _rect := get_viewport().get_camera_2d().get_viewport_rect()
+	_rect.position = _center - _rect.size / 2
+	_rect.position -= Vector2.ONE * 16
+	_rect.size += Vector2.ONE * 32
+
+	return _rect.has_point(coord * 16)
+
+
 func _act(entity: Entity) -> void:
 	var path_result = Pathfinding.try_path_to(
 		entity.location.position,
