@@ -227,6 +227,7 @@ func switch_map(_map: Map, entity: Entity):
 		camera.position = (entity.location.position + PlayerInput.camera_offset) * 16
 
 	map_changed.emit(map)
+	print('Done switching')
 	is_switching = false
 
 

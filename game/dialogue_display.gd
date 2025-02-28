@@ -41,6 +41,7 @@ func _ready():
 						InkManager.choose(choice)
 				)
 	)
+	InkManager.proceed()
 
 func _input(event: InputEvent) -> void:
 	if event.is_pressed() or event.is_action_pressed('dialogue_next'):

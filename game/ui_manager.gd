@@ -20,7 +20,7 @@ var is_menu_open:
 
 
 func _ready():
-	switch_screen(null)
+	switch_screen(gameplay_screen)
 		
 	pause_screen.resume_pressed.connect(
 		func(): switch_screen(null)
@@ -77,6 +77,7 @@ func _process(delta):
 	if is_menu_open != was_menu_open:
 		was_menu_open = is_menu_open
 		PlayerInput.item_hovered.emit(null)
+
 	if !is_menu_open:
 		Engine.time_scale = 1
 	else:

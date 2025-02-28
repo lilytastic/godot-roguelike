@@ -42,6 +42,10 @@ func _process(delta: float):
 
 var last_chosen = {}
 func _update_energy(delta: float):
+	var mod = delta
+	if Global.player and Global.player.targeting.current_path.size() > 0:
+		mod *= 0.4
+
 	for actor in MapManager.actors:
 		if !MapManager.actors[actor]:
 			continue
@@ -51,11 +55,8 @@ func _update_energy(delta: float):
 		if !_entity.is_touched:
 			_entity.is_touched = true
 		if _entity and _entity.blueprint.speed:
-			var mod = delta
-			if Global.player.targeting.current_path.size() > 0:
-				mod *= 0.4
 			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
-			_entity.energy += _entity.blueprint.speed * mod * 20.0
+			_entity.energy += _entity.blueprint.speed * mod * 10.0
 			# _entity.energy = min(10.0, _entity.energy)
 			if _entity.energy >= 0.0:
 				if next_queue.find(_entity) == -1:
