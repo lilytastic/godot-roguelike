@@ -49,7 +49,6 @@ func take_turn(entity: Entity) -> bool:
 				entity.targeting.current_target = player.uuid
 
 	var target = ECS.entity(entity.targeting.current_target)
-	print(target)
 	
 	if target:
 		var default_action = get_default_action(entity, target)

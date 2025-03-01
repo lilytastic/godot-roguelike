@@ -2,7 +2,7 @@ extends Node
 
 @export var story: InkStory = preload('res://assets/ink/crossroads_godot.ink')
 
-var is_playing = true
+var is_playing = false
 var current_choices := []
 
 signal line_registered

@@ -34,7 +34,10 @@ func _load():
 			func(entity):
 				return entity['uuid'] == data.player
 		)[0]
+		print(player_entity.map)
 		var current_map = data.maps.maps[data.maps.maps.find(func(x): x.uuid == player_entity.map)]
+		# print(current_map.name)
+		# print(data.maps.maps)
 		%TopLeft.text = '<Unknown Map>'
 		if current_map:
 			%TopLeft.text = current_map.name + ((' ' + str(current_map.depth) + 'F') if current_map.depth else '')
