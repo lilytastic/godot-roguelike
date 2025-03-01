@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://game/item_preview.gd" id="13_3w56u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826o3"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sbi3"]
 bg_color = Color(0.0232, 0.06864, 0.08, 0.792157)
