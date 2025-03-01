@@ -124,6 +124,7 @@ func _add_entities(data := {}):
 		var new_entity = Entity.new({ 'blueprint': 'ghoul' })
 		new_entity.location = Location.new('', random_tile)
 		new_entity.equipment = EquipmentProps.new({})
+		new_entity.energy = -100
 		entities.append(new_entity)
 
 

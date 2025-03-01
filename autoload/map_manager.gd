@@ -228,6 +228,7 @@ func switch_map(_map: Map, entity: Entity):
 
 	map_changed.emit(map)
 	print('Done switching')
+	Global.autosave()
 	is_switching = false
 
 

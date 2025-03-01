@@ -13,12 +13,15 @@ var player_can_act: bool:
 			return false
 		return next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
+var last_tick = 0
 var last_player_turn = 0
 func _process(delta: float):
+	# print('_process after ', last_tick - Time.get_ticks_msec(), 'ms')
+	last_tick = Time.get_ticks_msec()
 	var player = Global.player
 	var player_is_valid = player and ECS.entity(player.uuid) and player.health.current > 0
 
-	if next_actor != null or !player_is_valid:
+	if next_actor != null or !player_is_valid or MapManager.is_switching:
 		return
 	
 	if !next_actor and player_is_valid and delta > 0:
