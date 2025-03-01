@@ -41,7 +41,7 @@ func _process(delta: float):
 				print("Player's turn after ", ticks - last_player_turn, "ms")
 				last_player_turn = ticks
 			# This should make it run synchronously and therefore faster, but fucks up the logic somewhere.
-			# AgentManager._process(0.0)
+			AgentManager._process(0.0)
 
 
 
