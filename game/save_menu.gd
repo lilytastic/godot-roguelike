@@ -23,7 +23,7 @@ func preview_slot(_slot: SaveSlot):
 
 	if _slot:
 		%SaveName.text = _slot.slot_name
-		%SaveDescription.text = _slot.slot_type
+		%SaveDescription.text = _slot.slot_type.capitalize()
 		%SaveDate.text = _slot.slot_date
 		%ThumbnailPreview.texture = null
 	else:

@@ -47,19 +47,21 @@ func _load():
 		var _map = _maps.filter(func(x): return x.uuid == player_entity.map)[0]
 		if _map:
 			var current_map = _map
-			%TopLeft.text = current_map.name + ((' ' + str(current_map.depth) + 'F') if current_map.depth else '')
+			%TopLeft.text = current_map.name + ((' - ' + str(current_map.depth) + 'F') if current_map.depth else '')
+		if slot_type != "manual":
+			%TopLeft.text = slot_type.capitalize() + ': ' + %TopLeft.text
 		slot_name = %TopLeft.text
 
-		%TopRight.text = slot_type.capitalize()
+		# %TopRight.text = slot_type.capitalize()
 		
 		if data.has('date_modified'):
 			var dict = Time.get_datetime_dict_from_datetime_string(data.date_modified, false)
 			var minute = str(dict.minute) if dict.minute >= 10 else ('0'+str(dict.minute))
 			var day = str(dict.day) if dict.day >= 10 else ('0'+str(dict.day))
 			var date = str(dict.month) + '/' + day + '/' + str(dict.year) + ' ' + str(dict.hour)+ ':' + minute
-			%BottomRight.text = date
+			%TopRight.text = date
 
-		slot_date = %BottomRight.text
+		slot_date = %TopRight.text
 
 	else:
 		%Center.text = 'Empty slot'
