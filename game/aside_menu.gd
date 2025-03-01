@@ -41,6 +41,7 @@ func _ready() -> void:
 		func():
 			option_pressed.emit('SaveGame')
 			%SaveSlots.mode = 'save'
+			%SaveSlots._init()
 			%SaveSlotsLabel.text = 'Save Game'
 			%SaveSlotWrapper.visible = true
 	)
@@ -48,6 +49,7 @@ func _ready() -> void:
 		func():
 			option_pressed.emit('LoadGame')
 			%SaveSlots.mode = 'load'
+			%SaveSlots._init()
 			%SaveSlotsLabel.text = 'Load Game'
 			%SaveSlotWrapper.visible = true
 	)

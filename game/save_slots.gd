@@ -25,11 +25,17 @@ func _init() -> void:
 
 
 func _create_slot(path: String, type: String):
-	var slot = slot_scene.instantiate()
+	var slot: SaveSlot = slot_scene.instantiate()
 	slot.slot_type = type
 	slot.path = path
 	slot.slot_clicked.connect(func(path: String): _select(path, type))
 	list.add_child(slot)
+	if type != 'manual':
+		var separator = HSeparator.new()
+		list.add_child(separator)
+		separator.modulate = Color(0,0,0,0)
+		if mode == 'save':
+			slot.disabled = true
 	return slot
 
 
