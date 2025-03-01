@@ -62,14 +62,14 @@ func _update_energy(delta: float):
 			continue
 		if !_entity.is_touched:
 			_entity.is_touched = true
-		if _entity and _entity.blueprint.speed:
+		if _entity.blueprint.speed:
 			if _entity.energy < 0:
 				# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
-				_entity.energy += _entity.blueprint.speed * mod * 20.0
+				_entity.energy += _entity.blueprint.speed * mod * 15.0
 			# _entity.energy = min(1.0, _entity.energy)
-			if _entity.energy >= 0.0:
-				if next_queue.find(_entity) == -1:
-					next_queue.append(_entity)
+		if _entity.energy >= 0.0:
+			if next_queue.find(_entity) == -1:
+				next_queue.append(_entity)
 
 
 func finish_turn():
