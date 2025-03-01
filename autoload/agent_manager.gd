@@ -17,8 +17,11 @@ func _ready():
 # 	print("Skills: ", skills)
 #	print("Skill trees: ", skill_trees)
 	
+var lock = false
 
 func _process(delta):
+	if lock:
+		return
 	# Check if the Scheduler.next_actor is not the player, then trigger an action
 	var player = Global.player
 	var next_actor = Scheduler.next_actor
@@ -31,9 +34,14 @@ func _process(delta):
 		pass
 
 	if next_actor != null and !next_actor.is_acting:
+		lock = true
+		Scheduler.next_actor = null
 		var success = await take_turn(next_actor)
+		lock = false
 		if success:
 			Scheduler.finish_turn()
+		else:
+			Scheduler.next_actor = next_actor
 
 
 

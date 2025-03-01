@@ -15,7 +15,10 @@ var player_can_act: bool:
 
 var last_tick = 0
 var last_player_turn = 0
+var lock = false
 func _process(delta: float):
+	if lock:
+		return
 	if delta > 1:
 		delta = 1
 	# print('_process after ', last_tick - Time.get_ticks_msec(), 'ms')
@@ -51,7 +54,9 @@ func _process(delta: float):
 				print("Player's turn after ", ticks - last_player_turn, "ms")
 				last_player_turn = ticks
 			# This should make it run synchronously and therefore faster, but fucks up the logic somewhere.
-			AgentManager._process(0.0)
+			if !lock:
+				lock = true
+				AgentManager._process(0.0)
 	
 	if !next_actor and player_is_valid and delta > 0.0:
 		_update_energy(delta)
@@ -62,21 +67,21 @@ var last_chosen = {}
 func _update_energy(delta: float):
 	var mod = delta
 	if Global.player and Global.player.targeting.current_path.size() > 0:
-		mod *= 0.4
+		mod *= 0.55
 
 	for actor in MapManager.actors:
 		if !MapManager.actors[actor]:
 			continue
 		var _entity = MapManager.actors[actor]
 		if !PlayerInput.is_on_screen(_entity.location.position) and !_entity.targeting.has_target():
-			continue
+			pass # continue
 		if !_entity.is_touched:
 			_entity.is_touched = true
 		if _entity.blueprint.speed:
-			if _entity.energy < 0:
+			if _entity.energy < 0.0:
 				# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
 				_entity.energy += _entity.blueprint.speed * mod * 15.0
-			# _entity.energy = min(1.0, _entity.energy)
+		_entity.energy = min(0.0, _entity.energy)
 
 
 func finish_turn():
@@ -87,4 +92,5 @@ func finish_turn():
 		next_actor.is_acting = false
 	next_actor = null
 	turn_in_progress = false
+	lock = false
 	_process(0.0) # THIS IS THE MAGIC SAUCE
