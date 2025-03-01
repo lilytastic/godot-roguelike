@@ -55,7 +55,7 @@ func _update_energy(delta: float):
 		if !MapManager.actors[actor]:
 			continue
 		var _entity = MapManager.actors[actor]
-		if !PlayerInput.is_on_screen(_entity.location.position) and !_entity.is_touched:
+		if !PlayerInput.is_on_screen(_entity.location.position) and !_entity.targeting.has_target():
 			continue
 		if !_entity.is_touched:
 			_entity.is_touched = true
