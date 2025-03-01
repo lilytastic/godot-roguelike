@@ -255,7 +255,7 @@ func init_actors():
 	actors_changed.emit()
 
 
-func teleport(destination: Dictionary, entity: Entity):
+func teleport(destination: Dictionary, entity: Entity, autosave := true):
 	print('teleport to: ', destination)
 	if destination.has('map'):
 		var _map = maps[destination.map]
@@ -263,7 +263,8 @@ func teleport(destination: Dictionary, entity: Entity):
 		if destination.has('position'):
 			var _position = Global.string_to_vector(destination.position)
 			entity.location = Location.new(destination.map, _position)
-
+		if autosave:
+			Global.autosave()
 
 func resolve_destination(destination: Dictionary, entity: Entity):
 	var _destination = destination

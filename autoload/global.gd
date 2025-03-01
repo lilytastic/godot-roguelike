@@ -45,13 +45,6 @@ func new_game() -> Entity:
 	player_changed.emit(player)
 	ECS.add(player)
 	
-	"""
-	var starting_map = await MapManager.resolve_destination({
-		'branch': 'privateers_hideout',
-		'depth': 1,
-		'connections': [{'prefab': 'test'}]
-	}, player)
-	"""
 	var starting_map = await MapManager.resolve_destination({
 		'worldspace': 'domino',
 		'name': 'Wilderness',
@@ -59,7 +52,7 @@ func new_game() -> Entity:
 		'cell': Vector2i(0, 0),
 		'connections': [{'branch': 'privateers_hideout', 'depth': 1 }]
 	}, player)
-	MapManager.teleport(starting_map, player)
+	MapManager.teleport(starting_map, player, false)
 	print('created starting_map: ', starting_map)
 
 	has_game_started = true

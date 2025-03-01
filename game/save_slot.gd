@@ -34,13 +34,17 @@ func _load():
 			func(entity):
 				return entity['uuid'] == data.player
 		)[0]
-		print(player_entity.map)
-		var current_map = data.maps.maps[data.maps.maps.find(func(x): x.uuid == player_entity.map)]
 		# print(current_map.name)
 		# print(data.maps.maps)
 		%TopLeft.text = '<Unknown Map>'
-		if current_map:
+
+		var _maps = data.maps.maps
+		var _player_map = str(player_entity.map)
+		var _map = _maps.filter(func(x): return x.uuid == player_entity.map)[0]
+		if _map:
+			var current_map = _map
 			%TopLeft.text = current_map.name + ((' ' + str(current_map.depth) + 'F') if current_map.depth else '')
+
 		%TopRight.text = slot_type.capitalize()
 		if data.has('date_modified'):
 			var dict = Time.get_datetime_dict_from_datetime_string(data.date_modified, false)
