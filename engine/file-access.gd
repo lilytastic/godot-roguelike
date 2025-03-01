@@ -9,11 +9,15 @@ static func get_dictionary(path: String) -> Dictionary:
 	return file.data if file and file.has('data') else {}
 
 
-static func save(data: Dictionary, path := "user://savegame.save") -> void:
+static func save(data: Dictionary, path: String, image: Image) -> void:
 	var save_file = FileAccess.open(path, FileAccess.WRITE)
 	save_file.store_line(JSON.stringify(data))
 	save_file.close()
-	
+	if image:
+		print(image.get_size())
+		var image_path = path.substr(0, path.rfind('.'))
+		print(image_path)
+		image.save_jpg(image_path + '.jpg')
 	# Files.load()
 	return
 

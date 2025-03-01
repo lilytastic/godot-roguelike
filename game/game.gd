@@ -38,13 +38,13 @@ func _process(delta):
 		if path_result.success:
 			Global.player.targeting.current_path = path_result.path
 
-
-func _input(event: InputEvent) -> void:
 	if %UIManager:
 		Global.ui_visible = %UIManager.is_menu_open
 	else:
 		Global.ui_visible = false
-	
+
+
+func _input(event: InputEvent) -> void:
 	var camera = get_viewport().get_camera_2d()
 	if event.is_action_pressed('zoom_out'):
 		if camera.zoom.x > 1:

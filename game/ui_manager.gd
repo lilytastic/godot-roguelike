@@ -37,6 +37,8 @@ func _ready():
 
 
 func switch_screen(screen: Control):
+	if current_screen == null:
+		pass # Global.take_screenshot()
 	if !screen:
 		if InkManager.is_playing:
 			screen = dialogue_screen

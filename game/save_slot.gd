@@ -53,7 +53,7 @@ func _load():
 			var date = str(dict.month) + '/' + day + '/' + str(dict.year) + ' ' + str(dict.hour)+ ':' + minute
 			%BottomRight.text = date
 	else:
-		%Center.text = 'No data'
+		%Center.text = 'Empty slot'
 
 func round_place(num,places):
 	return (round(num*pow(10,places))/pow(10,places))

@@ -105,6 +105,8 @@ func trigger_action(action: Action) -> void:
 	action_triggered.emit(action)
 	if Scheduler.player_can_act:
 		await AgentManager.perform_action(Global.player, action)
+		if !Global.ui_visible:
+			Global.take_screenshot()
 
 
 func _notification(event):

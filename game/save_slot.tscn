@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://hdb51gogs12"]
+[gd_scene load_steps=9 format=3 uid="uid://hdb51gogs12"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_ijkol"]
 [ext_resource type="Script" path="res://game/save_slot.gd" id="1_uelva"]
 [ext_resource type="FontFile" uid="uid://cq0ydk3gbo13m" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_bold.ttf" id="3_3l0f8"]
+[ext_resource type="FontFile" uid="uid://buaimy6vdhglx" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue.ttf" id="3_uq6wy"]
 [ext_resource type="FontFile" uid="uid://cv3uwt0ir851t" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_small.ttf" id="4_jnuoy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6bts"]
-bg_color = Color(0, 0, 0, 0.392157)
+bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3alme"]
 bg_color = Color(1, 1, 1, 0.133333)
@@ -15,9 +16,9 @@ bg_color = Color(1, 1, 1, 0.133333)
 bg_color = Color(0, 0, 0, 0.643137)
 
 [node name="SaveSlot" type="Button"]
-custom_minimum_size = Vector2(0, 52)
-offset_right = 316.0
-offset_bottom = 52.0
+custom_minimum_size = Vector2(0, 44)
+offset_right = 160.0
+offset_bottom = 44.0
 mouse_default_cursor_shape = 2
 theme = ExtResource("1_ijkol")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_r6bts")
@@ -32,6 +33,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 12
@@ -44,51 +46,48 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("3_3l0f8")
+theme_override_fonts/font = ExtResource("3_uq6wy")
 text = "Center"
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 2
 
 [node name="TopLeft" type="Label" parent="MarginContainer/GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("3_3l0f8")
 text = "TopLeft"
 
 [node name="TopRight" type="Label" parent="MarginContainer/GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 1
 text = "TopRight
 "
 horizontal_alignment = 2
 
 [node name="BottomLeft" type="Label" parent="MarginContainer/GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 10
+size_flags_vertical = 1
 text = "BottomLeft
 "
 vertical_alignment = 2
 
 [node name="BottomRight" type="Label" parent="MarginContainer/GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 12)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 10
+size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_jnuoy")
 text = "BottomRight
 "

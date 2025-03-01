@@ -33,7 +33,7 @@ func _create_slot(path: String, type: String):
 	if type != 'manual':
 		var separator = HSeparator.new()
 		list.add_child(separator)
-		separator.modulate = Color(0,0,0,0)
+		separator.modulate = Color(1,1,1,0.5)
 		if mode == 'save':
 			slot.disabled = true
 			slot.modulate = Color(slot.modulate, 0.5)

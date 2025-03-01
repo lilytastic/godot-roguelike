@@ -1,17 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://kv6mv8j4a7yc"]
+[gd_scene load_steps=10 format=3 uid="uid://kv6mv8j4a7yc"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e060e"]
 [ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://themes/display.tres" id="1_inosm"]
 [ext_resource type="Script" path="res://game/aside_menu.gd" id="1_x6mru"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="4_dypj6"]
 [ext_resource type="FontFile" uid="uid://bpqyjjs05qqgh" path="res://assets/fonts/m42flight721/m42.TTF" id="4_x77hr"]
-[ext_resource type="FontFile" uid="uid://cq0ydk3gbo13m" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_bold.ttf" id="6_6kpov"]
+[ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="6_1fwp2"]
+[ext_resource type="FontFile" uid="uid://dcygvh0q3vd35" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_extra_large_bold.ttf" id="6_ukyuh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvv64"]
 bg_color = Color(0.058, 0.0699, 0.1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yteaq"]
-bg_color = Color(0.0745098, 0.0901961, 0.129412, 1)
+bg_color = Color(0.0754, 0.09087, 0.13, 1)
 
 [node name="Aside Menu" type="Control"]
 layout_mode = 3
@@ -138,33 +139,57 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_yteaq")
 
-[node name="SaveSlots" parent="SaveSlotWrapper" instance=ExtResource("4_dypj6")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -144.0
-offset_right = 150.0
-offset_bottom = 156.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="SaveSlotsLabel" type="Label" parent="SaveSlotWrapper"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -113.5
-offset_right = 113.5
-offset_bottom = 31.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("6_6kpov")
+offset_left = 78.0
+offset_right = 308.0
+offset_bottom = 36.0
+theme_override_fonts/font = ExtResource("6_ukyuh")
 text = "Save Game"
-horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SaveSlotWrapper"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 74.0
+offset_top = 48.0
+offset_right = -76.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Panel" type="Panel" parent="SaveSlotWrapper/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+theme_override_styles/panel = ExtResource("6_1fwp2")
+
+[node name="MarginContainer" type="MarginContainer" parent="SaveSlotWrapper/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="SaveSlots" parent="SaveSlotWrapper/HBoxContainer/Panel/MarginContainer" instance=ExtResource("4_dypj6")]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="SaveSlotWrapper/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Panel2" type="Panel" parent="SaveSlotWrapper/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("6_1fwp2")

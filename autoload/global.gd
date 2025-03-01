@@ -17,6 +17,8 @@ var is_game_started: bool:
 
 var directions = [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 
+var image: Image = null
+
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
@@ -79,7 +81,7 @@ func get_save_slots() -> Array[Dictionary]:
 		# {'path': 'user://%s.save' % 'quicksave', 'type': 'quicksave'},
 		{'path': 'user://%s.save' % 'autosave', 'type': 'autosave'}
 	]
-	for n in 4:
+	for n in 6:
 		var num = str(n+1)
 		arr.append({'path': 'user://%s.save' % ('save' + num), 'type': 'manual'})
 	return arr
@@ -87,7 +89,7 @@ func get_save_slots() -> Array[Dictionary]:
 	
 func save_game(path: String):
 	var data = get_save_data()
-	Files.save(data, path)
+	Files.save(data, path, image)
 	game_saved.emit()
 	
 func get_save_data() -> Dictionary:
@@ -158,3 +160,7 @@ func string_to_vector(str) -> Vector2i:
 	if coords.size() < 2:
 		return Vector2i(0,0)
 	return Vector2i(int(coords[0]), int(coords[1]))
+
+func take_screenshot():
+	print('snapshot')
+	image = get_viewport().get_texture().get_image()
