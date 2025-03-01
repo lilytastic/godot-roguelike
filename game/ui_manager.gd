@@ -57,7 +57,7 @@ func _input(event: InputEvent):
 		switch_screen(pause_screen if current_screen != pause_screen else null)
 		get_viewport().set_input_as_handled()
 
-	if event.is_action_pressed('open_character_menu'):
+	if event.is_action_pressed('open_character_menu') and current_screen != pause_screen:
 		switch_screen(character_screen if current_screen != character_screen else null)
 		get_viewport().set_input_as_handled()
 	

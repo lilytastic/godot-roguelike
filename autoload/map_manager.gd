@@ -229,6 +229,7 @@ func switch_map(_map: Map, entity: Entity):
 	map_changed.emit(map)
 	print('Done switching')
 	is_switching = false
+	Global.take_screenshot()
 
 
 func get_tiles():

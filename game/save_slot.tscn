@@ -16,7 +16,7 @@ bg_color = Color(1, 1, 1, 0.133333)
 bg_color = Color(0, 0, 0, 0.643137)
 
 [node name="SaveSlot" type="Button"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 28)
 offset_right = 160.0
 offset_bottom = 22.0
 mouse_default_cursor_shape = 2
