@@ -63,6 +63,7 @@ func _process(delta: float):
 			turn_in_progress = false
 			
 	lock = false
+	_process(0.0)
 
 
 func take_turn(_actor: Entity):
@@ -75,7 +76,16 @@ func take_turn(_actor: Entity):
 	if !player.health or player.health.current <= 0:
 		# You are dead.
 		pass
-
+		
+	"""
+	if !PlayerInput.is_on_screen(_actor.location.position) and !_actor.targeting.has_target():
+		turn_in_progress = false
+		_actor.energy -= 100
+		if next_actor and next_actor.uuid == _actor.uuid:
+			next_actor = null
+		return
+	"""
+		
 	if _actor != null and !_actor.is_acting:
 		lock = true
 		if next_actor and next_actor.uuid == _actor.uuid:
@@ -133,4 +143,4 @@ func finish_turn(_actor: Entity):
 	)
 	turn_in_progress = false
 	lock = false
-	_process(0.0) # THIS IS THE MAGIC SAUCE
+	# _process(0.0) # THIS IS THE MAGIC SAUCE
