@@ -5,8 +5,8 @@
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_rms7w"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="2_v6d3c"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="3_r7u4x"]
-[ext_resource type="FontFile" uid="uid://dfv14ndud7gh3" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_extra_large.ttf" id="6_axaol"]
 [ext_resource type="FontFile" uid="uid://br802x22psogy" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_bold.ttf" id="6_iuj6h"]
+[ext_resource type="FontFile" uid="uid://tjvbjneifeu1" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large.ttf" id="6_pfo80"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yteaq"]
 bg_color = Color(0.0754, 0.09087, 0.13, 1)
@@ -108,7 +108,7 @@ theme_override_constants/separation = 4
 [node name="SaveName" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("6_axaol")
+theme_override_fonts/font = ExtResource("6_iuj6h")
 text = "Test"
 autowrap_mode = 3
 
@@ -139,7 +139,7 @@ theme_override_constants/separation = 4
 [node name="SaveDescription" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("6_iuj6h")
+theme_override_fonts/font = ExtResource("6_pfo80")
 text = "Test"
 
 [node name="SaveDate" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer/VBoxContainer"]
