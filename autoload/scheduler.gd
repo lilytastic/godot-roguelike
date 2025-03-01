@@ -60,9 +60,10 @@ func _update_energy(delta: float):
 		if !_entity.is_touched:
 			_entity.is_touched = true
 		if _entity and _entity.blueprint.speed:
-			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
-			_entity.energy += _entity.blueprint.speed * mod * 10.0
-			_entity.energy = min(1.0, _entity.energy)
+			if _entity.energy < 0:
+				# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
+				_entity.energy += _entity.blueprint.speed * mod * 10.0
+			# _entity.energy = min(1.0, _entity.energy)
 			if _entity.energy >= 0.0:
 				if next_queue.find(_entity) == -1:
 					next_queue.append(_entity)
@@ -76,4 +77,4 @@ func finish_turn():
 		next_actor.is_acting = false
 	next_actor = null
 	turn_in_progress = false
-	# _process(0.0) # THIS IS THE MAGIC SAUCE
+	_process(0.0) # THIS IS THE MAGIC SAUCE

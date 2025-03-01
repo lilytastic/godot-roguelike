@@ -87,7 +87,7 @@ func _update_fov():
 		
 	visible_tiles.clear()
 	var fov = FOV.new(self)
-	print('fov: ', fov)
+	# print('fov: ', fov)
 	fov.compute_fov(location.position)
 	_update_known_entities()
 
