@@ -16,6 +16,8 @@ var player_can_act: bool:
 var last_tick = 0
 var last_player_turn = 0
 func _process(delta: float):
+	if delta > 1:
+		delta = 1
 	# print('_process after ', last_tick - Time.get_ticks_msec(), 'ms')
 	last_tick = Time.get_ticks_msec()
 	var player = Global.player
@@ -25,6 +27,14 @@ func _process(delta: float):
 		return
 		
 	var actors = MapManager.actors
+	for actor in actors:
+		if !actors[actor]:
+			continue
+		var _entity = actors[actor]
+		if _entity.energy >= 0.0:
+			if next_queue.find(_entity) == -1 and (!next_actor or next_actor.uuid != _entity.uuid):
+				next_queue.append(_entity)
+				
 	if !turn_in_progress and next_queue.size() > 0:
 		var next = next_queue[0]
 		if !next or !AgentManager.can_act(next):
@@ -67,9 +77,6 @@ func _update_energy(delta: float):
 				# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
 				_entity.energy += _entity.blueprint.speed * mod * 15.0
 			# _entity.energy = min(1.0, _entity.energy)
-		if _entity.energy >= 0.0:
-			if next_queue.find(_entity) == -1:
-				next_queue.append(_entity)
 
 
 func finish_turn():
