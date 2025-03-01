@@ -107,7 +107,7 @@ func _ready() -> void:
 	for key in map_definitions:
 		var def = map_definitions.get(key, {});
 		if def.has('parent'):
-			map_definitions[key].merge(map_definitions.get(def.parent, {}), true)
+			map_definitions[key].merge(map_definitions.get(def.parent, {}), false)
 
 	update_navigation()
 	ECS.entity_added.connect(
