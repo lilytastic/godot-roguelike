@@ -23,16 +23,13 @@ func _process(delta: float):
 
 	if next_actor != null or !player_is_valid or MapManager.is_switching:
 		return
-	
-	if !next_actor and player_is_valid and delta > 0:
-		_update_energy(delta)
 		
 	var actors = MapManager.actors
 	if !turn_in_progress and next_queue.size() > 0:
 		var next = next_queue[0]
-		if !AgentManager.can_act(next):
+		if !next or !AgentManager.can_act(next):
 			next_queue.pop_front()
-		if next != null and AgentManager.can_act(next):
+		else:
 			# print('switch to: ', next.uuid)
 			next = next_queue.pop_front()
 			var next_uuid = next.uuid
@@ -45,6 +42,9 @@ func _process(delta: float):
 				last_player_turn = ticks
 			# This should make it run synchronously and therefore faster, but fucks up the logic somewhere.
 			AgentManager._process(0.0)
+	
+	if !next_actor and player_is_valid and delta > 0.0:
+		_update_energy(delta)
 
 
 
