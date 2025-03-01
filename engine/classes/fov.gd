@@ -1,4 +1,4 @@
-class_name FOV
+# class_name FOV
 
 static func compute_fov(origin: Vector2i, is_blocking: Callable, mark_visible: Callable):
 	mark_visible.call(origin)

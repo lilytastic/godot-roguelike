@@ -8,31 +8,35 @@ var last_position: Vector2
 var tiles := {}
 var tile_render := {}
 
+var is_dirty = false
 
 func _ready() -> void:
 	get_viewport().connect("size_changed", render)
 	_create_tiles()
-	update_tiles()
+	is_dirty = true
 	
 	Global.player.action_performed.connect(
 		func(action, result):
-			await Global.sleep(100)
-			update_tiles()
+			# await Global.sleep(100)
+			is_dirty = true
 	)
 	
 	MapManager.map_changed.connect(
 		func(map):
-			await Global.sleep(1)
+			# await Global.sleep(1)
 			_create_tiles()
-			update_tiles()
+			is_dirty = true
 	)
 
 
 func _process(delta):
 	if Global.player and Global.player.location and Global.player.location.position != last_position:
 		last_position = Global.player.location.position
-		await Global.sleep(100)
+		# await Global.sleep(100)
+		is_dirty = true
+	if is_dirty:
 		update_tiles()
+		is_dirty = false
 	render(delta)
 
 func _create_tiles() -> void:

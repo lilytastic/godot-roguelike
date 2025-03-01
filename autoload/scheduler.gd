@@ -13,6 +13,7 @@ var player_can_act: bool:
 			return false
 		return next_actor.uuid == Global.player.uuid and !Global.player.is_acting
 
+var last_player_turn = 0
 func _process(delta: float):
 	var player = Global.player
 	var player_is_valid = player and ECS.entity(player.uuid) and player.health.current > 0
@@ -35,6 +36,10 @@ func _process(delta: float):
 			turn_in_progress = true
 			next_actor = next
 			last_uuid_selected = next_uuid
+			if next_uuid == Global.player.uuid:
+				var ticks = Time.get_ticks_msec()
+				print("Player's turn after ", ticks - last_player_turn, "ms")
+				last_player_turn = ticks
 			# This should make it run synchronously and therefore faster, but fucks up the logic somewhere.
 			# AgentManager._process(0.0)
 
@@ -57,7 +62,7 @@ func _update_energy(delta: float):
 		if _entity and _entity.blueprint.speed:
 			# print(_entity.blueprint.name, ' ', _entity.blueprint.speed, ' -> ', _entity.energy)
 			_entity.energy += _entity.blueprint.speed * mod * 10.0
-			# _entity.energy = min(10.0, _entity.energy)
+			_entity.energy = min(1.0, _entity.energy)
 			if _entity.energy >= 0.0:
 				if next_queue.find(_entity) == -1:
 					next_queue.append(_entity)
@@ -66,7 +71,9 @@ func _update_energy(delta: float):
 func finish_turn():
 	if next_actor:
 		# print('finished: ', next_actor.uuid)
+		if next_actor.uuid == Global.player.uuid:
+			last_player_turn = Time.get_ticks_msec()
 		next_actor.is_acting = false
 	next_actor = null
 	turn_in_progress = false
-	_process(0.0) # THIS IS THE MAGIC SAUCE
+	# _process(0.0) # THIS IS THE MAGIC SAUCE

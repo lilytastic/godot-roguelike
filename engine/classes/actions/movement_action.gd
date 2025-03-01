@@ -68,6 +68,6 @@ func perform(entity: Entity) -> ActionResult:
 	entity.location.position = new_position
 	
 	if Global.player and entity.uuid == Global.player.uuid:
-		await Global.sleep(65)
+		pass # await Global.sleep(65)
 
 	return ActionResult.new(true, { 'cost_energy': 100 })

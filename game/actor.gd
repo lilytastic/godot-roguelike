@@ -38,6 +38,8 @@ func _process(delta: float) -> void:
 		destroyed.emit()
 		queue_free()
 		return
+		
+	entity._process(delta)
 	
 	var _can_see = AgentManager.can_see(Global.player, entity.location.position)
 	var _known_position = Vector2i(-1, -1)

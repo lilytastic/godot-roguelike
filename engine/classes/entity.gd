@@ -42,12 +42,16 @@ var screen_position: Vector2:
 			return Vector2(0,0)
 		return actor.get_global_transform_with_canvas().origin
 
+var FOV = load("res://engine/classes/FOV.cs")
+
 signal map_changed
 signal health_changed
 signal on_death
 signal action_performed
 
 const uuid_util = preload('res://addons/uuid/uuid.gd')
+
+var is_dirty = false
 
 
 func _init(opts: Dictionary):
@@ -66,25 +70,37 @@ func _init(opts: Dictionary):
 	update_fov()
 
 
+func _process(delta):
+	if is_dirty:
+		_update_fov()
+		is_dirty = false
+
+
 func update_fov():
+	is_dirty = true
+	
+func _update_fov():
 	if Global.player and uuid != Global.player.uuid:
 		return
 	if !MapManager.current_map or !location or MapManager.current_map.uuid != location.map:
 		return # Don't update for things that aren't here!
 		
-	var max_vision = 8
 	visible_tiles.clear()
-	FOV.compute_fov(
-		location.position,
-		func(tile): return !MapManager.can_walk(tile),
-		func(tile):
-			if Global.player and Global.player.uuid == uuid and MapManager.current_map:
-				if Global.player.location.position.distance_to(tile) > max_vision:
-					return
-				MapManager.current_map.tiles_known[tile] = true
-				visible_tiles[tile] = true
-	)
+	var fov = FOV.new(self)
+	print('fov: ', fov)
+	fov.compute_fov(location.position)
 	_update_known_entities()
+
+func is_blocking(tile):
+	return !MapManager.can_walk(tile)
+
+func reveal(tile):
+	var max_vision = 8
+	if Global.player and Global.player.uuid == uuid and MapManager.current_map:
+		if Global.player.location.position.distance_to(tile) > max_vision:
+			return
+		MapManager.current_map.tiles_known[tile] = true
+		visible_tiles[tile] = true
 
 
 func _update_known_entities():
