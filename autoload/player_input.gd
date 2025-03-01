@@ -32,10 +32,13 @@ func _process(delta) -> void:
 	var desired_opacity = 0.0 if !MapManager.is_switching else 1.0
 	overlay_opacity = lerp(overlay_opacity, desired_opacity, delta * 10.0)
 	
-	if Global.player and Global.player.location:
-		var _target_position = targeting.target_position()
-		if Global.player.location.position.x == _target_position.x and Global.player.location.position.y == _target_position.y:
-			targeting.clear_targeting()
+	if Global.player:
+		if Global.player.location:
+			var _target_position = targeting.target_position()
+			if Global.player.location.position.x == _target_position.x and Global.player.location.position.y == _target_position.y:
+				targeting.clear_targeting()
+			if !AgentManager.can_see(Global.player, targeting.target_position()) and targeting.current_target != null:
+				targeting.clear_targeting()
 
 
 func _input(event: InputEvent) -> void:
@@ -52,8 +55,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_pressed() and Global.player:
+		pass
 		# targeting.clear()
-		Global.player.targeting.clear()
+		# Global.player.targeting.clear()
 		
 	if event.is_action_pressed('quicksave'):
 		Global.quicksave()
@@ -78,15 +82,20 @@ func _unhandled_input(event: InputEvent) -> void:
 				return
 
 		var _targeting = targeting
+		var controlling_player = false
 		if event.double_click:
 			_targeting = Global.player.targeting
+			controlling_player = true
 		
 		if event.is_pressed():
 			var _coord = Coords.get_coord(mouse_position_in_world)
+			print('set position ', _coord, Vector2i(_targeting.target_position()))
 			if Vector2i(_targeting.target_position()) == _coord:
 				_targeting.clear_targeting()
 			else:
 				_targeting.set_target_position(_coord)
+				if controlling_player and Scheduler.player_can_act:
+					AgentManager.try_close_distance(Global.player, _coord)
 
 			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
 				_targeting.current_target = entities_under_cursor[0].uuid
@@ -160,10 +169,6 @@ func _update_cursor() -> void:
 	else:
 		if !Global.ui_visible:
 			item_hovered.emit(null)
-
-func _on_double_click_tile(coord: Vector2i):
-	if Scheduler.player_can_act:
-		_act(Scheduler.next_actor)
 
 func is_on_screen(coord: Vector2i):
 	var _center := get_viewport().get_camera_2d().get_screen_center_position()

@@ -40,15 +40,17 @@ func perform_action(entity: Entity, action: Action, allow_recursion := true) -> 
 
 func take_turn(entity: Entity) -> bool:
 	var player = Global.player
-	
 	if !entity:
 		return false
 
-	if player and is_hostile(entity, player) and entity.location and player.location:
-		if Coords.get_range(entity.location.position, player.location.position) < 4:
-			entity.targeting.current_target = player.uuid
+	if entity.uuid != player.uuid:
+		if player and is_hostile(entity, player) and entity.location and player.location:
+			if Coords.get_range(entity.location.position, player.location.position) < 4:
+				entity.targeting.current_target = player.uuid
 
 	var target = ECS.entity(entity.targeting.current_target)
+	print(target)
+	
 	if target:
 		var default_action = get_default_action(entity, target)
 		if default_action and is_within_range(entity, target, default_action):
@@ -56,6 +58,7 @@ func take_turn(entity: Entity) -> bool:
 			entity.targeting.clear()
 			if result:
 				return true
+	
 	var _result = await try_close_distance(
 		entity,
 		entity.targeting.target_position()
@@ -88,7 +91,6 @@ func take_turn(entity: Entity) -> bool:
 				return true
 	else:
 		var _target_position = player.targeting.target_position()
-		# print("_target_position ", _target_position)
 		if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
 			player.targeting.clear_targeting()
 	
@@ -131,6 +133,9 @@ func get_abilities(entity: Entity, target: Entity = null) -> Array[Dictionary]:
 func try_close_distance(entity: Entity, position: Vector2) -> bool:
 	var next_position = Pathfinding.move_towards(entity, position)
 	var next_in_path = null
+	
+	if entity.uuid == Global.player.uuid:
+		await Global.sleep(150)
 
 	var used_path = false
 	if entity.targeting.current_path.size():
