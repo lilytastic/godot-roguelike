@@ -36,6 +36,7 @@ func _create_slot(path: String, type: String):
 		separator.modulate = Color(0,0,0,0)
 		if mode == 'save':
 			slot.disabled = true
+			slot.modulate = Color(slot.modulate, 0.5)
 	return slot
 
 

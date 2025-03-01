@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://hdb51gogs12"]
+[gd_scene load_steps=8 format=3 uid="uid://hdb51gogs12"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_ijkol"]
 [ext_resource type="Script" path="res://game/save_slot.gd" id="1_uelva"]
@@ -6,13 +6,23 @@
 [ext_resource type="FontFile" uid="uid://cv3uwt0ir851t" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_small.ttf" id="4_jnuoy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6bts"]
-bg_color = Color(0.114897, 0.114897, 0.114897, 1)
+bg_color = Color(0, 0, 0, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3alme"]
+bg_color = Color(1, 1, 1, 0.133333)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vkl6u"]
+bg_color = Color(0, 0, 0, 0.643137)
 
 [node name="SaveSlot" type="Button"]
 custom_minimum_size = Vector2(0, 52)
 offset_right = 316.0
 offset_bottom = 52.0
+mouse_default_cursor_shape = 2
 theme = ExtResource("1_ijkol")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_r6bts")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3alme")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vkl6u")
 theme_override_styles/normal = SubResource("StyleBoxFlat_r6bts")
 alignment = 0
 script = ExtResource("1_uelva")
