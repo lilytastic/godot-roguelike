@@ -72,8 +72,8 @@ func _init(opts: Dictionary):
 
 func _process(delta):
 	if is_dirty:
-		_update_fov()
 		is_dirty = false
+		_update_fov()
 
 
 func update_fov():

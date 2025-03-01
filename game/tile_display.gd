@@ -17,13 +17,13 @@ func _ready() -> void:
 	
 	Global.player.action_performed.connect(
 		func(action, result):
-			# await Global.sleep(100)
+			await Global.sleep(100)
 			is_dirty = true
 	)
 	
 	MapManager.map_changed.connect(
 		func(map):
-			# await Global.sleep(1)
+			await Global.sleep(1)
 			_create_tiles()
 			is_dirty = true
 	)
