@@ -5,21 +5,21 @@ signal resume_pressed
 
 func _input(ev: InputEvent) -> void:
 	if ev.is_action_pressed('pause'):
-		if %SaveSlotWrapper.visible:
-			%SaveSlotWrapper.visible = false
+		if %SaveMenu.visible:
+			%SaveMenu.visible = false
 			get_viewport().set_input_as_handled()
 		
 
 func _ready() -> void:
 	_initialize()
-	%SaveSlotWrapper.visible = false
+	%SaveMenu.visible = false
 	Global.game_saved.connect(
 		func():
-			%SaveSlotWrapper.visible = false
+			%SaveMenu.visible = false
 	)
 	Global.game_loaded.connect(
 		func():
-			%SaveSlotWrapper.visible = false
+			%SaveMenu.visible = false
 			get_tree().change_scene_to_file('res://game/game.tscn')
 	)
 	%Continue.pressed.connect(
@@ -40,18 +40,23 @@ func _ready() -> void:
 	%'SaveGame'.pressed.connect(
 		func():
 			option_pressed.emit('SaveGame')
-			%SaveSlots.mode = 'save'
-			%SaveSlots._init()
-			%SaveSlotsLabel.text = 'Save Game'
-			%SaveSlotWrapper.visible = true
+			# %SaveSlots.mode = 'save'
+			# %SaveSlots._init()
+			# %SaveSlotsLabel.text = 'Save Game'
+			%SaveMenu.mode = 'save'
+			%SaveMenu.update()
+			%SaveMenu.visible = true
 	)
 	%'LoadGame'.pressed.connect(
 		func():
 			option_pressed.emit('LoadGame')
-			%SaveSlots.mode = 'load'
-			%SaveSlots._init()
-			%SaveSlotsLabel.text = 'Load Game'
-			%SaveSlotWrapper.visible = true
+			# %SaveSlots.mode = 'load'
+			# %SaveSlots._init()
+			# %SaveSlotsLabel.text = 'Load Game'
+			print('LOAD!')
+			%SaveMenu.mode = 'load'
+			%SaveMenu.update()
+			%SaveMenu.visible = true
 	)
 	%'ExitToMainMenu'.pressed.connect(
 		func():

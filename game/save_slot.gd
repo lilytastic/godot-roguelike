@@ -2,6 +2,7 @@ class_name SaveSlot
 extends Button
 
 signal slot_clicked
+signal slot_hovered
 
 var slot_type := 'Manual Save':
 	set(value):
@@ -16,6 +17,7 @@ var path: String:
 
 func _ready():
 	Global.game_saved.connect(func(): _load())
+	self.connect('mouse_entered', func(): slot_hovered.emit(path))
 	self.connect('pressed', func(): _click())
 	
 func _click():

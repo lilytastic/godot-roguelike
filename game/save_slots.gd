@@ -5,10 +5,12 @@ const slot_scene = preload('res://game/save_slot.tscn')
 var mode := 'load'
 
 signal slot_pressed
+signal slot_hovered
 
 func _ready() -> void:
 	if !list:
 		return
+
 	for dict in Global.get_save_slots():
 		_create_slot(dict.path, dict.type)
 
@@ -29,6 +31,7 @@ func _create_slot(path: String, type: String):
 	slot.slot_type = type
 	slot.path = path
 	slot.slot_clicked.connect(func(path: String): _select(path, type))
+	slot.slot_hovered.connect(func(path: String): slot_hovered.emit(path))
 	list.add_child(slot)
 	if type != 'manual':
 		var separator = HSeparator.new()
