@@ -67,7 +67,8 @@ func new_game() -> Entity:
 
 func clear_game() -> void:
 	ECS.clear()
-	Scheduler.finish_turn()
+	Scheduler.next_actor = null
+	Scheduler.next_queue.clear()
 	PlayerInput.targeting.clear_targeting()
 	player = null
 

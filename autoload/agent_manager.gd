@@ -19,42 +19,19 @@ func _ready():
 	
 var lock = false
 
-func _process(delta):
-	if lock:
-		return
-	# Check if the Scheduler.next_actor is not the player, then trigger an action
-	var player = Global.player
-	var next_actor = Scheduler.next_actor
-	
-	if !player:
-		return
-		
-	if !player.health or player.health.current <= 0:
-		# You are dead.
-		pass
-
-	if next_actor != null and !next_actor.is_acting:
-		lock = true
-		Scheduler.next_actor = null
-		var success = await take_turn(next_actor)
-		lock = false
-		if success:
-			Scheduler.finish_turn()
-		else:
-			Scheduler.next_actor = next_actor
-
-
 
 func perform_action(entity: Entity, action: Action, allow_recursion := true) -> ActionResult:
 	entity.is_acting = true
 	var result = await action.perform(entity)
-	entity.energy -= result.cost_energy
+	var mod = result.cost_energy / (float(entity.blueprint.speed) / 100.0)
+	entity.energy -= mod
+	# print('removing energy from ', entity.uuid, ': ', entity.energy, ' (-', mod, ') after action with cost: ', result.cost_energy)
 	entity.is_acting = false
 	if !result.success and result.alternate:
 		if allow_recursion:
 			return await perform_action(entity, result.alternate)
 	if result.success:
-		Scheduler.finish_turn()
+		Scheduler.finish_turn(entity)
 		entity.update_fov()
 	entity.action_performed.emit(action, result)
 	return result
