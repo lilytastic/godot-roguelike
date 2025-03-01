@@ -71,12 +71,12 @@ func take_turn(entity: Entity) -> bool:
 			entity.targeting.clear()
 			if result:
 				return true
-		var result = await try_close_distance(
-			entity,
-			entity.targeting.target_position()
-		)
-		if result:
-			return true
+	var _result = await try_close_distance(
+		entity,
+		entity.targeting.target_position()
+	)
+	if _result:
+		return true
 
 	if entity.uuid != player.uuid:
 		# print('doing stuff as ', entity.blueprint.name, '; ', Time.get_ticks_msec())
@@ -103,9 +103,9 @@ func take_turn(entity: Entity) -> bool:
 				return true
 	else:
 		var _target_position = player.targeting.target_position()
+		# print("_target_position ", _target_position)
 		if player.location.position.x == _target_position.x and player.location.position.y == _target_position.y:
 			player.targeting.clear_targeting()
-			
 	
 	return false
 
