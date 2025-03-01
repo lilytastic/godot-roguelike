@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0jlk4extd4v"]
+[gd_scene load_steps=9 format=3 uid="uid://b0jlk4extd4v"]
 
 [ext_resource type="Script" path="res://game/save_menu.gd" id="1_byn2h"]
 [ext_resource type="FontFile" uid="uid://dcygvh0q3vd35" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_extra_large_bold.ttf" id="1_f8ijd"]
+[ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_rms7w"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="2_v6d3c"]
 [ext_resource type="PackedScene" uid="uid://uo48yikfpeo8" path="res://game/save_slots.tscn" id="3_r7u4x"]
+[ext_resource type="FontFile" uid="uid://bcpnex2rvsreh" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_black.ttf" id="6_57jm2"]
+[ext_resource type="FontFile" uid="uid://br802x22psogy" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_bold.ttf" id="6_iuj6h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yteaq"]
 bg_color = Color(0.0754, 0.09087, 0.13, 1)
@@ -14,6 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_rms7w")
 theme_override_styles/panel = SubResource("StyleBoxFlat_yteaq")
 script = ExtResource("1_byn2h")
 
@@ -47,7 +51,7 @@ theme_override_constants/separation = 8
 [node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.5
+size_flags_stretch_ratio = 2.0
 theme_override_styles/panel = ExtResource("2_v6d3c")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Panel"]
@@ -90,9 +94,26 @@ offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SaveName" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_57jm2")
+text = "Test"
+
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer"]
 clip_contents = true
-custom_minimum_size = Vector2(0, 90)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 stretch_mode = 3
 
@@ -101,3 +122,26 @@ unique_name_in_owner = true
 layout_mode = 2
 expand_mode = 2
 stretch_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SaveDescription" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_iuj6h")
+text = "Test"
+
+[node name="SaveDate" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test"

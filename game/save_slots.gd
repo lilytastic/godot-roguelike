@@ -8,31 +8,33 @@ signal slot_pressed
 signal slot_hovered
 
 func _ready() -> void:
-	if !list:
-		return
-
-	for dict in Global.get_save_slots():
-		_create_slot(dict.path, dict.type)
-
+	update_slots()
 
 func _init() -> void:
+	update_slots()
+
+
+func update_slots() -> Array:
 	if !list:
-		return
+		return []
 		
 	for child in list.get_children():
 		child.queue_free()
-		
+	
+	var arr := []
 	for dict in Global.get_save_slots():
-		_create_slot(dict.path, dict.type)
+		arr.append(_create_slot(dict.path, dict.type))
+	return arr
 
 
-func _create_slot(path: String, type: String):
+func _create_slot(path: String, type: String) -> SaveSlot:
 	var slot: SaveSlot = slot_scene.instantiate()
 	slot.slot_type = type
 	slot.path = path
 	slot.slot_clicked.connect(func(path: String): _select(path, type))
-	slot.slot_hovered.connect(func(path: String): slot_hovered.emit(path))
+	slot.slot_hovered.connect(func(path: String): slot_hovered.emit(slot))
 	list.add_child(slot)
+
 	if type != 'manual':
 		var separator = HSeparator.new()
 		list.add_child(separator)
@@ -40,6 +42,7 @@ func _create_slot(path: String, type: String):
 		if mode == 'save':
 			slot.disabled = true
 			slot.modulate = Color(slot.modulate, 0.5)
+
 	return slot
 
 

@@ -4,7 +4,9 @@ extends Button
 signal slot_clicked
 signal slot_hovered
 
-var slot_type := 'Manual Save':
+var slot_name := ''
+var slot_date := ''
+var slot_type := 'manual':
 	set(value):
 		slot_type = value
 
@@ -46,14 +48,19 @@ func _load():
 		if _map:
 			var current_map = _map
 			%TopLeft.text = current_map.name + ((' ' + str(current_map.depth) + 'F') if current_map.depth else '')
+		slot_name = %TopLeft.text
 
 		%TopRight.text = slot_type.capitalize()
+		
 		if data.has('date_modified'):
 			var dict = Time.get_datetime_dict_from_datetime_string(data.date_modified, false)
 			var minute = str(dict.minute) if dict.minute >= 10 else ('0'+str(dict.minute))
 			var day = str(dict.day) if dict.day >= 10 else ('0'+str(dict.day))
 			var date = str(dict.month) + '/' + day + '/' + str(dict.year) + ' ' + str(dict.hour)+ ':' + minute
 			%BottomRight.text = date
+
+		slot_date = %BottomRight.text
+
 	else:
 		%Center.text = 'Empty slot'
 
