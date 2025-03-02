@@ -34,7 +34,7 @@ public partial class InkManager : Node
 		if (args == null) {
 			story.ChoosePathString(path, true);
 		} else {
-			story.ChoosePathString(path, true, args);
+			story.ChoosePathString(path, true, args.ToArray<Variant>());
 		}
 		GD.Print(story.ContinueMaximally());
 	}
