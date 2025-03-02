@@ -33,19 +33,6 @@ func perform(entity: Entity) -> ActionResult:
 	
 	var vec = entity.location.position.direction_to(target.location.position)
 	
-	run_script(entity)
-	# TODO: Subscribe to commands? Or just rely on InkManager?
-	
-	return ActionResult.new(true, { 'cost_energy': 100 })
-	
-
-	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
-	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1
-	if weapon_props and distance > weapon_props.range:
-		# Too far!
-		return ActionResult.new(false)
-		
-	
 	entity.animation = AnimationSequence.new(
 		[
 			{ 'position': Vector2.ZERO * 0.0 },
@@ -60,6 +47,21 @@ func perform(entity: Entity) -> ActionResult:
 	)
 
 	await Global.sleep(20)
+	
+	run_script(entity)
+	# TODO: Subscribe to commands? Or just rely on InkManager?
+
+	await Global.sleep(150)
+	
+	return ActionResult.new(true, { 'cost_energy': 100 })
+	
+
+	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
+	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1
+	if weapon_props and distance > weapon_props.range:
+		# Too far!
+		return ActionResult.new(false)
+		
 	
 	if is_instance_valid(target.actor):
 		target.actor.modulate = Color.CRIMSON

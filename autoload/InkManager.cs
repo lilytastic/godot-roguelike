@@ -123,6 +123,7 @@ public partial class InkManager : Node
 							Dictionary opts = new Dictionary();
 							opts.Add("damage", float.Parse(tagDictionary["potency"]));
 							otherEntity.Call("damage", opts);
+							((RefCounted)otherEntity.Get("actor")).Set("modulate", new Color(0.8f, 0, 0));
 						}
 						break;
 					default:
