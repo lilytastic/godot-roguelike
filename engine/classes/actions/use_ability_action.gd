@@ -10,7 +10,10 @@ func _init(_target: Entity, abilityId: String, opts := {}):
 	target = _target
 	ability = ECS.abilities[abilityId]
 	conduit = opts.get('conduit', null)
-	
+
+func run_script(entity: Entity) -> void:
+	var vec = entity.location.position.direction_to(target.location.position)
+	await InkManager.Execute('slash', [ entity.uuid, str(vec) ])
 
 func perform(entity: Entity) -> ActionResult:
 	if !target:
@@ -26,7 +29,7 @@ func perform(entity: Entity) -> ActionResult:
 	
 	var vec = entity.location.position.direction_to(target.location.position)
 	
-	await InkManager.Execute('slash', [ entity.uuid, str(vec) ])
+	run_script(entity)
 
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1

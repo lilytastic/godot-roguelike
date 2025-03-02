@@ -102,7 +102,7 @@
 		  "damage": [5, 8],
 		  "range": 1,
 		  "speed": 1,
-		  "weaponskills": [ "slash" ],
+		  "weaponskills": [ "slash", "cleave", "rush" ],
 		},
 		"storage": {
 		  "weight": 8

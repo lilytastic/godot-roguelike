@@ -24,13 +24,14 @@ public partial class InkManager : Node
 
 		GD.Print("Hello from C#");
 		story = GD.Load<InkStory>("res://assets/ink/crossroads_godot.ink");
+		story.BindExternalFunction("rotate", (string vec, float degrees) => {
+			GD.Print("rotate called with ", vec, " and ", degrees, "deg");
+			return vec;
+		});
 		story.BindExternalFunction("addVectors", (string pos1, string pos2) => {
 			GD.Print("addVectors called with ", pos1, " and ", pos2);
-			var coords1 = pos1.Substr(1, pos1.Length - 2).Split(',');
-			var vector1 = new Vector2(float.Parse(coords1[0]), float.Parse(coords1[1]));
-
-			var coords2 = pos2.Substr(1, pos2.Length - 2).Split(',');
-			var vector2 = new Vector2(float.Parse(coords2[0]), float.Parse(coords2[1]));
+			var vector1 = stringToVector(pos1);
+			var vector2 = stringToVector(pos2);
 
 			GD.Print("added: ", vector1 + vector2);
 			return (vector1 + vector2).ToString();
@@ -46,6 +47,11 @@ public partial class InkManager : Node
 			// location.TryGetValue("position", out value);
 		});
 		GD.Print(story.ContinueMaximally());
+	}
+
+	Vector2 stringToVector(string str) {
+			var coords = str.Substr(1, str.Length - 2).Split(',');
+			return new Vector2(float.Parse(coords[0]), float.Parse(coords[1]));
 	}
 
 	public Variant Perform(GodotObject entity, string path) {

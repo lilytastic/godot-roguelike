@@ -1,303 +1,320 @@
 {
-	"data": {
-		"abilities": [
-			{
-				"id": "dash",
-				"name": "Dash",
-				"isActive": true,
-				"cost": { "stamina": 20, "focus": 1 },
-				"requirements": {},
-				"effects": [],
-				"area": {
-					"type": "directional",
-					"layout": ["X",
-							   " ",
-							   "@"],
-					"layoutDiagonal": ["  X",
-									   "   ",
-									   "@  "]
-				}
-			},
-			{
-				"id": "slash",
-				"name": "Slash",
-				"isActive": true,
-				"icon": {
-					"sprite": "G_SLASH",
-					"color": "dddddd"
-				},
-				"effects": [
-					{
-						"type": "damage",
-						"damageType": "slash",
-						"potency": 0.8
-					}
-				],
-				"area": {
-					"type": "melee"
-				},
-				"chain": "slash_double"
-			},
-			{
-				"id": "strike",
-				"name": "Strike",
-				"isActive": true,
-				"icon": {
-					"sprite": "G_STRIKE",
-					"color": "DDDDDD"
-				},
-				"effects": [
-					{
-						"type": "damage",
-						"damageType": "bludgeon",
-						"potency": 0.8
-					}
-				],
-				"area": {
-					"type": "melee"
-				}
-			},
-			{
-				"id": "punch",
-				"name": "Punch",
-				"isActive": true,
-				"icon": {
-					"sprite": "G_STRIKE",
-					"color": "DDDDDD"
-				},
-				"effects": [
-					{
-						"type": "damage",
-						"damageType": "bludgeon",
-						"potency": 0.8
-					}
-				],
-				"area": {
-					"type": "melee"
-				}
-			},
-			{
-				"id": "thrust",
-				"name": "Thrust",
-				"isActive": true,
-				"icon": {
-					"sprite": "G_PIERCE",
-					"color": "DDDDDD"
-				},
-				"effects": [
-					{
-						"type": "damage",
-						"damageType": "pierce",
-						"potency": 0.8
-					}
-				],
-				"area": {
-					"type": "directional",
-					"layout": ["#",
-							   "#",
-							   "@"],
-					"layoutDiagonal": ["  #",
-									   " # ",
-									   "@  "]
-				}
-			},
-			{
-				"id": "shoot",
-				"name": "Shoot",
-				"isActive": true,
-				"icon": {
-					"sprite": "G_SHOOT",
-					"color": "DDDDDD"
-				},
-				"effects": [
-					{
-						"type": "damage",
-						"damageType": "pierce",
-						"potency": 0.8
-					}
-				],
-				"area": {
-					"type": "ranged"
-				}
-			},
-			{
-				"id": "slash_double",
-				"parent": "slash",
-				"name": "Double Slash",
-				"icon": {
-					"sprite": "G_SLASH",
-					"color": "DDDDDD"
-				},
-				"effects": [
-					{
-						"type": "damage",
-						"damageType": "slash",
-						"potency": 0.9
-					}
-				],
-				"area": {
-					"type": "melee"
-				},
-				"chain": "slash_final"
-			},
-			{
-				"id": "slash_final",
-				"parent": "slash",
-				"name": "Critical Strike",
-				"icon": {
-					"sprite": "G_SLASH",
-					"color": "DDDDDD"
-				},
-				"effects": [
-					{
-						"type": "damage",
-						"damageType": "slash",
-						"potency": 1.3
-					}
-				],
-				"area": {
-					"type": "melee"
-				},
-				"chain": "slash"
-			},
-			{
-				"id": "cleave",
-				"name": "Cleave",
-				"isActive": true,
-				"cost": { "stamina": 20, "focus": 3 },
-				"icon": {
-					"sprite": "G_CLEAVE",
-					"color": "DDDDDD"
-				},
-				"requirements": {
-					"range": { "min": 1 },
-					"damageType": [ "slash" ]
-				},
-				"effects": [{
-					"type": "damage",
-					"damageType": "slash",
-					"potency": 1.3
-				}],
-				"area": {
-					"type": "directional",
-					"angle": 45,
-					"distance": 1
-				}
-			},
-			{
-				"id": "crosscut",
-				"name": "Cross-cut",
-				"isActive": true,
-				"cost": { "stamina": 25, "focus": 3 },
-				"requirements": { "damageType": ["slash"], "weaponCount": { "min": 2 } },
-				"icon": {
-					"sprite": "G_CROSSCUT",
-					"color": "FF0000"
-				},
-				"effects": [
-					{
-						"type": "damage", "potency": 1.3
-					},
-					{
-						"type": "bleed", "potency": 0.3, "duration": [1, 4]
-					}
-				],
-				"area": {
-					"type": "melee"
-				}
-			},
-			{
-				"id": "heal",
-				"name": "Heal",
-				"isActive": true,
-				"requirements": [],
-				"cost": {
-					"focus": 5
-				},
-				"icon": {
-					"sprite": "G_HEAL",
-					"color": "00FF00"
-				},
-				"canTargetSelf": true,
-				"effects": [
-					{
-						"type": "heal",
-						"potency": [10, 20]
-					}
-				],
-				"area": {
-					"type": "self"
-				}
-			},
-			{
-				"id": "camp",
-				"name": "Make Camp",
-				"isActive": true,
-				"requirements": [],
-				"icon": {
-					"sprite": "G_CAMPFIRE",
-					"color": "FFAA00"
-				},
-				"cost": { "supplies": 10 },
-				"effects": [
-					{
-						"type": "camp"
-					}
-				]
-			},
-			{
-				"id": "spore_explosion",
-				"name": "Spore Explosion",
-				"needsTarget": false,
-				"isActive": true,
-				"icon": {
-					"sprite": "G_SPORE_EXPLOSION",
-					"color": "FFAA00"
-				},
-				"requirements": [],
-				"cost": { "stamina": 50, "focus": 5 },
-				"canTargetSelf": true,
-				"effects": [
-					{
-						"type": "damage",
-						"potency": 20
-					}
-				],
-				"area": {
-					"type": "directional",
-					"layout": [ 
-						"###",
-						"#@#",
-						"###"
-					]
-				}
-			}
-		],
-		"abilityTrees": [
-			{
-				"id": "swords",
-				"name": "Swords"
-			},
-			{
-				"id": "daggers",
-				"name": "Daggers"
-			},
-			{
-				"id": "spears",
-				"name": "Polearms"
-			},
-			{
-				"id": "axes",
-				"name": "Axes"
-			},
-			{
-				"id": "blunt",
-				"name": "Blunt Weapons"
-			},
-			{
-				"id": "magic",
-				"name": "Magic"
-			}
-		]
-	}
+  "data": {
+    "abilities": [
+      {
+        "id": "dash",
+        "name": "Dash",
+        "isActive": true,
+        "cost": { "stamina": 20, "focus": 1 },
+        "requirements": {},
+        "effects": [],
+        "area": {
+          "type": "directional",
+          "layout": ["X", " ", "@"],
+          "layoutDiagonal": ["  X", "   ", "@  "]
+        }
+      },
+      {
+        "id": "slash",
+        "name": "Slash",
+        "isActive": true,
+        "icon": {
+          "sprite": "G_SLASH",
+          "color": "dddddd"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "slash",
+            "potency": 0.8
+          }
+        ],
+        "area": {
+          "type": "melee"
+        },
+        "chain": "slash_double"
+      },
+      {
+        "id": "strike",
+        "name": "Strike",
+        "isActive": true,
+        "icon": {
+          "sprite": "G_STRIKE",
+          "color": "DDDDDD"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "bludgeon",
+            "potency": 0.8
+          }
+        ],
+        "area": {
+          "type": "melee"
+        }
+      },
+      {
+        "id": "punch",
+        "name": "Punch",
+        "isActive": true,
+        "icon": {
+          "sprite": "G_STRIKE",
+          "color": "DDDDDD"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "bludgeon",
+            "potency": 0.8
+          }
+        ],
+        "area": {
+          "type": "melee"
+        }
+      },
+      {
+        "id": "thrust",
+        "name": "Thrust",
+        "isActive": true,
+        "icon": {
+          "sprite": "G_PIERCE",
+          "color": "DDDDDD"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "pierce",
+            "potency": 0.8
+          }
+        ],
+        "area": {
+          "type": "directional",
+          "layout": ["#", "#", "@"],
+          "layoutDiagonal": ["  #", " # ", "@  "]
+        }
+      },
+      {
+        "id": "rush",
+        "name": "Rush",
+        "isActive": true,
+        "icon": {
+          "sprite": "G_PIERCE",
+          "color": "DDDDDD"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "pierce",
+            "potency": 0.8
+          }
+        ],
+        "area": {
+          "type": "directional",
+          "layout": ["#", "#", "@"],
+          "layoutDiagonal": ["  #", " # ", "@  "]
+        }
+      },
+      {
+        "id": "shoot",
+        "name": "Shoot",
+        "isActive": true,
+        "icon": {
+          "sprite": "G_SHOOT",
+          "color": "DDDDDD"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "pierce",
+            "potency": 0.8
+          }
+        ],
+        "area": {
+          "type": "ranged"
+        }
+      },
+      {
+        "id": "slash_double",
+        "parent": "slash",
+        "name": "Double Slash",
+        "icon": {
+          "sprite": "G_SLASH",
+          "color": "DDDDDD"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "slash",
+            "potency": 0.9
+          }
+        ],
+        "area": {
+          "type": "melee"
+        },
+        "chain": "slash_final"
+      },
+      {
+        "id": "slash_final",
+        "parent": "slash",
+        "name": "Critical Strike",
+        "icon": {
+          "sprite": "G_SLASH",
+          "color": "DDDDDD"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "slash",
+            "potency": 1.3
+          }
+        ],
+        "area": {
+          "type": "melee"
+        },
+        "chain": "slash"
+      },
+      {
+        "id": "cleave",
+        "name": "Cleave",
+        "isActive": true,
+        "cost": { "stamina": 20, "focus": 3 },
+        "icon": {
+          "sprite": "G_CLEAVE",
+          "color": "DDDDDD"
+        },
+        "requirements": {
+          "range": { "min": 1 },
+          "damageType": ["slash"]
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "damageType": "slash",
+            "potency": 1.3
+          }
+        ],
+        "area": {
+          "type": "directional",
+          "angle": 45,
+          "distance": 1
+        }
+      },
+      {
+        "id": "crosscut",
+        "name": "Cross-cut",
+        "isActive": true,
+        "cost": { "stamina": 25, "focus": 3 },
+        "requirements": {
+          "damageType": ["slash"],
+          "weaponCount": { "min": 2 }
+        },
+        "icon": {
+          "sprite": "G_CROSSCUT",
+          "color": "FF0000"
+        },
+        "effects": [
+          {
+            "type": "damage",
+            "potency": 1.3
+          },
+          {
+            "type": "bleed",
+            "potency": 0.3,
+            "duration": [1, 4]
+          }
+        ],
+        "area": {
+          "type": "melee"
+        }
+      },
+      {
+        "id": "heal",
+        "name": "Heal",
+        "isActive": true,
+        "requirements": [],
+        "cost": {
+          "focus": 5
+        },
+        "icon": {
+          "sprite": "G_HEAL",
+          "color": "00FF00"
+        },
+        "canTargetSelf": true,
+        "effects": [
+          {
+            "type": "heal",
+            "potency": [10, 20]
+          }
+        ],
+        "area": {
+          "type": "self"
+        }
+      },
+      {
+        "id": "camp",
+        "name": "Make Camp",
+        "isActive": true,
+        "requirements": [],
+        "icon": {
+          "sprite": "G_CAMPFIRE",
+          "color": "FFAA00"
+        },
+        "cost": { "supplies": 10 },
+        "effects": [
+          {
+            "type": "camp"
+          }
+        ]
+      },
+      {
+        "id": "spore_explosion",
+        "name": "Spore Explosion",
+        "needsTarget": false,
+        "isActive": true,
+        "icon": {
+          "sprite": "G_SPORE_EXPLOSION",
+          "color": "FFAA00"
+        },
+        "requirements": [],
+        "cost": { "stamina": 50, "focus": 5 },
+        "canTargetSelf": true,
+        "effects": [
+          {
+            "type": "damage",
+            "potency": 20
+          }
+        ],
+        "area": {
+          "type": "directional",
+          "layout": ["###", "#@#", "###"]
+        }
+      }
+    ],
+    "abilityTrees": [
+      {
+        "id": "swords",
+        "name": "Swords"
+      },
+      {
+        "id": "daggers",
+        "name": "Daggers"
+      },
+      {
+        "id": "spears",
+        "name": "Polearms"
+      },
+      {
+        "id": "axes",
+        "name": "Axes"
+      },
+      {
+        "id": "blunt",
+        "name": "Blunt Weapons"
+      },
+      {
+        "id": "magic",
+        "name": "Magic"
+      }
+    ]
+  }
 }
