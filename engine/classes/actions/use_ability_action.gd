@@ -13,7 +13,7 @@ func _init(_target: Entity, abilityId: String, opts := {}):
 
 func run_script(entity: Entity) -> void:
 	var vec = entity.location.position.direction_to(target.location.position)
-	await InkManager.Execute('slash', [ entity.uuid, str(vec) ])
+	await InkManager.Execute(ability.id, [ entity.uuid, str(vec) ])
 
 func perform(entity: Entity) -> ActionResult:
 	if !target:

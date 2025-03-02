@@ -1,5 +1,7 @@
 EXTERNAL addVectors(pos1, pos2)
 EXTERNAL getPosition(uuid)
+EXTERNAL rotate(vec, deg)
+EXTERNAL snapToGrid(vec)
 
 Test
 -> init
@@ -36,9 +38,9 @@ Test
     -> DONE
 
 === cleave(entity, direction) ===
-    ~ temp _position1 = addVectors(getPosition(entity), rotate(direction, -45))
+    ~ temp _position1 = snapToGrid(addVectors(getPosition(entity), rotate(direction, -45)))
     ~ temp _position2 = addVectors(getPosition(entity), direction)
-    ~ temp _position3 = addVectors(getPosition(entity), rotate(direction, 45))
+    ~ temp _position3 = snapToGrid(addVectors(getPosition(entity), rotate(direction, 45)))
     >>> damage {_position1} 10
     >>> damage {_position2} 10
     >>> damage {_position3} 10
@@ -47,6 +49,9 @@ Test
     -
     -> DONE
 
+=== function snapToGrid(vec) ===
+    ~ return vec
+    
 === function rotate(vec, degrees) ===
     ~ return vec
 

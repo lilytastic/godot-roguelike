@@ -18,15 +18,24 @@ public partial class InkManager : Node
 	public delegate void ScriptEndedEventHandler();
 	
 	SceneTree tree = (SceneTree)Engine.GetMainLoop();
-	
+
+	private const double DegToRad = Math.PI/180;
+
 	public override void _Ready() {
 		ECS = tree.Root.GetNode("/root/ECS");
 
 		GD.Print("Hello from C#");
 		story = GD.Load<InkStory>("res://assets/ink/crossroads_godot.ink");
-		story.BindExternalFunction("rotate", (string vec, float degrees) => {
-			GD.Print("rotate called with ", vec, " and ", degrees, "deg");
-			return vec;
+		story.BindExternalFunction("rotate", (string vec, float angle) => {
+			var rotated = stringToVector(vec).Rotated((float)(angle * DegToRad));
+			GD.Print("rotate called with ", vec, " and ", angle, "deg = ", rotated.ToString());
+			return rotated.Normalized().ToString();
+		});
+		story.BindExternalFunction("snapToGrid", (string vec) => {
+			var vector = stringToVector(vec);
+			vector.X = (float)Math.Round(vector.X);
+			vector.Y = (float)Math.Round(vector.Y);
+			return vector.ToString();
 		});
 		story.BindExternalFunction("addVectors", (string pos1, string pos2) => {
 			GD.Print("addVectors called with ", pos1, " and ", pos2);
