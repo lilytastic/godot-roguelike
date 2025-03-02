@@ -24,7 +24,7 @@ func perform(entity: Entity) -> ActionResult:
 	# Takes a direction.
 	# Should be portable, so you can call it from the UI to show all affected tiles.
 	
-	var vec = -entity.location.position.direction_to(target.location.position)
+	var vec = entity.location.position.direction_to(target.location.position)
 	
 	await InkManager.Execute('slash', [ entity.uuid, str(vec) ])
 
