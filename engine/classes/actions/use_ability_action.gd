@@ -5,6 +5,7 @@ var target: Entity
 var ability: Ability
 var conduit: Entity
 
+
 func _init(_target: Entity, abilityId: String, opts := {}):
 	target = _target
 	ability = ECS.abilities[abilityId]
@@ -15,6 +16,13 @@ func perform(entity: Entity) -> ActionResult:
 	if !target:
 		print('no target')
 		return ActionResult.new(false)
+		
+	# TODO: Make this totally different.
+	# Iterate through a sequencer which specifies steps where you:
+	# 1) Move the entity around.
+	# 2) Apply the effect to select tiles.
+	# Takes a direction.
+	# Should be portable, so you can call it from the UI to show all affected tiles.
 
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1

@@ -91,7 +91,7 @@ func _input(event: InputEvent) -> void:
 
 func _get_color(entity):
 	if entity:
-		if AgentManager.is_hostile(entity, Global.player):
+		if AgentManager.is_hostile(Global.player, entity):
 			return Color.CRIMSON
 		if entity.blueprint.item or entity.blueprint.use:
 			return Color.GREEN

@@ -15,6 +15,7 @@ func _on_click(index: int):
 	var abilities = AgentManager.get_abilities(Global.player)
 	if !Global.player or abilities.size() <= index:
 		return
+
 	var dict = abilities[index]
 	var result = await AgentManager.perform_action(
 		Global.player,

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ActiveSkill" load_steps=6 format=3 uid="uid://b4qa6d5qlnmq6"]
+
+[ext_resource type="Script" path="res://data/active_skill.gd" id="1_n277t"]
+[ext_resource type="Script" path="res://data/skills/skill_sequence.gd" id="2_kt6ek"]
+[ext_resource type="Script" path="res://data/script_effect.gd" id="3_dtf8y"]
+[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="4_ept0q"]
+
+[sub_resource type="Resource" id="Resource_qugqu"]
+script = ExtResource("2_kt6ek")
+type = "Apply Effect"
+distance = 1
+angle = 0
+effects = Array[ExtResource("3_dtf8y")]([null])
+
+[resource]
+script = ExtResource("1_n277t")
+sequence = Array[ExtResource("2_kt6ek")]([SubResource("Resource_qugqu")])
+name = "Slash"
+description = ""
+is_active = true
+tiers = Array[ExtResource("4_ept0q")]([])
+ink_knot = ""

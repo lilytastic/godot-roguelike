@@ -81,7 +81,7 @@ func get_save_slots() -> Array[Dictionary]:
 		# {'path': 'user://%s.save' % 'quicksave', 'type': 'quicksave'},
 		{'path': 'user://%s.save' % 'autosave', 'type': 'autosave'}
 	]
-	for n in 6:
+	for n in 8:
 		var num = str(n+1)
 		arr.append({'path': 'user://%s.save' % ('save' + num), 'type': 'manual'})
 	return arr
@@ -162,5 +162,5 @@ func string_to_vector(str) -> Vector2i:
 	return Vector2i(int(coords[0]), int(coords[1]))
 
 func take_screenshot():
-	print('snapshot')
+	# print('snapshot')
 	image = get_viewport().get_texture().get_image()

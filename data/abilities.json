@@ -180,10 +180,8 @@
 				}],
 				"area": {
 					"type": "directional",
-					"layout": ["###",
-							   " @ "],
-					"layoutDiagonal": ["##",
-									   "@#"]
+					"angle": 45,
+					"distance": 1
 				}
 			},
 			{

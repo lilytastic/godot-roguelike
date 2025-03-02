@@ -97,6 +97,7 @@ func take_turn(entity: Entity) -> bool:
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
 	# If it's hostile, use this entity's first weaponskill on it.
+	print("is ", target.blueprint.name, " hostile to ", entity.blueprint.name , "? ", is_hostile(entity, target))
 	if is_hostile(entity, target):
 		var dict = get_abilities(entity, target)[0]
 		return UseAbilityAction.new(
@@ -134,7 +135,7 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 	var next_in_path = null
 	
 	if entity.uuid == Global.player.uuid:
-		await Global.sleep(150)
+		await Global.sleep(100)
 
 	var used_path = false
 	if entity.targeting.current_path.size():
@@ -183,7 +184,7 @@ func is_hostile(entity: Entity, other: Entity) -> bool:
 		return false
 	if entity.blueprint.name == 'trainer' or other.blueprint.name == 'trainer':
 		return false
-	return can_act(entity)
+	return can_act(other)
 
 # TODO: Move within Action class?
 func is_within_range(entity: Entity, target: Entity, action: Action) -> bool:
