@@ -24,7 +24,9 @@ func perform(entity: Entity) -> ActionResult:
 	# Takes a direction.
 	# Should be portable, so you can call it from the UI to show all affected tiles.
 	
-	await InkManager.Execute('slash', [ entity.uuid, "(1,0)" ])
+	var vec = -entity.location.position.direction_to(target.location.position)
+	
+	await InkManager.Execute('slash', [ entity.uuid, str(vec) ])
 
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1
@@ -32,7 +34,6 @@ func perform(entity: Entity) -> ActionResult:
 		# Too far!
 		return ActionResult.new(false)
 		
-	var vec = entity.location.position.direction_to(target.location.position)
 	
 	entity.animation = AnimationSequence.new(
 		[

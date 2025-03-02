@@ -30,8 +30,7 @@ Test
 === slash(entity, direction) ===
     come on
     ~ temp _position = addVectors(getPosition(entity), direction)
-    >>> {_position} ???
-    wtf
+    >>> damage {_position} 10
     -
     -> DONE
     

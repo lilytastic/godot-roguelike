@@ -25,14 +25,14 @@ public partial class InkManager : Node
 		GD.Print("Hello from C#");
 		story = GD.Load<InkStory>("res://assets/ink/crossroads_godot.ink");
 		story.BindExternalFunction("addVectors", (string pos1, string pos2) => {
-			GD.Print("addVectors called with ", pos1, " and", pos2);
+			GD.Print("addVectors called with ", pos1, " and ", pos2);
 			var coords1 = pos1.Substr(1, pos1.Length - 2).Split(',');
-			var vector1 = new Vector2I(int.Parse(coords1[0]), int.Parse(coords1[1]));
+			var vector1 = new Vector2(float.Parse(coords1[0]), float.Parse(coords1[1]));
 
 			var coords2 = pos2.Substr(1, pos2.Length - 2).Split(',');
-			var vector2 = new Vector2I(int.Parse(coords2[0]), int.Parse(coords2[1]));
+			var vector2 = new Vector2(float.Parse(coords2[0]), float.Parse(coords2[1]));
 
-			GD.Print(vector1);
+			GD.Print("added: ", vector1 + vector2);
 			return (vector1 + vector2).ToString();
 		});
 		story.BindExternalFunction("getPosition", (string uuid) => {
