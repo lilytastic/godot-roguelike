@@ -1,6 +1,5 @@
-
-VAR entity = ""
-VAR direction = ""
+EXTERNAL addVectors(pos1, pos2)
+EXTERNAL getPosition(uuid)
 
 Test
 -> init
@@ -25,9 +24,12 @@ Test
     Trainer: Anythin' else?
     -> top
 
-=== slash ===
+=== attack(entity, direction) ===
+    -> slash(entity, direction)
+
+=== slash(entity, direction) ===
     come on
-    // ~ temp _position = addVectors(getPosition(entity), direction)
+    ~ temp _position = addVectors(getPosition(entity), direction)
     // >>> {_position} ???
     wtf
     -
