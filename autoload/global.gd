@@ -35,7 +35,7 @@ func new_game() -> Entity:
 	MapManager.map = ''
 	
 	InkManager.story.ResetState()
-	InkManager.Execute('init', '')
+	InkManager.Execute('init')
 
 	player = Entity.new({ 'blueprint': 'hero' })
 	player.inventory = InventoryProps.new()

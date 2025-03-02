@@ -1,6 +1,7 @@
 using Godot;
 using GodotInk;
 using System;
+using System.Linq;
 
 public partial class InkManager : Node
 {
@@ -23,9 +24,18 @@ public partial class InkManager : Node
 		GD.Print(story.ContinueMaximally());
 	}
 	
-	public void Execute(string path, Variant[]? args) {
+	public void Execute(string path) {
+		GD.Print("no args");
+		Execute(path, null);
+	}
+	public void Execute(string path, Godot.Collections.Array args) {
 		GD.Print(path);
-		story.ChoosePathString(path, true, args);
+		GD.Print("args: ", args);
+		if (args == null) {
+			story.ChoosePathString(path, true);
+		} else {
+			story.ChoosePathString(path, true, args);
+		}
 		GD.Print(story.ContinueMaximally());
 	}
 }
