@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://c2bb8a0mbwx1e"
+valid=false
+
+[deps]
+
+source_file="res://assets/fonts/pixel-font-virtue-assets/sheets/virtue_compact/virtue_compact.json"
+
+[params]
+
+compress=true

@@ -1,0 +1,15 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://cj6jxmt88kil3"
+path="res://.godot/imported/crossroads_godot.ink.json-96b5d5f30e1f22896f30c17f83847d09.res"
+
+[deps]
+
+source_file="res://assets/ink/crossroads_godot.ink.json"
+dest_files=["res://.godot/imported/crossroads_godot.ink.json-96b5d5f30e1f22896f30c17f83847d09.res"]
+
+[params]
+
+compress=true

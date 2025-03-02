@@ -23,6 +23,8 @@ func perform(entity: Entity) -> ActionResult:
 	# 2) Apply the effect to select tiles.
 	# Takes a direction.
 	# Should be portable, so you can call it from the UI to show all affected tiles.
+	
+	await InkManager.Execute('slash', entity.uuid)
 
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1

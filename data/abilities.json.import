@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://cu3midvriqyew"
+valid=false
+
+[deps]
+
+source_file="res://data/abilities.json"
+
+[params]
+
+compress=true

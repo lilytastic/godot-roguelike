@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://du8c5bcbrtygf"
+valid=false
+
+[deps]
+
+source_file="res://data/game_rules.json"
+
+[params]
+
+compress=true

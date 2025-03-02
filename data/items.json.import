@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://bxt00t854da7u"
+valid=false
+
+[deps]
+
+source_file="res://data/items.json"
+
+[params]
+
+compress=true

@@ -20,11 +20,11 @@ Global="*res://autoload/global.gd"
 PlayerInput="*res://autoload/player_input.gd"
 InventoryManager="*res://autoload/inventory_manager.gd"
 ECS="*res://autoload/ecs.gd"
+InkManager="*res://autoload/InkManager.cs"
 MapManager="*res://autoload/map_manager.gd"
 Scheduler="*res://autoload/scheduler.gd"
 AgentManager="*res://autoload/agent_manager.gd"
 uuid="*res://addons/uuid/uuid.gd"
-InkManager="*res://autoload/ink_manager.gd"
 
 [display]
 
@@ -43,6 +43,11 @@ project/assembly_name="Godot Roguelike"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/GodotInk/plugin.cfg", "res://addons/uuid/plugin.cfg")
+
+[inkgd]
+
+use_mono_runtime=true
+register_templates=true
 
 [input]
 

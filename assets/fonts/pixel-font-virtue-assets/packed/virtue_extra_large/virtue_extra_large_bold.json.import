@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://dieovc5cdc3o8"
+valid=false
+
+[deps]
+
+source_file="res://assets/fonts/pixel-font-virtue-assets/packed/virtue_extra_large/virtue_extra_large_bold.json"
+
+[params]
+
+compress=true

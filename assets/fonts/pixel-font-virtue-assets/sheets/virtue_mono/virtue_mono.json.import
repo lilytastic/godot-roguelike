@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://c5ingguvddfhr"
+valid=false
+
+[deps]
+
+source_file="res://assets/fonts/pixel-font-virtue-assets/sheets/virtue_mono/virtue_mono.json"
+
+[params]
+
+compress=true

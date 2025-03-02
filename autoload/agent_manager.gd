@@ -97,7 +97,7 @@ func take_turn(entity: Entity) -> bool:
 
 func get_default_action(entity: Entity, target: Entity) -> Action:
 	# If it's hostile, use this entity's first weaponskill on it.
-	print("is ", target.blueprint.name, " hostile to ", entity.blueprint.name , "? ", is_hostile(entity, target))
+	# print("is ", target.blueprint.name, " hostile to ", entity.blueprint.name , "? ", is_hostile(entity, target))
 	if is_hostile(entity, target):
 		var dict = get_abilities(entity, target)[0]
 		return UseAbilityAction.new(

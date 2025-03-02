@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://cbvk6jgvpy7oq"
+valid=false
+
+[deps]
+
+source_file="res://data/items_scifi.json"
+
+[params]
+
+compress=true

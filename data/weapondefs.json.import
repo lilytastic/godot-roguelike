@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://bsqduof34o2gi"
+valid=false
+
+[deps]
+
+source_file="res://data/weapondefs.json"
+
+[params]
+
+compress=true

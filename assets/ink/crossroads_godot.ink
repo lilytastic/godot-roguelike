@@ -1,6 +1,8 @@
-EXTERNAL addVectors(pos1, pos2)
-EXTERNAL getPosition(entity)
 
+VAR entity = ""
+VAR direction = ""
+
+Test
 -> init
 
 === init ===
@@ -23,17 +25,18 @@ EXTERNAL getPosition(entity)
     Trainer: Anythin' else?
     -> top
 
-=== slash(entity, direction) ===
-    -> attack(entity, direction)
-
-=== attack(entity, direction) ===
-    ~ temp _position = addVectors(getPosition(entity), direction)
-    {_position}
+=== slash ===
+    come on
+    // ~ temp _position = addVectors(getPosition(entity), direction)
+    // >>> {_position} ???
+    wtf
+    -
     -> DONE
     
 
 === function addVectors(pos1, pos2) ===
+    >>> pos1 + pos2
     ~ return pos1
     
-=== function getPosition(entity) ===
+=== function getPosition(_entity) ===
     ~ return "(0,0)"

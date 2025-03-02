@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://2oufjxvemapn"
+valid=false
+
+[deps]
+
+source_file="res://data/weapons.json"
+
+[params]
+
+compress=true

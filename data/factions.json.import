@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://cnsvd6bgbpsan"
+valid=false
+
+[deps]
+
+source_file="res://data/factions.json"
+
+[params]
+
+compress=true

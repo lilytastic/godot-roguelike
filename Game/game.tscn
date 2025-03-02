@@ -43,23 +43,24 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_826o3")
 unique_name_in_owner = true
 
 [node name="Tooltips" type="VBoxContainer" parent="CanvasLayer"]
-clip_contents = true
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -193.0
-offset_top = -89.0
-offset_right = -9.0
-offset_bottom = -9.0
+offset_left = -190.0
+offset_top = -156.0
+offset_right = -6.0
+offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 0
+size_flags_vertical = 3
 alignment = 2
 
 [node name="TooltipWrapper" type="Panel" parent="CanvasLayer/Tooltips"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 1)
+clip_contents = true
+custom_minimum_size = Vector2(180, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -68,11 +69,13 @@ script = ExtResource("11_e0cmg")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Tooltips/TooltipWrapper"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -151.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 size_flags_vertical = 10
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
@@ -85,7 +88,6 @@ layout_mode = 2
 alignment = 2
 script = ExtResource("13_3w56u")
 show_weapon_info = false
-show_description = false
 
 [node name="FloatingText" type="Control" parent="CanvasLayer"]
 unique_name_in_owner = true

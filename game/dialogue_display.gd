@@ -11,11 +11,12 @@ func _ready():
 	for child in %ChoiceList.get_children():
 		child.queue_free()
 
-	InkManager.script_started.connect(
+	"""
+	InkManager.ScriptStarted.connect(
 		func():
 			visible = true
 	)
-	InkManager.script_ended.connect(
+	InkManager.ScriptEnded.connect(
 		func():
 			visible = false
 	)
@@ -42,7 +43,10 @@ func _ready():
 				)
 	)
 	InkManager.proceed()
+	"""
 
+"""
 func _input(event: InputEvent) -> void:
 	if event.is_pressed() or event.is_action_pressed('dialogue_next'):
 		InkManager.proceed()
+"""

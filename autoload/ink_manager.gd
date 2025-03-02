@@ -1,5 +1,7 @@
 extends Node
 
+# Switch to C# lolllllll
+
 @export var story: InkStory = preload('res://assets/ink/crossroads_godot.ink')
 
 var is_playing = false
@@ -20,22 +22,44 @@ func _process(delta: float) -> void:
 	pass
 	# _step.emit()
 
+func _ready() -> void:
+	story.BindExternalFunction(
+		"addVectors",
+		func(v1, v2):
+			print(v1, v2)
+			return ""
+	)
+	story.BindExternalFunction(
+		"getPosition",
+		func(_entity):
+			print(_entity)
+			return ""
+	)
+	story.Continue()
+	print("binding shit")
 
-func execute(path: String) -> void:
+func execute(path: String, _entity: Entity = null) -> void:
+	if !story.HasFunction(path):
+		print("NO FUNCTION AAAAA")
+		return
+	if _entity:
+		story.StoreVariable("entity", _entity.uuid)
+	print(story.FetchVariable("entity"))
+	print("path: ", path)
 	story.ChoosePathString(path)
-	print('ChoosePathString(', path, ')')
-	script_started.emit()
-	is_playing = true
-	await next()
-	is_playing = false
-	script_ended.emit()
+	var i = 0
+	if story.GetCanContinue(): # should be while, but GodotInk is fightin me when it errors
+		i += 1
+		print(story.Continue())
+		if i > 9:
+			pass # break
 
 func perform(entity: Entity, path: String, target: Entity = null) -> ActionResult:
 	story.ChoosePathString(path)
 	print('perform(', path, ')')
 	script_started.emit()
 	is_playing = true
-	await next()
+	await next(true)
 	is_playing = false
 	script_ended.emit()
 	print('finished performing: ', path)
@@ -45,7 +69,7 @@ func proceed() -> bool:
 	_step.emit(true)
 	return true
 
-func process(line: String) -> bool:
+func process(line: String, wait := false) -> bool:
 	print('process(): ', line)
 	
 	if line.begins_with('>>>'):
@@ -59,7 +83,7 @@ func process(line: String) -> bool:
 		await choice_selected
 		print('choice selected')
 		return true
-
+	
 	await _step
 	print('stepped')
 	return true
@@ -74,17 +98,21 @@ func choose(choice: InkChoice) -> void:
 	choices_changed.emit(current_choices)
 	proceed()
 
-func next() -> bool:
+func next(async := false) -> bool:
 	var line = ''
-	if story.GetCanContinue():
-		line = story.Continue()
-		line_registered.emit(line)
-	print('next: ', story.GetCurrentChoices())
+	
+	line = story.Continue()
+	line_registered.emit(line)
+
 	if story.GetCurrentChoices().size() > 0:
 		current_choices = story.GetCurrentChoices()
 		choices_changed.emit(current_choices)
+
 	if line:
-		await process(line)
+		print('next: ', line)
+		await process(line, async)
+
+	print(story.GetCanContinue())
 	if story.GetCanContinue():
 		return await next()
 	return true

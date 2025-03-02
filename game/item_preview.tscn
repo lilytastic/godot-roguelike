@@ -25,8 +25,9 @@ region = Rect2(656, 64, 16, 16)
 [node name="Panel" type="VBoxContainer"]
 offset_left = 60.0
 offset_right = 228.0
-offset_bottom = 180.0
+offset_bottom = 139.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource("1_4675t")
 theme_override_constants/separation = 0
 
@@ -118,9 +119,14 @@ unique_name_in_owner = true
 modulate = Color(0.76, 0.76, 0.76, 1)
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 text = "Description"
 autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/WeaponAndDescription"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2

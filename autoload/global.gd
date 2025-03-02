@@ -4,6 +4,8 @@ var player: Entity
 
 var ui_visible := false
 
+@export var inkStory: InkStory = preload('res://assets/ink/crossroads_godot.ink')
+
 const STEP_LENGTH = 0.15
 
 signal player_changed
@@ -22,6 +24,7 @@ var image: Image = null
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(Palette.PALETTE.BACKGROUND)
+	# InkManager.Init(inkStory)
 	
 
 func new_game() -> Entity:
@@ -32,7 +35,7 @@ func new_game() -> Entity:
 	MapManager.map = ''
 	
 	InkManager.story.ResetState()
-	InkManager.execute('init')
+	InkManager.Execute('init', '')
 
 	player = Entity.new({ 'blueprint': 'hero' })
 	player.inventory = InventoryProps.new()

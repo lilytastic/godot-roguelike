@@ -26,6 +26,7 @@ func _ready():
 		func(): switch_screen(null)
 	)
 	
+	"""
 	InkManager.script_started.connect(
 		func():
 			switch_screen(dialogue_screen)
@@ -34,16 +35,21 @@ func _ready():
 		func():
 			switch_screen(null)
 	)
+	"""
 
 
 func switch_screen(screen: Control):
 	if current_screen == null:
 		pass # Global.take_screenshot()
 	if !screen:
-		if InkManager.is_playing:
+		screen = gameplay_screen
+	"""
+	if !screen:
+		if InkManager.isPlaying:
 			screen = dialogue_screen
 		else:
 			screen = gameplay_screen
+	"""
 	print('switch to: ', screen.name if screen else 'null')
 	for _screen in screens:
 		_screen.visible = false

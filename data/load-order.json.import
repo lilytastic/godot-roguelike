@@ -1,0 +1,14 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://c8ftb0soa4tmj"
+valid=false
+
+[deps]
+
+source_file="res://data/load-order.json"
+
+[params]
+
+compress=true
