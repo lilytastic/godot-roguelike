@@ -26,24 +26,24 @@ Test
     Trainer: Anythin' else?
     -> top
 
-=== attack(entity, direction) ===
-    -> slash(entity, direction)
+=== attack(entity, direction, potency) ===
+    -> slash(entity, direction, potency)
 
-=== slash(entity, direction) ===
+=== slash(entity, direction, potency) ===
     ~ temp _position = addVectors(getPosition(entity), direction)
-    >>> damage {_position} 10
+    >>> damage #position={_position} #potency={potency}
     // TODO: Rotation! Get rotated direction so we can offset it and attack adjacent tiles.
     // TODO: Movement! So we can rush forward multiple tiles, stop when we hit something, and damage the target.
     -
     -> DONE
 
-=== cleave(entity, direction) ===
+=== cleave(entity, direction, potency) ===
     ~ temp _position1 = snapToGrid(addVectors(getPosition(entity), rotate(direction, -45)))
     ~ temp _position2 = addVectors(getPosition(entity), direction)
     ~ temp _position3 = snapToGrid(addVectors(getPosition(entity), rotate(direction, 45)))
-    >>> damage {_position1} 10
-    >>> damage {_position2} 10
-    >>> damage {_position3} 10
+    >>> damage #position={_position1} #potency={potency}
+    >>> damage #position={_position2} #potency={potency}
+    >>> damage #position={_position3} #potency={potency}
     // TODO: Rotation! Get rotated direction so we can offset it and attack adjacent tiles.
     // TODO: Movement! So we can rush forward multiple tiles, stop when we hit something, and damage the target.
     -

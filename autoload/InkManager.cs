@@ -9,9 +9,12 @@ public partial class InkManager : Node
 	public InkStory story;
 
 	Node ECS;
+	Node MapManager;
 	GDScript Entity = GD.Load<GDScript>("res://engine/classes/entity.gd");
 	GDScript ActionResult = GD.Load<GDScript>("res://engine/classes/action_result.gd");
 	
+	[Signal]
+	public delegate string CommandTriggeredEventHandler();
 	[Signal]
 	public delegate void ScriptStartedEventHandler();
 	[Signal]
@@ -23,6 +26,7 @@ public partial class InkManager : Node
 
 	public override void _Ready() {
 		ECS = tree.Root.GetNode("/root/ECS");
+		MapManager = tree.Root.GetNode("/root/MapManager");
 
 		GD.Print("Hello from C#");
 		story = GD.Load<InkStory>("res://assets/ink/crossroads_godot.ink");
@@ -47,15 +51,20 @@ public partial class InkManager : Node
 		});
 		story.BindExternalFunction("getPosition", (string uuid) => {
 			GD.Print("getPosition called with: ", uuid);
-			GD.Print("ECS ", ECS);
-			var entity = (RefCounted)ECS.Call("entity", uuid);
-			GD.Print("Entity ", entity);
-			var location = (RefCounted)entity.Get("location");
-			GD.Print("Location: ", location);
-			return location.Get("position").ToString();
+			return getPosition(uuid).ToString();
 			// location.TryGetValue("position", out value);
 		});
 		GD.Print(story.ContinueMaximally());
+	}
+
+	RefCounted getEntity(string uuid) {
+		return (RefCounted)ECS.Call("entity", uuid);
+	}
+
+	Vector2 getPosition(string uuid) {
+		var entity = getEntity(uuid);
+		var location = (RefCounted)entity.Get("location");
+		return (Vector2)location.Get("position");
 	}
 
 	Vector2 stringToVector(string str) {
@@ -88,6 +97,39 @@ public partial class InkManager : Node
 		} else {
 			story.ChoosePathString(path, true, args.ToArray<Variant>());
 		}
-		GD.Print(story.ContinueMaximally());
+		while (story.CanContinue) {
+			var line = story.Continue();
+			var tagDictionary = story.CurrentTags.ToDictionary((string x) => {
+				var tokens = x.Split("=");
+				return tokens[0].Trim();
+			}, (string x) => {
+				var tokens = x.Split("=");
+				return tokens[1].Trim();
+			});
+			GD.Print(line, tagDictionary);
+			if (line.StartsWith(">>>")) {
+				// TODO: Send signal.
+				var tokens = line.Substr(3, line.Length - 3).Split(" ").Select((x) => x.Trim()).Where((x) => x.Length > 0).ToArray();
+				switch (tokens[0]) {
+					case "damage":
+						var actors = (Dictionary)MapManager.Get("actors");
+						var pos = stringToVector(tagDictionary["position"]);
+						GD.Print("Damage: ", pos);
+						var affected = actors.Keys.Where((uuid) => getPosition(uuid.ToString()) == pos).ToArray();
+						foreach (var other in affected) {
+							GD.Print(other.ToString());
+							var otherEntity = getEntity(other.ToString());
+
+							Dictionary opts = new Dictionary();
+							opts.Add("damage", float.Parse(tagDictionary["potency"]));
+							otherEntity.Call("damage", opts);
+						}
+						break;
+					default:
+						break;
+				}
+				// GD.Print(tokens.Join(", "), " - tags: ", story.CurrentTags.ToArray().Join(", "));
+			}
+		}
 	}
 }

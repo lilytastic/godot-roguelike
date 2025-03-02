@@ -12,12 +12,16 @@ func _init(_target: Entity, abilityId: String, opts := {}):
 	conduit = opts.get('conduit', null)
 
 func run_script(entity: Entity) -> void:
+	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
+	var damageRange = weapon_props.damage if weapon_props else [5, 5]
+	var potency = round(randf_range(damageRange[0], damageRange[1]))
 	var vec = entity.location.position.direction_to(target.location.position)
-	await InkManager.Execute(ability.id, [ entity.uuid, str(vec) ])
+	await InkManager.Execute(ability.id, [ entity.uuid, str(vec), potency ])
 
 func perform(entity: Entity) -> ActionResult:
 	if !target:
 		print('no target')
+		# TODO: Tell the UI to let the player select a target and await.
 		return ActionResult.new(false)
 		
 	# TODO: Make this totally different.
@@ -30,6 +34,10 @@ func perform(entity: Entity) -> ActionResult:
 	var vec = entity.location.position.direction_to(target.location.position)
 	
 	run_script(entity)
+	# TODO: Subscribe to commands? Or just rely on InkManager?
+	
+	return ActionResult.new(true, { 'cost_energy': 100 })
+	
 
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1
