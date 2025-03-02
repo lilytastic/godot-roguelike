@@ -24,7 +24,7 @@ func perform(entity: Entity) -> ActionResult:
 	# Takes a direction.
 	# Should be portable, so you can call it from the UI to show all affected tiles.
 	
-	await InkManager.Execute('slash', [ entity.uuid, "" ])
+	await InkManager.Execute('slash', [ entity.uuid, "(1,0)" ])
 
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 	var distance = entity.location.position.distance_to(target.location.position) if (entity.location and target.location) else -1
