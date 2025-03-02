@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using GodotInk;
 using System;
 using System.Linq;
@@ -7,25 +8,34 @@ public partial class InkManager : Node
 {
 	public InkStory story;
 
-	GDScript ECS = GD.Load<GDScript>("res://autoload/ecs.gd");
-	GDScript ActionResult = GD.Load<GDScript>("res://engine/classes/action_result.gd");
+	Node ECS;
 	GDScript Entity = GD.Load<GDScript>("res://engine/classes/entity.gd");
+	GDScript ActionResult = GD.Load<GDScript>("res://engine/classes/action_result.gd");
 	
 	[Signal]
 	public delegate void ScriptStartedEventHandler();
 	[Signal]
 	public delegate void ScriptEndedEventHandler();
 	
+	SceneTree tree = (SceneTree)Engine.GetMainLoop();
+	
 	public override void _Ready() {
+		ECS = tree.Root.GetNode("/root/ECS");
+
 		GD.Print("Hello from C#");
 		story = GD.Load<InkStory>("res://assets/ink/crossroads_godot.ink");
 		story.BindExternalFunction("addVectors", (string pos1, string pos2) => {
 			return pos1;
 		});
 		story.BindExternalFunction("getPosition", (string uuid) => {
-			GD.Print("getPosition", uuid);
-			var entity = (GodotObject)ECS.Call("entity", uuid);
-			return uuid;
+			GD.Print("getPosition called with: ", uuid);
+			GD.Print("ECS ", ECS);
+			var entity = (RefCounted)ECS.Call("entity", uuid);
+			GD.Print("Entity ", entity);
+			var location = (RefCounted)entity.Get("location");
+			GD.Print("Location: ", location);
+			return location.Get("position").ToString();
+			// location.TryGetValue("position", out value);
 		});
 		GD.Print(story.ContinueMaximally());
 	}
