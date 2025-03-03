@@ -18,6 +18,13 @@ var overlay_opacity := 0.00
 var camera_shake := Vector2(0,0)
 var camera_offset = Vector2(0,0.5)
 
+var awaiting_target = false
+var preview_action: Action = null
+var last_direction_pressed = Vector2i.ZERO
+signal direction_pressed
+signal direction_selected
+signal tile_clicked
+
 signal action_triggered
 signal ui_action_triggered
 signal double_click
@@ -63,11 +70,24 @@ func _unhandled_input(event: InputEvent) -> void:
 		Global.quicksave()
 		return
 		
-	var action := _check_for_action(event)
-	if action:
-		# targeting.clear()
-		trigger_action(action)
 
+	if awaiting_target:
+		for i: StringName in InputTag.MOVE_ACTIONS:
+			if event.is_action(i) and (event.is_pressed() or event.is_echo()):
+				print("poosh ", i)
+				var dir = _input_to_direction(i)
+				if last_direction_pressed == dir:
+					direction_selected.emit(dir)
+					last_direction_pressed = Vector2i.ZERO
+				else:
+					direction_pressed.emit(dir)
+					last_direction_pressed = dir
+	else:
+		var action := _check_for_action(event)
+		if action:
+			# targeting.clear()
+			trigger_action(action)
+		
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
 	if !player_is_valid:
 		return
@@ -99,6 +119,24 @@ func _unhandled_input(event: InputEvent) -> void:
 
 			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
 				_targeting.current_target = entities_under_cursor[0].uuid
+
+
+func prompt_for_target(action: Action) -> Dictionary:
+	awaiting_target = true
+	preview_action = action
+	print("Get target for ", action)
+	var preview_direction = (
+		func(vec):
+			print(vec)
+			action.direction = vec
+			action.preview(Global.player)
+	)
+	direction_pressed.connect(preview_direction)
+	var direction = await direction_selected
+	direction_pressed.disconnect(preview_direction)
+	awaiting_target = false
+	preview_action = null
+	return { "direction": direction }
 
 
 func trigger_action(action: Action) -> void:

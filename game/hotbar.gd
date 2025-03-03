@@ -16,12 +16,12 @@ func _on_click(index: int):
 	if !Global.player or abilities.size() <= index:
 		return
 
-	var dict = abilities[index]
-	var result = await AgentManager.perform_action(
-		Global.player,
+	var ability = abilities[index]
+	var dict = { "target": ECS.entity(PlayerInput.targeting.current_target) }
+	dict.merge(ability)
+	var result = await PlayerInput.trigger_action(
 		UseAbilityAction.new(
-			ECS.entity(PlayerInput.targeting.current_target),
-			dict.ability,
+			ability.ability,
 			dict
 		)
 	)

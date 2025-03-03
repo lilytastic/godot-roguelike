@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://uo48yikfpeo8"]
 
 [ext_resource type="PackedScene" uid="uid://hdb51gogs12" path="res://game/save_slot.tscn" id="1_0pvvu"]
-[ext_resource type="Script" path="res://game/save_slots.gd" id="1_hh1h5"]
+[ext_resource type="Script" uid="uid://ddiidt8ewd2b6" path="res://game/save_slots.gd" id="1_hh1h5"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_pkl1c"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_upepq"]

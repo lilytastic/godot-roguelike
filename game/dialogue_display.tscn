@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://lp5clmlm1lsm"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_cdr8g"]
-[ext_resource type="Script" path="res://game/dialogue_display.gd" id="2_as2tl"]
+[ext_resource type="Script" uid="uid://bcownwg0dnwn8" path="res://game/dialogue_display.gd" id="2_as2tl"]
 [ext_resource type="PackedScene" uid="uid://cmnc1gby4ce5q" path="res://game/dialogue_choice_button.tscn" id="3_4bwms"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="3_hsdv4"]
 [ext_resource type="FontFile" uid="uid://tjvbjneifeu1" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large.ttf" id="4_6u0pj"]

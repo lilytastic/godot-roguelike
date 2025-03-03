@@ -33,7 +33,10 @@ Test
 // TODO: Movement! So we can rush forward multiple tiles, stop when we hit something, and damage the target.
     
 === attack(entity, direction, potency) ===
-    -> slash(entity, direction, potency)
+    ~ temp _position = addVectors(getPosition(entity), direction)
+    >>> damage #position={_position} #potency={potency} #direction={direction}
+    -
+    -> DONE
 
 === slash(entity, direction, potency) ===
     ~ temp _position = addVectors(getPosition(entity), direction)

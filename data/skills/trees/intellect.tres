@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SkillTree" load_steps=2 format=3 uid="uid://b8peg37dqdeee"]
 
-[ext_resource type="Script" path="res://data/skills/trees/skill_tree.gd" id="1_0rfiq"]
+[ext_resource type="Script" uid="uid://dlewugymhsqda" path="res://data/skills/trees/skill_tree.gd" id="1_0rfiq"]
 
 [resource]
 script = ExtResource("1_0rfiq")

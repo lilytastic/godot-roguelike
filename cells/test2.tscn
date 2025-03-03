@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=4 uid="uid://cc8ed67al4uqv"]
 
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/tile_map_layer.tscn" id="1_4ncyg"]
-[ext_resource type="Script" path="res://engine/classes/map_prefab.gd" id="1_pytuh"]
+[ext_resource type="Script" uid="uid://clphdbfc7kquv" path="res://engine/classes/map_prefab.gd" id="1_pytuh"]
 [ext_resource type="PackedScene" uid="uid://dabn80pt603jc" path="res://game/actor.tscn" id="2_cskbr"]
 
 [node name="Test" type="Node2D"]

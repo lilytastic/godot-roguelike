@@ -320,10 +320,6 @@ func create_destination(destination: Dictionary, entity: Entity = null) -> Dicti
 	
 
 
-
-
-
-
 func update_navigation():
 	if !navigation_map:
 		return
@@ -346,7 +342,7 @@ func update_navigation():
 					true
 				)
 
-func get_collisions(position: Vector2i):
+func get_collisions(position: Vector2i) -> Array:
 	return actors.values().filter(
 		func(_entity):
 			return AgentManager.blocks_entities(_entity)

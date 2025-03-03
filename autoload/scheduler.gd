@@ -57,7 +57,7 @@ func _process(delta: float):
 			if next_uuid == Global.player.uuid:
 				var ticks = Time.get_ticks_msec()
 				Global.take_screenshot()
-				print("Player's turn after ", ticks - last_player_turn, "ms")
+				# print("Player's turn after ", ticks - last_player_turn, "ms")
 				last_player_turn = ticks
 			# This should make it run synchronously and therefore faster, but fucks up the logic somewhere.
 			await take_turn(next_actor)

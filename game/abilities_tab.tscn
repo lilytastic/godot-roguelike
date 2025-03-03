@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://ckfu4wwscv0f5"]
 
-[ext_resource type="Script" path="res://game/skill_tree_select.gd" id="1_1upok"]
+[ext_resource type="Script" uid="uid://cldovmxwy4ia5" path="res://game/skill_tree_select.gd" id="1_1upok"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_4hxva"]
 [ext_resource type="StyleBox" uid="uid://dmyco2rlh7ok1" path="res://game/box_dark.tres" id="1_6aomi"]
 [ext_resource type="PackedScene" uid="uid://dcknjwod5co1l" path="res://game/skill_tree.tscn" id="2_2uxoe"]
-[ext_resource type="Script" path="res://game/abilities_tab.gd" id="2_gd3em"]
+[ext_resource type="Script" uid="uid://btwlyii77hadb" path="res://game/abilities_tab.gd" id="2_gd3em"]
 [ext_resource type="PackedScene" uid="uid://cip2isygbs5ks" path="res://game/skill_display.tscn" id="5_7nx3d"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_4vdyq"]

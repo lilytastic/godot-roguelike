@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dju8px38gxg0m"]
 
 [ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="1_p1ffb"]
-[ext_resource type="Script" path="res://game/tile_item.gd" id="1_vcmlp"]
+[ext_resource type="Script" uid="uid://ck4rljtdjv15g" path="res://game/tile_item.gd" id="1_vcmlp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_86h8q"]
 content_margin_left = 4.0

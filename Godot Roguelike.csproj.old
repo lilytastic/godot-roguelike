@@ -1,0 +1,8 @@
+<Project Sdk="Godot.NET.SDK/4.4.0-rc.3">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>GodotRoguelike</RootNamespace>
+  </PropertyGroup>
+  <Import Project="addons\GodotInk\GodotInk.props" />
+</Project>

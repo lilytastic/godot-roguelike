@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://c7i17tuawts3h"]
 
-[ext_resource type="Script" path="res://data/skill.gd" id="1_ywr7w"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="1_ywr7w"]
 [ext_resource type="Resource" uid="uid://cv17dvpbi15n1" path="res://data/skills/trees/charisma.tres" id="2_iwpbp"]
-[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_xb6s8"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="3_xb6s8"]
 
 [resource]
 script = ExtResource("1_ywr7w")
 name = "Streetwise"
 description = "There's a way things are done."
-is_passive = true
+is_active = false
 skill_tree = ExtResource("2_iwpbp")
 tiers = Array[ExtResource("3_xb6s8")]([])
+ink_knot = ""

@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godot Roguelike", "Godot Roguelike.csproj", "{EE336B15-E0FC-4FFE-8797-0F3AA2699EA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godot Roguelike", "Godot Roguelike.csproj", "{FE882D36-B8DB-49FE-9A36-C33E46EB0AA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE336B15-E0FC-4FFE-8797-0F3AA2699EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE336B15-E0FC-4FFE-8797-0F3AA2699EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE336B15-E0FC-4FFE-8797-0F3AA2699EA8}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{EE336B15-E0FC-4FFE-8797-0F3AA2699EA8}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{EE336B15-E0FC-4FFE-8797-0F3AA2699EA8}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{EE336B15-E0FC-4FFE-8797-0F3AA2699EA8}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{FE882D36-B8DB-49FE-9A36-C33E46EB0AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE882D36-B8DB-49FE-9A36-C33E46EB0AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE882D36-B8DB-49FE-9A36-C33E46EB0AA9}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{FE882D36-B8DB-49FE-9A36-C33E46EB0AA9}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{FE882D36-B8DB-49FE-9A36-C33E46EB0AA9}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{FE882D36-B8DB-49FE-9A36-C33E46EB0AA9}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal

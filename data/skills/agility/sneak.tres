@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=9 format=3 uid="uid://c0rl5foty34lp"]
 
-[ext_resource type="Script" path="res://data/skill.gd" id="1_opgqq"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="1_opgqq"]
 [ext_resource type="Resource" uid="uid://caeojwmpclhvv" path="res://data/skills/trees/dexterity.tres" id="2_wurgl"]
-[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_god8d"]
-[ext_resource type="Script" path="res://data/script_effect.gd" id="4_b2u6h"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="3_god8d"]
+[ext_resource type="Script" uid="uid://bteqflta1ux7b" path="res://data/script_effect.gd" id="4_b2u6h"]
 
 [sub_resource type="Resource" id="Resource_pxx2q"]
 script = ExtResource("3_god8d")
@@ -29,6 +29,7 @@ effects = Array[ExtResource("4_b2u6h")]([])
 script = ExtResource("1_opgqq")
 name = "Sneak"
 description = ""
-is_passive = true
+is_active = false
 skill_tree = ExtResource("2_wurgl")
 tiers = Array[ExtResource("3_god8d")]([SubResource("Resource_pxx2q"), SubResource("Resource_stgbl"), SubResource("Resource_5ager"), SubResource("Resource_5nmn3")])
+ink_knot = ""

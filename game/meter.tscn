@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://d32kgngy6fe6u"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_3ipdt"]
-[ext_resource type="Script" path="res://game/meter.gd" id="1_hoxj6"]
+[ext_resource type="Script" uid="uid://b0n77j6apxjhp" path="res://game/meter.gd" id="1_hoxj6"]
 [ext_resource type="FontFile" uid="uid://cq0ydk3gbo13m" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_bold.ttf" id="3_l8klg"]
 [ext_resource type="FontFile" uid="uid://cv3uwt0ir851t" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_small.ttf" id="4_eyn48"]
 

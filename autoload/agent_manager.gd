@@ -9,11 +9,12 @@ func _ready():
 	skill_trees.clear()
 	for resource in resources:
 		var obj = load(resource)
-		var rid = obj.get_instance_id()
-		if obj is Skill:
-			skills[rid] = obj
-		if obj is SkillTree:
-			skill_trees[rid] = obj
+		if obj:
+			var rid = obj.get_instance_id()
+			if obj is Skill:
+				skills[rid] = obj
+			if obj is SkillTree:
+				skill_trees[rid] = obj
 # 	print("Skills: ", skills)
 #	print("Skill trees: ", skill_trees)
 	
@@ -99,9 +100,10 @@ func get_default_action(entity: Entity, target: Entity) -> Action:
 	# If it's hostile, use this entity's first weaponskill on it.
 	# print("is ", target.blueprint.name, " hostile to ", entity.blueprint.name , "? ", is_hostile(entity, target))
 	if is_hostile(entity, target):
-		var dict = get_abilities(entity, target)[0]
+		var ability = get_abilities(entity, target)[0]
+		var dict = { "target": target }
+		dict.merge(ability)
 		return UseAbilityAction.new(
-			target,
 			dict.ability,
 			dict
 		)

@@ -75,13 +75,6 @@ func _input(event: InputEvent):
 
 var was_menu_open = false
 func _process(delta):
-	if Global.player:
-		if Global.player.health:
-			%HealthMeter.value = Global.player.health.current
-			%HealthMeter.max = Global.player.health.max
-			%HealthMeter.label = str(Global.player.health.current)
-			%HealthMeter.label_small = '/ ' + str(Global.player.health.max)
-			
 	if is_menu_open != was_menu_open:
 		was_menu_open = is_menu_open
 		PlayerInput.item_hovered.emit(null)

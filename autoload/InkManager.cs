@@ -64,6 +64,9 @@ public partial class InkManager : Node
 	Vector2 getPosition(string uuid) {
 		var entity = getEntity(uuid);
 		var location = (RefCounted)entity.Get("location");
+		if (location == null) {
+			return Vector2.Zero;
+		}
 		return (Vector2)location.Get("position");
 	}
 
@@ -99,39 +102,10 @@ public partial class InkManager : Node
 		}
 		while (story.CanContinue) {
 			var line = story.Continue();
-			var tagDictionary = story.CurrentTags.ToDictionary((string x) => {
-				var tokens = x.Split("=");
-				return tokens[0].Trim();
-			}, (string x) => {
-				var tokens = x.Split("=");
-				return tokens[1].Trim();
-			});
-			GD.Print(line, tagDictionary);
+			GD.Print(line);
 			if (line.StartsWith(">>>")) {
-				// TODO: Send signal.
 				var tokens = line.Substr(3, line.Length - 3).Split(" ").Select((x) => x.Trim()).Where((x) => x.Length > 0).ToArray();
-				switch (tokens[0]) {
-					case "damage":
-						var actors = (Dictionary)MapManager.Get("actors");
-						var pos = stringToVector(tagDictionary["position"]);
-						GD.Print("Damage: ", pos);
-						var affected = actors.Keys.Where((uuid) => getPosition(uuid.ToString()) == pos).ToArray();
-						foreach (var other in affected) {
-							GD.Print(other.ToString());
-							var otherEntity = getEntity(other.ToString());
-							if (otherEntity == null) {
-								continue;
-							}
-
-							Dictionary opts = new Dictionary();
-							opts.Add("damage", float.Parse(tagDictionary["potency"]));
-							otherEntity.Call("damage", opts);
-							// ((RefCounted)otherEntity.Get("actor")).Set("modulate", new Color(0.8f, 0, 0));
-						}
-						break;
-					default:
-						break;
-				}
+				EmitSignal(SignalName.CommandTriggered, tokens);
 				// GD.Print(tokens.Join(", "), " - tags: ", story.CurrentTags.ToArray().Join(", "));
 			}
 		}

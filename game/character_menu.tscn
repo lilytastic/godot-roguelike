@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=3 uid="uid://dqasfn61u6sl5"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_5t1bb"]
-[ext_resource type="Script" path="res://game/character_menu.gd" id="2_mm07u"]
+[ext_resource type="Script" uid="uid://b04mgyb5gh0j0" path="res://game/character_menu.gd" id="2_mm07u"]
 [ext_resource type="PackedScene" uid="uid://b2o6kp0x6jeb0" path="res://game/inventory_tab.tscn" id="3_byvbg"]
 [ext_resource type="PackedScene" uid="uid://dqkwthdsyemx1" path="res://game/character_tab.tscn" id="3_g7ybp"]
 [ext_resource type="PackedScene" uid="uid://ckfu4wwscv0f5" path="res://game/abilities_tab.tscn" id="3_itfce"]
 [ext_resource type="Texture2D" uid="uid://dj13niqoy4dy4" path="res://assets/KenneyRoguelike/monochrome-transparent_packed.png" id="4_gwa4w"]
-[ext_resource type="Script" path="res://game/character_tab.gd" id="4_xix72"]
+[ext_resource type="Script" uid="uid://unqnsw7g42fl" path="res://game/character_tab.gd" id="4_xix72"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c7vui"]
 bg_color = Color(0.0728, 0.0871, 0.13, 0.886275)

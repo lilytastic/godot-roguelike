@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://dblg5035vfcpg"]
 
-[ext_resource type="Script" path="res://data/skill.gd" id="1_1rse6"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="1_1rse6"]
 [ext_resource type="Resource" uid="uid://b8peg37dqdeee" path="res://data/skills/trees/intellect.tres" id="2_dvijm"]
-[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_0iljx"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="3_0iljx"]
 
 [resource]
 script = ExtResource("1_1rse6")
 name = "Discerning Customer"
 description = ""
-is_passive = true
+is_active = false
 skill_tree = ExtResource("2_dvijm")
 tiers = Array[ExtResource("3_0iljx")]([])
+ink_knot = ""

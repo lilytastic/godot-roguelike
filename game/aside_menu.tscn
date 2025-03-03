@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e060e"]
 [ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://themes/display.tres" id="1_inosm"]
-[ext_resource type="Script" path="res://game/aside_menu.gd" id="1_x6mru"]
+[ext_resource type="Script" uid="uid://cpva07qmuq6af" path="res://game/aside_menu.gd" id="1_x6mru"]
 [ext_resource type="FontFile" uid="uid://bpqyjjs05qqgh" path="res://assets/fonts/m42flight721/m42.TTF" id="4_x77hr"]
 [ext_resource type="PackedScene" uid="uid://b0jlk4extd4v" path="res://game/save_menu.tscn" id="5_uxh74"]
 

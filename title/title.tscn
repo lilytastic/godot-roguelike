@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bnyqe0l05hxxr"]
 
-[ext_resource type="Script" path="res://title/title.gd" id="1_23huy"]
+[ext_resource type="Script" uid="uid://b57mk13c14wld" path="res://title/title.gd" id="1_23huy"]
 [ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://themes/display.tres" id="1_psldp"]
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="2_ctk4h"]
-[ext_resource type="Script" path="res://title/flash_element.gd" id="3_i8ltf"]
+[ext_resource type="Script" uid="uid://8hsjue4dc5fn" path="res://title/flash_element.gd" id="3_i8ltf"]
 [ext_resource type="PackedScene" uid="uid://kv6mv8j4a7yc" path="res://game/aside_menu.tscn" id="4_no1s0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2u6g3"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=4 uid="uid://8pninf6hgitr"]
 
 [ext_resource type="PackedScene" uid="uid://c85krcwtqo3rc" path="res://game/tile_map_layer.tscn" id="2_csb8k"]
-[ext_resource type="Script" path="res://game/map_generator.gd" id="3_wx617"]
+[ext_resource type="Script" uid="uid://lqpv2m43ud1" path="res://game/map_generator.gd" id="3_wx617"]
 
 [node name="DungeonGenerator" type="Node2D" node_paths=PackedStringArray("template", "workspace", "target_layer")]
 script = ExtResource("3_wx617")

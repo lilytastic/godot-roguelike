@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=9 format=3 uid="uid://ep6r343w1b2q"]
 
-[ext_resource type="Script" path="res://data/skill.gd" id="1_pifkk"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="1_pifkk"]
 [ext_resource type="Resource" uid="uid://caeojwmpclhvv" path="res://data/skills/trees/dexterity.tres" id="2_qb1m1"]
-[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_a7noo"]
-[ext_resource type="Script" path="res://data/script_effect.gd" id="4_i1fso"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="3_a7noo"]
+[ext_resource type="Script" uid="uid://bteqflta1ux7b" path="res://data/script_effect.gd" id="4_i1fso"]
 
 [sub_resource type="Resource" id="Resource_pxx2q"]
 script = ExtResource("3_a7noo")
@@ -29,6 +29,7 @@ effects = Array[ExtResource("4_i1fso")]([])
 script = ExtResource("1_pifkk")
 name = "Dirty Fighting"
 description = ""
-is_passive = true
+is_active = false
 skill_tree = ExtResource("2_qb1m1")
 tiers = Array[ExtResource("3_a7noo")]([SubResource("Resource_pxx2q"), SubResource("Resource_stgbl"), SubResource("Resource_5ager"), SubResource("Resource_5nmn3")])
+ink_knot = ""

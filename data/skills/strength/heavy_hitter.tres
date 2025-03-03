@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://b7rt5qfb5wtij"]
 
-[ext_resource type="Script" path="res://data/script_effect.gd" id="1_hnc80"]
-[ext_resource type="Script" path="res://data/skill.gd" id="2_hra8i"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="2_hra8i"]
 [ext_resource type="Resource" uid="uid://238owusdhlwo" path="res://data/skills/trees/strength.tres" id="3_fmarr"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="3_ht43w"]
 
 [resource]
 script = ExtResource("2_hra8i")
 name = "Heavy Hitter"
 description = ""
-is_passive = true
+is_active = false
 skill_tree = ExtResource("3_fmarr")
-effects = Array[ExtResource("1_hnc80")]([])
+tiers = Array[ExtResource("3_ht43w")]([])
+ink_knot = ""

@@ -1,15 +1,15 @@
 [gd_scene load_steps=13 format=3 uid="uid://tnnobbxmjsst"]
 
-[ext_resource type="Script" path="res://game/game.gd" id="1_4nfvf"]
+[ext_resource type="Script" uid="uid://bjfpdf4lpsngv" path="res://game/game.gd" id="1_4nfvf"]
 [ext_resource type="PackedScene" uid="uid://jynhomupjwaw" path="res://game/ui_manager.tscn" id="2_kl8kp"]
-[ext_resource type="Script" path="res://game/floating_text.gd" id="6_qudki"]
+[ext_resource type="Script" uid="uid://bojx1cq54g1v0" path="res://game/floating_text.gd" id="6_qudki"]
 [ext_resource type="PackedScene" uid="uid://be05y3swrshiq" path="res://game/cursor.tscn" id="7_2s5nd"]
-[ext_resource type="Script" path="res://engine/classes/scene_view.gd" id="7_mvjgg"]
+[ext_resource type="Script" uid="uid://d0wmrufbpie2p" path="res://engine/classes/scene_view.gd" id="7_mvjgg"]
 [ext_resource type="Theme" uid="uid://bfoqpkkix7gdf" path="res://themes/normal.tres" id="9_o4gab"]
-[ext_resource type="Script" path="res://game/tile_display.gd" id="9_ytsw5"]
+[ext_resource type="Script" uid="uid://dgswv80usgrb1" path="res://game/tile_display.gd" id="9_ytsw5"]
 [ext_resource type="PackedScene" uid="uid://drrqc406l4xxu" path="res://game/item_preview.tscn" id="11_5xsb2"]
-[ext_resource type="Script" path="res://game/tooltip_wrapper.gd" id="11_e0cmg"]
-[ext_resource type="Script" path="res://game/item_preview.gd" id="13_3w56u"]
+[ext_resource type="Script" uid="uid://8cs06jyjae1n" path="res://game/tooltip_wrapper.gd" id="11_e0cmg"]
+[ext_resource type="Script" uid="uid://mfj8sk4s1hc8" path="res://game/item_preview.gd" id="13_3w56u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826o3"]
 bg_color = Color(1, 1, 1, 1)

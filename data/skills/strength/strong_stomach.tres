@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://brxq2j0nfhwcw"]
 
-[ext_resource type="Script" path="res://data/skill.gd" id="1_w6xit"]
-[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="2_i08vm"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="1_w6xit"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="2_i08vm"]
 [ext_resource type="Resource" uid="uid://238owusdhlwo" path="res://data/skills/trees/strength.tres" id="2_vy0s3"]
 
 [resource]
 script = ExtResource("1_w6xit")
 name = "Strong Stomach"
 description = ""
-is_passive = true
+is_active = false
 skill_tree = ExtResource("2_vy0s3")
 tiers = Array[ExtResource("2_i08vm")]([])
+ink_knot = ""

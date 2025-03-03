@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://dxi50h4ah5go2"]
 
-[ext_resource type="Script" path="res://data/skill.gd" id="1_2cd8w"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="1_2cd8w"]
 [ext_resource type="Resource" uid="uid://caeojwmpclhvv" path="res://data/skills/trees/dexterity.tres" id="2_7421y"]
-[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_2mqxm"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="3_2mqxm"]
 
 [resource]
 script = ExtResource("1_2cd8w")
 name = "Sword Dance"
 description = ""
-is_passive = true
+is_active = false
 skill_tree = ExtResource("2_7421y")
 tiers = Array[ExtResource("3_2mqxm")]([])
+ink_knot = ""

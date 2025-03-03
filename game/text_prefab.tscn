@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cn6uxrnuo8dka"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e2nku"]
-[ext_resource type="Script" path="res://game/floating_text_label.gd" id="2_8j3t5"]
+[ext_resource type="Script" uid="uid://cq7mcb44fjokl" path="res://game/floating_text_label.gd" id="2_8j3t5"]
 [ext_resource type="FontFile" uid="uid://bcpnex2rvsreh" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_black.ttf" id="2_upljc"]
 
 [node name="TextPrefab" type="Label"]

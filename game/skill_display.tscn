@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cip2isygbs5ks"]
 
-[ext_resource type="Script" path="res://game/skill_display.gd" id="1_ky1nb"]
+[ext_resource type="Script" uid="uid://be7p4i207mo6p" path="res://game/skill_display.gd" id="1_ky1nb"]
 [ext_resource type="FontFile" uid="uid://tjvbjneifeu1" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large.ttf" id="2_t7e66"]
 
 [node name="SkillDisplay" type="VBoxContainer"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://hdb51gogs12"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_ijkol"]
-[ext_resource type="Script" path="res://game/save_slot.gd" id="1_uelva"]
+[ext_resource type="Script" uid="uid://do3cl0rlfhyk2" path="res://game/save_slot.gd" id="1_uelva"]
 [ext_resource type="FontFile" uid="uid://cq0ydk3gbo13m" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_bold.ttf" id="3_3l0f8"]
 [ext_resource type="FontFile" uid="uid://buaimy6vdhglx" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue.ttf" id="3_uq6wy"]
 [ext_resource type="FontFile" uid="uid://cv3uwt0ir851t" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_small.ttf" id="4_jnuoy"]

@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Skill" load_steps=4 format=3 uid="uid://cxhgcawc62gab"]
 
-[ext_resource type="Script" path="res://data/skill.gd" id="1_fsnck"]
+[ext_resource type="Script" uid="uid://dwjl2732vmwwc" path="res://data/skill.gd" id="1_fsnck"]
 [ext_resource type="Resource" uid="uid://b8peg37dqdeee" path="res://data/skills/trees/intellect.tres" id="2_mfpug"]
-[ext_resource type="Script" path="res://data/skills/skill_tier.gd" id="3_6bp1s"]
+[ext_resource type="Script" uid="uid://27sjp1ymwlkm" path="res://data/skills/skill_tier.gd" id="3_6bp1s"]
 
 [resource]
 script = ExtResource("1_fsnck")
 name = "Quick Study"
 description = ""
-is_passive = true
+is_active = false
 skill_tree = ExtResource("2_mfpug")
 tiers = Array[ExtResource("3_6bp1s")]([])
+ink_knot = ""
