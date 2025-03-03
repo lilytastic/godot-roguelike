@@ -18,6 +18,9 @@ var overlay_opacity := 0.00
 var camera_shake := Vector2(0,0)
 var camera_offset = Vector2(0,0.5)
 
+var current_preview := {}
+signal preview_updated
+
 var awaiting_target = false
 var preview_action: Action = null
 var last_direction_pressed = Vector2i.ZERO
@@ -74,7 +77,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if awaiting_target:
 		for i: StringName in InputTag.MOVE_ACTIONS:
 			if event.is_action(i) and (event.is_pressed() or event.is_echo()):
-				print("poosh ", i)
 				var dir = _input_to_direction(i)
 				if last_direction_pressed == dir:
 					direction_selected.emit(dir)
@@ -125,14 +127,21 @@ func prompt_for_target(action: Action) -> Dictionary:
 	awaiting_target = true
 	preview_action = action
 	print("Get target for ", action)
+	current_preview.clear()
 	var preview_direction = (
 		func(vec):
-			print(vec)
+			current_preview.clear()
 			action.direction = vec
-			action.preview(Global.player)
+			var result = action.preview(Global.player)
+			print("Result: ", result)
+			for tile in result.keys():
+				current_preview[Vector2i(tile)] = result[tile]
+				# Draw something here.
+			preview_updated.emit(current_preview)
 	)
 	direction_pressed.connect(preview_direction)
 	var direction = await direction_selected
+	preview_updated.emit(current_preview)
 	direction_pressed.disconnect(preview_direction)
 	awaiting_target = false
 	preview_action = null

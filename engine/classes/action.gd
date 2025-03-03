@@ -1,8 +1,8 @@
 class_name Action
 
-func preview(entity: Entity):
+func preview(entity: Entity) -> Dictionary:
 	# TODO: Return list of tiles illustrating what this action will do.
-	pass
+	return {}
 
 func perform(entity: Entity) -> ActionResult:
 	return ActionResult.new(false)

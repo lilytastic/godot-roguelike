@@ -28,11 +28,11 @@ public partial class InkManager : Node
 		ECS = tree.Root.GetNode("/root/ECS");
 		MapManager = tree.Root.GetNode("/root/MapManager");
 
-		GD.Print("Hello from C#");
+		// GD.Print("Hello from C#");
 		story = GD.Load<InkStory>("res://assets/ink/crossroads_godot.ink");
 		story.BindExternalFunction("rotate", (string vec, float angle) => {
 			var rotated = stringToVector(vec).Rotated((float)(angle * DegToRad));
-			GD.Print("rotate called with ", vec, " and ", angle, "deg = ", rotated.ToString());
+			// GD.Print("rotate called with ", vec, " and ", angle, "deg = ", rotated.ToString());
 			return rotated.Normalized().ToString();
 		});
 		story.BindExternalFunction("snapToGrid", (string vec) => {
@@ -42,19 +42,19 @@ public partial class InkManager : Node
 			return vector.ToString();
 		});
 		story.BindExternalFunction("addVectors", (string pos1, string pos2) => {
-			GD.Print("addVectors called with ", pos1, " and ", pos2);
+			// GD.Print("addVectors called with ", pos1, " and ", pos2);
 			var vector1 = stringToVector(pos1);
 			var vector2 = stringToVector(pos2);
 
-			GD.Print("added: ", vector1 + vector2);
+			// GD.Print("added: ", vector1 + vector2);
 			return (vector1 + vector2).ToString();
 		});
 		story.BindExternalFunction("getPosition", (string uuid) => {
-			GD.Print("getPosition called with: ", uuid);
+			// GD.Print("getPosition called with: ", uuid);
 			return getPosition(uuid).ToString();
 			// location.TryGetValue("position", out value);
 		});
-		GD.Print(story.ContinueMaximally());
+		// GD.Print(story.ContinueMaximally());
 	}
 
 	RefCounted getEntity(string uuid) {

@@ -10,13 +10,23 @@ var tile_render := {}
 
 var is_dirty = false
 
+var current_preview := {}
+
 func _ready() -> void:
 	get_viewport().connect("size_changed", render)
 	_create_tiles()
 	is_dirty = true
 	
+	PlayerInput.preview_updated.connect(
+		func(preview):
+			print("Preview updated: ", preview)
+			current_preview = preview
+			is_dirty = true
+	)
+	
 	Global.player.action_performed.connect(
 		func(action, result):
+			current_preview.clear()
 			await Global.sleep(100)
 			is_dirty = true
 	)
@@ -92,11 +102,19 @@ func render(delta: float = 0) -> void:
 			delta * 8.0
 		)
 		var children = tiles[position].get_children()
-		var spr = children[0]
-		spr.modulate = spr.modulate.lerp(_render_data.color, delta * 8.0)
+		var fg = children[0]
+		fg.modulate = fg.modulate.lerp(_render_data.color, delta * 8.0)
+		var bg = null
 		if children.size() > 1:
-			var bg = children[1]
+			bg = children[1]
 			bg.modulate = bg.modulate.lerp(_render_data.bg, delta * 8.0)
+		
+		if current_preview.has(position):
+			for effect in current_preview[position]:
+				fg.modulate = Color.BLACK
+				if bg:
+					bg.modulate = Color.RED
+					
 
 
 func update_tiles() -> void:

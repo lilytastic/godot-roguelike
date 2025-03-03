@@ -22,14 +22,19 @@ func run_script(entity: Entity, handler: Callable) -> void:
 	InkManager.CommandTriggered.disconnect(handler)
 
 func preview(entity: Entity):
-	await run_script(entity, preview_command)
+	var dict := {}
+	await run_script(entity, func(tokens):
+		dict.merge(preview_command(tokens), true)
+	)
+	return dict
 
 func perform(entity: Entity) -> ActionResult:
 	if entity.uuid == Global.player.uuid:
 		if !target and !direction:
 			var result = await PlayerInput.prompt_for_target(self)
-			target = result.get("target", target)
-			direction = result.get("direction", direction)
+			if result:
+				target = result.get("target", target)
+				direction = result.get("direction", direction)
 
 	if !direction and target:
 		direction = entity.location.position.direction_to(target.location.position)
@@ -120,6 +125,7 @@ func handle_command(tokens):
 
 
 func preview_command(tokens):
+	var dict = {}
 	var tagDictionary := {}
 	for tag in InkManager.story.GetCurrentTags():
 		var t = tag.split("=")
@@ -130,5 +136,7 @@ func preview_command(tokens):
 		"damage":
 			var pos: Vector2 = Global.string_to_vector(tagDictionary["position"])
 			var affected = MapManager.get_collisions(pos)
+			dict[pos] = ["damage"]
 			pass
-		
+	
+	return dict
