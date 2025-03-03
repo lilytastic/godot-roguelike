@@ -84,6 +84,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				else:
 					direction_pressed.emit(dir)
 					last_direction_pressed = dir
+		if event.is_action_pressed("confirm") and last_direction_pressed != Vector2i.ZERO:
+			direction_selected.emit(last_direction_pressed)
+			last_direction_pressed = Vector2i.ZERO
 	else:
 		var action := _check_for_action(event)
 		if action:
