@@ -119,11 +119,14 @@ public partial class InkManager : Node
 						foreach (var other in affected) {
 							GD.Print(other.ToString());
 							var otherEntity = getEntity(other.ToString());
+							if (otherEntity == null) {
+								continue;
+							}
 
 							Dictionary opts = new Dictionary();
 							opts.Add("damage", float.Parse(tagDictionary["potency"]));
 							otherEntity.Call("damage", opts);
-							((RefCounted)otherEntity.Get("actor")).Set("modulate", new Color(0.8f, 0, 0));
+							// ((RefCounted)otherEntity.Get("actor")).Set("modulate", new Color(0.8f, 0, 0));
 						}
 						break;
 					default:
