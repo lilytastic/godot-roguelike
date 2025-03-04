@@ -19,7 +19,6 @@ func _ready() -> void:
 	
 	PlayerInput.preview_updated.connect(
 		func(preview):
-			print("Preview updated: ", preview)
 			current_preview = preview
 			is_dirty = true
 	)

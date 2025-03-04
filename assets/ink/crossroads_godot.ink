@@ -46,7 +46,7 @@ Test
 
 === cleave(entity, direction, potency) ===
     ~ temp _position1 = snapToGrid(addVectors(getPosition(entity), rotate(direction, 45)))
-    ~ temp _position2 = addVectors(getPosition(entity), direction)
+    ~ temp _position2 = snapToGrid(addVectors(getPosition(entity), direction))
     ~ temp _position3 = snapToGrid(addVectors(getPosition(entity), rotate(direction, -45)))
     >>> damage #position={_position1} #potency={potency} #direction={direction}
     >>> damage #position={_position2} #potency={potency} #direction={direction}

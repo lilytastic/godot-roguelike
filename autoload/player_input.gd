@@ -62,13 +62,20 @@ func _input(event: InputEvent) -> void:
 				direction_pressed.emit(dir)
 				last_direction_pressed = dir
 				get_viewport().set_input_as_handled()
-		if event.is_action_pressed("confirm") and Vector2i(last_direction_pressed) != Vector2i.ZERO:
+		if event.is_action_pressed("confirm"):
 			direction_selected.emit(last_direction_pressed)
 			last_direction_pressed = Vector2i.ZERO
 			get_viewport().set_input_as_handled()
 	
 	if event is InputEventMouseMotion:
 		_update_mouse_position()
+		if awaiting_target:
+			var mouse_position = Coords.get_coord(get_viewport().get_camera_2d().get_global_mouse_position())
+			var dir = Global.player.location.position.direction_to(mouse_position)
+			# print(dir)
+			direction_pressed.emit(dir)
+			last_direction_pressed = dir
+			get_viewport().set_input_as_handled()
 		
 
 
@@ -128,14 +135,14 @@ func _unhandled_input(event: InputEvent) -> void:
 func prompt_for_target(action: Action) -> Dictionary:
 	awaiting_target = true
 	preview_action = action
-	print("Get target for ", action)
+	# print("Get target for ", action)
 	current_preview.clear()
 	var preview_direction = (
 		func(vec):
 			current_preview.clear()
 			action.direction = vec
 			var result = action.preview(Global.player)
-			print("Result: ", result)
+			# print("Result: ", result)
 			for tile in result.keys():
 				current_preview[Vector2i(tile)] = result[tile]
 				# Draw something here.

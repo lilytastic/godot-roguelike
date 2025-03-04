@@ -84,17 +84,17 @@ public partial class InkManager : Node
 		} else {
 			story.ChoosePathString(path, true, args.ToArray<Variant>());
 		}
-		GD.Print(story.ContinueMaximally());
+		// GD.Print(story.ContinueMaximally());
 		return ActionResult.New(true);
 	}
 	
 	public void Execute(string path) {
-		GD.Print("no args");
+		// GD.Print("no args");
 		Execute(path, null);
 	}
 	public void Execute(string path, Godot.Collections.Array args) {
-		GD.Print(path);
-		GD.Print("args: ", args);
+		// GD.Print(path);
+		// GD.Print("args: ", args);
 		if (args == null) {
 			story.ChoosePathString(path, true);
 		} else {
@@ -102,7 +102,7 @@ public partial class InkManager : Node
 		}
 		while (story.CanContinue) {
 			var line = story.Continue();
-			GD.Print(line);
+			// GD.Print(line);
 			if (line.StartsWith(">>>")) {
 				var tokens = line.Substr(3, line.Length - 3).Split(" ").Select((x) => x.Trim()).Where((x) => x.Length > 0).ToArray();
 				EmitSignal(SignalName.CommandTriggered, tokens);

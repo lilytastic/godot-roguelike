@@ -18,7 +18,10 @@ func run_script(entity: Entity, handler: Callable) -> void:
 	var damageRange = weapon_props.damage if weapon_props else [5, 5]
 	var potency = round(randf_range(damageRange[0], damageRange[1]))
 	InkManager.CommandTriggered.connect(handler)
-	await InkManager.Execute(ability.id, [ entity.uuid, str(direction), potency ])
+	var dir = direction
+	dir.x = round(dir.x)
+	dir.y = round(dir.y)
+	await InkManager.Execute(ability.id, [ entity.uuid, str(dir), potency ])
 	InkManager.CommandTriggered.disconnect(handler)
 
 func preview(entity: Entity):
@@ -125,7 +128,7 @@ func preview_command(tokens):
 		var t = tag.split("=")
 		tagDictionary[t[0].strip_edges()] = t[1].strip_edges()
 
-	print("display: ", tokens[0], tagDictionary)
+	# print("display: ", tokens[0], tagDictionary)
 	match tokens[0]:
 		"damage":
 			var pos: Vector2 = Global.string_to_vector(tagDictionary["position"])
