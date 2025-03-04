@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://q4diatds6opo"]
+[gd_scene load_steps=7 format=3 uid="uid://q4diatds6opo"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_nucfv"]
 [ext_resource type="PackedScene" uid="uid://d32kgngy6fe6u" path="res://game/meter.tscn" id="2_jq062"]
 [ext_resource type="Script" uid="uid://bfdqh54nnw5ng" path="res://game/gameplay_ui.gd" id="2_jrto0"]
 [ext_resource type="Script" uid="uid://0ivjtpwwjusr" path="res://game/hotbar.gd" id="3_jrto0"]
+[ext_resource type="Script" uid="uid://dibnwu7anmq87" path="res://game/targeting_mode_ui.gd" id="3_rqdry"]
 [ext_resource type="PackedScene" uid="uid://bmte80igv5w4l" path="res://game/hotbar_item.tscn" id="4_rqdry"]
 
 [node name="Gameplay" type="Control"]
@@ -17,6 +18,30 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_nucfv")
 script = ExtResource("2_jrto0")
+
+[node name="Controls" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TargetingMode" type="Label" parent="Controls"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -81.0
+offset_top = 32.0
+offset_right = 81.0
+offset_bottom = 59.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 2
+text = "Select a direction to attack in.
+Press Esc to cancel."
+horizontal_alignment = 1
+script = ExtResource("3_rqdry")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
