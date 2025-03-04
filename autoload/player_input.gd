@@ -76,7 +76,34 @@ func _input(event: InputEvent) -> void:
 			direction_pressed.emit(dir)
 			last_direction_pressed = dir
 			get_viewport().set_input_as_handled()
+			
+	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
+	if event is InputEventMouseButton:
+		var coord = Vector2i(Coords.get_coord(mouse_position_in_world))
+		var valid = player_is_valid and AgentManager.can_see(Global.player, coord)
+		if valid:
+			if event.button_index != 1:
+				targeting.clear()
+				Global.player.targeting.clear()
+
+		var _targeting = targeting
+		var controlling_player = false
+		if event.double_click:
+			_targeting = Global.player.targeting
+			controlling_player = true
 		
+		var _coord = Coords.get_coord(mouse_position_in_world)
+		if event.is_pressed():
+			# print('set position ', _coord, Vector2i(_targeting.target_position()))
+			if Vector2i(_targeting.target_position()) == _coord:
+				_targeting.clear_targeting()
+			else:
+				_targeting.set_target_position(_coord)
+				if controlling_player and Scheduler.player_can_act:
+					AgentManager.try_close_distance(Global.player, _coord)
+
+			if AgentManager.can_see(Global.player, _coord) and entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
+				_targeting.current_target = entities_under_cursor[0].uuid
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -102,34 +129,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
 	if !player_is_valid:
 		return
-		
-	var coord = Vector2i(Coords.get_coord(mouse_position_in_world))
-	if event is InputEventMouseButton:
-		var valid = player_is_valid and AgentManager.can_see(Global.player, coord)
-		if valid:
-			if event.button_index != 1:
-				targeting.clear()
-				Global.player.targeting.clear()
-				return
 
-		var _targeting = targeting
-		var controlling_player = false
-		if event.double_click:
-			_targeting = Global.player.targeting
-			controlling_player = true
-		
-		if event.is_pressed():
-			var _coord = Coords.get_coord(mouse_position_in_world)
-			print('set position ', _coord, Vector2i(_targeting.target_position()))
-			if Vector2i(_targeting.target_position()) == _coord:
-				_targeting.clear_targeting()
-			else:
-				_targeting.set_target_position(_coord)
-				if controlling_player and Scheduler.player_can_act:
-					AgentManager.try_close_distance(Global.player, _coord)
-
-			if entities_under_cursor.size() > 0 and entities_under_cursor[0].uuid != Global.player.uuid:
-				_targeting.current_target = entities_under_cursor[0].uuid
 
 
 func prompt_for_target(action: Action) -> Dictionary:

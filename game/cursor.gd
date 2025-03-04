@@ -41,13 +41,14 @@ func _process(delta) -> void:
 	var target = ECS.entity(_current_target)
 	%Target.modulate = _get_color(target)
 	
-	if PlayerInput.entities_under_cursor.size() > 0:
+	var tracker_position = PlayerInput.mouse_position_in_world
+
+	if PlayerInput.entities_under_cursor.size() > 0 and AgentManager.can_see(Global.player, Coords.get_coord(tracker_position)):
 		%Tracker.modulate = _get_color(PlayerInput.entities_under_cursor[0])
 	else:
 		%Tracker.modulate = _get_color(null)
 		
 
-	var tracker_position = PlayerInput.mouse_position_in_world
 	%Tracker.position = %Tracker.position.lerp(
 		tracker_position,
 		delta * 30

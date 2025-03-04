@@ -3,7 +3,8 @@ extends Node
 const PC_TAG = 'PC'
 var player: Entity:
 	get: return Global.player
-var camera_speed := 2.0
+
+@export var camera_speed := 25.0
 
 @export var map_name = ''
 
@@ -57,7 +58,7 @@ func _input(event: InputEvent) -> void:
 func _update_camera(delta):
 	if player and player.location != null:
 		var _camera_position = Coords.get_position(player.location.position)
-		var _desired_camera_speed = 2.0
+		var _desired_camera_speed = 4.0
 		
 		var _averaged = Vector2.ZERO
 		if player.visible_tiles.keys().size() > 0:
@@ -84,11 +85,13 @@ func _update_camera(delta):
 		var camera_shake = PlayerInput.camera_shake / camera.zoom.length()
 		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
 		var randomized = Vector2(randf_range(-camera_shake.length(), camera_shake.length()), randf_range(-camera_shake.length(), camera_shake.length()))
-		$Camera2D.position = lerp(
-			$Camera2D.position,
-			_camera_position,
-			delta * camera_speed
-		) + (camera_shake + randomized)
+
+		var vec = _camera_position - $Camera2D.position
+		var _speed = delta * 50
+		if vec.length() < _speed:
+			$Camera2D.position += vec
+		else:
+			$Camera2D.position += vec.normalized() * _speed
 
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 

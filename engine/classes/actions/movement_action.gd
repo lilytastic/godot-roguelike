@@ -57,8 +57,8 @@ func perform(entity: Entity) -> ActionResult:
 	entity.animation = AnimationSequence.new(
 		[
 			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
-			{ 'position': Vector2.UP * 3.0, 'scale': Vector2(1, 1) },
-			{ 'position': Vector2.UP * 3.0, 'scale': Vector2(1, 1) },
+			{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
+			{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
 			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
 			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.2, 0.8) },
 		],

@@ -53,6 +53,7 @@ func on_input(ev: InputEvent):
 		return
 	if ev is InputEventMouseButton:
 		if ev.double_click:
+			print(ev)
 			PlayerInput.double_click.emit(stack)
 	update()
 
