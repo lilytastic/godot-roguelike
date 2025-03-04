@@ -111,6 +111,11 @@ func render(delta: float = 0) -> void:
 		
 		if current_preview.has(position):
 			for effect in current_preview[position]:
+				var actors_painted = 0
+				for other in MapManager.get_collisions(position):
+					if other.actor:
+						actors_painted += 1
+						other.actor.modulate = Color.BLACK
 				fg.modulate = Color.BLACK
 				if bg:
 					bg.modulate = Color.RED
