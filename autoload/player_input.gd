@@ -62,7 +62,7 @@ func _input(event: InputEvent) -> void:
 				direction_pressed.emit(dir)
 				last_direction_pressed = dir
 				get_viewport().set_input_as_handled()
-		if event.is_action_pressed("confirm") and last_direction_pressed != Vector2i.ZERO:
+		if event.is_action_pressed("confirm") and Vector2i(last_direction_pressed) != Vector2i.ZERO:
 			direction_selected.emit(last_direction_pressed)
 			last_direction_pressed = Vector2i.ZERO
 			get_viewport().set_input_as_handled()
@@ -143,6 +143,7 @@ func prompt_for_target(action: Action) -> Dictionary:
 	)
 	direction_pressed.connect(preview_direction)
 	direction_pressed.emit(Global.player.location.facing)
+	last_direction_pressed = Global.player.location.facing
 
 	var direction = await direction_selected
 	preview_updated.emit(current_preview)
