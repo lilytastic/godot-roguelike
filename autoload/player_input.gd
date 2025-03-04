@@ -143,11 +143,14 @@ func prompt_for_target(action: Action) -> Dictionary:
 			preview_updated.emit(current_preview)
 	)
 	direction_pressed.connect(preview_direction)
+	direction_pressed.emit(Global.player.location.facing)
+
 	var direction = await direction_selected
 	preview_updated.emit(current_preview)
 	direction_pressed.disconnect(preview_direction)
 	awaiting_target = false
 	preview_action = null
+
 	return { "direction": direction }
 
 

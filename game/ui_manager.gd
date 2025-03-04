@@ -60,7 +60,12 @@ func switch_screen(screen: Control):
 
 func _input(event: InputEvent):
 	if event.is_action_pressed('pause'):
-		switch_screen(pause_screen if current_screen != pause_screen else null)
+		if !PlayerInput.awaiting_target:
+			switch_screen(pause_screen if current_screen != pause_screen else null)
+		else:
+			PlayerInput.direction_selected.emit(Vector2i.ZERO)
+			PlayerInput.awaiting_target = false
+		
 		get_viewport().set_input_as_handled()
 
 	if event.is_action_pressed('open_character_menu') and current_screen != pause_screen:

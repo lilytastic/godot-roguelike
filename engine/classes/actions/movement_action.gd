@@ -65,6 +65,7 @@ func perform(entity: Entity) -> ActionResult:
 		Global.STEP_LENGTH
 	)
 	
+	entity.location.facing = entity.location.position.direction_to(new_position)
 	entity.location.position = new_position
 	
 	if Global.player and entity.uuid == Global.player.uuid:

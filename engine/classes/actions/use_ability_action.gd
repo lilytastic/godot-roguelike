@@ -2,7 +2,7 @@ class_name UseAbilityAction
 extends Action
 
 var target: Entity
-var direction: Vector2
+var direction := Vector2.ZERO
 var ability: Ability
 var conduit: Entity
 
@@ -36,20 +36,14 @@ func perform(entity: Entity) -> ActionResult:
 				target = result.get("target", target)
 				direction = result.get("direction", direction)
 
-	if !direction and target:
+	if direction == Vector2.ZERO and target:
 		direction = entity.location.position.direction_to(target.location.position)
 
-	if !target and !direction:
+	if !target and direction == Vector2.ZERO:
 		print('no target')
-		# TODO: Tell the UI to let the player select a target and await.
 		return ActionResult.new(false)
 		
-	# TODO: Make this totally different.
-	# Iterate through a sequencer which specifies steps where you:
-	# 1) Move the entity around.
-	# 2) Apply the effect to select tiles.
-	# Takes a direction.
-	# Should be portable, so you can call it from the UI to show all affected tiles.
+	entity.location.facing = direction
 	
 	entity.animation = AnimationSequence.new(
 		[
