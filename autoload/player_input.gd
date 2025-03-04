@@ -54,6 +54,22 @@ func _process(delta) -> void:
 func _input(event: InputEvent) -> void:
 	if Global.ui_visible or MapManager.is_switching or overlay_opacity > 0.2:
 		return
+		
+	if awaiting_target:
+		for i: StringName in InputTag.MOVE_ACTIONS:
+			if event.is_action(i) and (event.is_pressed() or event.is_echo()):
+				var dir = _input_to_direction(i)
+				if last_direction_pressed == dir:
+					direction_selected.emit(dir)
+					last_direction_pressed = Vector2i.ZERO
+				else:
+					direction_pressed.emit(dir)
+					last_direction_pressed = dir
+				get_viewport().set_input_as_handled()
+		if event.is_action_pressed("confirm") and last_direction_pressed != Vector2i.ZERO:
+			direction_selected.emit(last_direction_pressed)
+			last_direction_pressed = Vector2i.ZERO
+			get_viewport().set_input_as_handled()
 	
 	if event is InputEventMouseMotion:
 		_update_mouse_position()
@@ -74,20 +90,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 
-	if awaiting_target:
-		for i: StringName in InputTag.MOVE_ACTIONS:
-			if event.is_action(i) and (event.is_pressed() or event.is_echo()):
-				var dir = _input_to_direction(i)
-				if last_direction_pressed == dir:
-					direction_selected.emit(dir)
-					last_direction_pressed = Vector2i.ZERO
-				else:
-					direction_pressed.emit(dir)
-					last_direction_pressed = dir
-		if event.is_action_pressed("confirm") and last_direction_pressed != Vector2i.ZERO:
-			direction_selected.emit(last_direction_pressed)
-			last_direction_pressed = Vector2i.ZERO
-	else:
+	if !awaiting_target:
 		var action := _check_for_action(event)
 		if action:
 			# targeting.clear()
