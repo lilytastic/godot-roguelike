@@ -45,7 +45,7 @@ func _update():
 			%Description.visible = false
 		if entity.blueprint.weapon and show_weapon_info:
 			%WeaponInfo.visible = true
-			%WeaponDamage.text = str(entity.blueprint.weapon.damage[0]) + '-' + str(entity.blueprint.weapon.damage[1]) + ' Damage'
+			%WeaponDamage.text = str(roundi(entity.blueprint.weapon.damage[0])) + '-' + str(roundi(entity.blueprint.weapon.damage[1])) + ' Damage'
 			%WeaponSpeed.text = 'x' + str(entity.blueprint.weapon.speed) + ' Attack Speed'
 		else:
 			%WeaponInfo.visible = false

@@ -24,10 +24,10 @@ layout_mode = 2
 anchor_left = 0.211
 anchor_right = 0.211
 anchor_bottom = 1.0
-offset_left = -69.28
-offset_top = 11.0
-offset_right = 80.72
-offset_bottom = -11.0
+offset_left = -78.04
+offset_top = 22.0
+offset_right = 79.96
+offset_bottom = -22.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wvv64")
 
 [node name="Title" type="Label" parent="Panel"]
@@ -57,9 +57,9 @@ anchor_top = 0.595
 anchor_right = 1.0
 anchor_bottom = 0.595
 offset_left = 8.0
-offset_top = -116.56
+offset_top = -118.02
 offset_right = -8.0
-offset_bottom = 91.44
+offset_bottom = 89.98
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -126,4 +126,5 @@ flat = true
 
 [node name="SaveMenu" parent="." instance=ExtResource("5_uxh74")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1

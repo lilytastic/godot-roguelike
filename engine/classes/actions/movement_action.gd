@@ -60,7 +60,7 @@ func perform(entity: Entity) -> ActionResult:
 			{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
 			{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
 			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
-			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.2, 0.8) },
+			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.1, 0.9) },
 		],
 		Global.STEP_LENGTH
 	)

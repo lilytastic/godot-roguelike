@@ -47,7 +47,7 @@ func _load():
 		var _map = _maps.filter(func(x): return x.uuid == player_entity.map)[0]
 		if _map:
 			var current_map = _map
-			%TopLeft.text = current_map.name + ((' - ' + str(current_map.depth) + 'F') if current_map.depth else '')
+			%TopLeft.text = current_map.name + ((' - ' + str(floori(current_map.depth)) + 'F') if current_map.depth else '')
 		if slot_type != "manual":
 			%TopLeft.text = slot_type.capitalize() + ': ' + %TopLeft.text
 		slot_name = %TopLeft.text

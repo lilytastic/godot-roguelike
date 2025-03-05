@@ -78,7 +78,7 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and !awaiting_target:
 		var coord = Vector2i(Coords.get_coord(mouse_position_in_world))
 		var valid = player_is_valid and AgentManager.can_see(Global.player, coord)
 		if valid:
@@ -123,7 +123,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if !awaiting_target:
 		var action := _check_for_action(event)
 		if action:
-			# targeting.clear()
+			if Global.player:
+				Global.player.targeting.clear()
 			trigger_action(action)
 		
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
