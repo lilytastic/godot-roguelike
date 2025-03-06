@@ -50,18 +50,37 @@ func _process(delta) -> void:
 			if !AgentManager.can_see(Global.player, targeting.target_position()) and targeting.current_target != null:
 				targeting.clear_targeting()
 
+	var direction = Vector2i.ZERO
+	for i: StringName in InputTag.MOVE_ACTIONS:
+		var dir = _input_to_direction(i)
+		if Input.is_action_pressed(i):
+			time_held[i] = time_held.get(i, 0) + delta
+			time_since_release[i] = 0
+		else:
+			time_since_release[i] = time_since_release.get(i, 0) + delta
+			
+		if Input.is_action_just_released(i):
+			time_since_release[i] = 0
+		if time_held.get(i, 0) > 0:
+			direction += dir
+		if time_since_release.get(i, 0) > 0.15:
+			time_held[i] = 0
+	
+	if direction != Vector2i.ZERO:
+		direction_pressed.emit(direction)
+		last_direction_pressed = direction
+		get_viewport().set_input_as_handled()
 
+
+
+var time_since_release := {}
+var time_held := {}
+var held_direction = Vector2i.ZERO
 func _input(event: InputEvent) -> void:
 	if Global.ui_visible or MapManager.is_switching or overlay_opacity > 0.2:
 		return
 		
 	if awaiting_target:
-		for i: StringName in InputTag.MOVE_ACTIONS:
-			if event.is_action(i) and (event.is_pressed() or event.is_echo()):
-				var dir = _input_to_direction(i)
-				direction_pressed.emit(dir)
-				last_direction_pressed = dir
-				get_viewport().set_input_as_handled()
 		if event.is_action_pressed("confirm"):
 			direction_selected.emit(last_direction_pressed)
 			last_direction_pressed = Vector2i.ZERO
