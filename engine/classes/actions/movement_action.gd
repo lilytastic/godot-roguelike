@@ -42,6 +42,8 @@ func perform(entity: Entity) -> ActionResult:
 
 	if collisions.size():
 		for collision in collisions:
+			if collision.uuid == entity.uuid:
+				continue
 			if can_alternate:
 				var action = AgentManager.get_default_action(entity, collision)
 				if action:
@@ -52,20 +54,20 @@ func perform(entity: Entity) -> ActionResult:
 			else:
 				return ActionResult.new(false)
 			pass
-		return ActionResult.new(false)
+			
+	if new_position != entity.location.position:
+		entity.animation = AnimationSequence.new(
+			[
+				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
+				{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.1, 0.9) },
+			],
+			Global.STEP_LENGTH
+		)
+		entity.location.facing = entity.location.position.direction_to(new_position)
 
-	entity.animation = AnimationSequence.new(
-		[
-			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
-			{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
-			{ 'position': Vector2.UP * 2.0, 'scale': Vector2(1, 1) },
-			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1, 1) },
-			{ 'position': Vector2.ZERO * 0.0, 'scale': Vector2(1.1, 0.9) },
-		],
-		Global.STEP_LENGTH
-	)
-	
-	entity.location.facing = entity.location.position.direction_to(new_position)
 	entity.location.position = new_position
 	
 	if Global.player and entity.uuid == Global.player.uuid:

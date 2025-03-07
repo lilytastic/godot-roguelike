@@ -114,9 +114,7 @@ func _input(event: InputEvent) -> void:
 		if awaiting_target:
 			var mouse_position = Coords.get_coord(get_viewport().get_camera_2d().get_global_mouse_position())
 			var dir = Global.player.location.position.direction_to(mouse_position)
-			# print(dir)
 			direction_pressed.emit(dir)
-			get_viewport().set_input_as_handled()
 			
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
 	if event is InputEventMouseButton and !awaiting_target:
@@ -207,6 +205,9 @@ func _check_for_action(event: InputEvent) -> Action:
 	for i: StringName in InputTag.MOVE_ACTIONS:
 		if event.is_action(i) and (event.is_pressed() or event.is_echo()):
 			return MovementAction.new(_input_to_direction(i), !event.is_echo())
+			
+	if event.is_action_released('wait'):
+		return MovementAction.new(Vector2i.ZERO, true);
 
 	if event.is_action_released('use'):
 		if Global.player:
