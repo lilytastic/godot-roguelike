@@ -140,26 +140,26 @@ func try_close_distance(entity: Entity, position: Vector2) -> bool:
 		await Global.sleep(100)
 
 	var used_path = false
-	if entity.targeting.current_path.size():
+	if entity.targeting.current_path.size() > 0:
 		used_path = true
 		next_in_path = entity.targeting.current_path[0]
 
 	if next_in_path and Coords.get_range(next_in_path, entity.location.position) < 2:
 		var result = await perform_action(
 			entity,
-			MovementAction.new(next_in_path - entity.location.position),
-			false
+			MovementAction.new(next_in_path - entity.location.position, true),
+			true
 		)
-		if result.success:
-			entity.targeting.current_path = entity.targeting.current_path.slice(1)
-			return true
+		entity.targeting.clear_targeting()
+		entity.targeting.current_path = entity.targeting.current_path.slice(1)
+		return true
 	
 	if !next_position:
 		return false
 
 	var result = await perform_action(
 		entity,
-		MovementAction.new(next_position - entity.location.position),
+		MovementAction.new(next_position - entity.location.position, false),
 		false
 	)
 	return result.success
