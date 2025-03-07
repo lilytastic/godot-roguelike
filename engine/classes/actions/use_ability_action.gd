@@ -34,7 +34,10 @@ func preview(entity: Entity):
 func perform(entity: Entity) -> ActionResult:
 	if entity.uuid == Global.player.uuid:
 		if !target and !direction:
-			var result = await PlayerInput.prompt_for_target(self)
+			PlayerInput.preview_action = self
+			PlayerInput.direction_pressed.emit(Global.player.location.facing)
+			var result = await PlayerInput.on_target_selected
+			PlayerInput.preview_action = null
 			if result:
 				target = result.get("target", target)
 				direction = result.get("direction", direction)

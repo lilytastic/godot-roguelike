@@ -21,17 +21,41 @@ var camera_offset = Vector2(0,0.5)
 var current_preview := {}
 signal preview_updated
 
-var awaiting_target = false
 var preview_action: Action = null
+var awaiting_target: bool:
+	get: return preview_action != null
+
 var last_direction_pressed = Vector2i.ZERO
+
 signal direction_pressed
 signal direction_selected
+signal on_target_selected
 signal tile_clicked
 
 signal action_triggered
 signal ui_action_triggered
 signal double_click
 signal item_hovered
+
+
+func _ready():
+	direction_selected.connect(
+		func(direction):
+			on_target_selected.emit({ "direction": direction })
+	)
+	direction_pressed.connect(
+		func(vec):
+			last_direction_pressed = vec
+			current_preview.clear()
+			if preview_action:
+				preview_action.direction = vec
+				var result = preview_action.preview(Global.player)
+				# print("Result: ", result)
+				for tile in result.keys():
+					current_preview[Vector2i(tile)] = result[tile]
+					# Draw something here.
+			preview_updated.emit(current_preview)
+	)
 
 
 func _process(delta) -> void:
@@ -68,7 +92,6 @@ func _process(delta) -> void:
 	
 	if direction != Vector2i.ZERO:
 		direction_pressed.emit(direction)
-		last_direction_pressed = direction
 		get_viewport().set_input_as_handled()
 
 
@@ -93,7 +116,6 @@ func _input(event: InputEvent) -> void:
 			var dir = Global.player.location.position.direction_to(mouse_position)
 			# print(dir)
 			direction_pressed.emit(dir)
-			last_direction_pressed = dir
 			get_viewport().set_input_as_handled()
 			
 	var player_is_valid = Global.player and ECS.entities.has(Global.player.uuid)
@@ -150,35 +172,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if !player_is_valid:
 		return
 
-
-
-func prompt_for_target(action: Action) -> Dictionary:
-	awaiting_target = true
+func prompt_for_target(action: Action) -> void:
 	preview_action = action
-	# print("Get target for ", action)
-	current_preview.clear()
-	var preview_direction = (
-		func(vec):
-			current_preview.clear()
-			action.direction = vec
-			var result = action.preview(Global.player)
-			# print("Result: ", result)
-			for tile in result.keys():
-				current_preview[Vector2i(tile)] = result[tile]
-				# Draw something here.
-			preview_updated.emit(current_preview)
-	)
-	direction_pressed.connect(preview_direction)
-	direction_pressed.emit(Global.player.location.facing)
-	last_direction_pressed = Global.player.location.facing
-
-	var direction = await direction_selected
-	preview_updated.emit(current_preview)
-	direction_pressed.disconnect(preview_direction)
-	awaiting_target = false
-	preview_action = null
-
-	return { "direction": direction }
 
 
 func trigger_action(action: Action) -> void:
