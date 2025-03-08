@@ -107,23 +107,6 @@ func render(delta: float = 0) -> void:
 		if children.size() > 1:
 			bg = children[1]
 			bg.modulate = bg.modulate.lerp(_render_data.bg, delta * 8.0)
-		
-		if current_preview.has(position):
-			for effect in current_preview[position]:
-				match effect.type:
-					"move":
-						fg.modulate = Color.BLACK
-						if bg:
-							bg.modulate = Color.WHITE
-					"damage":
-						var actors_painted = 0
-						for other in MapManager.get_collisions(position):
-							if other.actor:
-								actors_painted += 1
-								other.actor.modulate = Color.BLACK
-						fg.modulate = Color.BLACK
-						if bg:
-							bg.modulate = Color.RED
 					
 
 

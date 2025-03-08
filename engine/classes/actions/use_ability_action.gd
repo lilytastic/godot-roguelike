@@ -13,6 +13,7 @@ func _init(abilityId: String, opts := {}):
 	direction = opts.get("direction", Vector2.ZERO)
 	conduit = opts.get('conduit', null)
 
+
 func run_script(entity: Entity, handler: Callable) -> void:
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
 	var damageRange = weapon_props.damage if weapon_props else [5, 5]
@@ -24,12 +25,6 @@ func run_script(entity: Entity, handler: Callable) -> void:
 	await InkManager.Execute(ability.id, [ entity.uuid, str(dir), potency ])
 	InkManager.CommandTriggered.disconnect(handler)
 
-func preview(entity: Entity):
-	var dict := {}
-	await run_script(entity, func(tokens):
-		dict.merge(preview_command(tokens, entity), true)
-	)
-	return dict
 
 func perform(entity: Entity) -> ActionResult:
 	if entity.uuid == Global.player.uuid:
@@ -66,7 +61,7 @@ func perform(entity: Entity) -> ActionResult:
 
 	await Global.sleep(20)
 	
-	run_script(entity, func(tokens): return handle_command(tokens, entity))
+	run_script(entity, func(command_result): return handle_command(command_result, entity))
 
 	await Global.sleep(150)
 	
@@ -106,12 +101,9 @@ func perform(entity: Entity) -> ActionResult:
 	return ActionResult.new(true, { 'cost_energy': 100 })
 
 
-
-func handle_command(tokens, entity):
-	var tagDictionary := {}
-	for tag in InkManager.story.GetCurrentTags():
-		var t = tag.split("=")
-		tagDictionary[t[0].strip_edges()] = t[1].strip_edges()
+func handle_command(command_result, entity):
+	var tagDictionary = command_result.get('tagDictionary', {})
+	var tokens = command_result.get('tokens', [])
 
 	var pos: Vector2 = Vector2.ZERO
 	var direction: Vector2 = Vector2.ZERO
@@ -128,39 +120,10 @@ func handle_command(tokens, entity):
 	match tokens[0]:
 		"move":
 			if at_position.size() == 0:
-				AgentManager.perform_action(entity, MovementAction.new(direction, false))
+				MovementAction.new(direction, false).perform(entity)
 		"damage":
 			for other in at_position:
 				other.damage({
 					"damage": float(tagDictionary["potency"])
 				})
 				# ((RefCounted)otherEntity.Get("actor")).Set("modulate", new Color(0.8f, 0, 0));
-
-
-func preview_command(tokens, entity):
-	var dict = {}
-	var tagDictionary := {}
-	for tag in InkManager.story.GetCurrentTags():
-		var t = tag.split("=")
-		tagDictionary[t[0].strip_edges()] = t[1].strip_edges()
-
-	var pos: Vector2 = Vector2.ZERO
-	var direction: Vector2 = Vector2.ZERO
-	if tagDictionary.has("position"):
-		pos = Global.string_to_vector(tagDictionary["position"])
-	if tagDictionary.has("direction"):
-		direction = Global.string_to_vector(tagDictionary["direction"])
-		if pos == Vector2.ZERO:
-			pos = entity.location.position + direction
-	else:
-		direction = entity.location.position.direction_to(pos)
-
-	var at_position = MapManager.get_collisions(pos)
-	match tokens[0]:
-		"move":
-			dict[pos] = [{"type": "damage", "direction": direction}]
-		"damage":
-			dict[pos] = [{"type": "damage"}]
-			pass
-	
-	return dict

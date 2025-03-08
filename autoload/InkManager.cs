@@ -105,7 +105,18 @@ public partial class InkManager : Node
 			// GD.Print(line);
 			if (line.StartsWith(">>>")) {
 				var tokens = line.Substr(3, line.Length - 3).Split(" ").Select((x) => x.Trim()).Where((x) => x.Length > 0).ToArray();
-				EmitSignal(SignalName.CommandTriggered, tokens);
+				var tagDictionary = new Dictionary();
+				foreach (var tag in story.GetCurrentTags()) {
+					var t = tag.Split("=");
+					if (t.Length == 2) {
+						tagDictionary[t[0].Trim()] = t[1].Trim();
+					}
+				}
+				var result = new Dictionary();
+				result.Add("tokens", tokens);
+				result.Add("tagDictionary", tagDictionary);
+				result.Add("tags", story.GetCurrentTags());
+				EmitSignal(SignalName.CommandTriggered, result);
 				// GD.Print(tokens.Join(", "), " - tags: ", story.CurrentTags.ToArray().Join(", "));
 			}
 		}
