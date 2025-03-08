@@ -56,9 +56,11 @@ Test
 
 === rush(entity, direction, potency) ===
     ~ temp _position = addVectors(getPosition(entity), direction)
+    // TODO: The further you are, the harder this hits.
     >>> move #entity={entity} #direction={direction}
     >>> move #entity={entity} #direction={direction}
     >>> move #entity={entity} #direction={direction}
+    >>> damage #potency={potency} #direction={direction}
     -> DONE
 
 === function snapToGrid(vec) ===

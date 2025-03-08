@@ -68,7 +68,6 @@ func _update_camera(delta):
 		# _camera_position = _averaged * 16
 		
 		_camera_position = Coords.get_position(player.location.position + PlayerInput.camera_offset).lerp(_averaged * 16, 0.5)
-		"""
 		var _target = ECS.entity(player.targeting.current_target)
 		var _target_position = player.targeting.target_position()
 		if player.targeting.current_path.size() > 0:
@@ -79,19 +78,23 @@ func _update_camera(delta):
 				),
 				0.5
 			)
-		"""
 		
 		var camera = get_viewport().get_camera_2d()
 		var camera_shake = PlayerInput.camera_shake / camera.zoom.length()
 		camera_speed = lerp(camera_speed, _desired_camera_speed, delta)
+		_camera_position = Vector2($Camera2D.position).lerp(_camera_position, delta * camera_speed)
+		
 		var randomized = Vector2(randf_range(-camera_shake.length(), camera_shake.length()), randf_range(-camera_shake.length(), camera_shake.length()))
 
+		$Camera2D.position = _camera_position + randomized
+		"""
 		var vec = _camera_position - $Camera2D.position
 		var _speed = delta * 50
 		if vec.length() < _speed:
 			$Camera2D.position += vec
 		else:
 			$Camera2D.position += vec.normalized() * _speed
+		"""
 
 	$Camera2D.offset = Vector2i(8 + 16 * 0, 8)
 

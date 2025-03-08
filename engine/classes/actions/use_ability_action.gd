@@ -27,7 +27,7 @@ func run_script(entity: Entity, handler: Callable) -> void:
 func preview(entity: Entity):
 	var dict := {}
 	await run_script(entity, func(tokens):
-		dict.merge(preview_command(tokens), true)
+		dict.merge(preview_command(tokens, entity), true)
 	)
 	return dict
 
@@ -66,7 +66,7 @@ func perform(entity: Entity) -> ActionResult:
 
 	await Global.sleep(20)
 	
-	run_script(entity, handle_command)
+	run_script(entity, func(tokens): return handle_command(tokens, entity))
 
 	await Global.sleep(150)
 	
@@ -107,36 +107,60 @@ func perform(entity: Entity) -> ActionResult:
 
 
 
-func handle_command(tokens):
+func handle_command(tokens, entity):
 	var tagDictionary := {}
 	for tag in InkManager.story.GetCurrentTags():
 		var t = tag.split("=")
 		tagDictionary[t[0].strip_edges()] = t[1].strip_edges()
 
+	var pos: Vector2 = Vector2.ZERO
+	var direction: Vector2 = Vector2.ZERO
+	if tagDictionary.has("position"):
+		pos = Global.string_to_vector(tagDictionary["position"])
+	if tagDictionary.has("direction"):
+		direction = Global.string_to_vector(tagDictionary["direction"])
+		if pos == Vector2.ZERO:
+			pos = entity.location.position + direction
+	else:
+		direction = entity.location.position.direction_to(pos)
+
+	var at_position = MapManager.get_collisions(pos)
 	match tokens[0]:
+		"move":
+			if at_position.size() == 0:
+				AgentManager.perform_action(entity, MovementAction.new(direction, false))
 		"damage":
-			var pos: Vector2 = Global.string_to_vector(tagDictionary["position"])
-			var affected = MapManager.get_collisions(pos)
-			for other in affected:
+			for other in at_position:
 				other.damage({
 					"damage": float(tagDictionary["potency"])
 				})
 				# ((RefCounted)otherEntity.Get("actor")).Set("modulate", new Color(0.8f, 0, 0));
 
 
-func preview_command(tokens):
+func preview_command(tokens, entity):
 	var dict = {}
 	var tagDictionary := {}
 	for tag in InkManager.story.GetCurrentTags():
 		var t = tag.split("=")
 		tagDictionary[t[0].strip_edges()] = t[1].strip_edges()
 
-	# print("display: ", tokens[0], tagDictionary)
+	var pos: Vector2 = Vector2.ZERO
+	var direction: Vector2 = Vector2.ZERO
+	if tagDictionary.has("position"):
+		pos = Global.string_to_vector(tagDictionary["position"])
+	if tagDictionary.has("direction"):
+		direction = Global.string_to_vector(tagDictionary["direction"])
+		if pos == Vector2.ZERO:
+			pos = entity.location.position + direction
+	else:
+		direction = entity.location.position.direction_to(pos)
+
+	var at_position = MapManager.get_collisions(pos)
 	match tokens[0]:
+		"move":
+			dict[pos] = [{"type": "damage", "direction": direction}]
 		"damage":
-			var pos: Vector2 = Global.string_to_vector(tagDictionary["position"])
-			var affected = MapManager.get_collisions(pos)
-			dict[pos] = ["damage"]
+			dict[pos] = [{"type": "damage"}]
 			pass
 	
 	return dict
