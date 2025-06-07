@@ -2,6 +2,8 @@ class_name Files
 
 
 static func get_dictionary(path: String) -> Dictionary:
+	if !path.ends_with('.json'):
+		return {}
 	var file_access = FileAccess.open(path, FileAccess.READ)
 	var text = file_access.get_as_text()
 	var file = JSON.parse_string(text) if text else null

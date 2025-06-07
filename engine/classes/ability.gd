@@ -16,7 +16,7 @@ func _init(props: Dictionary):
 	area = props.get('area', {})
 	icon = props.get('icon', {})
 
-static func load_from_files(resources: Array) -> Dictionary:
+static func load_from_files(resources: Array[String]) -> Dictionary:
 	var preprocess: Dictionary
 	
 	for resource in resources:

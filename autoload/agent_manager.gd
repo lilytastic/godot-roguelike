@@ -8,6 +8,8 @@ func _ready():
 	skills.clear()
 	skill_trees.clear()
 	for resource in resources:
+		if resource.ends_with('.uid'):
+			continue
 		var obj = load(resource)
 		if obj:
 			var rid = obj.get_instance_id()

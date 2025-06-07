@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://kv6mv8j4a7yc"]
+[gd_scene load_steps=7 format=3 uid="uid://kv6mv8j4a7yc"]
 
 [ext_resource type="Theme" uid="uid://bipr4bw2pcbw6" path="res://themes/retro.tres" id="1_e060e"]
 [ext_resource type="Theme" uid="uid://cqfyqanbgls4b" path="res://themes/display.tres" id="1_inosm"]
 [ext_resource type="Script" uid="uid://cpva07qmuq6af" path="res://game/aside_menu.gd" id="1_x6mru"]
 [ext_resource type="FontFile" uid="uid://bpqyjjs05qqgh" path="res://assets/fonts/m42flight721/m42.TTF" id="4_x77hr"]
-[ext_resource type="FontFile" uid="uid://br802x22psogy" path="res://assets/fonts/pixel-font-virtue-assets/ttf/virtue_large_bold.ttf" id="5_iv84d"]
 [ext_resource type="PackedScene" uid="uid://b0jlk4extd4v" path="res://game/save_menu.tscn" id="5_uxh74"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvv64"]
@@ -27,7 +26,7 @@ anchor_right = 0.211
 anchor_bottom = 1.0
 offset_left = -78.04
 offset_top = 22.0
-offset_right = 141.96
+offset_right = 101.96
 offset_bottom = -22.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wvv64")
 
@@ -72,7 +71,6 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "Continue
 "
 flat = true
@@ -81,7 +79,6 @@ flat = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "Resume"
 flat = true
 
@@ -89,7 +86,6 @@ flat = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "New Game"
 flat = true
 
@@ -97,7 +93,6 @@ flat = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "Save Game"
 flat = true
 
@@ -105,7 +100,6 @@ flat = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "Load Game"
 flat = true
 
@@ -113,7 +107,6 @@ flat = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "Options
 "
 flat = true
@@ -122,7 +115,6 @@ flat = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "Quit to Main Menu"
 flat = true
 
@@ -130,7 +122,6 @@ flat = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_iv84d")
 text = "Exit to Desktop"
 flat = true
 

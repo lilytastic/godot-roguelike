@@ -16,12 +16,13 @@ func _init(abilityId: String, opts := {}):
 
 func run_script(entity: Entity, handler: Callable) -> void:
 	var weapon_props = conduit.blueprint.weapon if (conduit and conduit.blueprint.weapon) else null
-	var damageRange = weapon_props.damage if weapon_props else [5, 5]
+	var damageRange = weapon_props.damage if weapon_props else [3, 5]
 	var potency = round(randf_range(damageRange[0], damageRange[1]))
-	InkManager.CommandTriggered.connect(handler)
 	var dir = direction
 	dir.x = round(dir.x)
 	dir.y = round(dir.y)
+
+	InkManager.CommandTriggered.connect(handler)
 	await InkManager.Execute(ability.id, [ entity.uuid, str(dir), potency ])
 	InkManager.CommandTriggered.disconnect(handler)
 
